@@ -1,0 +1,2462 @@
+{
+  "user": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "password": "LBGv5_RSBPiFjm2tAU6w",
+      "email": "3d53fq3cw3fu3i4.3d33ft3i4@gmail.com",
+      "birth": "920526",
+      "gender": "female",
+      "phone_number": "05-28756-2129",
+      "login_type": "APPLE",
+      "status": "normal",
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "password": "sdcIEjouXO9n2neQQ9nu",
+      "email": "3d33fm3hk3da3fl3hn.3d73g33hz6@naver.com",
+      "birth": "960515",
+      "gender": "female",
+      "phone_number": "092-288-0861",
+      "login_type": "GOOGLE",
+      "status": "block",
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "password": "7ek_5DIzpqw30s_g0e8G",
+      "email": "3de3fr3hn3de3fy62@yahoo.co.kr",
+      "birth": "910125",
+      "gender": "male",
+      "phone_number": "01-22167-9334",
+      "login_type": "FACEBOOK",
+      "status": "block",
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "password": "C7X1nnFRuxX4VZEcoKQZ",
+      "email": "3d73g43d73g23hn_3cw3fl3hn1@yahoo.co.kr",
+      "birth": "830801",
+      "gender": "male",
+      "phone_number": "051-2098-1968",
+      "login_type": "FACEBOOK",
+      "status": "normal",
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "password": "gQYYp7y69F5bBq6iVYhm",
+      "email": "3d73fx3i43d83fm72@yahoo.co.kr",
+      "birth": "831229",
+      "gender": "male",
+      "phone_number": "037-3960-5873",
+      "login_type": "KAKAO",
+      "status": "suspend",
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "password": "Htf9QuLKGAITxsmNHZ8l",
+      "email": "3d53fp3i43de3fy24@naver.com",
+      "birth": "930301",
+      "gender": "female",
+      "phone_number": "09-88865-5197",
+      "login_type": "GOOGLE",
+      "status": "block",
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "password": "OKpGPNm705uP6drgxee1",
+      "email": "3de3fl3d13ft3hn_3d53g5@yahoo.co.kr",
+      "birth": "880923",
+      "gender": "male",
+      "phone_number": "027-444-4954",
+      "login_type": "LOCAL",
+      "status": "suspend",
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "password": "BWpMqoQ_lKVQ7YXibuoO",
+      "email": "3d53g33i43d23fr3i425@yahoo.co.kr",
+      "birth": "950618",
+      "gender": "male",
+      "phone_number": "099-498-7463",
+      "login_type": "FACEBOOK",
+      "status": "block",
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "password": "cyDYLCLY8fhN4N8A3nHo",
+      "email": "3d83fm3de3g1.3d53g53hz@naver.com",
+      "birth": "810630",
+      "gender": "male",
+      "phone_number": "05-61075-9424",
+      "login_type": "LOCAL",
+      "status": "block",
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "password": "wEtlrM0djFwAsDEIPSlW",
+      "email": "3d53fp3i43d33g53hn_3d53ft78@yahoo.co.kr",
+      "birth": "820627",
+      "gender": "female",
+      "phone_number": "058-969-3135",
+      "login_type": "APPLE",
+      "status": "block",
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "password": "6vvd2iSD_yoj0u2W4qN9",
+      "email": "3d53fp3i43cw3fp3hn_3d83fp3i4@naver.com",
+      "birth": "011116",
+      "gender": "female",
+      "phone_number": "072-215-4242",
+      "login_type": "LOCAL",
+      "status": "suspend",
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "password": "ThZXa3ou69SLdCemQWlN",
+      "email": "3cw3fr3i43d73fu3hn.3d23ft@hanmail.net",
+      "birth": "040916",
+      "gender": "male",
+      "phone_number": "025-202-1887",
+      "login_type": "FACEBOOK",
+      "status": "normal",
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "password": "dG59xniy0Mf3Vtvi3Lnc",
+      "email": "3de3fl3hn3cw3fr3hz59@yahoo.co.kr",
+      "birth": "040501",
+      "gender": "male",
+      "phone_number": "05-55304-5367",
+      "login_type": "APPLE",
+      "status": "block",
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "password": "gVfQ9S65TNEb8U4ReaI9",
+      "email": "3cz3ft3d83g53hn_3d83fu@naver.com",
+      "birth": "970701",
+      "gender": "male",
+      "phone_number": "082-938-8699",
+      "login_type": "LOCAL",
+      "status": "normal",
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "password": "oPY3MJMO4hm5mLVTnbJj",
+      "email": "3de3fl3hn3cw3fr3i4.3de3fu3i486@yahoo.co.kr",
+      "birth": "961029",
+      "gender": "male",
+      "phone_number": "049-191-2141",
+      "login_type": "GOOGLE",
+      "status": "normal",
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "password": "VGgHjPLojdjtkp_uxmS1",
+      "email": "3cw3fr3i43d73fy3hk_3d73fl3hn32@naver.com",
+      "birth": "040520",
+      "gender": "male",
+      "phone_number": "064-143-5386",
+      "login_type": "APPLE",
+      "status": "block",
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "password": "h9OseUafHIm62i7QjQM0",
+      "email": "3cw3g53d73fr3i475@naver.com",
+      "birth": "850907",
+      "gender": "female",
+      "phone_number": "014-488-7756",
+      "login_type": "KAKAO",
+      "status": "block",
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "password": "qXacvcqFJcAKLdSbb8aO",
+      "email": "3cz3fl3d73ft3hn5@naver.com",
+      "birth": "031212",
+      "gender": "male",
+      "phone_number": "08-83568-2666",
+      "login_type": "KAKAO",
+      "status": "normal",
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "password": "KUd2dWDsyahnUqUanj_m",
+      "email": "3d73g43d83fy_3d83fu83@naver.com",
+      "birth": "880710",
+      "gender": "female",
+      "phone_number": "039-276-1159",
+      "login_type": "LOCAL",
+      "status": "suspend",
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "password": "Iewfd2CCzm3eSE7sAPTe",
+      "email": "3d73g23d53fp3hn_3cy3ft@yahoo.co.kr",
+      "birth": "821214",
+      "gender": "female",
+      "phone_number": "001-745-8182",
+      "login_type": "APPLE",
+      "status": "block",
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "password": "3QuFIqlYdnur0HUEmTys",
+      "email": "3cw3fu3i43de3ft_3d23fl@naver.com",
+      "birth": "880528",
+      "gender": "female",
+      "phone_number": "07-51066-3550",
+      "login_type": "APPLE",
+      "status": "suspend",
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "password": "bHBH_XKdUNP1Qcfk3q1u",
+      "email": "3cz3ft3d23g53hn.3cw3fl3hr51@yahoo.co.kr",
+      "birth": "840509",
+      "gender": "female",
+      "phone_number": "078-8006-4237",
+      "login_type": "GOOGLE",
+      "status": "normal",
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "password": "quneL2p1cbC3yHdQcSxV",
+      "email": "3d53fp3i43d73g53hn.3d13g2@gmail.com",
+      "birth": "940510",
+      "gender": "female",
+      "phone_number": "073-242-3236",
+      "login_type": "APPLE",
+      "status": "normal",
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "password": "lvDJMAoIg7PVTOI4OlSx",
+      "email": "3d73g53hn3d53fp3i4.3cz3fl3i4@hanmail.net",
+      "birth": "821210",
+      "gender": "female",
+      "phone_number": "02-47641-9802",
+      "login_type": "LOCAL",
+      "status": "suspend",
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "password": "7QVazPPeU4XdsRC5L0V9",
+      "email": "3de3fl3hn3d73g33hz78@hanmail.net",
+      "birth": "040302",
+      "gender": "male",
+      "phone_number": "083-0168-0717",
+      "login_type": "APPLE",
+      "status": "block",
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_lifestyle": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "smoking": false,
+      "pet": 2,
+      "appeals": [
+        "유죄의",
+        "법률로",
+        "신문의",
+        "거듭",
+        "아니하는",
+        "노력하여야"
+      ],
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "smoking": true,
+      "pet": 1,
+      "appeals": [
+        "판결이",
+        "통신·방송의",
+        "국민은"
+      ],
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "민족문화의",
+        "국민은",
+        "형에",
+        "위하여"
+      ],
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "smoking": true,
+      "pet": 2,
+      "appeals": [
+        "국민은",
+        "다만,",
+        "이상의"
+      ],
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "smoking": true,
+      "pet": 1,
+      "appeals": [
+        "기능을",
+        "청구할",
+        "예술가의",
+        "있다.",
+        "보호를",
+        "한다."
+      ],
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "smoking": false,
+      "pet": 0,
+      "appeals": [
+        "바에",
+        "영장을",
+        "조약과",
+        "진다."
+      ],
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "smoking": false,
+      "pet": 1,
+      "appeals": [
+        "시설기준과",
+        "진흥하여야",
+        "행위로",
+        "모든"
+      ],
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "smoking": true,
+      "pet": 2,
+      "appeals": [
+        "청구할",
+        "사생활의",
+        "해당하는",
+        "모성의"
+      ],
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "smoking": false,
+      "pet": 0,
+      "appeals": [
+        "의하여",
+        "시설기준과",
+        "진흥하여야",
+        "형사피고인은",
+        "비밀과",
+        "또는"
+      ],
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "smoking": false,
+      "pet": 1,
+      "appeals": [
+        "형에",
+        "승인된",
+        "유죄의",
+        "청구할"
+      ],
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "smoking": true,
+      "pet": 1,
+      "appeals": [
+        "다만,",
+        "자유를",
+        "창달에",
+        "모성의",
+        "국민은"
+      ],
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "smoking": true,
+      "pet": 2,
+      "appeals": [
+        "재외국민을",
+        "권리는",
+        "사생활의",
+        "있을",
+        "평생교육을",
+        "침해받지"
+      ],
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "범죄를",
+        "의무를",
+        "3년",
+        "범죄를"
+      ],
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "법률로써",
+        "계승·발전과",
+        "신문의",
+        "거듭"
+      ],
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "smoking": false,
+      "pet": 2,
+      "appeals": [
+        "바에",
+        "보호한다.",
+        "법률에",
+        "필요한",
+        "때까지는"
+      ],
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "smoking": false,
+      "pet": 0,
+      "appeals": [
+        "있다.",
+        "한다.",
+        "필요한",
+        "헌법에",
+        "사후에"
+      ],
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "정하는",
+        "3년",
+        "보호할",
+        "일반적으로"
+      ],
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "smoking": false,
+      "pet": 2,
+      "appeals": [
+        "처벌받지",
+        "정한다.",
+        "추정된다.",
+        "유죄의",
+        "국민은"
+      ],
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "smoking": true,
+      "pet": 2,
+      "appeals": [
+        "해당하는",
+        "범하고",
+        "아니한다."
+      ],
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "smoking": true,
+      "pet": 2,
+      "appeals": [
+        "있을",
+        "국가는",
+        "무죄로",
+        "진흥하여야",
+        "체결·공포된",
+        "영장을"
+      ],
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "smoking": false,
+      "pet": 1,
+      "appeals": [
+        "가진다.",
+        "범죄에",
+        "헌법에",
+        "도피"
+      ],
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "바에",
+        "체결·공포된",
+        "체결·공포된",
+        "법률로써",
+        "보호를",
+        "법률로써"
+      ],
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "smoking": false,
+      "pet": 0,
+      "appeals": [
+        "재외국민을",
+        "효력을",
+        "전통문화의",
+        "저작자·발명가·과학기술자와",
+        "진흥하여야",
+        "범하고"
+      ],
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "smoking": true,
+      "pet": 0,
+      "appeals": [
+        "의무를",
+        "정하는",
+        "사항은",
+        "조약과"
+      ],
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "smoking": false,
+      "pet": 0,
+      "appeals": [
+        "법률로",
+        "보호할",
+        "사생활의",
+        "추정된다.",
+        "아니하며,"
+      ],
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_mate_style": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "gender": 0,
+      "mates_number": 3,
+      "mate_appeals": [
+        "재외국민을",
+        "바에",
+        "있을",
+        "장기",
+        "진다.",
+        "민족문화의"
+      ],
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "gender": 1,
+      "mates_number": 2,
+      "mate_appeals": [
+        "구성하지",
+        "보장하기",
+        "모든"
+      ],
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "gender": 1,
+      "mates_number": 3,
+      "mate_appeals": [
+        "무죄로",
+        "정하는",
+        "자유를"
+      ],
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "gender": 2,
+      "mates_number": 2,
+      "mate_appeals": [
+        "법률이",
+        "때까지는",
+        "가진다.",
+        "청구할",
+        "기능을",
+        "위하여"
+      ],
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "gender": 2,
+      "mates_number": 2,
+      "mate_appeals": [
+        "범죄에",
+        "국내법과",
+        "한다."
+      ],
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "gender": 1,
+      "mates_number": 3,
+      "mate_appeals": [
+        "의하여",
+        "진흥하여야",
+        "무죄로",
+        "의무를"
+      ],
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "gender": 0,
+      "mates_number": 2,
+      "mate_appeals": [
+        "아니하는",
+        "국가는",
+        "있다.",
+        "국제법규는"
+      ],
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "gender": 2,
+      "mates_number": 0,
+      "mate_appeals": [
+        "가진다.",
+        "죄를",
+        "추정된다."
+      ],
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "gender": 2,
+      "mates_number": 2,
+      "mate_appeals": [
+        "죄를",
+        "죄를",
+        "한다.",
+        "의무를",
+        "헌법에"
+      ],
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "gender": 0,
+      "mates_number": 0,
+      "mate_appeals": [
+        "전통문화의",
+        "저작자·발명가·과학기술자와",
+        "보호를",
+        "모든",
+        "3년"
+      ],
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "gender": 1,
+      "mates_number": 3,
+      "mate_appeals": [
+        "필요한",
+        "법률로써",
+        "보장하기",
+        "재외국민을",
+        "확정될"
+      ],
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "gender": 0,
+      "mates_number": 0,
+      "mate_appeals": [
+        "노력하여야",
+        "청구할",
+        "체결·공포된",
+        "창달에",
+        "일반적으로",
+        "승인된"
+      ],
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "gender": 1,
+      "mates_number": 1,
+      "mate_appeals": [
+        "조약과",
+        "위하여",
+        "정한다.",
+        "범하고",
+        "보호를"
+      ],
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "gender": 0,
+      "mates_number": 0,
+      "mate_appeals": [
+        "민족문화의",
+        "추정된다.",
+        "효력을",
+        "범죄에"
+      ],
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "gender": 1,
+      "mates_number": 0,
+      "mate_appeals": [
+        "죄를",
+        "있을",
+        "같은",
+        "계승·발전과"
+      ],
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "gender": 0,
+      "mates_number": 0,
+      "mate_appeals": [
+        "때에는",
+        "사항은",
+        "예술가의",
+        "승인된"
+      ],
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "gender": 1,
+      "mates_number": 1,
+      "mate_appeals": [
+        "체결·공포된",
+        "계승·발전과",
+        "수",
+        "모성의",
+        "침해받지",
+        "국제법규는"
+      ],
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "gender": 2,
+      "mates_number": 2,
+      "mate_appeals": [
+        "필요한",
+        "법률에",
+        "통신·방송의",
+        "체결·공포된",
+        "현행범인인",
+        "국민은"
+      ],
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "gender": 0,
+      "mates_number": 3,
+      "mate_appeals": [
+        "도피",
+        "판결이",
+        "신체의",
+        "예술가의",
+        "국내법과"
+      ],
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "gender": 0,
+      "mates_number": 2,
+      "mate_appeals": [
+        "해당하는",
+        "소추되지",
+        "유죄의",
+        "수",
+        "신체의"
+      ],
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "gender": 0,
+      "mates_number": 3,
+      "mate_appeals": [
+        "모성의",
+        "보호를",
+        "사생활의",
+        "무상으로",
+        "유죄의",
+        "전통문화의"
+      ],
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "gender": 2,
+      "mates_number": 3,
+      "mate_appeals": [
+        "평생교육을",
+        "범하고",
+        "판결이",
+        "효력을",
+        "정하는"
+      ],
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "gender": 1,
+      "mates_number": 0,
+      "mate_appeals": [
+        "범죄에",
+        "무상으로",
+        "모성의"
+      ],
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "gender": 1,
+      "mates_number": 1,
+      "mate_appeals": [
+        "사생활의",
+        "보호한다.",
+        "의무를"
+      ],
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "gender": 0,
+      "mates_number": 0,
+      "mate_appeals": [
+        "염려가",
+        "진다.",
+        "정하는",
+        "영장을",
+        "유죄의"
+      ],
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_looking_house": [
+    {
+      "house_type": 3,
+      "rental_type": 0,
+      "house_regions": [
+        "수원시",
+        "북군",
+        "남시"
+      ],
+      "term": [
+        6,
+        12
+      ],
+      "deposit_price": [
+        8423,
+        8633
+      ],
+      "monthly_rental_price": [
+        59,
+        202
+      ],
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 0,
+      "house_regions": [
+        "김천시",
+        "고성군",
+        "강화시"
+      ],
+      "term": [
+        22,
+        23
+      ],
+      "deposit_price": [
+        2993,
+        5855
+      ],
+      "monthly_rental_price": [
+        304,
+        323
+      ],
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 0,
+      "house_regions": [
+        "전주시",
+        "동작구",
+        "부천군"
+      ],
+      "term": [
+        14,
+        23
+      ],
+      "deposit_price": [
+        3881,
+        6459
+      ],
+      "monthly_rental_price": [
+        457,
+        477
+      ],
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 0,
+      "house_regions": [
+        "고창시",
+        "마포군",
+        "속초구"
+      ],
+      "term": [
+        9,
+        16
+      ],
+      "deposit_price": [
+        6635,
+        9048
+      ],
+      "monthly_rental_price": [
+        86,
+        409
+      ],
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 0,
+      "house_regions": [
+        "양산군",
+        "수원시",
+        "분당구"
+      ],
+      "term": [
+        17,
+        20
+      ],
+      "deposit_price": [
+        3977,
+        4507
+      ],
+      "monthly_rental_price": [
+        22,
+        148
+      ],
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 0,
+      "house_regions": [
+        "안양구",
+        "군산군",
+        "용산구"
+      ],
+      "term": [
+        6,
+        16
+      ],
+      "deposit_price": [
+        1506,
+        8707
+      ],
+      "monthly_rental_price": [
+        76,
+        253
+      ],
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "house_type": 2,
+      "rental_type": 1,
+      "house_regions": [
+        "시흥군",
+        "남구",
+        "강화구"
+      ],
+      "term": [
+        11,
+        24
+      ],
+      "deposit_price": [
+        8163,
+        9457
+      ],
+      "monthly_rental_price": [
+        65,
+        484
+      ],
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 0,
+      "house_regions": [
+        "광산시",
+        "양양구",
+        "부평시"
+      ],
+      "term": [
+        20,
+        23
+      ],
+      "deposit_price": [
+        966,
+        3224
+      ],
+      "monthly_rental_price": [
+        28,
+        121
+      ],
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 1,
+      "house_regions": [
+        "광주시",
+        "수원군",
+        "거창시"
+      ],
+      "term": [
+        5,
+        11
+      ],
+      "deposit_price": [
+        1125,
+        2579
+      ],
+      "monthly_rental_price": [
+        350,
+        406
+      ],
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 1,
+      "house_regions": [
+        "안양구",
+        "남원시",
+        "광주시"
+      ],
+      "term": [
+        12,
+        19
+      ],
+      "deposit_price": [
+        8524,
+        9838
+      ],
+      "monthly_rental_price": [
+        280,
+        304
+      ],
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 1,
+      "house_regions": [
+        "양양군",
+        "북시",
+        "강릉군"
+      ],
+      "term": [
+        14,
+        16
+      ],
+      "deposit_price": [
+        9024,
+        9042
+      ],
+      "monthly_rental_price": [
+        341,
+        458
+      ],
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 1,
+      "house_regions": [
+        "구미시",
+        "안양구",
+        "분당시"
+      ],
+      "term": [
+        18,
+        21
+      ],
+      "deposit_price": [
+        4417,
+        7332
+      ],
+      "monthly_rental_price": [
+        240,
+        285
+      ],
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "house_type": 2,
+      "rental_type": 1,
+      "house_regions": [
+        "수성시",
+        "수성군",
+        "강릉시"
+      ],
+      "term": [
+        14,
+        14
+      ],
+      "deposit_price": [
+        4618,
+        9339
+      ],
+      "monthly_rental_price": [
+        129,
+        157
+      ],
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 2,
+      "house_regions": [
+        "양양구",
+        "안양군",
+        "안양군"
+      ],
+      "term": [
+        20,
+        24
+      ],
+      "deposit_price": [
+        1356,
+        9188
+      ],
+      "monthly_rental_price": [
+        476,
+        499
+      ],
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 1,
+      "house_regions": [
+        "군산군",
+        "용산시",
+        "수원구"
+      ],
+      "term": [
+        22,
+        24
+      ],
+      "deposit_price": [
+        246,
+        1070
+      ],
+      "monthly_rental_price": [
+        136,
+        276
+      ],
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 1,
+      "house_regions": [
+        "마포구",
+        "안양군",
+        "시흥구"
+      ],
+      "term": [
+        8,
+        17
+      ],
+      "deposit_price": [
+        8957,
+        9598
+      ],
+      "monthly_rental_price": [
+        319,
+        369
+      ],
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "house_type": 0,
+      "rental_type": 2,
+      "house_regions": [
+        "광주군",
+        "안양군",
+        "분당시"
+      ],
+      "term": [
+        14,
+        24
+      ],
+      "deposit_price": [
+        2572,
+        9557
+      ],
+      "monthly_rental_price": [
+        77,
+        213
+      ],
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 2,
+      "house_regions": [
+        "송파구",
+        "송파시",
+        "수성시"
+      ],
+      "term": [
+        13,
+        23
+      ],
+      "deposit_price": [
+        938,
+        9277
+      ],
+      "monthly_rental_price": [
+        137,
+        271
+      ],
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 1,
+      "house_regions": [
+        "안양군",
+        "광산군",
+        "부천시"
+      ],
+      "term": [
+        16,
+        16
+      ],
+      "deposit_price": [
+        1835,
+        7362
+      ],
+      "monthly_rental_price": [
+        371,
+        424
+      ],
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "house_type": 2,
+      "rental_type": 0,
+      "house_regions": [
+        "영주군",
+        "인제시",
+        "북시"
+      ],
+      "term": [
+        11,
+        17
+      ],
+      "deposit_price": [
+        1417,
+        4660
+      ],
+      "monthly_rental_price": [
+        223,
+        251
+      ],
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "house_type": 2,
+      "rental_type": 1,
+      "house_regions": [
+        "마포군",
+        "광주군",
+        "부천시"
+      ],
+      "term": [
+        3,
+        24
+      ],
+      "deposit_price": [
+        8326,
+        9056
+      ],
+      "monthly_rental_price": [
+        20,
+        31
+      ],
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "house_type": 2,
+      "rental_type": 0,
+      "house_regions": [
+        "속초군",
+        "분당시",
+        "시흥군"
+      ],
+      "term": [
+        1,
+        20
+      ],
+      "deposit_price": [
+        27,
+        7487
+      ],
+      "monthly_rental_price": [
+        114,
+        159
+      ],
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 2,
+      "house_regions": [
+        "시흥시",
+        "동작군",
+        "북구"
+      ],
+      "term": [
+        10,
+        19
+      ],
+      "deposit_price": [
+        1183,
+        6087
+      ],
+      "monthly_rental_price": [
+        473,
+        489
+      ],
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 0,
+      "house_regions": [
+        "구미시",
+        "광산구",
+        "속초구"
+      ],
+      "term": [
+        1,
+        20
+      ],
+      "deposit_price": [
+        9006,
+        9679
+      ],
+      "monthly_rental_price": [
+        256,
+        403
+      ],
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "house_type": 1,
+      "rental_type": 0,
+      "house_regions": [
+        "고성군",
+        "분당군",
+        "밀양구"
+      ],
+      "term": [
+        10,
+        14
+      ],
+      "deposit_price": [
+        9306,
+        9527
+      ],
+      "monthly_rental_price": [
+        400,
+        472
+      ],
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_activity": [
+    {
+      "id": "a8f55d77-56d0-4d7b-a657-4cf385c3560e",
+      "user_id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "category": "좋아요",
+      "content_id": "d1bb81e4-f4e4-4361-8f4a-0a3a2ddfded6",
+      "content": null,
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "44a11c75-a69e-4dab-8fae-a238635a3424",
+      "user_id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "category": "댓글",
+      "content_id": "a04be9ad-f9f8-49cd-b71a-4de31b7c789b",
+      "content": "확정될 일반적으로 재외국민을 법률에 의무를 신문의 구성하지.",
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "a4e1f09d-f954-4c7e-ab2e-a8f16d6dcb62",
+      "user_id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "category": "좋아요",
+      "content_id": "5dc55cd3-83c5-46dd-9917-3f5d9955dce2",
+      "content": null,
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "95203ac0-f530-4f3e-90b2-b9b5dabe3849",
+      "user_id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "category": "댓글",
+      "content_id": "eb3517c0-ae1f-4d31-8183-46006f15f8f5",
+      "content": "평생교육을 사후에 의무교육은 확정될 기능을 증거인멸의 추정된다. 범죄에 보호를 구성하지.",
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "fb1f0c2f-131a-49de-883f-073730a4a1b2",
+      "user_id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "category": "댓글",
+      "content_id": "471c2d2c-74d3-4c07-8926-77730536d7bf",
+      "content": "법률에 행위시의 모든 시설기준과 법률로 증거인멸의.",
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "db74a66d-1ad8-4b17-8578-d22df37c105e",
+      "user_id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "category": "댓글",
+      "content_id": "fa9b8a45-40ae-4c95-ba3f-9e45dee5392a",
+      "content": "법률이 보호할 거듭 판결이 때까지는 필요한 한다..",
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "2fd9d288-e173-4d15-85a1-a87b931bb30f",
+      "user_id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "category": "댓글",
+      "content_id": "2065c523-9144-4352-b8ac-32606eb341b5",
+      "content": "보호할 판결이 전통문화의 법률에 신문의 국제법규는 범하고 구성하지 정하는 권리는.",
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "fc72e797-90d2-42b4-959a-b87ed4510282",
+      "user_id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "category": "댓글",
+      "content_id": "92a20846-40c4-440d-8c08-94addde55e88",
+      "content": "이상의 수 아니하며, 추정된다. 국민은 조약과 보장하기 시설기준과 일반적으로.",
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "d4881eb2-9853-487b-90b1-ef35468fc680",
+      "user_id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "category": "좋아요",
+      "content_id": "091ffab0-fff4-48ef-be5b-7cc6f9aa0a82",
+      "content": null,
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "9e0a2d8c-62ef-493d-9a84-91d297a7c942",
+      "user_id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "category": "좋아요",
+      "content_id": "f19fe7a0-31dc-4bdb-a0fc-a68882207ec5",
+      "content": null,
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "21f90cc6-3d3d-46c7-bfa0-2c29c3024a07",
+      "user_id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "category": "좋아요",
+      "content_id": "440dddd4-e9d6-40fb-845f-489280658fb0",
+      "content": null,
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "c8ead095-afac-4f36-8948-4cd1290f6553",
+      "user_id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "category": "좋아요",
+      "content_id": "50bb8155-3011-469f-861d-9f0049c7e02b",
+      "content": null,
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "b35da956-0559-4d8c-a514-1a2cba16a1ad",
+      "user_id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "category": "댓글",
+      "content_id": "95907ad2-4d31-419d-a8b5-4d2927cbcf3f",
+      "content": "민족문화의 보장하기 사생활의 증거인멸의 시설기준과 사생활의.",
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "28e0e738-faac-4bde-a711-6f10af47b3d6",
+      "user_id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "category": "댓글",
+      "content_id": "69b55aa1-cde8-4c5c-9e43-0bec944bd876",
+      "content": "국제법규는 의무를 정한다. 국내법과.",
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "03e10499-4081-43c6-b3b9-ca8c07261c11",
+      "user_id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "category": "댓글",
+      "content_id": "f287b0ee-384c-45b7-9375-56e5ca641d87",
+      "content": "재외국민을 일반적으로 아니한다. 무상으로 경우와 행위로.",
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "77388739-016a-41d4-b882-7fb15a6cecfb",
+      "user_id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "category": "댓글",
+      "content_id": "59100d3b-bda5-4be8-976e-1d6de7003aef",
+      "content": "민족문화의 무죄로 위하여 확정될.",
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "3f7daefd-7462-40ee-826e-f39aaf5bced9",
+      "user_id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "category": "댓글",
+      "content_id": "d1e7a2f3-c389-4ace-9249-719cf5e9f437",
+      "content": "확정될 조약과 의하여 범죄를 진다. 예술가의 국가는.",
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "146b428c-7cb9-49cd-9a90-b4e49983eeb7",
+      "user_id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "category": "댓글",
+      "content_id": "50214d79-e891-442f-a950-0aca15d6baf5",
+      "content": "신문의 전통문화의 판결이.",
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "1bae047c-e1a4-4491-8df7-3faca2599568",
+      "user_id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "category": "좋아요",
+      "content_id": "2921840e-606e-4c38-a3f8-cec383b584ac",
+      "content": null,
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "3250138c-11a7-4997-951d-de50d6892ab5",
+      "user_id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "category": "댓글",
+      "content_id": "96046053-c5b0-4578-8a7e-1ac1ba521fd6",
+      "content": "범하고 아니하는 영장을 확정될 의무를 소추되지 있다..",
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "a1b2ad1f-fa95-44ea-b69d-a74c028f3d65",
+      "user_id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "category": "좋아요",
+      "content_id": "b923c314-0cc2-42c7-9646-ccf59cf8c11e",
+      "content": null,
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "a74332bc-1616-4f9f-b15c-062c3d80b090",
+      "user_id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "category": "좋아요",
+      "content_id": "b4bbb65b-9fbe-452a-a293-435371a0f691",
+      "content": null,
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "b77d5edf-f448-41e5-8ed4-6c18436a4e1b",
+      "user_id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "category": "댓글",
+      "content_id": "88172616-5b53-47bb-b75f-c8dff10866ae",
+      "content": "정하는 청구할 청구할 이상의 법률이 다만, 증거인멸의 국제법규는.",
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "a4e1211d-a8ea-4edc-a0e6-17e9b9395ed1",
+      "user_id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "category": "좋아요",
+      "content_id": "ed1f4d51-e1e5-488c-bd02-003d870d2ba0",
+      "content": null,
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "d78f82eb-a859-4cf4-8878-9294cb7e8802",
+      "user_id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "category": "댓글",
+      "content_id": "24c6fa29-2504-41ae-b94a-28d4bc2e6d60",
+      "content": "의하여 창달에 침해받지 통신·방송의 거듭 보호할 수 정하는.",
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_block": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "block_id": [],
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "block_id": [],
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "block_id": [
+        "6025f559-520c-4cec-800d-0447d2d41965",
+        "e44b28ef-a793-4621-8d78-6e01b02ae786"
+      ],
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "block_id": [
+        "55eedba1-2e3f-4b18-9856-2be581389361",
+        "6025f559-520c-4cec-800d-0447d2d41965"
+      ],
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "block_id": [
+        "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+        "e44b28ef-a793-4621-8d78-6e01b02ae786"
+      ],
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "block_id": [
+        "e44b28ef-a793-4621-8d78-6e01b02ae786",
+        "5c407172-c807-4fa4-b8f8-a509db7a586e"
+      ],
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "block_id": [
+        "55eedba1-2e3f-4b18-9856-2be581389361"
+      ],
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "block_id": [
+        "9175a899-9d67-42e6-acb7-0513a20a2237"
+      ],
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "block_id": [
+        "9175a899-9d67-42e6-acb7-0513a20a2237",
+        "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427"
+      ],
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "block_id": [
+        "6025f559-520c-4cec-800d-0447d2d41965"
+      ],
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "block_id": [
+        "5c407172-c807-4fa4-b8f8-a509db7a586e",
+        "92ce57d6-763d-4c9e-bc9f-ca85ccee8385"
+      ],
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "block_id": [
+        "5c407172-c807-4fa4-b8f8-a509db7a586e"
+      ],
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "block_id": [
+        "92ce57d6-763d-4c9e-bc9f-ca85ccee8385"
+      ],
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "block_id": [
+        "5c407172-c807-4fa4-b8f8-a509db7a586e",
+        "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+        "d234c835-3f19-4c7e-b847-50f88bf1608a"
+      ],
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "block_id": [
+        "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427"
+      ],
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "block_id": [
+        "388827df-a1c7-46a1-b12b-305c05e41263",
+        "9175a899-9d67-42e6-acb7-0513a20a2237",
+        "8248907b-a6ae-42cc-896f-4dae8d1c809d"
+      ],
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "block_id": [
+        "655c4906-831f-490d-aeaa-3e90c9487b0b",
+        "388827df-a1c7-46a1-b12b-305c05e41263",
+        "a6f0781c-7c93-45d3-a836-1c44e70e1d7d"
+      ],
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "block_id": [
+        "01f406cf-419e-4b98-8637-8099250b71f1"
+      ],
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "block_id": [
+        "9175a899-9d67-42e6-acb7-0513a20a2237",
+        "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+        "01f406cf-419e-4b98-8637-8099250b71f1"
+      ],
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "block_id": [
+        "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+        "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+        "5c407172-c807-4fa4-b8f8-a509db7a586e"
+      ],
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "block_id": [
+        "55eedba1-2e3f-4b18-9856-2be581389361",
+        "61c21c64-2870-41fd-b6e8-845dab2da341"
+      ],
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "block_id": [
+        "655c4906-831f-490d-aeaa-3e90c9487b0b"
+      ],
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "block_id": [
+        "399196ec-2d5e-461a-9923-8be4f1207c56",
+        "5c407172-c807-4fa4-b8f8-a509db7a586e"
+      ],
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "block_id": [
+        "4230565c-24a6-49e7-a62b-c58e584186e0"
+      ],
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "block_id": [
+        "8248907b-a6ae-42cc-896f-4dae8d1c809d"
+      ],
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_alarm": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "house_alarm_1": false,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "house_alarm_1": false,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "house_alarm_1": false,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "house_alarm_1": false,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "house_alarm_1": true,
+      "house_alarm_2": true,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "house_alarm_1": false,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": true,
+      "lounge_alarm": true,
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "house_alarm_1": true,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "house_alarm_1": true,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "house_alarm_1": true,
+      "house_alarm_2": false,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": false,
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "house_alarm_1": true,
+      "house_alarm_2": true,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": false,
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "house_alarm_1": true,
+      "house_alarm_2": true,
+      "house_alarm_3": false,
+      "chat_alarm": true,
+      "lounge_alarm": true,
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "house_alarm_1": false,
+      "house_alarm_2": true,
+      "house_alarm_3": true,
+      "chat_alarm": false,
+      "lounge_alarm": true,
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ],
+  "user_theme": [
+    {
+      "id": "6025f559-520c-4cec-800d-0447d2d41965",
+      "theme": "system",
+      "font_size": "medium",
+      "language": "en",
+      "created_at": "2024-01-15T09:07:06.634Z",
+      "updated_at": "2024-01-17T06:42:51.451Z"
+    },
+    {
+      "id": "e44b28ef-a793-4621-8d78-6e01b02ae786",
+      "theme": "dark",
+      "font_size": "medium",
+      "language": "ko",
+      "created_at": "2024-01-15T22:02:03.076Z",
+      "updated_at": "2024-01-16T14:44:28.041Z"
+    },
+    {
+      "id": "55eedba1-2e3f-4b18-9856-2be581389361",
+      "theme": "dark",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-14T03:10:17.227Z",
+      "updated_at": "2024-01-16T12:18:45.387Z"
+    },
+    {
+      "id": "c2c441ed-ec5f-4dc8-9f56-3a7f3a7e2427",
+      "theme": "light",
+      "font_size": "large",
+      "language": "en",
+      "created_at": "2024-01-14T05:19:01.687Z",
+      "updated_at": "2024-01-16T23:33:00.214Z"
+    },
+    {
+      "id": "5c407172-c807-4fa4-b8f8-a509db7a586e",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "en",
+      "created_at": "2024-01-14T15:26:35.792Z",
+      "updated_at": "2024-01-16T23:09:51.144Z"
+    },
+    {
+      "id": "9175a899-9d67-42e6-acb7-0513a20a2237",
+      "theme": "light",
+      "font_size": "medium",
+      "language": "en",
+      "created_at": "2024-01-13T23:47:56.994Z",
+      "updated_at": "2024-01-16T18:45:23.766Z"
+    },
+    {
+      "id": "92ce57d6-763d-4c9e-bc9f-ca85ccee8385",
+      "theme": "dark",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-16T06:08:54.514Z",
+      "updated_at": "2024-01-16T11:19:03.011Z"
+    },
+    {
+      "id": "388827df-a1c7-46a1-b12b-305c05e41263",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "ko",
+      "created_at": "2024-01-14T04:43:55.567Z",
+      "updated_at": "2024-01-16T13:59:24.562Z"
+    },
+    {
+      "id": "8248907b-a6ae-42cc-896f-4dae8d1c809d",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "en",
+      "created_at": "2024-01-16T02:52:46.269Z",
+      "updated_at": "2024-01-16T22:38:38.157Z"
+    },
+    {
+      "id": "4230565c-24a6-49e7-a62b-c58e584186e0",
+      "theme": "light",
+      "font_size": "medium",
+      "language": "en",
+      "created_at": "2024-01-15T13:54:46.059Z",
+      "updated_at": "2024-01-17T03:24:27.109Z"
+    },
+    {
+      "id": "271843fa-4e58-432f-a77f-642c6d18d9f8",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "ko",
+      "created_at": "2024-01-16T01:36:00.680Z",
+      "updated_at": "2024-01-16T19:07:47.837Z"
+    },
+    {
+      "id": "d234c835-3f19-4c7e-b847-50f88bf1608a",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "en",
+      "created_at": "2024-01-16T05:13:17.060Z",
+      "updated_at": "2024-01-17T05:28:36.002Z"
+    },
+    {
+      "id": "a6f0781c-7c93-45d3-a836-1c44e70e1d7d",
+      "theme": "system",
+      "font_size": "medium",
+      "language": "en",
+      "created_at": "2024-01-14T06:53:17.574Z",
+      "updated_at": "2024-01-16T22:43:38.720Z"
+    },
+    {
+      "id": "61c21c64-2870-41fd-b6e8-845dab2da341",
+      "theme": "system",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-13T13:13:12.747Z",
+      "updated_at": "2024-01-17T03:42:03.861Z"
+    },
+    {
+      "id": "00af37f7-a026-4a81-834a-ee70acc0ddfc",
+      "theme": "dark",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-15T08:19:37.905Z",
+      "updated_at": "2024-01-16T12:42:18.112Z"
+    },
+    {
+      "id": "655c4906-831f-490d-aeaa-3e90c9487b0b",
+      "theme": "system",
+      "font_size": "medium",
+      "language": "ko",
+      "created_at": "2024-01-15T03:01:11.503Z",
+      "updated_at": "2024-01-17T01:05:22.868Z"
+    },
+    {
+      "id": "01f406cf-419e-4b98-8637-8099250b71f1",
+      "theme": "light",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-14T04:27:45.053Z",
+      "updated_at": "2024-01-16T09:42:13.638Z"
+    },
+    {
+      "id": "0bc5619c-1415-4fee-8337-706309a26c4f",
+      "theme": "light",
+      "font_size": "medium",
+      "language": "en",
+      "created_at": "2024-01-14T16:29:23.938Z",
+      "updated_at": "2024-01-16T23:13:35.786Z"
+    },
+    {
+      "id": "6b0d1702-0f82-49bd-b63d-13f2ad4f98fb",
+      "theme": "light",
+      "font_size": "small",
+      "language": "ko",
+      "created_at": "2024-01-15T06:13:38.281Z",
+      "updated_at": "2024-01-16T13:56:50.854Z"
+    },
+    {
+      "id": "d540ea99-0ba4-4756-9dd8-bc5f62db16b1",
+      "theme": "system",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-15T16:53:33.415Z",
+      "updated_at": "2024-01-17T06:32:14.897Z"
+    },
+    {
+      "id": "399196ec-2d5e-461a-9923-8be4f1207c56",
+      "theme": "light",
+      "font_size": "large",
+      "language": "en",
+      "created_at": "2024-01-15T13:24:03.459Z",
+      "updated_at": "2024-01-17T03:52:46.811Z"
+    },
+    {
+      "id": "418b70ff-4fd8-4cd4-a918-46173593f1ce",
+      "theme": "dark",
+      "font_size": "small",
+      "language": "en",
+      "created_at": "2024-01-14T16:57:47.556Z",
+      "updated_at": "2024-01-17T06:14:31.665Z"
+    },
+    {
+      "id": "353338bb-2ba0-408f-9f55-96d439e310b6",
+      "theme": "light",
+      "font_size": "large",
+      "language": "ko",
+      "created_at": "2024-01-13T14:08:49.774Z",
+      "updated_at": "2024-01-16T11:43:56.445Z"
+    },
+    {
+      "id": "362d5825-2810-4a2e-9ff8-ee2b920117ae",
+      "theme": "light",
+      "font_size": "large",
+      "language": "en",
+      "created_at": "2024-01-16T04:14:23.095Z",
+      "updated_at": "2024-01-16T13:56:01.980Z"
+    },
+    {
+      "id": "51563cde-9c21-43fa-af3f-134e40df31dc",
+      "theme": "dark",
+      "font_size": "medium",
+      "language": "ko",
+      "created_at": "2024-01-13T17:27:07.831Z",
+      "updated_at": "2024-01-17T07:12:09.250Z"
+    }
+  ]
+}
