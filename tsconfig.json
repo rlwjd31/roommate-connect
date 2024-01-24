@@ -28,7 +28,9 @@
       "@libs/*": ["libs/*"],
       "@db/*": ["db/*"],
       "@types/*": ["types/*"],
-      "@assets/*": ["assets/*"]
+      "@assets/*": ["assets/*"],
+      "@constants/*": ["constants/*"],
+      "@mocks/*": ["mocks/*"]
     }
   },
   "include": [
