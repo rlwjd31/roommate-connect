@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.17.7",
-    "@types/node": "^20.11.3",
+    "@types/node": "^20.11.6",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@typescript-eslint/eslint-plugin": "^6.18.1",
@@ -40,10 +40,12 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-tailwindcss": "^3.14.0",
+    "fs": "^0.0.1-security",
     "postcss": "^8.4.33",
     "prettier": "^3.2.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "vite-tsconfig-paths": "^4.3.1"
   }
 }
