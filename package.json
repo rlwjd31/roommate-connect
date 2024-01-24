@@ -9,9 +9,11 @@
     "lint": "eslint --ext .js,.jsx,.ts.,.tsx, ./src",
     "lint:debug": "eslint --ext .js,.jsx,.ts,.tsx, ./src --debug",
     "lint:fix": "eslint --ext .js,.jsx,.ts,.tsx, ./src --fix",
-    "preview": "vite --mode production preview"
+    "preview": "vite --mode production preview",
+    "gen-types": "supabase gen types typescript --linked > src/types/supabase.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-query": "^5.17.12",
     "@tanstack/react-query-devtools": "^5.17.12",
     "react": "^18.2.0",
