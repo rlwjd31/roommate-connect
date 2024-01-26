@@ -7,8 +7,8 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb-typescript',
-    'eslint:recommended',
     'plugin:react/recommended',
+    'eslint:recommended',
     'plugin:react-hooks/recommended',
     'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:tailwindcss/recommended',
@@ -29,6 +29,7 @@ module.exports = {
   settings: {
     tailwindcss: { config: './tailwind.config.ts' },
   },
+
   rules: {
     'no-unused-vars': 'warn',
     'no-console': 'warn',
@@ -38,6 +39,7 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'import/prefer-default-export': 1,
     'import/no-extraneous-dependencies': 0,
+    'import/extensions': 0,
     'import/order': [
       'error',
       {
