@@ -24,13 +24,13 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["/*"],
-      "@components/*": ["components/*"],
-      "@libs/*": ["libs/*"],
-      "@db/*": ["db/*"],
-      "@types/*": ["types/*"],
-      "@assets/*": ["assets/*"],
-      "@constants/*": ["constants/*"],
-      "@mocks/*": ["mocks/*"]
+      "@/components/*": ["components/*"],
+      "@/libs/*": ["libs/*"],
+      "@/db/*": ["db/*"],
+      "@/types/*": ["types/*"],
+      "@/assets/*": ["assets/*"],
+      "@/constants/*": ["constants/*"],
+      "@/mocks/*": ["mocks/*"]
     }
   },
   "include": [

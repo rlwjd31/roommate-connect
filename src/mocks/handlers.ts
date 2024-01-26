@@ -1,6 +1,7 @@
 import { HttpResponse, http } from 'msw';
-import { userEndpoints } from '@constants/apiEndpoints';
-import data from '@db/userDB.json';
+
+import { userEndpoints } from '@/constants/apiEndpoints';
+import data from '@/db/userDB.json';
 
 type UserParams = {
   userId: string;
