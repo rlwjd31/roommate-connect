@@ -9,12 +9,11 @@ import './index.css';
 
 const queryClient = new QueryClient();
 const isDev =
-  import.meta.env.MODE === 'development' &&
-  process.env.NODE_ENV === 'development';
+  import.meta.env.MODE === 'development'
 
 // * run the mocking api before createRoot called
 async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') {
+  if (import.meta.env.MODE !== 'development') {
     return;
   }
 
