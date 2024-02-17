@@ -14,8 +14,8 @@ type UserThemeRequest = {
 userThemeHandler.push(
   http.get<UserThemeParam>(userEndpoints.user_theme, ({ params }) => {
     try {
-      const { user_id } = params;
-      const result = data.user_theme.find(user => user.user_id === user_id);
+      const { user_id: userId } = params;
+      const result = data.user_theme.find(user => user.user_id === userId);
       if (!result)
         return HttpResponse.json(null, {
           status: 404,
@@ -36,10 +36,10 @@ userThemeHandler.push(
     userEndpoints.user_theme,
     async ({ params, request }) => {
       try {
-        const { user_id } = params;
-        const { theme, font_size, language } = await request.json();
+        const { user_id: userId } = params;
+        const { theme, font_size: fontSize, language } = await request.json();
         const userThemeIndex = data.user_theme.findIndex(
-          user => user.user_id === user_id,
+          user => user.user_id === userId,
         );
         if (userThemeIndex === -1)
           return HttpResponse.json(null, {
@@ -49,8 +49,8 @@ userThemeHandler.push(
         if (theme) {
           data.user_theme[userThemeIndex].theme = theme;
         }
-        if (font_size) {
-          data.user_theme[userThemeIndex].font_size = font_size;
+        if (fontSize) {
+          data.user_theme[userThemeIndex].font_size = fontSize;
         }
         if (language) {
           data.user_theme[userThemeIndex].language = language;
