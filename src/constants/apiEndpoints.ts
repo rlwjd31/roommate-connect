@@ -6,6 +6,8 @@ type UserEndpointSType = {
   user_block: string;
   user_house_status: string;
   user_bookmark: string;
+  user_friend: string;
+  user_alarm_setting: string;
 };
 
 const userEndpoints: UserEndpointSType = {
@@ -16,6 +18,8 @@ const userEndpoints: UserEndpointSType = {
   user_block: '/user/block',
   user_house_status: '/user/house_status/:user_id',
   user_bookmark: '/user/bookmark',
+  user_friend: '/user/friend',
+  user_alarm_setting: '/user/alarm_setting/:user_id',
 };
 
-export { userEndpoints };
+export default userEndpoints;

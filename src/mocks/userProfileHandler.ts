@@ -1,9 +1,9 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 import data from '@/db/userDB';
 
-export const userProfileHandler = [] as HttpHandler[];
+const userProfileHandler = [] as HttpHandler[];
 
 type UserProfileParam = { user_id: string };
 type LookingHouse = {
@@ -178,3 +178,5 @@ userProfileHandler.push(
     },
   ),
 );
+
+export default userProfileHandler;

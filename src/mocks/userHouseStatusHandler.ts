@@ -1,9 +1,9 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
 import data from '@/db/userDB';
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 
-export const userHouseStatusHandler = [] as HttpHandler[];
+const userHouseStatusHandler = [] as HttpHandler[];
 type UserHouseStatusParam = { user_id: string };
 type UserHouseStatusRequest = { house_status: 0 | 1 | 2; house_link: string };
 // 유저의 하우스 상태
@@ -68,3 +68,5 @@ userHouseStatusHandler.push(
     },
   ),
 );
+
+export default userHouseStatusHandler;

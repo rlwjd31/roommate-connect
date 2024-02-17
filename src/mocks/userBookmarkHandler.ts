@@ -1,10 +1,10 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 import data from '@/db/userDB';
 
-export const userBookmarkHandler = [] as HttpHandler[];
+const userBookmarkHandler = [] as HttpHandler[];
 type UserBookmarkParam = { user_id: string };
 type UserBookmarkRequest = {
   bookmark_type: 0 | 1 | 2; // 0: 하우스, 1: 라운지, 2: 라운지 게시글
@@ -100,3 +100,5 @@ userBookmarkHandler.push(
     },
   ),
 );
+
+export default userBookmarkHandler;

@@ -1,10 +1,10 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 import data from '@/db/userDB';
 
-export const userBlockHandler = [] as HttpHandler[];
+const userBlockHandler = [] as HttpHandler[];
 
 type UserBlockParam = { user_id: string };
 type UserBlockRequest = { block_id: string };
@@ -109,3 +109,5 @@ userBlockHandler.push(
     },
   ),
 );
+
+export default userBlockHandler;

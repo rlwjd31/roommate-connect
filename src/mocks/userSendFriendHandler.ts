@@ -1,10 +1,10 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 import data from '@/db/userDB';
 
-export const userSendFriendHandler = [] as HttpHandler[];
+const userSendFriendHandler = [] as HttpHandler[];
 
 type UserSendFriendParam = { user_id: string };
 type UserSendFriendRequest = { to_id: string };
@@ -178,3 +178,5 @@ userSendFriendHandler.push(
     },
   ),
 );
+
+export default userSendFriendHandler;

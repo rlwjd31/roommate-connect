@@ -1,9 +1,9 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
-import { userEndpoints } from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints.ts';
 import data from '@/db/userDB';
 
-export const userThemeHandler = [] as HttpHandler[];
+const userThemeHandler = [] as HttpHandler[];
 
 type UserThemeParam = { user_id: string };
 type UserThemeRequest = {
@@ -68,3 +68,5 @@ userThemeHandler.push(
     },
   ),
 );
+
+export default userThemeHandler;
