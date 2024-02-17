@@ -8,6 +8,8 @@ type UserEndpointSType = {
   user_bookmark: string;
   user_friend: string;
   user_alarm_setting: string;
+  user_activity: string;
+  user_auth: string;
 };
 
 const userEndpoints: UserEndpointSType = {
@@ -20,6 +22,8 @@ const userEndpoints: UserEndpointSType = {
   user_bookmark: '/user/bookmark',
   user_friend: '/user/friend',
   user_alarm_setting: '/user/alarm_setting/:user_id',
+  user_activity: '/user/activity/:user_id',
+  user_auth: '/user/auth',
 };
 
 export default userEndpoints;
