@@ -35,7 +35,7 @@ module.exports = {
     'no-console': 'warn',
 
     // * react
-    'react/jsx-props-no-spreading': [1, { custom: 'ignore' }],
+    'react/jsx-props-no-spreading': 0,
     'react/react-in-jsx-scope': 0,
     'import/prefer-default-export': 1,
     'import/no-extraneous-dependencies': 0,
