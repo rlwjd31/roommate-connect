@@ -1,0 +1,18 @@
+export default {
+  character: <div />,
+  logo: <div />,
+  welcome: <div />,
+  'seeking-house': <div />,
+  male: <div />,
+  female: <div />,
+  'dont-mind-sex': <div />,
+  'dont-mind-pet': <div />,
+  'pet-lover': <div />,
+  'none-pet-lover': <div />,
+  'studio-officetel': <div />,
+  'villa-townhouse': <div />,
+  apartment: <div />,
+  'single-family-house': <div />,
+  smoke: <div />,
+  'non-smoke': <div />,
+};
