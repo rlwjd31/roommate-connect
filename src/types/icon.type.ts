@@ -1,3 +1,5 @@
+import ColorType from '@/types/color.type.ts';
+
 export type IconType =
   | 'character'
   | 'logo'
@@ -14,4 +16,13 @@ export type IconType =
   | 'apartment'
   | 'single-family-house'
   | 'smoke'
-  | 'non-smoke';
+  | 'non-smoke'
+  | 'right-arrow'
+  | 'left-arrow'
+  | 'expand-arrow'
+  | 'close';
+
+export type CustomIconType = {
+  fill?: ColorType;
+  stroke?: ColorType;
+};
