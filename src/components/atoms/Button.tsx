@@ -1,20 +1,42 @@
-import { ComponentProps } from 'react';
+import React, { ComponentProps, ReactNode } from 'react';
 
 export type ButtonProps = ComponentProps<'button'>;
-export default function Button(props: ButtonProps) {
-  const { children, ...others } = props;
-  return (
-    <button type="button" {...others}>
-      {children}
-    </button>
-  );
-}
+export type ButtonType = 'Fill' | 'Outline' | 'Ghost';
 
-Button.Fill = function ButtonFill(props: ButtonProps) {
-  const { children, ...others } = props;
-  return (
-    <button className="bg-brown" type="button" {...others}>
-      {children}
-    </button>
-  );
+type ButtonComponentProps = {
+  [key in ButtonType]: (props: ButtonProps) => ReactNode;
 };
+
+const buttonType: { type: ButtonType; defaultClassName: string }[] = [
+  {
+    type: 'Fill',
+    defaultClassName:
+      'group bg-brown hover:bg-bg hover:outline hover:outline-brown',
+  },
+  {
+    type: 'Outline',
+    defaultClassName:
+      'group bg-bg outline outline-brown hover:bg-brown hover:outline-none',
+  },
+  {
+    type: 'Ghost',
+    defaultClassName: 'group bg-transparent',
+  },
+];
+
+const Button = {} as ButtonComponentProps;
+
+buttonType.forEach(({ type, defaultClassName }) => {
+  Button[type] = ({ children, className, ...others }: ButtonProps) =>
+    React.createElement(
+      'button',
+      {
+        className: `${defaultClassName} ${className || ''}`,
+        type: 'button',
+        ...others,
+      },
+      children,
+    );
+});
+
+export default Button;
