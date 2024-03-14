@@ -16,14 +16,19 @@ export default {
       point: '#FF7759',
     },
     fontSize: {
-      '3xl': '3rem',
-      '2xl': '2rem',
-      xl: '1.5rem',
-      l: '1.25rem',
-      ml: '1.125rem',
-      m: '1rem',
-      s: '0.875rem',
-      xs: '0.75rem',
+      Head1: ['3rem', { fontWeight: 700 }],
+      Head2: ['2rem', { fontWeight: 600 }],
+      Head3: ['1.5rem', { fontWeight: 600 }],
+      SubTitle1: ['1.25rem', { fontWeight: 600 }],
+      SubTitle2: ['1.125rem', { fontWeight: 600 }],
+      SubTitle3: ['1rem', { fontWeight: 600 }],
+      P1: ['1.25rem', { fontWeight: 400 }],
+      P2: ['1.125rem', { fontWeight: 400 }],
+      P3: ['1rem', { fontWeight: 400 }],
+      Span1: ['0.875rem', { fontWeight: 400 }],
+      Span2: ['0.75rem', { fontWeight: 400 }],
+      SpanMid1: ['0.875rem', { fontWeight: 500 }],
+      SpanMid2: ['0.75rem', { fontWeight: 500 }],
     },
     fontFamily: {
       'Noto-Sans-KR': ['Noto Sans KR'],
@@ -31,4 +36,11 @@ export default {
     extend: {},
   },
   plugins: [],
+  safelist: [
+    {
+      pattern:
+        /(!?)(bg|text|fill|stroke)-(bg|subColor1|subColor2|brown|brown1|brown2|brown3|brown4|brown5|point)/,
+      variants: ['hover', '[&_path]'],
+    },
+  ],
 } satisfies Config;
