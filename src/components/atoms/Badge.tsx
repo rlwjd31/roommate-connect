@@ -1,30 +1,40 @@
-import Icon from '@/components/atoms/Icon.tsx';
-import Button, { ButtonProps } from '@/components/atoms/Button.tsx';
-import { IconType } from '@/types/icon.type.ts';
+import React from 'react';
 
-type BadgeProps = {
-  text: string;
-  // eslint-disable-next-line react/require-default-props
-  icon?: IconType;
+export type BadgeProps = {
+  children: React.ReactNode;
+  className?: string;
+  icon?: React.ReactNode;
 };
 
-type BadgeButtonProps = BadgeProps & ButtonProps;
-export default function Badge(props: BadgeProps) {
-  const { text, icon } = props;
-  return (
-    <div className="rounded-lg">
-      {text}
-      {icon && <Icon type={icon} />}
-    </div>
-  );
-}
-Badge.Button = function BadgeButton(props: BadgeButtonProps) {
-  const { text, icon, ...others } = props;
-  return (
-    <Button.Fill {...others}>
-      {text}
-      {icon && <Icon type={icon} />}
-    </Button.Fill>
-  );
+type BadgeType = 'Fill' | 'Outline';
+
+type BadgeComponentProps = {
+  [key in BadgeType]: (props: BadgeProps) => React.ReactNode;
 };
-Badge.defaultProps = { icon: null };
+const badgeType: { type: BadgeType; defaultClassName: string }[] = [
+  {
+    type: 'Fill',
+    defaultClassName:
+      'group items-center rounded-xl bg-brown hover:bg-bg hover:outline hover:outline-brown',
+  },
+  {
+    type: 'Outline',
+    defaultClassName:
+      'group items-center rounded-xl bg-bg outline outline-brown hover:outline-none hover:bg-brown',
+  },
+];
+const Badge = {} as BadgeComponentProps;
+badgeType.forEach(({ type, defaultClassName }) => {
+  Badge[type] = ({ children, icon, className, ...others }: BadgeProps) =>
+    React.createElement(
+      'div',
+      {
+        className: `${defaultClassName} ${className || ''} `,
+        ...others,
+      },
+      children,
+      icon,
+    );
+});
+
+export default Badge;
