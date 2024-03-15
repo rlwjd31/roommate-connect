@@ -24,25 +24,27 @@ export default function Divider() {
 const DividerRow: FC<DividerProps> = ({
   type = 'thin',
   children,
+  className,
   ...props
 }) => (
-  <div className={cls(commonStyle, thickNess[type])} {...props}>
+  <div className={cls(className, commonStyle, thickNess[type])} {...props}>
     {children}
   </div>
 );
 
-const DividerColumn: FC<DividerProps> = ({
+const DividerCol: FC<DividerProps> = ({
   type = 'thin',
   children,
+  className,
   ...props
 }) => (
-  <div className={cls(commonStyle, thickNess[type])} {...props}>
+  <div className={cls(className, commonStyle, thickNess[type])} {...props}>
     {children}
   </div>
 );
 
 DividerRow.defaultProps = { type: 'thin' };
-DividerColumn.defaultProps = { type: 'thin' };
+DividerCol.defaultProps = { type: 'thin' };
 
 Divider.Row = DividerRow;
-Divider.Column = DividerColumn;
+Divider.Col = DividerCol;
