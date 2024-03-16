@@ -8,11 +8,13 @@ import Divider from '@/components/atoms/Divider';
 import Container from '@/components/atoms/Container';
 import Dropdown from '@/components/molecules/Dropdown';
 import { district, region } from '@/constants/regions';
+import Img from '@/components/atoms/Img';
 
 function App() {
   return (
-    <div className="h-[300vh]">
+    <div className="flex h-[300vh] flex-col p-8">
       {/* Button test */}
+      <h1 className="text-Head2">Button test</h1>
       <div className="flex">
         <div className="m-2 flex flex-col items-center justify-center gap-y-1 p-2">
           <IconButton.Ghost
@@ -375,6 +377,7 @@ function App() {
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* divider test */}
+      <h1 className="text-Head2">Divider test</h1>
       <div>
         <div className="flex">
           <span>something1</span>
@@ -389,6 +392,7 @@ function App() {
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* container test */}
+      <h1 className="text-Head2">Container test</h1>
       <Container.Grid className="grid-cols-2 grid-rows-2 bg-brown2">
         <div>someting</div>
         <div>someting</div>
@@ -406,6 +410,7 @@ function App() {
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* dropdown test */}
+      <h1 className="text-Head2">Dropdown test</h1>
       <Container.FlexRow className="gap-3">
         <Dropdown className="max-w-28" contents={region} label="지역" />
         <Dropdown
@@ -414,6 +419,14 @@ function App() {
           label="시, 구"
         />
       </Container.FlexRow>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      {/* img test */}
+      <h1 className="text-Head2">Image test</h1>
+      <Img
+        src="https://source.unsplash.com/random/300×300"
+        alt="house image"
+        className="max-h-80 max-w-80"
+      />
     </div>
   );
 }
