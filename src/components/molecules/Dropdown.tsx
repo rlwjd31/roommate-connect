@@ -40,7 +40,7 @@ export default function Dropdown({
         {currentValue} <ChevronDown />
       </button>
       {isOpen && (
-        <Container.FlexCol className="absolute left-0 top-full max-h-56 w-full overflow-scroll border-x border-b border-brown text-brown5">
+        <Container.FlexCol className="absolute left-0 top-full z-10 max-h-56 w-full overflow-scroll border-x border-b border-brown text-brown5">
           {contents.map(content => (
             <DropdownItem
               onClick={() => onClickDropdownItem(content)}
