@@ -1,13 +1,16 @@
-export type LabelProps = {
-  htmlFor: string;
-  text: string;
-};
+import { ComponentProps } from 'react';
+
+export type LabelProps = ComponentProps<'label'>;
 
 export default function Label(props: LabelProps) {
-  const { htmlFor, text } = props;
+  const { htmlFor, className, children, ...other } = props;
   return (
-    <label className="" htmlFor={htmlFor}>
-      {text}
+    <label
+      htmlFor={htmlFor}
+      className={`mb-2 block text-P3 text-brown1 ${className}`}
+      {...other}
+    >
+      {children}
     </label>
   );
 }
