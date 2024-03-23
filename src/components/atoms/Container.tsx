@@ -3,21 +3,21 @@ import { ComponentProps, FC } from 'react';
 
 import cls from '@/libs/cls';
 
-type ContainerProops = ComponentProps<'div'>;
+type ContainerProps = ComponentProps<'div'>;
 
-export default function Container({ children, className }: ContainerProops) {
+export default function Container({ children, className }: ContainerProps) {
   return <div className={cls(className)}>{children}</div>;
 }
 
-const GridContainer: FC<ContainerProops> = ({ children, className }) => (
+const GridContainer: FC<ContainerProps> = ({ children, className }) => (
   <div className={cls('grid', className)}>{children}</div>
 );
 
-const FlexRowContainer: FC<ContainerProops> = ({ children, className }) => (
+const FlexRowContainer: FC<ContainerProps> = ({ children, className }) => (
   <div className={cls('flex', className)}>{children}</div>
 );
 
-const FlexColumnContainer: FC<ContainerProops> = ({ children, className }) => (
+const FlexColumnContainer: FC<ContainerProps> = ({ children, className }) => (
   <div className={cls('flex flex-col', className)}>{children}</div>
 );
 
