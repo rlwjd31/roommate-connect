@@ -2,6 +2,7 @@ import React from 'react';
 
 import Button, { ButtonProps } from '@/components/atoms/Button.tsx';
 import Badge from '@/components/atoms/Badge.tsx';
+import cn from '@/libs/cn.ts';
 
 type BadgeButtonProps = Omit<ButtonProps, 'className'> & {
   children: React.ReactNode;
@@ -15,7 +16,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   const { className, icon, children, ...others } = props;
   return (
     <Button.Ghost {...others}>
-      <Badge.Fill className={className || ''} icon={icon}>
+      <Badge.Fill className={cn(className)} icon={icon}>
         {children}
       </Badge.Fill>
     </Button.Ghost>
@@ -26,7 +27,7 @@ BadgeButton.Outline = function BadgeButtonOutline(props: BadgeButtonProps) {
   const { className, icon, children, ...others } = props;
   return (
     <Button.Ghost {...others}>
-      <Badge.Outline className={className || ''} icon={icon}>
+      <Badge.Outline className={cn(className)} icon={icon}>
         {children}
       </Badge.Outline>
     </Button.Ghost>

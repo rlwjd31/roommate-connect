@@ -1,5 +1,7 @@
 import React, { ComponentProps, ReactNode } from 'react';
 
+import cn from '@/libs/cn.ts';
+
 type TypographyProps =
   | ComponentProps<'span'>
   | ComponentProps<'p'>
@@ -56,7 +58,7 @@ typoType.forEach(({ type, component, defaultClassName }) => {
   Typography[type] = ({ children, className, ...others }: TypographyProps) =>
     React.createElement(
       component,
-      { className: `${defaultClassName} ${className || ''} `, ...others },
+      { className: cn(`${defaultClassName} ${className}`), ...others },
       children,
     );
 });

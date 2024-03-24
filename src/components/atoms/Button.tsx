@@ -1,5 +1,7 @@
 import React, { ComponentProps, ReactNode } from 'react';
 
+import cn from '@/libs/cn.ts';
+
 export type ButtonProps = ComponentProps<'button'>;
 export type ButtonType = 'Fill' | 'Outline' | 'Ghost';
 
@@ -31,7 +33,7 @@ buttonType.forEach(({ type, defaultClassName }) => {
     React.createElement(
       'button',
       {
-        className: `${defaultClassName} ${className || ''}`,
+        className: cn(`${defaultClassName} ${className}`),
         type: 'button',
         ...others,
       },

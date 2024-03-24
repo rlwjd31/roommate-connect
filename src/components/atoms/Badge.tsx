@@ -1,5 +1,7 @@
 import React from 'react';
 
+import cn from '@/libs/cn.ts';
+
 export type BadgeProps = {
   children: React.ReactNode;
   className?: string;
@@ -29,7 +31,7 @@ badgeType.forEach(({ type, defaultClassName }) => {
     React.createElement(
       'div',
       {
-        className: `${defaultClassName} ${className || ''} `,
+        className: cn(`${defaultClassName} ${className} `),
         ...others,
       },
       children,

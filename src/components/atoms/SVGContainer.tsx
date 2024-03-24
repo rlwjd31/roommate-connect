@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CustomIconType } from '@/types/icon.type.ts';
+import cn from '@/libs/cn.ts';
 
 type SVGContainerProps = CustomIconType & {
   children: React.ReactNode;
@@ -13,9 +14,7 @@ export default function SVGContainer(props: SVGContainerProps) {
     stroke: `[&_path]:stroke-${stroke}`,
   };
   return (
-    <div
-      className={`${stroke ? style.stroke : ''} ${fill ? style.fill : ''} ${className ?? ''}`}
-    >
+    <div className={cn(`${style.stroke} ${style.fill} ${className}`)}>
       {children}
     </div>
   );

@@ -1,6 +1,7 @@
 import { CustomIconType, IconType } from '@/types/icon.type';
 import IconSVG from '@/constants/iconSVG';
 import SVGContainer from '@/components/atoms/SVGContainer.tsx';
+import cn from '@/libs/cn.ts';
 
 export type IconProps = CustomIconType & {
   type: IconType;
@@ -10,7 +11,7 @@ export type IconProps = CustomIconType & {
 export default function Icon(props: IconProps) {
   const { type, fill = undefined, stroke = undefined, className = '' } = props;
   return (
-    <SVGContainer className={className} fill={fill} stroke={stroke}>
+    <SVGContainer className={cn(className)} fill={fill} stroke={stroke}>
       {IconSVG[type]}
     </SVGContainer>
   );
