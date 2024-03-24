@@ -3,7 +3,7 @@ import { ComponentProps, useState } from 'react';
 import ChevronDown from '@/assets/icons/ChevronDown.svg?react';
 import Container from '@/components/atoms/Container';
 import DropdownItem from '@/components/atoms/DropdownItem';
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 type DropdownProps = ComponentProps<'button'> & {
   label: string;
@@ -29,7 +29,7 @@ export default function Dropdown({
   };
 
   return (
-    <Container.FlexCol className={cls(dropdownContainerStyle, className ?? '')}>
+    <Container.FlexCol className={cn(dropdownContainerStyle, className ?? '')}>
       {/* TODO: IconButton으로 대체 */}
       <button
         type="button"
@@ -45,7 +45,7 @@ export default function Dropdown({
             <DropdownItem
               onClick={() => onClickDropdownItem(content)}
               key={content}
-              className={cls(content === currentValue ? 'bg-brown3' : '')}
+              className={cn(content === currentValue ? 'bg-brown3' : '')}
             >
               {content}
             </DropdownItem>

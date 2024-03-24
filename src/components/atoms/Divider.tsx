@@ -1,7 +1,7 @@
 /* eslint-disable react/function-component-definition */
 import { ComponentProps, FC } from 'react';
 
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 // ! lint error => propType "type" is not required, but has no corresponding defaultProps declaration
 // ! solve => assign DividerRow as DividerProps and define the DividerRow defaultProps
@@ -27,7 +27,7 @@ const DividerRow: FC<DividerProps> = ({
   className,
   ...props
 }) => (
-  <div className={cls(className, commonStyle, thickNess[type])} {...props}>
+  <div className={cn(className, commonStyle, thickNess[type])} {...props}>
     {children}
   </div>
 );
@@ -38,7 +38,7 @@ const DividerCol: FC<DividerProps> = ({
   className,
   ...props
 }) => (
-  <div className={cls(className, commonStyle, thickNess[type])} {...props}>
+  <div className={cn(className, commonStyle, thickNess[type])} {...props}>
     {children}
   </div>
 );

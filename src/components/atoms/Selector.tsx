@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 export type SelectOptionElement = {
   value: string;
@@ -22,7 +22,7 @@ export default function Selector({
   id: selectId,
 }: SelectorProps) {
   return (
-    <select name={name} id={selectId} className={cls(selectorStyle, className)}>
+    <select name={name} id={selectId} className={cn(selectorStyle, className)}>
       <option selected hidden>
         지역
       </option>

@@ -1,24 +1,24 @@
 /* eslint-disable react/function-component-definition */
 import { ComponentProps, FC } from 'react';
 
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 type ContainerProps = ComponentProps<'div'>;
 
 export default function Container({ children, className }: ContainerProps) {
-  return <div className={cls(className)}>{children}</div>;
+  return <div className={cn(className)}>{children}</div>;
 }
 
 const GridContainer: FC<ContainerProps> = ({ children, className }) => (
-  <div className={cls('grid', className)}>{children}</div>
+  <div className={cn('grid', className)}>{children}</div>
 );
 
 const FlexRowContainer: FC<ContainerProps> = ({ children, className }) => (
-  <div className={cls('flex', className)}>{children}</div>
+  <div className={cn('flex', className)}>{children}</div>
 );
 
 const FlexColumnContainer: FC<ContainerProps> = ({ children, className }) => (
-  <div className={cls('flex flex-col', className)}>{children}</div>
+  <div className={cn('flex flex-col', className)}>{children}</div>
 );
 
 Container.FlexRow = FlexRowContainer;

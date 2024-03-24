@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 type InputRangeProps = ComponentProps<'input'>;
 
@@ -20,7 +20,7 @@ export default function InputRange({
 }: InputRangeProps) {
   return (
     <input
-      className={`pointer-events-none w-full appearance-none ${cls(inputThumbStyle, inputTrackStyle, className)}`}
+      className={`pointer-events-none w-full appearance-none ${cn(inputThumbStyle, inputTrackStyle, className)}`}
       onChange={onChange}
       type="range"
       min={min}

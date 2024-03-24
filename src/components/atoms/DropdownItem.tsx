@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 
-import cls from '@/libs/cls';
+import cn from '@/libs/cn';
 
 type DropdownItemProps = ComponentProps<'li'>;
 
@@ -13,7 +13,7 @@ export default function DropdownItem({
   ...others
 }: DropdownItemProps) {
   return (
-    <li className={cls(dropdownItemStyle, className ?? '')} {...others}>
+    <li className={cn(dropdownItemStyle, className ?? '')} {...others}>
       {children}
     </li>
   );
