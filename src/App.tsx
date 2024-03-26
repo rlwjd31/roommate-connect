@@ -1,7 +1,8 @@
 import './App.css';
+import Router from './Router';
 
 function App() {
-  return <span>Router 추가</span>;
+  return <Router />;
 }
 
 export default App;
