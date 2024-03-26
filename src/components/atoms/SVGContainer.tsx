@@ -14,7 +14,11 @@ export default function SVGContainer(props: SVGContainerProps) {
     stroke: `[&_path]:stroke-${stroke}`,
   };
   return (
-    <div className={cn(`${style.stroke} ${style.fill} ${className}`)}>
+    <div
+      className={cn(
+        `${stroke ? style.stroke : ''} ${fill ? style.fill : ''} ${className}`,
+      )}
+    >
       {children}
     </div>
   );

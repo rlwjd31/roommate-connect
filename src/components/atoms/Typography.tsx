@@ -58,7 +58,7 @@ typoType.forEach(({ type, component, defaultClassName }) => {
   Typography[type] = ({ children, className, ...others }: TypographyProps) =>
     React.createElement(
       component,
-      { className: cn(`${defaultClassName} ${className}`), ...others },
+      { className: `${defaultClassName} ${cn(className)}`, ...others },
       children,
     );
 });
