@@ -4,6 +4,7 @@ import LayoutTemplate from '@/components/templates/Layout.template';
 import ComponentTest from '@/components/pages/ComponentTest.tsx';
 import SignLayoutTemplate from '@/components/templates/SignLayout.template';
 import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro.tsx';
+import SignUpProfile from '@/components/pages/SignUpProfile.tsx';
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'signup-profile',
-        element: <span>프로필 설정</span>,
+        element: <SignUpProfile />,
       },
       {
         path: 'component-test',
