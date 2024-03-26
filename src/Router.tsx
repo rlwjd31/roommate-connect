@@ -32,8 +32,12 @@ const router = createBrowserRouter([
       },
       {
         // ! 기본 레이아웃 적용
+        path: 'signup-intro',
+        element: <span>프로필 설정 여부</span>,
+      },
+      {
         path: 'signup-profile',
-        element: <span>프로필 설정, 회원가입 완료</span>,
+        element: <span>프로필 설정</span>,
       },
       {
         path: 'component-test',
