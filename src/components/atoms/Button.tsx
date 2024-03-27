@@ -13,16 +13,16 @@ const buttonType: { type: ButtonType; defaultClassName: string }[] = [
   {
     type: 'Fill',
     defaultClassName:
-      'group bg-brown hover:bg-bg hover:outline hover:outline-brown',
+      'group flex items-center border border-brown bg-brown hover:bg-bg',
   },
   {
     type: 'Outline',
     defaultClassName:
-      'group bg-bg outline outline-brown hover:bg-brown hover:outline-none',
+      'group flex bg-bg items-center border-brown border hover:bg-brown',
   },
   {
     type: 'Ghost',
-    defaultClassName: 'group bg-transparent',
+    defaultClassName: 'group items-center flex bg-transparent',
   },
 ];
 
@@ -33,7 +33,7 @@ buttonType.forEach(({ type, defaultClassName }) => {
     React.createElement(
       'button',
       {
-        className: cn(`${defaultClassName} ${className}`),
+        className: `${defaultClassName} ${cn(className)}`,
         type: 'button',
         ...others,
       },

@@ -1,20 +1,22 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
 
-import InputRange from '@/components/atoms/InputRange';
+import InputRange, { Track } from '@/components/atoms/InputRange';
 import Container from '@/components/atoms/Container';
-import tailwindConfig from '../../../tailwind.config';
+import cn from '@/libs/cn';
+import getGradientStop from '@/libs/getGradientStop';
 
 export type InputRangeState = {
   min: number;
   max: number;
 };
 
-type DualInputRangetype = {
+type DualInputRangeType = {
   min: number;
   max: number;
   step: number;
   rangeValue: InputRangeState;
   setRangeValue: Dispatch<SetStateAction<InputRangeState>>;
+  className?: string;
 };
 
 type MinMax = 'min' | 'max';
@@ -25,7 +27,8 @@ export default function DualInputRange({
   step = 1,
   rangeValue,
   setRangeValue,
-}: DualInputRangetype) {
+  className = '',
+}: DualInputRangeType) {
   // * ensure range.min < range.max function
   const validateRangeValue =
     (type: MinMax, e: ChangeEvent<HTMLInputElement>) =>
@@ -40,42 +43,24 @@ export default function DualInputRange({
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>, type: MinMax) =>
     setRangeValue(validateRangeValue(type, e));
 
-  const { brown: accentTrackColor, brown2: noneAccentTrackColor } =
-    tailwindConfig.theme.extend.colors;
-
-  // * get thumb's position as % from the width of the input track.
-  const getGradientStop = (stopPoint: number): string =>
-    Math.round((stopPoint / Math.abs(max - min)) * 100).toString();
-
-  const minGradientStopPoint = getGradientStop(rangeValue.min);
-  const maxGradientStopPoint = getGradientStop(rangeValue.max);
+  const minGradientStopPoint = getGradientStop(rangeValue.min, min, max);
+  const maxGradientStopPoint = getGradientStop(rangeValue.max, min, max);
 
   return (
-    <Container.Grid className="w-full">
-      {/* 
-        input type range custom track 
-        - apply inline style avoid tailwind dynamic style error
-      */}
-      <div
-        className="relative h-2 w-full translate-y-[-200%] rounded-lg"
-        style={{
-          backgroundImage: `linear-gradient(
-              to right, 
-              ${noneAccentTrackColor} 0%, 
-              ${noneAccentTrackColor} ${minGradientStopPoint}%,
-              ${accentTrackColor} ${minGradientStopPoint}%,
-              ${accentTrackColor} ${maxGradientStopPoint}%,
-              ${noneAccentTrackColor} ${maxGradientStopPoint}%, 
-              ${noneAccentTrackColor} 100%)`,
-        }}
-      />
+    <Container.Grid
+      className={cn(
+        'w-full grid-cols-1 grid-rows-1 items-center justify-items-center [&>*]:col-start-1 [&>*]:row-start-1',
+        className,
+      )}
+    >
+      <Track stopPoints={[minGradientStopPoint, maxGradientStopPoint]} />
       <InputRange
         min={min}
         max={max}
         step={step}
         value={rangeValue.min}
         onChange={e => onChangeInput(e, 'min')}
-        className="col-start-1 row-start-1"
+        overlap
       />
       <InputRange
         min={min}
@@ -83,8 +68,12 @@ export default function DualInputRange({
         step={step}
         value={rangeValue.max}
         onChange={e => onChangeInput(e, 'max')}
-        className="col-start-1 row-start-1"
+        overlap
       />
     </Container.Grid>
   );
 }
+
+DualInputRange.defaultProps = {
+  className: '',
+};
