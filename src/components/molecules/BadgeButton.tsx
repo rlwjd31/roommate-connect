@@ -1,9 +1,8 @@
-// eslint-disable-next-file react-/required-default-props
+/* eslint-disable react/require-default-props */
 import React from 'react';
 
 import Button, { ButtonProps } from '@/components/atoms/Button.tsx';
 import Badge from '@/components/atoms/Badge.tsx';
-import cn from '@/libs/cn.ts';
 import { IconDirectionType, IconType } from '@/types/icon.type.ts';
 import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
 
@@ -41,7 +40,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   if (badge === 'Fill') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Fill className={`${directionStyle[direction]} ${cn(className)}`}>
+        <Badge.Fill className={`${directionStyle[direction]} ${className}`}>
           {children}
           {iconComponent}
         </Badge.Fill>
@@ -51,9 +50,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   if (badge === 'Outline') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Outline
-          className={`${directionStyle[direction]} ${cn(className)}`}
-        >
+        <Badge.Outline className={`${directionStyle[direction]} ${className}`}>
           {children}
           {iconComponent}
         </Badge.Outline>

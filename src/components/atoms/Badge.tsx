@@ -31,7 +31,7 @@ badgeType.forEach(({ type, defaultClassName }) => {
     React.createElement(
       'div',
       {
-        className: cn(`${defaultClassName} ${className} `),
+        className: `${defaultClassName} ${cn(className)} `,
         ...others,
       },
       children,
