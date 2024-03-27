@@ -13,12 +13,12 @@ const buttonType: { type: ButtonType; defaultClassName: string }[] = [
   {
     type: 'Fill',
     defaultClassName:
-      'group flex items-center bg-brown hover:bg-bg hover:outline hover:outline-brown',
+      'group flex items-center border border-brown bg-brown hover:bg-bg',
   },
   {
     type: 'Outline',
     defaultClassName:
-      'group flex bg-bg items-center outline outline-brown hover:bg-brown hover:outline-none',
+      'group flex bg-bg items-center border-brown border hover:bg-brown',
   },
   {
     type: 'Ghost',
