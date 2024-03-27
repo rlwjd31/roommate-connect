@@ -26,3 +26,5 @@ export type CustomIconType = {
   fill?: ColorType;
   stroke?: ColorType;
 };
+
+export type IconDirectionType = 'left' | 'right' | 'top' | 'bottom';

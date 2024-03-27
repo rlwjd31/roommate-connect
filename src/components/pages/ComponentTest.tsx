@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import IconButton from '@/components/molecules/IconButton.tsx';
 import Typography from '@/components/atoms/Typography.tsx';
 import BadgeButton from '@/components/molecules/BadgeButton.tsx';
@@ -8,8 +10,19 @@ import Container from '@/components/atoms/Container.tsx';
 import Dropdown from '@/components/molecules/Dropdown.tsx';
 import { district, region } from '@/constants/regions.ts';
 import Img from '@/components/atoms/Img.tsx';
+import DualInputRange, {
+  InputRangeState,
+} from '@/components/molecules/DualInputRange';
+import InputRange from '@/components/atoms/InputRange';
 
 export default function ComponentTest() {
+  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
+    min: 0,
+    max: 100,
+  });
+
+  const [rangeValue, setRangeValue] = useState<number>(0);
+
   return (
     <div className="flex h-[300vh] flex-col p-8">
       {/* Button test */}
@@ -426,6 +439,30 @@ export default function ComponentTest() {
         alt="house image"
         className="max-h-80 max-w-80"
       />
+      {/* InputRange test */}
+      <h1 className="text-Head2">InputRange test</h1>
+      <Container className="w-full max-w-[30rem]">
+        <DualInputRange
+          rangeValue={dualRangeValue}
+          setRangeValue={setDualRangeValue}
+          min={0}
+          max={200}
+          step={1}
+        />
+        <div style={{ marginTop: '1rem' }}>
+          <span>{`min: ${dualRangeValue.min}\t`}</span>
+          <span>{`max: ${dualRangeValue.max}`}</span>
+        </div>
+
+        <InputRange
+          min={0}
+          max={100}
+          value={rangeValue}
+          onChange={e => setRangeValue(+e.target.value)}
+          step={1}
+          overlap={false}
+        />
+      </Container>
     </div>
   );
 }
