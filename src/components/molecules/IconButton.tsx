@@ -1,4 +1,4 @@
-// eslint-disable-next-file react-/required-default-props
+/* eslint-disable react/require-default-props */
 import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button.tsx';
 import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
 import { IconDirectionType, IconType } from '@/types/icon.type.ts';
@@ -17,6 +17,7 @@ export default function IconButton(props: IconButtonProps) {
     iconType,
     direction = 'right',
     children,
+    className = '',
     ...others
   } = props;
   const IconComponent = <Icon type={iconType} fill={fill} stroke={stroke} />;
@@ -29,7 +30,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Fill')
     return (
       <Button.Fill
-        className={`flex items-center ${directionStyle[direction]}`}
+        className={`${directionStyle[direction]} ${className}`}
         {...others}
       >
         {children}
@@ -39,7 +40,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Outline')
     return (
       <Button.Outline
-        className={`flex items-center ${directionStyle[direction]}`}
+        className={`${directionStyle[direction]} ${className}`}
         {...others}
       >
         {children}
@@ -49,7 +50,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Ghost')
     return (
       <Button.Ghost
-        className={`flex items-center ${directionStyle[direction]}`}
+        className={`${directionStyle[direction]} ${className}`}
         {...others}
       >
         {children}
