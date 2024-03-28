@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { IconType } from '@/types/icon.type.ts';
+import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
   character: <div />,

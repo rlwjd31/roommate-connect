@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Container from '@/components/atoms/Container.tsx';
-import IconButton from '@/components/molecules/IconButton.tsx';
-import Typography from '@/components/atoms/Typography.tsx';
+import Container from '@/components/atoms/Container';
+import IconButton from '@/components/molecules/IconButton';
+import Typography from '@/components/atoms/Typography';
 
 type SignProfileLayoutTemplateProps = {
   children: React.ReactNode;

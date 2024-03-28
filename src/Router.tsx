@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
-import ComponentTest from '@/components/pages/ComponentTest.tsx';
+import ComponentTest from '@/components/pages/ComponentTest';
 import SignLayoutTemplate from '@/components/templates/SignLayout.template';
-import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro.tsx';
-import SignUpProfile from '@/components/pages/SignUpProfile.tsx';
+import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
+import SignUpProfile from '@/components/pages/SignUpProfile';
 
 const router = createBrowserRouter([
   {

@@ -1,5 +1,5 @@
-import Container from '@/components/atoms/Container.tsx';
-import Typography from '@/components/atoms/Typography.tsx';
+import Container from '@/components/atoms/Container';
+import Typography from '@/components/atoms/Typography';
 
 type SignUpProfileStepTitleTemplateProps = {
   step: string;

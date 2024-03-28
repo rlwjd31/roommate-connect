@@ -1,7 +1,7 @@
-import Container from '@/components/atoms/Container.tsx';
-import Typography from '@/components/atoms/Typography.tsx';
-import IconButton from '@/components/molecules/IconButton.tsx';
-import Link from '@/components/atoms/Link.tsx';
+import Container from '@/components/atoms/Container';
+import Typography from '@/components/atoms/Typography';
+import IconButton from '@/components/molecules/IconButton';
+import Link from '@/components/atoms/Link';
 
 type SignUpProfileIntroTemplateProps = {
   name: string;

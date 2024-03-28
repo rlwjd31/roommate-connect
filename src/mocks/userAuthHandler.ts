@@ -1,6 +1,6 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
-import userEndpoints from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints';
 import data from '@/db/userDB';
 
 const userAuthHandler = [] as HttpHandler[];
@@ -59,14 +59,14 @@ userAuthHandler.push(
       try {
         const { user_id: userId } = params;
         // ID가 없을 경우
-        if (data.user_auth.findIndex(user => user.id === userId) === -1)
+        if (data.user_auth.findIndex(user => user.user_id === userId) === -1)
           return HttpResponse.json(null, {
             status: 404,
             statusText: 'Not Found Friend!',
           });
 
         // 정상적으로 삭제
-        data.user_auth = data.user_auth.filter(user => user.id !== userId);
+        data.user_auth = data.user_auth.filter(user => user.user_id !== userId);
         return HttpResponse.json(null, {
           status: 204,
           statusText: 'Delete User!',

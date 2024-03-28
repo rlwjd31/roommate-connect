@@ -1,4 +1,4 @@
-import SignUpProfileIntroTemplate from '@/components/templates/SignUpProfileIntro.template.tsx';
+import SignUpProfileIntroTemplate from '@/components/templates/SignUpProfileIntro.template';
 
 /**
  * TODO  Recoil 상태를 사용하여 사용자의 이름을 가져오도록 변경

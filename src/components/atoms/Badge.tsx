@@ -1,6 +1,6 @@
 import React from 'react';
 
-import cn from '@/libs/cn.ts';
+import cn from '@/libs/cn';
 
 export type BadgeProps = {
   children: React.ReactNode;

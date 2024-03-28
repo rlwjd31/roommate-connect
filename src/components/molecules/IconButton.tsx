@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
-import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button.tsx';
-import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
-import { IconDirectionType, IconType } from '@/types/icon.type.ts';
+import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button';
+import Icon, { IconProps } from '@/components/atoms/Icon';
+import { IconDirectionType, IconType } from '@/types/icon.type';
 
 type IconButtonProps = Omit<IconProps, 'type'> &
   ButtonProps & {

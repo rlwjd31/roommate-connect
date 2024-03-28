@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { CustomIconType } from '@/types/icon.type.ts';
-import cn from '@/libs/cn.ts';
+import { CustomIconType } from '@/types/icon.type';
+import cn from '@/libs/cn';
 
 type SVGContainerProps = CustomIconType & {
   children: React.ReactNode;

@@ -4,11 +4,11 @@ import userProfileHandler from '@/mocks/userProfileHandler';
 import userBlockHandler from '@/mocks/userBlockHandler';
 import userHouseStatusHandler from '@/mocks/userHouseStatusHandler';
 import userBookmarkHandler from '@/mocks/userBookmarkHandler';
-import userFriendHandler from '@/mocks/userFriendHandler.ts';
-import userAlarmSettingHandler from '@/mocks/userAlarmSettingHandler.ts';
-import userActivityHandler from '@/mocks/userActivityHandler.ts';
-import userHandler from '@/mocks/userHandler.ts';
-import userAuthHandler from '@/mocks/userAuthHandler.ts';
+import userFriendHandler from '@/mocks/userFriendHandler';
+import userAlarmSettingHandler from '@/mocks/userAlarmSettingHandler';
+import userActivityHandler from '@/mocks/userActivityHandler';
+import userHandler from '@/mocks/userHandler';
+import userAuthHandler from '@/mocks/userAuthHandler';
 
 const handlers = [
   ...userSendFriendHandler,
