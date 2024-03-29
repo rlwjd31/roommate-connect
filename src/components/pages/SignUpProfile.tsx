@@ -1,4 +1,4 @@
-import SignProfileLayoutTemplate from '@/components/templates/SignProfileLayout.template';
+import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
 import SignUpProfile1_2Template from '@/components/templates/SignUpProfile1_2.template';
 import SignUpProfile1_3Template from '@/components/templates/SignUpProfile1_3.template';
@@ -9,7 +9,7 @@ import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.te
 
 export default function SignUpProfile() {
   return (
-    <SignProfileLayoutTemplate>
+    <SignUpProfileLayoutTemplate>
       <SignUpProfile1_1Template />
       <SignUpProfile1_2Template />
       <SignUpProfile1_3Template />
@@ -17,6 +17,6 @@ export default function SignUpProfile() {
       <SignUpProfile2_2Template />
       <SignUpProfile3_1Template />
       <SignUpProfile3_2Template />
-    </SignProfileLayoutTemplate>
+    </SignUpProfileLayoutTemplate>
   );
 }
