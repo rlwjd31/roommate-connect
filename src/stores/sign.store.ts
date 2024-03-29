@@ -6,7 +6,7 @@ export const SignUpProfileTypeAtom = atom<SignUpType['type']>({
 });
 // ? rental_type 집 대여 유형 0: 월세, 1: 전세, 2: 반 전세 @number
 export const SignUpProfileRentalTypeAtom = atom<SignUpType['rental_type']>({
-  key: 'signUpProfileRegionsAtom',
+  key: 'signUpProfileRentalTypeAtom',
   default: undefined,
 });
 // ? regions 유저가 찾는 지역 >도시 (region) + 구(district) 형태의 배열 @string[]
@@ -64,30 +64,30 @@ export const SignUpProfileSelector = selector<SignUpType>({
   key: 'SignUpProfileSelector',
   get: ({ get }) => {
     const type = get(SignUpProfileTypeAtom);
-    const rental_type = get(SignUpProfileRentalTypeAtom);
+    const rentalType = get(SignUpProfileRentalTypeAtom);
     const regions = get(SignUpProfileRegionsAtom);
-    const deposit_price = get(SignUpProfileDepositPriceAtom);
+    const depositPrice = get(SignUpProfileDepositPriceAtom);
     const term = get(SignUpProfileTermAtom);
-    const monthly_price = get(SignUpProfileMonthlyPriceAtom);
+    const monthlyPrice = get(SignUpProfileMonthlyPriceAtom);
     const smoking = get(SignUpProfileSmokingAtom);
     const pet = get(SignUpProfilePetAtom);
     const appeals = get(SignUpProfileAppealsAtom);
     const gender = get(SignUpProfileGenderAtom);
-    const mates_number = get(SignUpProfileMatesNumberAtom);
-    const mate_appeals = get(SignUpProfileMateAppealsAtom);
+    const matesNumber = get(SignUpProfileMatesNumberAtom);
+    const mateAppeals = get(SignUpProfileMateAppealsAtom);
     return {
       type,
-      rental_type,
+      rental_type: rentalType,
       regions,
-      deposit_price,
+      deposit_price: depositPrice,
       term,
-      monthly_price,
+      monthly_price: monthlyPrice,
       smoking,
       pet,
       appeals,
       gender,
-      mates_number,
-      mate_appeals,
+      mates_number: matesNumber,
+      mate_appeals: mateAppeals,
     };
   },
 });
