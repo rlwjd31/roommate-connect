@@ -13,6 +13,7 @@ type BadgeButtonProps = Omit<IconProps, 'type'> &
     badge?: 'Fill' | 'Outline';
     iconType?: IconType;
     direction?: IconDirectionType;
+    iconProps?: IconProps;
   };
 
 export default function BadgeButton(props: BadgeButtonProps) {
@@ -24,6 +25,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     direction = 'right',
     fill,
     stroke,
+    iconProps,
     ...others
   } = props;
   const directionStyle = {
@@ -34,7 +36,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   };
 
   const iconComponent = iconType ? (
-    <Icon type={iconType} fill={fill} stroke={stroke} />
+    <Icon type={iconType} fill={fill} stroke={stroke} {...iconProps} />
   ) : null;
 
   if (badge === 'Fill') {
