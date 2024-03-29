@@ -9,7 +9,7 @@ import Carousel from '@/components/organisms/Carousel';
 type SignProfileLayoutTemplateProps = {
   children: React.ReactNode;
 };
-export default function SignProfileLayoutTemplate(
+export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
   const { children } = props;
