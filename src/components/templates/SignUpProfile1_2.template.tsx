@@ -1,11 +1,21 @@
+import { useRecoilState } from 'recoil';
+
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
 import Dropdown from '@/components/molecules/Dropdown';
 import { district, region } from '@/constants/regions';
+import {
+  SignUpProfileRegionsAtom,
+  SignUpProfileTermAtom,
+} from '@/stores/sign.store';
 
 export default function SignUpProfile1_2Template() {
+  const [regions, setRegions] = useRecoilState(SignUpProfileRegionsAtom);
+  const [term, setTerm] = useRecoilState(SignUpProfileTermAtom);
+
+  // ! TODO DropDown 연결 후 제거
   const regi = ['경기 고양시', '서울 강남구'];
   return (
     <Container.FlexCol className="w-[894px] flex-[0_0_auto]">
@@ -21,7 +31,7 @@ export default function SignUpProfile1_2Template() {
                 iconType="right-arrow"
                 stroke="bg"
               >
-                <Typography.P1 className="text-bg">{location}</Typography.P1>
+                <Typography.P1>{location}</Typography.P1>
               </BadgeButton.Fill>
             ))}
           </Container.FlexRow>
