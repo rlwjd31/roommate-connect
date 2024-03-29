@@ -14,6 +14,7 @@ import DualInputRange, {
   InputRangeState,
 } from '@/components/molecules/DualInputRange';
 import InputRange from '@/components/atoms/InputRange';
+import StepIndicator from '@/components/atoms/StepIndicator';
 
 export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
@@ -24,9 +25,9 @@ export default function ComponentTest() {
   const [rangeValue, setRangeValue] = useState<number>(0);
 
   return (
-    <div className="flex h-[300vh] flex-col p-8">
+    <div className="flex flex-col p-8">
       {/* Button test */}
-      <h1 className="text-Head2">Button test</h1>
+      <h1 className="my-12 text-Head1">Button</h1>
       <div className="flex">
         <div className="m-2 flex flex-col items-center justify-center gap-y-1 p-2">
           <IconButton.Ghost
@@ -43,7 +44,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Ghost and Head2!</Typography.Head2>
+            <Typography.Head1>Ghost and Head1!</Typography.Head1>
           </IconButton.Ghost>
           <IconButton.Ghost
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -138,7 +139,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Outline and Head2!</Typography.Head2>
+            <Typography.Head1>Outline and Head1!</Typography.Head1>
           </IconButton.Outline>
           <IconButton.Outline
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -231,7 +232,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Fill and Head2!</Typography.Head2>
+            <Typography.Head1>Fill and Head1!</Typography.Head1>
           </IconButton.Fill>
           <IconButton.Fill
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -389,7 +390,7 @@ export default function ComponentTest() {
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* divider test */}
-      <h1 className="text-Head2">Divider test</h1>
+      <h1 className="my-12 text-Head1">Divider</h1>
       <div>
         <div className="flex">
           <span>something1</span>
@@ -404,17 +405,20 @@ export default function ComponentTest() {
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* container test */}
-      <h1 className="text-Head2">Container test</h1>
+      <h1 className="my-12 text-Head1">Container</h1>
+      <h2 className="text-Head3">Container Grid</h2>
       <Container.Grid className="grid-cols-2 grid-rows-2 bg-brown2">
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
       </Container.Grid>
+      <br />
       <Container.FlexRow className="gap-2 bg-subColor1">
         <div>someting</div>
         <div>someting</div>
       </Container.FlexRow>
+      <br />
       <Container.FlexCol className="gap-3 bg-brown1">
         <div>someting</div>
         <div>someting</div>
@@ -422,7 +426,7 @@ export default function ComponentTest() {
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* dropdown test */}
-      <h1 className="text-Head2">Dropdown test</h1>
+      <h1 className="my-12 text-Head1">Dropdown</h1>
       <Container.FlexRow className="gap-3">
         <Dropdown className="max-w-28" contents={region} label="지역" />
         <Dropdown
@@ -433,14 +437,14 @@ export default function ComponentTest() {
       </Container.FlexRow>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* img test */}
-      <h1 className="text-Head2">Image test</h1>
+      <h1 className="my-12 text-Head1">Image</h1>
       <Img
         src="https://source.unsplash.com/random/300×300"
         alt="house image"
         className="max-h-80 max-w-80"
       />
       {/* InputRange test */}
-      <h1 className="text-Head2">InputRange test</h1>
+      <h1 className="my-12 text-Head1">InputRange</h1>
       <Container className="w-full max-w-[30rem]">
         <DualInputRange
           rangeValue={dualRangeValue}
@@ -463,6 +467,15 @@ export default function ComponentTest() {
           overlap={false}
         />
       </Container>
+      {/* Step Indicator test */}
+      <h1 className="my-12 text-Head1">Step Indicator</h1>
+      <StepIndicator totalStepCount={3} currentStep={1} direction="vertical" />
+      <div className="mb-7" />
+      <StepIndicator
+        totalStepCount={3}
+        currentStep={1}
+        direction="horizontal"
+      />
     </div>
   );
 }
