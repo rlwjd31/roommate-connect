@@ -11,7 +11,7 @@ export default function SignUpProfileStepTitleTemplate(
   const { step, title } = props;
   return (
     <Container.FlexCol className="mb-24 gap-y-8">
-      <Typography.P1 className="text-brown1">{step}</Typography.P1>
+      <Typography.P1 className="text-brown1">{`Step ${step}`}</Typography.P1>
       <Typography.Head2 className="text-brown">{title}</Typography.Head2>
     </Container.FlexCol>
   );

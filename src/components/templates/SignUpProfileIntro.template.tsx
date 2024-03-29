@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
@@ -11,6 +13,10 @@ export default function SignUpProfileIntroTemplate(
   props: Readonly<SignUpProfileIntroTemplateProps>,
 ) {
   const { name } = props;
+  const navigate = useNavigate();
+  const onClickProfile = () => {
+    navigate('/signup-profile');
+  };
   return (
     <Container.FlexCol className="items-center gap-y-[60px]">
       <Container.FlexCol className="items-center gap-y-[76px]">
@@ -27,6 +33,7 @@ export default function SignUpProfileIntroTemplate(
             className="mx-auto gap-x-2 rounded-full px-[30px] py-[15px]"
             iconType="right-arrow"
             stroke="bg"
+            onClick={onClickProfile}
           >
             <Typography.P1 className="text-bg">다음</Typography.P1>
           </IconButton.Fill>
