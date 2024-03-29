@@ -14,7 +14,7 @@ type InputRangeProps = ComponentProps<'input'> & {
 };
 
 type TrackType = {
-  stopPoints: number[];
+  stopPoints: [number, number | undefined | null];
 };
 
 const { brown: accentTrackColor, brown2: noneAccentTrackColor } =
@@ -69,7 +69,7 @@ export default function InputRange({
         className,
       )}
     >
-      {!overlap && <Track stopPoints={[stopPoint]} />}
+      {!overlap && <Track stopPoints={[stopPoint, null]} />}
       <input
         className={`pointer-events-none w-full appearance-none bg-transparent ${cn(inputThumbStyle, inputTrackStyle, className)}`}
         onChange={onChange}
