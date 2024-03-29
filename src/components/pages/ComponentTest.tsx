@@ -1,15 +1,15 @@
 import { useState } from 'react';
 
-import IconButton from '@/components/molecules/IconButton.tsx';
-import Typography from '@/components/atoms/Typography.tsx';
-import BadgeButton from '@/components/molecules/BadgeButton.tsx';
-import Icon from '@/components/atoms/Icon.tsx';
-import Badge from '@/components/atoms/Badge.tsx';
-import Divider from '@/components/atoms/Divider.tsx';
-import Container from '@/components/atoms/Container.tsx';
-import Dropdown from '@/components/molecules/Dropdown.tsx';
-import { district, region } from '@/constants/regions.ts';
-import Img from '@/components/atoms/Img.tsx';
+import IconButton from '@/components/molecules/IconButton';
+import Typography from '@/components/atoms/Typography';
+import BadgeButton from '@/components/molecules/BadgeButton';
+import Icon from '@/components/atoms/Icon';
+import Badge from '@/components/atoms/Badge';
+import Divider from '@/components/atoms/Divider';
+import Container from '@/components/atoms/Container';
+import Dropdown from '@/components/molecules/Dropdown';
+import { district, region } from '@/constants/regions';
+import Img from '@/components/atoms/Img';
 import DualInputRange, {
   InputRangeState,
 } from '@/components/molecules/DualInputRange';

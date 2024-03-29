@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
 import data from '@/db/userDB';
-import userEndpoints from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints';
 
 const userHouseStatusHandler = [] as HttpHandler[];
 type UserHouseStatusParam = { user_id: string };

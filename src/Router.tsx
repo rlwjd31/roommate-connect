@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
-import ComponentTest from '@/components/pages/ComponentTest.tsx';
+import ComponentTest from '@/components/pages/ComponentTest';
 import SignLayoutTemplate from '@/components/templates/SignLayout.template';
 
 const router = createBrowserRouter([

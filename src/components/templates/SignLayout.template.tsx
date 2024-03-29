@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-import cn from '@/libs/cn.ts';
+import cn from '@/libs/cn';
 
 export default function SignLayoutTemplate() {
   return (
