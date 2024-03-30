@@ -3,17 +3,17 @@ import React from 'react';
 
 import Button, { ButtonProps } from '@/components/atoms/Button';
 import Badge from '@/components/atoms/Badge';
-import { IconDirectionType, IconType } from '@/types/icon.type';
-import Icon, { IconProps } from '@/components/atoms/Icon';
+import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
+import Icon from '@/components/atoms/Icon';
 
-type BadgeButtonProps = Omit<IconProps, 'type'> &
+type BadgeButtonProps = CustomIconType &
   Omit<ButtonProps, 'className'> & {
     children: React.ReactNode;
     className?: string;
     badge?: 'Fill' | 'Outline';
     iconType?: IconType;
     direction?: IconDirectionType;
-    iconProps?: IconProps;
+    iconClassName?: string;
   };
 
 export default function BadgeButton(props: BadgeButtonProps) {
@@ -25,7 +25,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     direction = 'right',
     fill,
     stroke,
-    iconProps,
+    iconClassName,
     ...others
   } = props;
   const directionStyle = {
@@ -36,7 +36,12 @@ export default function BadgeButton(props: BadgeButtonProps) {
   };
 
   const iconComponent = iconType ? (
-    <Icon type={iconType} fill={fill} stroke={stroke} {...iconProps} />
+    <Icon
+      type={iconType}
+      fill={fill}
+      stroke={stroke}
+      className={iconClassName}
+    />
   ) : null;
 
   if (badge === 'Fill') {
