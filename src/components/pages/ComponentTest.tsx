@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -14,6 +15,9 @@ import DualInputRange, {
   InputRangeState,
 } from '@/components/molecules/DualInputRange';
 import InputRange from '@/components/atoms/InputRange';
+import Label from '@/components/atoms/Label';
+import Input from '@/components/atoms/Input';
+import TextField from '@/components/molecules/TextField';
 import StepIndicator from '@/components/atoms/StepIndicator';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
@@ -34,6 +38,7 @@ export default function ComponentTest() {
   });
 
   const [rangeValue, setRangeValue] = useState<number>(0);
+  const { register } = useForm();
 
   return (
     <div className="flex flex-col p-8">
@@ -546,6 +551,26 @@ export default function ComponentTest() {
             <Typography.P1 className="text-bg">다음</Typography.P1>
           </IconButton.Fill>
         </Container.FlexRow>
+      </Container>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      {/* Label & Input & TextField test */}
+      <h1 className="text-Head2">Label & Input Test</h1>
+      <Container className="mt-1 w-full max-w-[30rem]">
+        <Label htmlFor="name" className="mt-3">
+          name
+        </Label>
+        <Input type="text" id="name" placeholder="이름을 입력하세요" />
+        <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+        <h1 className="text-Head2">TextField Test</h1>
+        {/* <TextField /> */}
+        <TextField
+          text="name"
+          name="name"
+          containerStyle="mt-3"
+          register={register}
+          options={{ required: true, minLength: 2 }}
+          helperText="이름은 2글자 이상이어야 합니다."
+        />
       </Container>
     </div>
   );
