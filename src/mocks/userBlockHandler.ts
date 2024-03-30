@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
-import userEndpoints from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints';
 import data from '@/db/userDB';
 
 const userBlockHandler = [] as HttpHandler[];

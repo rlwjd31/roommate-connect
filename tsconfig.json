@@ -8,7 +8,7 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -30,7 +30,8 @@
       "@/types/*": ["types/*"],
       "@/assets/*": ["assets/*"],
       "@/constants/*": ["constants/*"],
-      "@/mocks/*": ["mocks/*"]
+      "@/mocks/*": ["mocks/*"],
+      "@/stores/*": ["stores/*"]
     },
     "types": ["vite-plugin-svgr/client"]
   },

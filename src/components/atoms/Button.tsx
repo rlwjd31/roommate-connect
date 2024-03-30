@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode } from 'react';
 
-import cn from '@/libs/cn.ts';
+import cn from '@/libs/cn';
 
 export type ButtonProps = ComponentProps<'button'>;
 export type ButtonType = 'Fill' | 'Outline' | 'Ghost';

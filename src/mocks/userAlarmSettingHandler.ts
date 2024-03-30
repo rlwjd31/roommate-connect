@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
 import data from '@/db/userDB';
-import userEndpoints from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints';
 
 const userAlarmSettingHandler = [] as HttpHandler[];
 type UserAlarmSettingParam = { user_id: string };

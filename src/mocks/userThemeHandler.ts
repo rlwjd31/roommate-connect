@@ -1,6 +1,6 @@
 import { http, HttpHandler, HttpResponse } from 'msw';
 
-import userEndpoints from '@/constants/apiEndpoints.ts';
+import userEndpoints from '@/constants/apiEndpoints';
 import data from '@/db/userDB';
 
 const userThemeHandler = [] as HttpHandler[];

@@ -1,10 +1,10 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 
-import Button, { ButtonProps } from '@/components/atoms/Button.tsx';
-import Badge from '@/components/atoms/Badge.tsx';
-import { IconDirectionType, IconType } from '@/types/icon.type.ts';
-import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
+import Button, { ButtonProps } from '@/components/atoms/Button';
+import Badge from '@/components/atoms/Badge';
+import { IconDirectionType, IconType } from '@/types/icon.type';
+import Icon, { IconProps } from '@/components/atoms/Icon';
 
 type BadgeButtonProps = Omit<IconProps, 'type'> &
   Omit<ButtonProps, 'className'> & {
