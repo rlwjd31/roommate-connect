@@ -16,8 +16,10 @@ import DualInputRange, {
 import InputRange from '@/components/atoms/InputRange';
 import StepIndicator from '@/components/atoms/StepIndicator';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import Carousel from '@/components/organisms/Carousel';
 
 export default function ComponentTest() {
+  const [carouselStep, setCarouselStep] = useState<number>(0);
   const [termLabelRange, setTermLabelRange] = useState<InputRangeState>({
     min: 0,
     max: 24,
@@ -496,6 +498,55 @@ export default function ComponentTest() {
         currentStep={1}
         direction="horizontal"
       />
+      {/* Carousel Test */}
+      <Typography.Head1 className="mt-12">Carousel </Typography.Head1>
+      <Container className="w-[300px]">
+        <Carousel order={carouselStep}>
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+        </Carousel>
+        <Container.FlexRow>
+          <IconButton.Outline
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            direction="left"
+            onClick={() => setCarouselStep(prev => (prev !== 0 ? prev - 1 : 4))}
+          >
+            <Typography.P1 className="text-brown">이전</Typography.P1>
+          </IconButton.Outline>
+          <IconButton.Fill
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            stroke="bg"
+            onClick={() => setCarouselStep(prev => (prev !== 4 ? prev + 1 : 0))}
+          >
+            <Typography.P1 className="text-bg">다음</Typography.P1>
+          </IconButton.Fill>
+        </Container.FlexRow>
+      </Container>
     </div>
   );
 }
