@@ -8,7 +8,7 @@ type IconButtonProps = Omit<IconProps, 'type'> &
     iconType: IconType;
     button?: ButtonType;
     direction?: IconDirectionType;
-    iconProps?: IconProps;
+    iconClassName?: string;
   };
 export default function IconButton(props: IconButtonProps) {
   const {
@@ -19,11 +19,16 @@ export default function IconButton(props: IconButtonProps) {
     direction = 'right',
     children,
     className = '',
-    iconProps,
+    iconClassName,
     ...others
   } = props;
   const IconComponent = (
-    <Icon type={iconType} fill={fill} stroke={stroke} {...iconProps} />
+    <Icon
+      type={iconType}
+      fill={fill}
+      stroke={stroke}
+      className={iconClassName}
+    />
   );
   const directionStyle = {
     right: '',

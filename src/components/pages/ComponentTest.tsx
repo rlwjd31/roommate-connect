@@ -15,8 +15,19 @@ import DualInputRange, {
 } from '@/components/molecules/DualInputRange';
 import InputRange from '@/components/atoms/InputRange';
 import StepIndicator from '@/components/atoms/StepIndicator';
+import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import Carousel from '@/components/organisms/Carousel';
 
 export default function ComponentTest() {
+  const [carouselStep, setCarouselStep] = useState<number>(0);
+  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>({
+    min: 0,
+    max: 24,
+  });
+  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>({
+    min: 0,
+    max: 10000,
+  });
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
     min: 0,
     max: 100,
@@ -314,13 +325,9 @@ export default function ComponentTest() {
         </div>
         <div className="m-2 flex flex-col items-center justify-center gap-y-1 p-2">
           <BadgeButton
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="subColor1"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
+            iconType="right-arrow"
+            stroke="subColor1"
+            iconClassName="group-hover:[&_path]:stroke-subColor2"
           >
             <Typography.SpanMid1 className="text-brown4 group-hover:text-brown">
               Button And Fill With Icon
@@ -332,13 +339,9 @@ export default function ComponentTest() {
             </Typography.P2>
           </BadgeButton>
           <BadgeButton.Outline
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="brown3"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
+            iconType="right-arrow"
+            stroke="brown3"
+            iconClassName="group-hover:[&_path]:stoke-subColor2"
           >
             <Typography.SpanMid2 className="text-brown group-hover:text-brown4">
               Button And Outline With Icon
@@ -446,6 +449,25 @@ export default function ComponentTest() {
       {/* InputRange test */}
       <h1 className="my-12 text-Head1">InputRange</h1>
       <Container className="w-full max-w-[30rem]">
+        <LabelDualInputRange
+          className="mb-14"
+          min={0}
+          max={24}
+          step={1}
+          rangeValue={termLabelRange}
+          setRangeValue={setTermLabelRange}
+          category="term"
+        />
+        <LabelDualInputRange
+          className="mb-14"
+          min={0}
+          max={10000}
+          step={100}
+          rangeValue={priceLabelRange}
+          setRangeValue={setPriceLabelRange}
+          label="보증금"
+          category="price"
+        />
         <DualInputRange
           rangeValue={dualRangeValue}
           setRangeValue={setDualRangeValue}
@@ -476,6 +498,55 @@ export default function ComponentTest() {
         currentStep={1}
         direction="horizontal"
       />
+      {/* Carousel Test */}
+      <Typography.Head1 className="mt-12">Carousel </Typography.Head1>
+      <Container className="w-[300px]">
+        <Carousel order={carouselStep}>
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+        </Carousel>
+        <Container.FlexRow>
+          <IconButton.Outline
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            direction="left"
+            onClick={() => setCarouselStep(prev => (prev !== 0 ? prev - 1 : 4))}
+          >
+            <Typography.P1 className="text-brown">이전</Typography.P1>
+          </IconButton.Outline>
+          <IconButton.Fill
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            stroke="bg"
+            onClick={() => setCarouselStep(prev => (prev !== 4 ? prev + 1 : 0))}
+          >
+            <Typography.P1 className="text-bg">다음</Typography.P1>
+          </IconButton.Fill>
+        </Container.FlexRow>
+      </Container>
     </div>
   );
 }
