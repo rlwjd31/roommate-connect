@@ -1,7 +1,8 @@
 import './App.css';
+import ComponentTest from '@/components/pages/ComponentTest';
 
 function App() {
-  return <span>Router 추가</span>;
+  return <ComponentTest />;
 }
 
 export default App;
