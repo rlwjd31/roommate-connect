@@ -10,7 +10,7 @@ export type InputRangeState = {
   max: number;
 };
 
-type DualInputRangeType = {
+export type DualInputRangeType = {
   min: number;
   max: number;
   step: number;
