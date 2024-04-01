@@ -16,11 +16,17 @@ export type IconType =
   | 'apartment'
   | 'single-family-house'
   | 'smoke'
-  | 'non-smoke'
+  | 'none-smoke'
   | 'right-arrow'
   | 'left-arrow'
   | 'expand-arrow'
-  | 'close';
+  | 'close'
+  | 'apple-logo'
+  | 'google-logo'
+  | 'invisible'
+  | 'kakaotalk-logo'
+  | 'meta-logo'
+  | 'visible';
 
 export type CustomIconType = {
   fill?: ColorType;
