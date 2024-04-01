@@ -27,10 +27,7 @@ const DividerCol: FC<DividerProps> = ({
   className = '',
   ...props
 }) => (
-  <div
-    className={cn('w-full', commonStyle, thickNess[type], className)}
-    {...props}
-  />
+  <div className={cn(commonStyle, thickNess[type], className)} {...props} />
 );
 
 const DividerRow: FC<DividerProps> = ({
@@ -39,7 +36,22 @@ const DividerRow: FC<DividerProps> = ({
   className = '',
   ...props
 }) => (
-  <div className={cn(commonStyle, thickNess[type], className)} {...props} />
+  <div
+    className={cn(
+      'relative',
+      children && 'w-full',
+      commonStyle,
+      thickNess[type],
+      className,
+    )}
+    {...props}
+  >
+    {children && (
+      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-bg px-[0.875rem] text-[0.9375rem] font-normal text-brown">
+        {children}
+      </span>
+    )}
+  </div>
 );
 
 DividerRow.defaultProps = { type: 'thin' };
