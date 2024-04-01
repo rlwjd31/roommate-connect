@@ -7,7 +7,7 @@ import Icon from '@/components/atoms/Icon.tsx';
 import Badge from '@/components/atoms/Badge.tsx';
 import Divider from '@/components/atoms/Divider.tsx';
 import Container from '@/components/atoms/Container.tsx';
-import Dropdown from '@/components/molecules/Dropdown.tsx';
+import Selector from '@/components/molecules/Selector';
 import { district, region } from '@/constants/regions.ts';
 import Img from '@/components/atoms/Img.tsx';
 import DualInputRange, {
@@ -25,7 +25,7 @@ export default function ComponentTest() {
   const [rangeValue, setRangeValue] = useState<number>(0);
 
   return (
-    <div className="flex flex-col p-8">
+    <div className="flex flex-col bg-bg p-8">
       {/* Button test */}
       <h1 className="my-12 text-Head1">Button</h1>
       <div className="flex">
@@ -392,21 +392,33 @@ export default function ComponentTest() {
       {/* divider test */}
       <h1 className="my-12 text-Head1">Divider</h1>
       <div>
-        <div className="flex">
-          <span>something1</span>
+        <div className="flex gap-2">
+          <span>list1</span>
           <Divider.Row />
-          <span>something2</span>
+          <span>list2</span>
         </div>
-        <div className="flex-col">
-          <span>span1</span>
-          <Divider.Col type="thick" />
-          <span>span2</span>
+        <br />
+        <div className="flex w-fit flex-col gap-2">
+          <span>list3</span>
+          <Divider.Col type="medium" />
+          <span>list4</span>
+        </div>
+
+        <br />
+        <div className="flex gap-2">
+          <span>list1</span>
+          <Divider.Row type="thick" />
+          <span>list2</span>
+        </div>
+        <br />
+        <div className="flex">
+          <Divider.Row>SNS 계정으로 로그인</Divider.Row>
         </div>
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* container test */}
       <h1 className="my-12 text-Head1">Container</h1>
-      <h2 className="text-Head3">Container Grid</h2>
+      <h2 className="my-3 text-Head3">Container Grid</h2>
       <Container.Grid className="grid-cols-2 grid-rows-2 bg-brown2">
         <div>someting</div>
         <div>someting</div>
@@ -414,23 +426,25 @@ export default function ComponentTest() {
         <div>someting</div>
       </Container.Grid>
       <br />
+      <h2 className="my-3 text-Head3">Container FlexRow</h2>
       <Container.FlexRow className="gap-2 bg-subColor1">
         <div>someting</div>
         <div>someting</div>
       </Container.FlexRow>
       <br />
+      <h2 className="my-3 text-Head3">Container FlexCol</h2>
       <Container.FlexCol className="gap-3 bg-brown1">
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
-      {/* dropdown test */}
+      {/* selector test */}
       <h1 className="my-12 text-Head1">Dropdown</h1>
       <Container.FlexRow className="gap-3">
-        <Dropdown className="max-w-28" contents={region} label="지역" />
-        <Dropdown
-          className="max-w-48"
+        <Selector className="max-w-28" contents={region} label="지역" />
+        <Selector
+          className="max-w-48 [&_div>li>button]:justify-start"
           contents={district['서울']}
           label="시, 구"
         />
