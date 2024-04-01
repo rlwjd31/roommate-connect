@@ -14,7 +14,7 @@ export default function SignUpProfile1_2Template() {
     SignUpProfileMatesNumberAtom,
   );
   return (
-    <Container.FlexCol className="w-[894px] flex-[0_0_auto]">
+    <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="3-1"

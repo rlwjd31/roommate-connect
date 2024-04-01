@@ -12,7 +12,7 @@ export default function SignUpProfile1ㅁ2Template() {
   const [smoking, setSmoking] = useRecoilState(SignUpProfileSmokingAtom);
   const [pet, setPet] = useRecoilState(SignUpProfilePetAtom);
   return (
-    <Container.FlexCol className="w-[894px] flex-[0_0_auto]">
+    <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="2-1"

@@ -8,7 +8,7 @@ import { SignUpProfileAppealsAtom } from '@/stores/sign.store';
 export default function SignUpProfile1_2Template() {
   const [appeals, setAppeals] = useRecoilState(SignUpProfileAppealsAtom);
   return (
-    <Container.FlexCol className="w-[894px] flex-[0_0_auto]">
+    <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="2-2"
