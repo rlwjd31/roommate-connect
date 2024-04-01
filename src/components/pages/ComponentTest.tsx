@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import IconButton from '@/components/molecules/IconButton.tsx';
-import Typography from '@/components/atoms/Typography.tsx';
-import BadgeButton from '@/components/molecules/BadgeButton.tsx';
-import Icon from '@/components/atoms/Icon.tsx';
-import Badge from '@/components/atoms/Badge.tsx';
-import Divider from '@/components/atoms/Divider.tsx';
-import Container from '@/components/atoms/Container.tsx';
+import IconButton from '@/components/molecules/IconButton';
+import Typography from '@/components/atoms/Typography';
+import BadgeButton from '@/components/molecules/BadgeButton';
+import Icon from '@/components/atoms/Icon';
+import Badge from '@/components/atoms/Badge';
+import Divider from '@/components/atoms/Divider';
+import Container from '@/components/atoms/Container';
 import Selector from '@/components/molecules/Selector';
-import { district, region } from '@/constants/regions.ts';
-import Img from '@/components/atoms/Img.tsx';
+import { district, region } from '@/constants/regions';
+import Img from '@/components/atoms/Img';
 import DualInputRange, {
   InputRangeState,
 } from '@/components/molecules/DualInputRange';
@@ -24,18 +24,15 @@ import Carousel from '@/components/organisms/Carousel';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
-  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>({
-    min: 0,
-    max: 24,
-  });
-  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>({
-    min: 0,
-    max: 10000,
-  });
-  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
-    min: 0,
-    max: 100,
-  });
+  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>([
+    0, 24,
+  ]);
+  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>([
+    0, 10000,
+  ]);
+  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
+    0, 100,
+  ]);
 
   const [rangeValue, setRangeValue] = useState<number>(0);
   const { register } = useForm();
@@ -495,8 +492,8 @@ export default function ComponentTest() {
           step={1}
         />
         <div style={{ marginTop: '1rem' }}>
-          <span>{`min: ${dualRangeValue.min}\t`}</span>
-          <span>{`max: ${dualRangeValue.max}`}</span>
+          <span>{`min: ${dualRangeValue[0]}\t`}</span>
+          <span>{`max: ${dualRangeValue[1]}`}</span>
         </div>
 
         <InputRange
