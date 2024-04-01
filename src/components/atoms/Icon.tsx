@@ -1,7 +1,7 @@
 import { CustomIconType, IconType } from '@/types/icon.type';
 import IconSVG from '@/constants/iconSVG';
-import SVGContainer from '@/components/atoms/SVGContainer.tsx';
-import cn from '@/libs/cn.ts';
+import SVGContainer from '@/components/atoms/SVGContainer';
+import cn from '@/libs/cn';
 
 export type IconProps = CustomIconType & {
   type: IconType;

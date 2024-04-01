@@ -1,18 +1,19 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 
-import Button, { ButtonProps } from '@/components/atoms/Button.tsx';
-import Badge from '@/components/atoms/Badge.tsx';
-import { IconDirectionType, IconType } from '@/types/icon.type.ts';
-import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
+import Button, { ButtonProps } from '@/components/atoms/Button';
+import Badge from '@/components/atoms/Badge';
+import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
+import Icon from '@/components/atoms/Icon';
 
-type BadgeButtonProps = Omit<IconProps, 'type'> &
+type BadgeButtonProps = CustomIconType &
   Omit<ButtonProps, 'className'> & {
     children: React.ReactNode;
     className?: string;
     badge?: 'Fill' | 'Outline';
     iconType?: IconType;
     direction?: IconDirectionType;
+    iconClassName?: string;
   };
 
 export default function BadgeButton(props: BadgeButtonProps) {
@@ -24,6 +25,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     direction = 'right',
     fill,
     stroke,
+    iconClassName,
     ...others
   } = props;
   const directionStyle = {
@@ -34,7 +36,12 @@ export default function BadgeButton(props: BadgeButtonProps) {
   };
 
   const iconComponent = iconType ? (
-    <Icon type={iconType} fill={fill} stroke={stroke} />
+    <Icon
+      type={iconType}
+      fill={fill}
+      stroke={stroke}
+      className={iconClassName}
+    />
   ) : null;
 
   if (badge === 'Fill') {

@@ -1,4 +1,4 @@
-import ColorType from '@/types/color.type.ts';
+import ColorType from '@/types/color.type';
 
 export type IconType =
   | 'character'

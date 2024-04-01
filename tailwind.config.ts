@@ -57,5 +57,10 @@ export default {
         /(!?)(bg|text|fill|stroke)-(bg|subColor1|subColor2|brown|brown1|brown2|brown3|brown4|brown5|point)/,
       variants: ['hover', '[&_path]'],
     },
+    // ! translate safelist
+    ...[...Array(30).keys()].flatMap(i => [
+      `-translate-x-[${i * 100}%]`,
+      `translate-y-[${i * 100}%]`,
+    ]),
   ],
 } satisfies Config;

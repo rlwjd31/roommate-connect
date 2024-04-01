@@ -1,13 +1,14 @@
 /* eslint-disable react/require-default-props */
-import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button.tsx';
-import Icon, { IconProps } from '@/components/atoms/Icon.tsx';
-import { IconDirectionType, IconType } from '@/types/icon.type.ts';
+import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button';
+import Icon, { IconProps } from '@/components/atoms/Icon';
+import { IconDirectionType, IconType } from '@/types/icon.type';
 
 type IconButtonProps = Omit<IconProps, 'type'> &
   ButtonProps & {
     iconType: IconType;
     button?: ButtonType;
     direction?: IconDirectionType;
+    iconClassName?: string;
   };
 export default function IconButton(props: IconButtonProps) {
   const {
@@ -18,9 +19,17 @@ export default function IconButton(props: IconButtonProps) {
     direction = 'right',
     children,
     className = '',
+    iconClassName,
     ...others
   } = props;
-  const IconComponent = <Icon type={iconType} fill={fill} stroke={stroke} />;
+  const IconComponent = (
+    <Icon
+      type={iconType}
+      fill={fill}
+      stroke={stroke}
+      className={iconClassName}
+    />
+  );
   const directionStyle = {
     right: '',
     left: 'flex-row-reverse',
