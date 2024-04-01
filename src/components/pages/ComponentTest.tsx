@@ -20,18 +20,15 @@ import Carousel from '@/components/organisms/Carousel';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
-  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>({
-    min: 0,
-    max: 24,
-  });
-  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>({
-    min: 0,
-    max: 10000,
-  });
-  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
-    min: 0,
-    max: 100,
-  });
+  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>([
+    0, 24,
+  ]);
+  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>([
+    0, 10000,
+  ]);
+  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
+    0, 100,
+  ]);
 
   const [rangeValue, setRangeValue] = useState<number>(0);
 
@@ -476,8 +473,8 @@ export default function ComponentTest() {
           step={1}
         />
         <div style={{ marginTop: '1rem' }}>
-          <span>{`min: ${dualRangeValue.min}\t`}</span>
-          <span>{`max: ${dualRangeValue.max}`}</span>
+          <span>{`min: ${dualRangeValue[0]}\t`}</span>
+          <span>{`max: ${dualRangeValue[1]}`}</span>
         </div>
 
         <InputRange

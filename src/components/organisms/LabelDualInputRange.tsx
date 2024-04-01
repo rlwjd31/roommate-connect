@@ -29,7 +29,7 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
     <Container.FlexCol className={className}>
       <Container.FlexRow className="mb-7 justify-between">
         {label && <Typography.SubTitle2>{label}</Typography.SubTitle2>}
-        <Typography.SubTitle2>{`${generateUnit(rangeValue.min)} ~ ${generateUnit(rangeValue.max)}`}</Typography.SubTitle2>
+        <Typography.SubTitle2>{`${generateUnit(rangeValue[0])} ~ ${generateUnit(rangeValue[1])}`}</Typography.SubTitle2>
       </Container.FlexRow>
       <DualInputRange
         className="mb-2"

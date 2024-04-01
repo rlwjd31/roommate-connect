@@ -5,10 +5,7 @@ import Container from '@/components/atoms/Container';
 import cn from '@/libs/cn';
 import getGradientStop from '@/libs/getGradientStop';
 
-export type InputRangeState = {
-  min: number;
-  max: number;
-};
+export type InputRangeState = [number, number];
 
 export type DualInputRangeType = {
   min: number;
@@ -31,20 +28,19 @@ export default function DualInputRange({
 }: DualInputRangeType) {
   // * ensure range.min < range.max function
   const validateRangeValue =
-    (type: MinMax, e: ChangeEvent<HTMLInputElement>) =>
-    (prev: InputRangeState) => ({
-      ...prev,
-      min:
-        type === 'min' ? Math.min(+e.target.value, prev.max - step) : prev.min,
-      max:
-        type === 'max' ? Math.max(+e.target.value, prev.min + step) : prev.max,
-    });
+    (type: MinMax, value: number) =>
+    (prev: InputRangeState): InputRangeState =>
+      type === 'min'
+        ? [Math.min(Number(value), prev[1] - step), prev[1]]
+        : [prev[0], Math.max(Number(value), prev[0] + step)];
 
-  const onChangeInput = (e: ChangeEvent<HTMLInputElement>, type: MinMax) =>
-    setRangeValue(validateRangeValue(type, e));
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>, type: MinMax) => {
+    const { value } = e.currentTarget;
+    return setRangeValue(validateRangeValue(type, Number(value)));
+  };
 
-  const minGradientStopPoint = getGradientStop(rangeValue.min, min, max);
-  const maxGradientStopPoint = getGradientStop(rangeValue.max, min, max);
+  const minGradientStopPoint = getGradientStop(rangeValue[0], min, max);
+  const maxGradientStopPoint = getGradientStop(rangeValue[1], min, max);
 
   return (
     <Container.Grid
@@ -58,7 +54,7 @@ export default function DualInputRange({
         min={min}
         max={max}
         step={step}
-        value={rangeValue.min}
+        value={rangeValue[0]}
         onChange={e => onChangeInput(e, 'min')}
         overlap
       />
@@ -66,7 +62,7 @@ export default function DualInputRange({
         min={min}
         max={max}
         step={step}
-        value={rangeValue.max}
+        value={rangeValue[1]}
         onChange={e => onChangeInput(e, 'max')}
         overlap
       />
