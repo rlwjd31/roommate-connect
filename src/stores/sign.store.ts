@@ -14,20 +14,20 @@ export const SignUpProfileRegionsAtom = atom<SignUpType['regions']>({
   key: 'signUpProfileRegionsAtom',
   default: [],
 });
-// ? deposit_price 보증금 (전세 혹은 월세) 범위 [최소 금액, 최대 금액] (1만원~10000만원) @[number, number]
+// ? deposit_price 보증금 (전세 혹은 월세) 범위 [최소 금액, 최대 금액] (0만원~10000만원) @[number, number]
 export const SignUpProfileDepositPriceAtom = atom<SignUpType['deposit_price']>({
   key: 'signUpProfileDepositPriceAtom',
-  default: [1, 10000],
+  default: [0, 10000],
 });
-// ? term 유저가 살 기간 [최소기간, 최대 기간] (1 ~ 24)범위 @[number, number]
+// ? term 유저가 살 기간 [최소기간, 최대 기간] (0 ~ 24)범위 @[number, number]
 export const SignUpProfileTermAtom = atom<SignUpType['term']>({
   key: 'signUpProfileTermAtom',
-  default: [1, 24],
+  default: [0, 24],
 });
-// ? monthly_rental_price 월세 [최소 금액, 최대 금액] (1만원, 500만원) @[number, number]
+// ? monthly_rental_price 월세 [최소 금액, 최대 금액] (0만원, 500만원) @[number, number]
 export const SignUpProfileMonthlyPriceAtom = atom<SignUpType['monthly_price']>({
   key: 'signUpProfileMonthlyPriceAtom',
-  default: [1, 500],
+  default: [0, 500],
 });
 // ? smoking 흡연 여부 @boolean
 export const SignUpProfileSmokingAtom = atom<SignUpType['smoking']>({

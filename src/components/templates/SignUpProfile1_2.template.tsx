@@ -10,6 +10,7 @@ import {
   SignUpProfileRegionsAtom,
   SignUpProfileTermAtom,
 } from '@/stores/sign.store';
+import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 
 export default function SignUpProfile1_2Template() {
   const [regions, setRegions] = useRecoilState(SignUpProfileRegionsAtom);
@@ -42,10 +43,18 @@ export default function SignUpProfile1_2Template() {
           </Container.FlexRow>
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="text-brown">
+          <Typography.SubTitle1 className="mb-11 text-brown">
             기간
           </Typography.SubTitle1>
-          {/* TODO DualInputRange 추가 */}
+          <LabelDualInputRange
+            className="w-[480px]"
+            min={0}
+            max={24}
+            step={1}
+            setRangeValue={setTerm}
+            rangeValue={term}
+            category="term"
+          />
         </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>
