@@ -445,7 +445,7 @@ export default function ComponentTest() {
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* selector test */}
-      <h1 className="my-12 text-Head1">Dropdown</h1>
+      <h1 className="my-12 text-Head1">Selector</h1>
       <Container.FlexRow className="gap-3">
         <Selector className="max-w-28" contents={region} label="지역" />
         <Selector
