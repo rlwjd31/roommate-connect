@@ -1,9 +1,9 @@
 import { ComponentProps, useState } from 'react';
 
-import ChevronDown from '@/assets/icons/ChevronDown.svg?react';
 import Container from '@/components/atoms/Container';
-import DropdownItem from '@/components/atoms/DropdownItem';
+import SelectorItem from '@/components/atoms/SelectorItem';
 import cn from '@/libs/cn';
+import IconButton from '@/components/molecules/IconButton';
 
 type DropdownProps = ComponentProps<'button'> & {
   label: string;
@@ -30,25 +30,24 @@ export default function Dropdown({
 
   return (
     <Container.FlexCol className={cn(dropdownContainerStyle, className ?? '')}>
-      {/* TODO: IconButton으로 대체 */}
-      <button
-        type="button"
-        className="flex w-full items-center justify-between border border-brown p-5 text-brown"
+      <IconButton
+        iconType="expand-arrow"
+        button="Ghost"
         onClick={onClickDropdownOpen}
+        className="flex w-full items-center justify-between border border-brown bg-bg p-5 text-brown"
       >
-        {/* TODO: <ChevronDown /> Icon atom Component로 대체 */}
-        {currentValue} <ChevronDown />
-      </button>
+        {currentValue}
+      </IconButton>
       {isOpen && (
         <Container.FlexCol className="absolute left-0 top-full z-10 max-h-56 w-full overflow-scroll border-x border-b border-brown text-brown5">
           {contents.map(content => (
-            <DropdownItem
+            <SelectorItem
               onClick={() => onClickDropdownItem(content)}
               key={content}
-              className={cn(content === currentValue ? 'bg-brown3' : '')}
+              className={content === currentValue ? 'bg-brown3' : ''}
             >
               {content}
-            </DropdownItem>
+            </SelectorItem>
           ))}
         </Container.FlexCol>
       )}

@@ -21,25 +21,36 @@ export default function Divider() {
   return {};
 }
 
-const DividerRow: FC<DividerProps> = ({
-  type = 'thin',
-  children,
-  className,
-  ...props
-}) => (
-  <div className={cn(className, commonStyle, thickNess[type])} {...props}>
-    {children}
-  </div>
-);
-
 const DividerCol: FC<DividerProps> = ({
   type = 'thin',
   children,
-  className,
+  className = '',
   ...props
 }) => (
-  <div className={cn(className, commonStyle, thickNess[type])} {...props}>
-    {children}
+  <div className={cn(commonStyle, thickNess[type], className)} {...props} />
+);
+
+const DividerRow: FC<DividerProps> = ({
+  type = 'thin',
+  children,
+  className = '',
+  ...props
+}) => (
+  <div
+    className={cn(
+      'relative',
+      children && 'w-full',
+      commonStyle,
+      thickNess[type],
+      className,
+    )}
+    {...props}
+  >
+    {children && (
+      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-bg px-[0.875rem] text-[0.9375rem] font-normal text-brown">
+        {children}
+      </span>
+    )}
   </div>
 );
 

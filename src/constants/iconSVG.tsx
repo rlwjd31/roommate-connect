@@ -1,44 +1,59 @@
 import { ReactNode } from 'react';
 
+import Apartment from '@/assets/icons/apartment.svg?react';
+import AppleLogo from '@/assets/icons/apple-logo.svg?react';
+import Close from '@/assets/icons/close.svg?react';
+import DontMindPet from '@/assets/icons/dont-mind-pet.svg?react';
+import DontMindSex from '@/assets/icons/dont-mind-sex.svg?react';
+import ExpandArrow from '@/assets/icons/expand-arrow.svg?react';
+import Female from '@/assets/icons/female.svg?react';
+import GoogleLogo from '@/assets/icons/google-logo.svg?react';
+import Invisible from '@/assets/icons/invisible.svg?react';
+import KakaotalkLogo from '@/assets/icons/kakaotalk-logo.svg?react';
+import LeftArrowLogo from '@/assets/icons/left-arrow.svg?react';
+import Logo from '@/assets/icons/logo.svg?react';
+import Male from '@/assets/icons/male.svg?react';
+import MetaLogo from '@/assets/icons/meta-logo.svg?react';
+import NonePetLover from '@/assets/icons/none-pet-lover.svg?react';
+import NoneSmoke from '@/assets/icons/none-smoke.svg?react';
+import PetLover from '@/assets/icons/pet-lover.svg?react';
+import RightArrow from '@/assets/icons/right-arrow.svg?react';
+import SingleFamilyHouse from '@/assets/icons/single-family-house.svg?react';
+import Smoke from '@/assets/icons/smoke.svg?react';
+import StudioOfficetel from '@/assets/icons/studio-officetel.svg?react';
+import VillaTownhouse from '@/assets/icons/villa-townhouse.svg?react';
+import HouseCharacter from '@/assets/images/house-character.svg?react';
+import ImgWelcome from '@/assets/images/img-welcome.svg?react';
+import SeekingHouse from '@/assets/images/seeking-house.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
-  character: <div />,
-  logo: <div />,
-  welcome: <div />,
-  'seeking-house': <div />,
-  male: <div />,
-  female: <div />,
-  'dont-mind-sex': <div />,
-  'dont-mind-pet': <div />,
-  'pet-lover': <div />,
-  'none-pet-lover': <div />,
-  'studio-officetel': <div />,
-  'villa-townhouse': <div />,
-  apartment: <div />,
-  'single-family-house': <div />,
-  smoke: <div />,
-  'non-smoke': <div />,
-  'left-arrow': <div />,
-  'right-arrow': (
-    <svg
-      width="18"
-      height="16"
-      viewBox="0 0 18 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1 8L17 8M17 8L10 1M17 8L10 15"
-        stroke="#643927"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-  close: <div />,
-  'expand-arrow': <div />,
+  character: <HouseCharacter />,
+  logo: <Logo />,
+  welcome: <ImgWelcome />,
+  'seeking-house': <SeekingHouse />,
+  male: <Male />,
+  female: <Female />,
+  'dont-mind-sex': <DontMindSex />,
+  'dont-mind-pet': <DontMindPet />,
+  'pet-lover': <PetLover />,
+  'none-pet-lover': <NonePetLover />,
+  'studio-officetel': <StudioOfficetel />,
+  'villa-townhouse': <VillaTownhouse />,
+  apartment: <Apartment />,
+  'single-family-house': <SingleFamilyHouse />,
+  smoke: <Smoke />,
+  'none-smoke': <NoneSmoke />,
+  'left-arrow': <LeftArrowLogo />,
+  'right-arrow': <RightArrow />,
+  close: <Close />,
+  'expand-arrow': <ExpandArrow />,
+  'apple-logo': <AppleLogo />,
+  'google-logo': <GoogleLogo />,
+  'kakaotalk-logo': <KakaotalkLogo />,
+  'meta-logo': <MetaLogo />,
+  invisible: <Invisible />,
+  visible: <div />,
 };
 
 export default IconSVG;
