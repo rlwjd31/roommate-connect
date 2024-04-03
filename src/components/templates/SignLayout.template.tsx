@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 import cn from '@/libs/cn';
 import Container from '@/components/atoms/Container';
+import Icon from '@/components/atoms/Icon';
 
 export default function SignLayoutTemplate() {
   return (
@@ -17,12 +18,7 @@ export default function SignLayoutTemplate() {
         )}
       />
       <Container className="h-full w-[50%] pl-[4.75rem] pt-[calc(50vh-147px)]">
-        {/* TODO SVG 변경 */}
-        <img
-          className="translate-y-[-50%]"
-          src="https://picsum.photos/324/411"
-          alt="sample"
-        />
+        <Icon className="translate-y-[-50%]" type="character" />
       </Container>
       <Container className="absolute right-0 w-[50%]">
         <Outlet />

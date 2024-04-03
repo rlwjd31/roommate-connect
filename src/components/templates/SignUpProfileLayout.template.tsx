@@ -39,7 +39,7 @@ export default function SignUpProfileLayoutTemplate(
           {/* TODO right-arrow to left-arrow */}
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
-            iconType="right-arrow"
+            iconType="left-arrow"
             onClick={onClickPrevButton}
           >
             <Typography.P1 className="text-brown">이전</Typography.P1>
