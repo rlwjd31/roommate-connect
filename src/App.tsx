@@ -1,8 +1,14 @@
 import './App.css';
-import ComponentTest from '@/components/pages/ComponentTest';
+import { RecoilRoot } from 'recoil';
+
+import Router from './Router';
 
 function App() {
-  return <ComponentTest />;
+  return (
+    <RecoilRoot>
+      <Router />
+    </RecoilRoot>
+  );
 }
 
 export default App;
