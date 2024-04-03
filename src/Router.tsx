@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LayoutTemplate from '@/components/templates/Layout.template';
 import ComponentTest from '@/components/pages/ComponentTest';
 import SignLayoutTemplate from '@/components/templates/SignLayout.template';
+import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
+import SignUpProfile from '@/components/pages/SignUpProfile';
 
 const router = createBrowserRouter([
   {
@@ -30,14 +32,14 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // ! 기본 레이아웃 적용
       {
-        // ! 기본 레이아웃 적용
         path: 'signup-intro',
-        element: <span>프로필 설정 여부</span>,
+        element: <SignUpProfileIntro />,
       },
       {
         path: 'signup-profile',
-        element: <span>프로필 설정</span>,
+        element: <SignUpProfile />,
       },
       {
         path: 'component-test',

@@ -17,12 +17,12 @@ const badgeType: { type: BadgeType; defaultClassName: string }[] = [
   {
     type: 'Fill',
     defaultClassName:
-      'flex group items-center rounded-xl bg-brown hover:bg-bg hover:outline hover:outline-brown',
+      'flex group text-bg items-center bg-brown border border-brown hover:bg-bg hover:text-brown',
   },
   {
     type: 'Outline',
     defaultClassName:
-      'flex group items-center rounded-xl bg-bg outline outline-brown hover:outline-none hover:bg-brown',
+      'flex group text-brown items-center bg-bg border border-brown hover:bg-brown hover:text-bg',
   },
 ];
 const Badge = {} as BadgeComponentProps;

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -7,26 +8,39 @@ import Icon from '@/components/atoms/Icon';
 import Badge from '@/components/atoms/Badge';
 import Divider from '@/components/atoms/Divider';
 import Container from '@/components/atoms/Container';
-import Dropdown from '@/components/molecules/Dropdown';
+import Selector from '@/components/molecules/Selector';
 import { district, region } from '@/constants/regions';
 import Img from '@/components/atoms/Img';
 import DualInputRange, {
   InputRangeState,
 } from '@/components/molecules/DualInputRange';
 import InputRange from '@/components/atoms/InputRange';
+import Label from '@/components/atoms/Label';
+import Input from '@/components/atoms/Input';
+import TextField from '@/components/molecules/TextField';
+import StepIndicator from '@/components/atoms/StepIndicator';
+import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import Carousel from '@/components/organisms/Carousel';
 
 export default function ComponentTest() {
-  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>({
-    min: 0,
-    max: 100,
-  });
+  const [carouselStep, setCarouselStep] = useState<number>(0);
+  const [termLabelRange, setTermLabelRange] = useState<InputRangeState>([
+    0, 24,
+  ]);
+  const [priceLabelRange, setPriceLabelRange] = useState<InputRangeState>([
+    0, 10000,
+  ]);
+  const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
+    0, 100,
+  ]);
 
   const [rangeValue, setRangeValue] = useState<number>(0);
+  const { register } = useForm();
 
   return (
-    <div className="flex h-[300vh] flex-col p-8">
+    <div className="flex flex-col bg-bg p-8">
       {/* Button test */}
-      <h1 className="text-Head2">Button test</h1>
+      <h1 className="my-12 text-Head1">Button</h1>
       <div className="flex">
         <div className="m-2 flex flex-col items-center justify-center gap-y-1 p-2">
           <IconButton.Ghost
@@ -43,7 +57,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Ghost and Head2!</Typography.Head2>
+            <Typography.Head1>Ghost and Head1!</Typography.Head1>
           </IconButton.Ghost>
           <IconButton.Ghost
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -138,7 +152,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Outline and Head2!</Typography.Head2>
+            <Typography.Head1>Outline and Head1!</Typography.Head1>
           </IconButton.Outline>
           <IconButton.Outline
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -231,7 +245,7 @@ export default function ComponentTest() {
             stroke="point"
             iconType="right-arrow"
           >
-            <Typography.Head2>Fill and Head2!</Typography.Head2>
+            <Typography.Head1>Fill and Head1!</Typography.Head1>
           </IconButton.Fill>
           <IconButton.Fill
             className="flex items-center justify-between rounded-full p-4 text-subColor1"
@@ -313,13 +327,9 @@ export default function ComponentTest() {
         </div>
         <div className="m-2 flex flex-col items-center justify-center gap-y-1 p-2">
           <BadgeButton
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="subColor1"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
+            iconType="right-arrow"
+            stroke="subColor1"
+            iconClassName="group-hover:[&_path]:stroke-subColor2"
           >
             <Typography.SpanMid1 className="text-brown4 group-hover:text-brown">
               Button And Fill With Icon
@@ -331,13 +341,9 @@ export default function ComponentTest() {
             </Typography.P2>
           </BadgeButton>
           <BadgeButton.Outline
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="brown3"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
+            iconType="right-arrow"
+            stroke="brown3"
+            iconClassName="group-hover:[&_path]:stoke-subColor2"
           >
             <Typography.SpanMid2 className="text-brown group-hover:text-brown4">
               Button And Outline With Icon
@@ -389,59 +395,95 @@ export default function ComponentTest() {
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* divider test */}
-      <h1 className="text-Head2">Divider test</h1>
+      <h1 className="my-12 text-Head1">Divider</h1>
       <div>
-        <div className="flex">
-          <span>something1</span>
+        <div className="flex gap-2">
+          <span>list1</span>
           <Divider.Row />
-          <span>something2</span>
+          <span>list2</span>
         </div>
-        <div className="flex-col">
-          <span>span1</span>
-          <Divider.Col type="thick" />
-          <span>span2</span>
+        <br />
+        <div className="flex w-fit flex-col gap-2">
+          <span>list3</span>
+          <Divider.Col type="medium" />
+          <span>list4</span>
+        </div>
+
+        <br />
+        <div className="flex gap-2">
+          <span>list1</span>
+          <Divider.Row type="thick" />
+          <span>list2</span>
+        </div>
+        <br />
+        <div className="flex">
+          <Divider.Row>SNS 계정으로 로그인</Divider.Row>
         </div>
       </div>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* container test */}
-      <h1 className="text-Head2">Container test</h1>
+      <h1 className="my-12 text-Head1">Container</h1>
+      <h2 className="my-3 text-Head3">Container Grid</h2>
       <Container.Grid className="grid-cols-2 grid-rows-2 bg-brown2">
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
       </Container.Grid>
+      <br />
+      <h2 className="my-3 text-Head3">Container FlexRow</h2>
       <Container.FlexRow className="gap-2 bg-subColor1">
         <div>someting</div>
         <div>someting</div>
       </Container.FlexRow>
+      <br />
+      <h2 className="my-3 text-Head3">Container FlexCol</h2>
       <Container.FlexCol className="gap-3 bg-brown1">
         <div>someting</div>
         <div>someting</div>
         <div>someting</div>
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
-      {/* dropdown test */}
-      <h1 className="text-Head2">Dropdown test</h1>
+      {/* selector test */}
+      <h1 className="my-12 text-Head1">Selector</h1>
       <Container.FlexRow className="gap-3">
-        <Dropdown className="max-w-28" contents={region} label="지역" />
-        <Dropdown
-          className="max-w-48"
+        <Selector className="max-w-28" contents={region} label="지역" />
+        <Selector
+          className="max-w-48 [&_div>li>button]:justify-start"
           contents={district['서울']}
           label="시, 구"
         />
       </Container.FlexRow>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* img test */}
-      <h1 className="text-Head2">Image test</h1>
+      <h1 className="my-12 text-Head1">Image</h1>
       <Img
         src="https://source.unsplash.com/random/300×300"
         alt="house image"
         className="max-h-80 max-w-80"
       />
       {/* InputRange test */}
-      <h1 className="text-Head2">InputRange test</h1>
+      <h1 className="my-12 text-Head1">InputRange</h1>
       <Container className="w-full max-w-[30rem]">
+        <LabelDualInputRange
+          className="mb-14"
+          min={0}
+          max={24}
+          step={1}
+          rangeValue={termLabelRange}
+          setRangeValue={setTermLabelRange}
+          category="term"
+        />
+        <LabelDualInputRange
+          className="mb-14"
+          min={0}
+          max={10000}
+          step={100}
+          rangeValue={priceLabelRange}
+          setRangeValue={setPriceLabelRange}
+          label="보증금"
+          category="price"
+        />
         <DualInputRange
           rangeValue={dualRangeValue}
           setRangeValue={setDualRangeValue}
@@ -450,8 +492,8 @@ export default function ComponentTest() {
           step={1}
         />
         <div style={{ marginTop: '1rem' }}>
-          <span>{`min: ${dualRangeValue.min}\t`}</span>
-          <span>{`max: ${dualRangeValue.max}`}</span>
+          <span>{`min: ${dualRangeValue[0]}\t`}</span>
+          <span>{`max: ${dualRangeValue[1]}`}</span>
         </div>
 
         <InputRange
@@ -461,6 +503,84 @@ export default function ComponentTest() {
           onChange={e => setRangeValue(+e.target.value)}
           step={1}
           overlap={false}
+        />
+      </Container>
+      {/* Step Indicator test */}
+      <h1 className="my-12 text-Head1">Step Indicator</h1>
+      <StepIndicator totalStepCount={3} currentStep={1} direction="vertical" />
+      <div className="mb-7" />
+      <StepIndicator
+        totalStepCount={3}
+        currentStep={1}
+        direction="horizontal"
+      />
+      {/* Carousel Test */}
+      <Typography.Head1 className="mt-12">Carousel </Typography.Head1>
+      <Container className="w-[300px]">
+        <Carousel order={carouselStep}>
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://source.unsplash.com/random/300×300"
+            alt="house image"
+            className="flex-1"
+          />
+          <img
+            src="https://picsum.photos/300/300"
+            alt="house image"
+            className="flex-1"
+          />
+        </Carousel>
+        <Container.FlexRow>
+          <IconButton.Outline
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            direction="left"
+            onClick={() => setCarouselStep(prev => (prev !== 0 ? prev - 1 : 4))}
+          >
+            <Typography.P1 className="text-brown">이전</Typography.P1>
+          </IconButton.Outline>
+          <IconButton.Fill
+            className="gap-x-1 rounded-xl px-12 py-8"
+            iconType="right-arrow"
+            stroke="bg"
+            onClick={() => setCarouselStep(prev => (prev !== 4 ? prev + 1 : 0))}
+          >
+            <Typography.P1 className="text-bg">다음</Typography.P1>
+          </IconButton.Fill>
+        </Container.FlexRow>
+      </Container>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      {/* Label & Input & TextField test */}
+      <h1 className="text-Head2">Label & Input Test</h1>
+      <Container className="mt-1 w-full max-w-[30rem]">
+        <Label htmlFor="name" className="mt-3">
+          name
+        </Label>
+        <Input type="text" id="name" placeholder="이름을 입력하세요" />
+        <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+        <h1 className="text-Head2">TextField Test</h1>
+        {/* <TextField /> */}
+        <TextField
+          text="name"
+          name="name"
+          containerStyle="mt-3"
+          register={register}
+          options={{ required: true, minLength: 2 }}
+          helperText="이름은 2글자 이상이어야 합니다."
         />
       </Container>
     </div>
