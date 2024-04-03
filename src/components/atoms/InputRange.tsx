@@ -59,6 +59,7 @@ export default function InputRange({
   value = 0,
   className,
   overlap = false,
+  ...others
 }: InputRangeProps) {
   const stopPoint = getGradientStop(value, min, max);
 
@@ -78,6 +79,7 @@ export default function InputRange({
         max={max}
         step={step}
         value={value}
+        {...others}
       />
     </Container.Grid>
   );
