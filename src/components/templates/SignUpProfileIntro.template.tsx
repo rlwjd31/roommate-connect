@@ -4,6 +4,7 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import Link from '@/components/atoms/Link';
+import Icon from '@/components/atoms/Icon';
 
 type SignUpProfileIntroTemplateProps = {
   name: string;
@@ -42,7 +43,7 @@ export default function SignUpProfileIntroTemplate(
           </Link>
         </Container.FlexCol>
       </Container.FlexCol>
-      {/*  TODO SVG 추가  */}
+      <Icon type="welcome" />
     </Container.FlexCol>
   );
 }

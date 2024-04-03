@@ -18,6 +18,12 @@ export default function SignUpProfile1_1Template() {
   );
 
   const TypeValue = ['원룸/오피스텔', '빌라/연립', '아파트', '단독주택'];
+  const TypeIcon = [
+    'studio-officetel',
+    'villa-townhouse',
+    'apartment',
+    'single-family-house',
+  ] as const;
   const RentalTypeValue = ['월세', '반전세', '전세', '상관없음'];
 
   const onClickType = (event: MouseEvent<HTMLButtonElement>) => {
@@ -42,7 +48,7 @@ export default function SignUpProfile1_1Template() {
             <IconButton.Outline
               key={typeItem}
               className={`flex-1 gap-y-5 rounded-lg py-5 ${index === type && 'border-point bg-brown4'}`}
-              iconType="right-arrow"
+              iconType={TypeIcon[index]}
               direction="top"
               id={String(index)}
               onClick={onClickType}

@@ -29,7 +29,7 @@ export default function SignUpProfile1_2Template() {
               <BadgeButton.Fill
                 key={location}
                 className="gap-x-5 rounded-[30px] p-4"
-                iconType="right-arrow"
+                iconType="close"
                 stroke="bg"
               >
                 <Typography.P1>{location}</Typography.P1>
