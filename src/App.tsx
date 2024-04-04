@@ -1,5 +1,3 @@
-import { RecoilRoot } from 'recoil';
-
 import './App.css';
 import { RecoilRoot } from 'recoil';
 

@@ -5,13 +5,13 @@ import {
   SelectorItemValueType,
 } from '@/types/regionDistrict.type';
 
-export type State<Label extends SelectorLabelType> = {
+export type SelectorStateType<Label extends SelectorLabelType> = {
   value: SelectorItemValueType<Label> | SelectorLabelType;
   isOpen: boolean;
 };
 
-export const SelectorState = atomFamily<
-  State<SelectorLabelType>,
+export const MoleculeSelectorState = atomFamily<
+  SelectorStateType<SelectorLabelType>,
   SelectorLabelType
 >({
   key: 'selectorOpenState',

@@ -21,7 +21,7 @@ import TextField from '@/components/molecules/TextField';
 import StepIndicator from '@/components/atoms/StepIndicator';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
-import DistrictSelector from '@/components/organisms/DistrictSelector';
+import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
