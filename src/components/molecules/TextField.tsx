@@ -7,6 +7,7 @@ import Typography from '../atoms/Typography';
 
 export type TextFieldProps = {
   text: string;
+	type: string;
   name: string;
   containerStyle?: string;
   inputStyle?: string;
@@ -18,6 +19,7 @@ export type TextFieldProps = {
 export default function TextField(props: TextFieldProps) {
   const {
     text,
+		type,
     name,
     containerStyle,
     inputStyle,
@@ -28,7 +30,7 @@ export default function TextField(props: TextFieldProps) {
   return (
     <Container className={containerStyle}>
       <Label>{text}</Label>
-      <Input className={inputStyle} {...register(name, options)} />
+      <Input type={type} className={inputStyle} {...register(name, options)} />
       <Typography.Span2
         className={`${helperText && 'invisible'} mt-[8px] block text-point`}
       >

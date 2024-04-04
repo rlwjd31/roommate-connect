@@ -15,6 +15,7 @@ export default {
         brown3: '#DDCFC4',
         brown4: '#FFF7F1',
         brown5: '#FFFEFB',
+        active: '#4C2A1C',
         point: '#FF7759',
       },
       fontSize: {
