@@ -16,7 +16,7 @@ export const region = [
   '경북',
   '경남',
   '제주',
-];
+] as const;
 
 export const district = {
   강원: [
@@ -265,4 +265,4 @@ export const district = {
     '청주시',
     '충주시',
   ],
-};
+} as const;
