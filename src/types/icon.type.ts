@@ -28,7 +28,8 @@ export type IconType =
   | 'meta-logo'
   | 'visible'
   | 'alarm-exist'
-  | 'alarm-none';
+  | 'alarm-none'
+  | 'avartar';
 
 export type CustomIconType = {
   fill?: ColorType;
