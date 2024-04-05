@@ -31,8 +31,8 @@ export default function DualInputRange({
     (type: MinMax, value: number) =>
     (prev: InputRangeState): InputRangeState =>
       type === 'min'
-        ? [Math.min(Number(value), prev[1] - step), prev[1]]
-        : [prev[0], Math.max(Number(value), prev[0] + step)];
+        ? [Math.min(Number(value), prev[1]), prev[1]]
+        : [prev[0], Math.max(Number(value), prev[0])];
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>, type: MinMax) => {
     const { value } = e.currentTarget;
@@ -42,15 +42,27 @@ export default function DualInputRange({
   const minGradientStopPoint = getGradientStop(rangeValue[0], min, max);
   const maxGradientStopPoint = getGradientStop(rangeValue[1], min, max);
 
+  const minDuplicateStyle =
+    rangeValue[0] === rangeValue[1] && rangeValue[0] === min
+      ? '[&_#min]:invisible'
+      : '';
+
+  const maxDuplicateStyle =
+    rangeValue[0] === rangeValue[1] && rangeValue[0] === max
+      ? '[&_#max]:invisible'
+      : '';
   return (
     <Container.Grid
       className={cn(
         'w-full grid-cols-1 grid-rows-1 items-center justify-items-center [&>*]:col-start-1 [&>*]:row-start-1',
+        minDuplicateStyle,
+        maxDuplicateStyle,
         className,
       )}
     >
       <Track stopPoints={[minGradientStopPoint, maxGradientStopPoint]} />
       <InputRange
+        id="min"
         min={min}
         max={max}
         step={step}
@@ -59,6 +71,7 @@ export default function DualInputRange({
         overlap
       />
       <InputRange
+        id="max"
         min={min}
         max={max}
         step={step}

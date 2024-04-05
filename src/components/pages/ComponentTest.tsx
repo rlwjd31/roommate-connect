@@ -21,6 +21,7 @@ import TextField from '@/components/molecules/TextField';
 import StepIndicator from '@/components/atoms/StepIndicator';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
+import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -454,7 +455,12 @@ export default function ComponentTest() {
           label="시, 구"
         />
       </Container.FlexRow>
-      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
+      {/* districtSelector test */}
+      <h1 className="my-12 text-Head1">District Selector</h1>
+      <DistrictSelector />
+
+      <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* img test */}
       <h1 className="my-12 text-Head1">Image</h1>
       <Img

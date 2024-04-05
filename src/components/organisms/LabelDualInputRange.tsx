@@ -20,7 +20,7 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
       const year = Math.floor(value / 12);
       const month = value % 12;
       if (value < 12) return `${month}개월`;
-      if (value % 12 === 0) return `${year} 년`;
+      if (value % 12 === 0) return `${year}년`;
       return `${year}년 ${month}개월`;
     }
     return value;
@@ -29,7 +29,11 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
     <Container.FlexCol className={className}>
       <Container.FlexRow className="mb-7 justify-between">
         {label && <Typography.SubTitle2>{label}</Typography.SubTitle2>}
-        <Typography.SubTitle2>{`${generateUnit(rangeValue[0])} ~ ${generateUnit(rangeValue[1])}`}</Typography.SubTitle2>
+        <Typography.SubTitle2>
+          {rangeValue[0] === rangeValue[1]
+            ? generateUnit(rangeValue[0])
+            : `${generateUnit(rangeValue[0])} ~ ${generateUnit(rangeValue[1])}`}
+        </Typography.SubTitle2>
       </Container.FlexRow>
       <DualInputRange
         className="mb-2"
