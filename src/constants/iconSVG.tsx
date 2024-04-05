@@ -25,6 +25,9 @@ import VillaTownhouse from '@/assets/icons/villa-townhouse.svg?react';
 import HouseCharacter from '@/assets/images/house-character.svg?react';
 import ImgWelcome from '@/assets/images/img-welcome.svg?react';
 import SeekingHouse from '@/assets/images/seeking-house.svg?react';
+import Visible from '@/assets/icons/visible.svg?react';
+import AlarmExist from '@/assets/icons/alarm-exist.svg?react';
+import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -53,7 +56,9 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'kakaotalk-logo': <KakaotalkLogo />,
   'meta-logo': <MetaLogo />,
   invisible: <Invisible />,
-  visible: <div />,
+  visible: <Visible />,
+  'alarm-exist': <AlarmExist />,
+  'alarm-none': <AlarmNone />,
 };
 
 export default IconSVG;

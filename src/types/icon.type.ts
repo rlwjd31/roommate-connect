@@ -26,7 +26,9 @@ export type IconType =
   | 'invisible'
   | 'kakaotalk-logo'
   | 'meta-logo'
-  | 'visible';
+  | 'visible'
+  | 'alarm-exist'
+  | 'alarm-none';
 
 export type CustomIconType = {
   fill?: ColorType;
