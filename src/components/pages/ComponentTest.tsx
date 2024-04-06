@@ -22,6 +22,7 @@ import StepIndicator from '@/components/atoms/StepIndicator';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
+import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -35,6 +36,20 @@ export default function ComponentTest() {
     0, 100,
   ]);
 
+  const labelStepIndicatorContents = [
+    {
+      label: '집 유형, 매물 종류',
+      routePath: '/',
+    },
+    {
+      label: '위치, 기간',
+      routePath: '/',
+    },
+    {
+      label: '가격대',
+      routePath: '/',
+    },
+  ];
   const [rangeValue, setRangeValue] = useState<number>(0);
   const { register } = useForm();
 
@@ -520,6 +535,10 @@ export default function ComponentTest() {
         currentStep={1}
         direction="horizontal"
       />
+      <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
+      {/* LabelStepIndicator test */}
+      <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
+      <LabelStepIndicator contents={labelStepIndicatorContents} />
       {/* Carousel Test */}
       <Typography.Head1 className="mt-12">Carousel </Typography.Head1>
       <Container className="w-[300px]">

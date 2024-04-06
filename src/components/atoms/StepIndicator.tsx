@@ -46,7 +46,7 @@ export default function StepIndicator({
   // ! <ContainerDirection[direciton] />이와 같이 동적 컴포넌트로 할당하는 것은 오류가 남
   const SelectedDirectionalContainer = ContainerDirection[direciton];
   const baseStyle = cn(
-    'relative gap-7',
+    'relative justify-between',
     direciton === 'vertical' ? 'w-[7px]' : 'h-[7-px] w-fit', // ? width: fit-content => flex container의 width를 content로 제한한다.
   );
 
