@@ -16,6 +16,18 @@ const router = createBrowserRouter([
   },
   {
     element: <LayoutTemplate />,
+    children: [{ path: 'chats', element: <span>chats page</span> }],
+  },
+  {
+    element: <LayoutTemplate />,
+    children: [{ path: 'lounge', element: <span>lounge page</span> }],
+  },
+  {
+    element: <LayoutTemplate />,
+    children: [{ path: 'house', element: <span>house page</span> }],
+  },
+  {
+    element: <LayoutTemplate />,
     children: [
       {
         // ! Sign 레이아웃 적용
