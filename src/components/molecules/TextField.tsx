@@ -1,43 +1,35 @@
-import { UseFormRegister, RegisterOptions, FieldValues } from 'react-hook-form';
+import { RegisterOptions, useFormContext } from 'react-hook-form';
 
-import Container from '../atoms/Container';
-import Input from '../atoms/Input';
-import Label from '../atoms/Label';
-import Typography from '../atoms/Typography';
+import Container from '@/components/atoms/Container';
+import Input, { InputProps } from '@/components/atoms/Input';
+import Label from '@/components/atoms/Label';
+import Typography from '@/components/atoms/Typography';
 
-export type TextFieldProps = {
+export type TextFieldProps = InputProps & {
   text: string;
-	type: string;
   name: string;
   containerStyle?: string;
   inputStyle?: string;
-  register: UseFormRegister<FieldValues>;
-  options: RegisterOptions;
-  helperText: string;
+  options?: RegisterOptions;
 };
 
 export default function TextField(props: TextFieldProps) {
-  const {
-    text,
-		type,
-    name,
-    containerStyle,
-    inputStyle,
-    register,
-    options,
-    helperText,
-  } = props;
+  const { text, type, name, containerStyle, inputStyle, placeholder, options } =
+    props;
+
+  const { register, formState } = useFormContext();
+
   return (
     <Container className={containerStyle}>
       <Label>{text}</Label>
-      <Input type={type} className={inputStyle} {...register(name, options)} />
+      <Input type={type} className={inputStyle} placeholder={placeholder} {...register(name, options)} />
       <Typography.Span2
-        className={`${helperText && 'invisible'} mt-[8px] block text-point`}
+        className={`${!formState.errors[name]?.message && 'invisible'} mt-[8px] block text-point`}
       >
-        {helperText || '&nbsp'}
+        {formState.errors[name]?.message as string}
       </Typography.Span2>
     </Container>
   );
 }
 
-TextField.defaultProps = { containerStyle: '', inputStyle: '' };
+TextField.defaultProps = { containerStyle: '', inputStyle: '', options: {} };
