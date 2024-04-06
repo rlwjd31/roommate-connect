@@ -5,6 +5,8 @@ import ComponentTest from '@/components/pages/ComponentTest';
 import SignLayoutTemplate from '@/components/templates/SignLayout.template';
 import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
 import SignUpProfile from '@/components/pages/SignUpProfile';
+import SignIn from '@/components/pages/SignIn';
+import SignUp from '@/components/pages/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -22,12 +24,12 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'in',
-            element: <span>로그인 / 소셜 로그인 /회원가입 이동</span>,
+            element: <SignIn />,
           },
           {
             path: 'up',
             element: (
-              <span>이메일 인증, 암호 설정, 이름, 주소, 전화번호 인증</span>
+              <SignUp />
             ),
           },
         ],

@@ -20,7 +20,7 @@ export default function SignLayoutTemplate() {
       <Container className="h-full w-[50%] pl-[4.75rem] pt-[calc(50vh-147px)]">
         <Icon className="translate-y-[-50%]" type="character" />
       </Container>
-      <Container className="absolute right-0 w-[50%]">
+      <Container className="absolute right-0 w-[50%] pl-[7.125rem]">
         <Outlet />
       </Container>
     </>
