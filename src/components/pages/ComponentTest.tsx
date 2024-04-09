@@ -528,9 +528,13 @@ export default function ComponentTest() {
       </Container>
       {/* Step Indicator test */}
       <h1 className="my-12 text-Head1">Step Indicator</h1>
-      <StepIndicator labelName="집 유형, 매물 종류" />
+      <div>
+        <StepIndicator labelName="집 유형, 매물 종류" />
+      </div>
       <div className="mb-7" />
-      <StepIndicator labelName="위치, 기간" />
+      <div>
+        <StepIndicator labelName="위치, 기간" />
+      </div>
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>

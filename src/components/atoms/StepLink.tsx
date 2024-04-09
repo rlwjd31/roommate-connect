@@ -42,7 +42,12 @@ export default function StepLink({
   const baseStyle = 'relative flex items-center gap-7 text-brown2 py-[11px]';
 
   return (
-    <Button.Ghost className={cn(baseStyle, className)}>
+    <Button.Ghost
+      className={`${baseStyle}
+        ${className}
+      [&:not(:first-of-type)]:after:absolute [&:not(:first-of-type)]:after:-top-1/2 [&:not(:first-of-type)]:after:left-[3px] [&:not(:first-of-type)]:after:h-full [&:not(:first-of-type)]:after:w-[1px] [&:not(:first-of-type)]:after:bg-brown2
+      `}
+    >
       <Step isActive={isActive} />
       <Typography.Span1 className={cn(isActive && 'text-brown')}>
         {labelName}
