@@ -538,27 +538,27 @@ export default function ComponentTest() {
         <Carousel order={carouselStep}>
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
         </Carousel>
