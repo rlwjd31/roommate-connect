@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 
 import cn from '@/libs/cn';
 import Typography from '@/components/atoms/Typography';
-import Link from '@/components/atoms/Link';
+import Button from '@/components/atoms/Button';
 
 type StepProps = ComponentProps<'div'> & {
   isActive?: boolean;
@@ -32,24 +32,22 @@ type StepIndicatorProps = {
   className?: string;
   isActive?: boolean;
   labelName: string;
-  routePath: string;
 };
 
 export default function StepLink({
   labelName,
   isActive,
-  routePath,
   className,
 }: StepIndicatorProps) {
   const baseStyle = 'relative flex items-center gap-7 text-brown2 py-[11px]';
 
   return (
-    <Link className={cn(baseStyle, className)} to={routePath}>
+    <Button.Ghost className={cn(baseStyle, className)}>
       <Step isActive={isActive} />
       <Typography.Span1 className={cn(isActive && 'text-brown')}>
         {labelName}
       </Typography.Span1>
-    </Link>
+    </Button.Ghost>
   );
 }
 

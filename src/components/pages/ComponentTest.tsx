@@ -39,15 +39,15 @@ export default function ComponentTest() {
   const labelStepContents = [
     {
       labelName: '집 유형, 매물 종류',
-      routePath: '/',
+      isActive: false,
     },
     {
       labelName: '위치, 기간',
-      routePath: '/',
+      isActive: true,
     },
     {
       labelName: '가격대',
-      routePath: '/',
+      isActive: false,
     },
   ];
   const [rangeValue, setRangeValue] = useState<number>(0);
@@ -528,17 +528,17 @@ export default function ComponentTest() {
       </Container>
       {/* Step Indicator test */}
       <h1 className="my-12 text-Head1">Step Indicator</h1>
-      <StepIndicator labelName="집 유형, 매물 종류" routePath="/" />
+      <StepIndicator labelName="집 유형, 매물 종류" />
       <div className="mb-7" />
-      <StepIndicator labelName="위치, 기간" routePath="/" />
+      <StepIndicator labelName="위치, 기간" />
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
       <StepNavigation contents={labelStepContents} currentStep={1} />
       <StepNavigation
         contents={[
-          { labelName: '흡연, 반려동물', routePath: '/' },
-          { labelName: '나의 라이프스타일 어필', routePath: '/' },
+          { labelName: '흡연, 반려동물', isActive: true },
+          { labelName: '나의 라이프스타일 어필', isActive: false },
         ]}
       />
       {/* Carousel Test */}
