@@ -23,6 +23,7 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
+import { toast } from 'react-toastify';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -35,6 +36,7 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
+  toast('토스트 메시지');
 
   const labelStepIndicatorContents = [
     {
