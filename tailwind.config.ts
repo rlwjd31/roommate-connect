@@ -15,8 +15,11 @@ export default {
         brown3: '#DDCFC4',
         brown4: '#FFF7F1',
         brown5: '#FFFEFB',
-        active: '#4C2A1C',
         point: '#FF7759',
+        'hover-outline': '#FFFBF8',
+        'active-fill': '#4C2A1C',
+        'active-outline': '#F7E9DE',
+        focus: '#EFCBA1',
       },
       fontSize: {
         Head1: ['3rem', { fontWeight: 700 }],
