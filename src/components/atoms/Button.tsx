@@ -2,7 +2,7 @@ import React, { ComponentProps, ReactNode } from 'react';
 
 import cn from '@/libs/cn';
 
-export type ButtonProps = ComponentProps<'button'>;
+export type ButtonProps = ComponentProps<'button'> & { isActive?: boolean };
 export type ButtonType = 'Fill' | 'Outline' | 'Ghost';
 
 type ButtonComponentProps = {
@@ -29,11 +29,16 @@ const buttonType: { type: ButtonType; defaultClassName: string }[] = [
 const Button = {} as ButtonComponentProps;
 
 buttonType.forEach(({ type, defaultClassName }) => {
-  Button[type] = ({ children, className, ...others }: ButtonProps) =>
+  Button[type] = ({
+    children,
+    className,
+    isActive = false,
+    ...others
+  }: ButtonProps) =>
     React.createElement(
       'button',
       {
-        className: `${defaultClassName} ${cn(className)}`,
+        className: `${defaultClassName} ${cn(className, isActive && 'border-transparent bg-brown4 outline outline-[3px] outline-point')}`,
         type: 'button',
         ...others,
       },
