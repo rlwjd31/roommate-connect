@@ -5,7 +5,6 @@ import cn from '@/libs/cn';
 export type BadgeProps = {
   children: React.ReactNode;
   className?: string;
-  icon?: React.ReactNode;
 };
 
 type BadgeType = 'Fill' | 'Outline';

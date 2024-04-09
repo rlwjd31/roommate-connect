@@ -375,15 +375,12 @@ export default function ComponentTest() {
               None Button And Fill Without Icon
             </Typography.P1>
           </Badge.Fill>
-          <Badge.Fill
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="point"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
-          >
+          <Badge.Fill>
+            <Icon
+              type="right-arrow"
+              stroke="point"
+              className="group-hover:[&_path]:stroke-subColor2"
+            />
             <Typography.P1 className="text-brown4">
               None Button And Fill With Icon
             </Typography.P1>
