@@ -5,10 +5,93 @@ import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
 import Carousel from '@/components/organisms/Carousel';
+import StepNavigation from '@/components/molecules/StepNavigation';
+import cn from '@/libs/cn';
+
+type StepTitleType = {
+  num: string | number;
+  title: string;
+  isActive?: boolean;
+};
+function StepTitle({ num, title, isActive }: StepTitleType) {
+  return (
+    <Container.FlexRow className="mb-3 items-center gap-3">
+      <div
+        className={cn(
+          'size-9 rounded-full flex justify-center items-center ',
+          isActive ? 'bg-brown' : 'bg-brown2',
+        )}
+      >
+        <span className="translate-y-[1.5px] text-xl font-semibold text-bg">
+          {num}
+        </span>
+      </div>
+      <Typography.SubTitle3
+        className={cn('font-semibold', isActive ? 'text-brown' : 'text-brown2')}
+      >
+        {title}
+      </Typography.SubTitle3>
+    </Container.FlexRow>
+  );
+}
+
+StepTitle.defaultProps = {
+  isActive: false,
+};
 
 type SignProfileLayoutTemplateProps = {
   children: React.ReactNode;
 };
+
+const stepInfos = [
+  {
+    stepTitle: '내가 찾는 집',
+    stepNum: 1,
+    stepContents: [
+      {
+        labelName: '집 유형, 매물 종류',
+        isActive: false,
+      },
+      {
+        labelName: '위치, 기간',
+        isActive: true,
+      },
+      {
+        labelName: '가격대',
+        isActive: false,
+      },
+    ],
+  },
+  {
+    stepTitle: '나의 라이프스타일',
+    stepNum: 2,
+    stepContents: [
+      {
+        labelName: '집 유형, 매물 종류',
+        isActive: false,
+      },
+      {
+        labelName: '위치, 기간',
+        isActive: true,
+      },
+    ],
+  },
+  {
+    stepTitle: '내가 원하는 룸메이트',
+    stepNum: 3,
+    stepContents: [
+      {
+        labelName: '성별, 인원 수',
+        isActive: false,
+      },
+      {
+        labelName: '원하는 라이프스타일 어필',
+        isActive: true,
+      },
+    ],
+  },
+];
+
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
@@ -27,10 +110,16 @@ export default function SignUpProfileLayoutTemplate(
 
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between pt-[41px]">
-      {/* TODO Container To Stepper */}
-      <Container className="w-[188px]">
-        <span>Stepper </span>
-      </Container>
+      {/* Step Indicator */}
+      <Container.FlexCol className="w-full min-w-48">
+        {stepInfos.map(({ stepTitle, stepNum, stepContents }) => (
+          <Container.FlexCol key={stepTitle} className="mb-12">
+            {/* 큰 stepTitle에 해당될 때 조건식 필요 true로 대체 */}
+            <StepTitle num={stepNum} isActive title={stepTitle} />
+            <StepNavigation className="pl-[14px]" contents={stepContents} />
+          </Container.FlexCol>
+        ))}
+      </Container.FlexCol>
       <Container.FlexCol className="justify-between">
         <Container className="w-[894px]">
           <Carousel order={currentStep}>{children}</Carousel>

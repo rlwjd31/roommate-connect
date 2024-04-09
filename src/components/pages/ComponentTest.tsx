@@ -538,7 +538,7 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <StepNavigation contents={labelStepContents} currentStep={1} />
+      <StepNavigation contents={labelStepContents} />
       <StepNavigation
         contents={[
           { labelName: '흡연, 반려동물', isActive: true },
