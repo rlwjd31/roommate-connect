@@ -596,9 +596,7 @@ export default function ComponentTest() {
           text="name"
           name="name"
           containerStyle="mt-3"
-          register={register}
           options={{ required: true, minLength: 2 }}
-          helperText="이름은 2글자 이상이어야 합니다."
         />
       </Container>
     </div>
