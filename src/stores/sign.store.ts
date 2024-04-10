@@ -1,5 +1,7 @@
-import { SignUpType } from '@/types/signUp.type';
 import { atom, selector } from 'recoil';
+
+import { SignUpType } from '@/types/signUp.type';
+
 // ? type 집 유형 0: 원룸/오피스텔, 1: 빌라/연립, 2: 아파트, 3: 단독주택 @number
 export const SignUpProfileTypeAtom = atom<SignUpType['type']>({
   key: 'signUpProfileTypeAtom',
