@@ -1,55 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="76" height="68" fill="none">
-  <path fill="#5F5F5F" d="M0 0h76v68H0z" />
-  <path fill="#FFFAF5" d="M-781-986h1828v2005H-781z" />
-  <rect width="52" height="14" x="18.888" y="42.484" fill="#FFFBF9" rx="3" />
-  <rect width="52" height="14" x="18.888" y="42.484" fill="url(#a)" rx="3" />
-  <path
-    fill="#F0D6A5"
-    d="M54.888 42.484h13a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-13v-14Z"
-  />
-  <path
-    fill="url(#b)"
-    d="M54.888 42.484h13a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-13v-14Z"
-  />
-  <path
-    fill="#C0AFA8"
-    d="M11.888 40.984c-3.194 5.19 1.333 7.666 5 9.5-.834 0-5-1-8-2.5-5.224-2.611-7-6-5.5-11s11.845-10.093 5.5-11.501c-4.5-.999-12-6.249-7.5-9.998 7.051-5.876 18-.503 22 7.497s-7.5 11.502-11.5 18.002Z"
-  />
-  <path
-    fill="url(#c)"
-    d="M11.888 40.984c-3.194 5.19 1.333 7.666 5 9.5-.834 0-5-1-8-2.5-5.224-2.611-7-6-5.5-11s11.845-10.093 5.5-11.501c-4.5-.999-12-6.249-7.5-9.998 7.051-5.876 18-.503 22 7.497s-7.5 11.502-11.5 18.002Z"
-  />
+<svg
+  width="76"
+  height="68"
+  viewBox="0 0 76 68"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g id="smoke">
+    <g id="cigarette">
+      <rect
+        id="Rectangle 320"
+        x="18.8876"
+        y="42.4844"
+        width="52"
+        height="14"
+        rx="3"
+        fill="#FFFBF9"
+      />
+      <rect
+        id="Rectangle 322"
+        x="18.8876"
+        y="42.4844"
+        width="52"
+        height="14"
+        rx="3"
+        fill="url(#paint0_linear_1059_12088)"
+      />
+      <path
+        id="Rectangle 321"
+        d="M54.8876 42.4844H67.8876C69.5444 42.4844 70.8876 43.8275 70.8876 45.4844V53.4844C70.8876 55.1412 69.5444 56.4844 67.8876 56.4844H54.8876V42.4844Z"
+        fill="#F0D6A5"
+      />
+      <path
+        id="Rectangle 323"
+        d="M54.8876 42.4844H67.8876C69.5444 42.4844 70.8876 43.8275 70.8876 45.4844V53.4844C70.8876 55.1412 69.5444 56.4844 67.8876 56.4844H54.8876V42.4844Z"
+        fill="url(#paint1_linear_1059_12088)"
+      />
+    </g>
+    <g id="smoke_2">
+      <path
+        id="Vector 11"
+        d="M11.8876 40.9844C8.69445 46.1732 13.2209 48.6505 16.8876 50.4838C16.0543 50.4838 11.8876 49.4844 8.88759 47.9844C3.66389 45.3725 1.8876 41.9844 3.38757 36.9844C4.88754 31.9844 15.2333 26.8909 8.88762 25.4829C4.38749 24.4844 -3.11241 19.2344 1.38758 15.4846C8.43904 9.60864 19.3876 14.9824 23.3876 22.9824C27.3876 30.9824 15.8876 34.4844 11.8876 40.9844Z"
+        fill="#C0AFA8"
+      />
+      <path
+        id="Vector 12"
+        d="M11.8876 40.9844C8.69445 46.1732 13.2209 48.6505 16.8876 50.4838C16.0543 50.4838 11.8876 49.4844 8.88759 47.9844C3.66389 45.3725 1.8876 41.9844 3.38757 36.9844C4.88754 31.9844 15.2333 26.8909 8.88762 25.4829C4.38749 24.4844 -3.11241 19.2344 1.38758 15.4846C8.43904 9.60864 19.3876 14.9824 23.3876 22.9824C27.3876 30.9824 15.8876 34.4844 11.8876 40.9844Z"
+        fill="url(#paint2_linear_1059_12088)"
+      />
+    </g>
+  </g>
   <defs>
     <linearGradient
-      id="a"
-      x1="33.888"
-      x2="33.888"
-      y1="42.484"
-      y2="66.484"
+      id="paint0_linear_1059_12088"
+      x1="33.8876"
+      y1="42.4844"
+      x2="33.8876"
+      y2="66.4844"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFFBF9" stop-opacity="0" />
-      <stop offset=".33" stop-color="#DECCBF" />
-      <stop offset=".73" stop-color="#DBD1CA" stop-opacity=".472" />
+      <stop offset="0.33" stop-color="#DECCBF" />
+      <stop offset="0.73" stop-color="#DBD1CA" stop-opacity="0.472222" />
     </linearGradient>
     <linearGradient
-      id="b"
-      x1="62.888"
-      x2="62.888"
-      y1="42.484"
-      y2="56.484"
+      id="paint1_linear_1059_12088"
+      x1="62.8876"
+      y1="42.4844"
+      x2="62.8876"
+      y2="56.4844"
       gradientUnits="userSpaceOnUse"
     >
-      <stop offset=".27" stop-color="#F0D6A5" />
-      <stop offset=".885" stop-color="#D49928" stop-opacity="0" />
+      <stop offset="0.27" stop-color="#F0D6A5" />
+      <stop offset="0.885" stop-color="#D49928" stop-opacity="0" />
       <stop offset="1" stop-color="#EDAB2A" stop-opacity="0" />
     </linearGradient>
     <linearGradient
-      id="c"
+      id="paint2_linear_1059_12088"
       x1="12.11"
-      x2="12.11"
       y1="13"
-      y2="50.484"
+      x2="12.11"
+      y2="50.4838"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFEAD1" />
