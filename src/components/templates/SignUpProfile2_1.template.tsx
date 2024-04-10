@@ -58,6 +58,7 @@ export default function SignUpProfile1ㅁ2Template() {
   const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
     setSmoking(stateValue);
   const onClickPettype = (stateValue: SignUpType['pet']) => setPet(stateValue);
+
   return (
     <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
@@ -95,7 +96,7 @@ export default function SignUpProfile1ㅁ2Template() {
               key={displayValue}
               className={cn(
                 'flex-1 gap-y-5 rounded-lg py-5',
-                smoking && stateValue === smoking && 'border-point bg-brown4',
+                pet && stateValue === pet && 'border-point bg-brown4',
               )}
               iconType={iconType}
               direction="top"
