@@ -45,7 +45,9 @@ export const SignUpProfilePetAtom = atom<SignUpType['pet']>({
 // ? appeals 유저의 어필할 매력(배열형태) @string[]
 export const SignUpProfileAppealsAtom = atom<SignUpType['appeals']>({
   key: 'signUpProfileAppealsAtom',
-  default: [],
+  // TODO: 나중에 기본값 빈 배열로 다시 setting
+  default: ['늦게 자요', '늦게 자요', '늦게 자요'],
+  // default: [],
 });
 // ? gender 상대방의 성별 0: 상관없음, 1: 남성, 2: 여성 @number
 export const SignUpProfileGenderAtom = atom<SignUpType['gender']>({

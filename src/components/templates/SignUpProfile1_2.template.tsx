@@ -39,7 +39,7 @@ export default function SignUpProfile1_2Template() {
           {/* TODO Selector 변경 */}
           <Container.FlexRow>
             <Selector label="지역" contents={region} />
-            <Selector label="지역" contents={district['경기']} />
+            <Selector label="시, 구" contents={district['경기']} />
           </Container.FlexRow>
         </Container.FlexCol>
         <Container.FlexCol>
