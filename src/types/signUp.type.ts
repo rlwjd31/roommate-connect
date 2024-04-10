@@ -1,11 +1,11 @@
-type SignUpType = {
+export type SignUpType = {
   type: number | undefined;
   rental_type: number | undefined;
   regions: string[];
   term: [number, number];
   deposit_price: [number, number];
   monthly_price: [number, number];
-  smoking: false | undefined;
+  smoking: boolean | undefined;
   pet: number | undefined;
   appeals: string[];
   gender: number | undefined;
