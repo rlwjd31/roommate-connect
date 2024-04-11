@@ -75,7 +75,7 @@ export default function SignUpProfile1ㅁ2Template() {
               key={displayValue}
               className={cn(
                 'flex-1 gap-y-5 rounded-lg py-5',
-                smoking && stateValue === smoking && 'border-point bg-brown4',
+                stateValue === smoking && 'border-point bg-brown4',
               )}
               iconType={iconType}
               direction="top"
@@ -96,7 +96,7 @@ export default function SignUpProfile1ㅁ2Template() {
               key={displayValue}
               className={cn(
                 'flex-1 gap-y-5 rounded-lg py-5',
-                pet && stateValue === pet && 'border-point bg-brown4',
+                stateValue === pet && 'border-point bg-brown4',
               )}
               iconType={iconType}
               direction="top"

@@ -63,18 +63,11 @@ export default function SignUpProfile1_2Template() {
     },
   ];
 
-  const onClickGenderType = (stateValue: SignUpType['gender']) => {
-    console.log('gender state', stateValue);
+  const onClickGenderType = (stateValue: SignUpType['gender']) =>
     setGender(stateValue);
-  };
 
-  const onClickMateNumbertype = (stateValue: SignUpType['mates_number']) => {
-    console.log('mates number state', stateValue);
+  const onClickMateNumbertype = (stateValue: SignUpType['mates_number']) =>
     setMatesNumber(stateValue);
-  };
-
-  console.log('out gender state', gender);
-  console.log('out mates number state', matesNumber);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -90,7 +83,7 @@ export default function SignUpProfile1_2Template() {
               key={displayValue}
               className={cn(
                 'flex-1 gap-y-5 rounded-lg py-5',
-                gender && stateValue === gender && 'border-point bg-brown4',
+                stateValue === gender && 'border-point bg-brown4',
               )}
               iconType={iconType}
               direction="top"
@@ -111,9 +104,8 @@ export default function SignUpProfile1_2Template() {
               key={displayValue}
               className={cn(
                 'flex-1 gap-y-5 rounded-lg py-5',
-                matesNumber &&
-                  stateValue === matesNumber &&
-                  'border-point bg-brown4',
+
+                stateValue === matesNumber && 'border-point bg-brown4',
               )}
               onClick={() => onClickMateNumbertype(stateValue)}
             >
