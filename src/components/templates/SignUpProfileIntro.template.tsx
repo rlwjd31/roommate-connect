@@ -19,7 +19,7 @@ export default function SignUpProfileIntroTemplate(
     navigate('/signup-profile');
   };
   return (
-    <Container.FlexCol className="items-center gap-y-[60px]">
+    <Container.FlexCol className="size-full items-center justify-center gap-y-[60px]">
       <Container.FlexCol className="items-center gap-y-[76px]">
         <Container.FlexCol>
           <Container.FlexCol className="items-center gap-y-7">
