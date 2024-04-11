@@ -22,7 +22,8 @@ import StepIndicator from '@/components/atoms/StepLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import StepNavigation from '@/components/molecules/StepNavigation';
+import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
+import { toast } from 'react-toastify';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -35,6 +36,7 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
+  toast('토스트 메시지');
 
   const labelStepContents = [
     {
@@ -361,49 +363,42 @@ export default function ComponentTest() {
             stroke="brown3"
             iconClassName="group-hover:[&_path]:stoke-subColor2"
           >
-            <Typography.SpanMid2 className="text-brown group-hover:text-brown4">
+            <Typography.SpanMid2 className="text-brown">
               Button And Outline With Icon
             </Typography.SpanMid2>
           </BadgeButton.Outline>
           <BadgeButton.Outline>
-            <Typography.Head3 className="text-brown group-hover:text-brown4">
+            <Typography.Head3 className="text-brown">
               Button And Outline Without Icon
             </Typography.Head3>
           </BadgeButton.Outline>
           <Badge.Fill>
-            <Typography.P1 className="text-brown4 group-hover:text-brown">
+            <Typography.P1 className="text-brown4">
               None Button And Fill Without Icon
             </Typography.P1>
           </Badge.Fill>
-          <Badge.Fill
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="point"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
-          >
-            <Typography.P1 className="text-brown4 group-hover:text-brown">
+          <Badge.Fill>
+            <Icon
+              type="right-arrow"
+              stroke="point"
+              className="group-hover:[&_path]:stroke-subColor2"
+            />
+            <Typography.P1 className="text-brown4">
               None Button And Fill With Icon
             </Typography.P1>
           </Badge.Fill>
-          <Badge.Outline
-            className="flex justify-between p-2"
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="point"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
-          >
-            <Typography.Span1 className="text-center text-brown group-hover:text-brown4">
+          <Badge.Outline className="flex justify-between p-2">
+            <Icon
+              type="right-arrow"
+              stroke="point"
+              className="group-hover:[&_path]:stroke-subColor2"
+            />
+            <Typography.Span1 className="text-center text-brown">
               None Button And Outline With Icon
             </Typography.Span1>
           </Badge.Outline>
           <Badge.Outline className="flex justify-center p-2">
-            <Typography.Span2 className="text-center text-brown group-hover:text-brown4">
+            <Typography.Span2 className="text-center text-brown">
               None Button And Outline Without Icon
             </Typography.Span2>
           </Badge.Outline>
@@ -551,27 +546,27 @@ export default function ComponentTest() {
         <Carousel order={carouselStep}>
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
         </Carousel>

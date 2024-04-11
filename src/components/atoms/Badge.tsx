@@ -5,7 +5,6 @@ import cn from '@/libs/cn';
 export type BadgeProps = {
   children: React.ReactNode;
   className?: string;
-  icon?: React.ReactNode;
 };
 
 type BadgeType = 'Fill' | 'Outline';
@@ -17,12 +16,12 @@ const badgeType: { type: BadgeType; defaultClassName: string }[] = [
   {
     type: 'Fill',
     defaultClassName:
-      'flex group text-bg items-center bg-brown border border-brown hover:bg-bg hover:text-brown',
+      'group flex items-center bg-brown hover:bg-brown1 hover:shadow-[0_4px_4px_0] hover:shadow-brown/25 active:bg-active-fill active:shadow-none focus:bg-brown focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:outline focus:outline-[3px] focus:shadow-brown/25',
   },
   {
     type: 'Outline',
     defaultClassName:
-      'flex group text-brown items-center bg-bg border border-brown hover:bg-brown hover:text-bg',
+      'group flex bg-bg items-center border-brown border hover:bg-hover-outline hover:shadow-[0_4px_4px_0] hover:shadow-brown/25 active:bg-active-outline active:shadow-none focus:outline-[3px] focus:outline focus:border-transparent focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:shadow-brown/25',
   },
 ];
 const Badge = {} as BadgeComponentProps;
