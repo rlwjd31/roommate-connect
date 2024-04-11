@@ -67,11 +67,11 @@ const stepInfos = [
     stepNum: 2,
     stepContents: [
       {
-        labelName: '집 유형, 매물 종류',
+        labelName: '흡연, 반려동물',
         isActive: false,
       },
       {
-        labelName: '위치, 기간',
+        labelName: '나의 라이프스타일 어필',
         isActive: true,
       },
     ],
