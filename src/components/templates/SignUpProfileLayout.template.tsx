@@ -109,7 +109,7 @@ export default function SignUpProfileLayoutTemplate(
   };
 
   return (
-    <Container.FlexRow className="max-h-[816px] grow justify-between pt-[41px]">
+    <Container.FlexRow className="max-h-[816px] grow justify-between">
       {/* Step Indicator */}
       <Container.FlexCol className="w-full min-w-48">
         {stepInfos.map(({ stepTitle, stepNum, stepContents }) => (
@@ -124,7 +124,7 @@ export default function SignUpProfileLayoutTemplate(
         <Container className="w-[894px]">
           <Carousel order={currentStep}>{children}</Carousel>
         </Container>
-        <Container.FlexRow className="justify-end gap-x-3">
+        <Container.FlexRow className="justify-end gap-x-3 pb-[76px]">
           {/* TODO right-arrow to left-arrow */}
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"

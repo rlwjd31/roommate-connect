@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -23,7 +23,7 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
-import { toast } from 'react-toastify';
+import StepNavigation from '@/components/molecules/StepNavigation';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -36,7 +36,6 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
-  toast('토스트 메시지');
 
   const labelStepContents = [
     {
@@ -53,7 +52,7 @@ export default function ComponentTest() {
     },
   ];
   const [rangeValue, setRangeValue] = useState<number>(0);
-  const { register } = useForm();
+  const formValues = useForm();
 
   return (
     <div className="flex flex-col bg-bg p-8">
@@ -600,12 +599,14 @@ export default function ComponentTest() {
         <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
         <h1 className="text-Head2">TextField Test</h1>
         {/* <TextField /> */}
-        {/* <TextField
-          text="name"
-          name="name"
-          containerStyle="mt-3"
-          options={{ required: true, minLength: 2 }}
-        /> */}
+        <FormProvider {...formValues}>
+          <TextField
+            labelName="name"
+            name="name"
+            containerStyle="mt-3"
+            options={{ required: true, minLength: 2 }}
+          />
+        </FormProvider>
       </Container>
     </div>
   );
