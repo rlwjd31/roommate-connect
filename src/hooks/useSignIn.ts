@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import { AuthError, Session } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
 
 import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
@@ -98,8 +99,28 @@ export const useSignInSocial = () => {
   return { signInSocial, isSignInSocial };
 };
 
+export const useAuth = () => {
+  const [sessionValue, setSessionValue] = useState<Session>();
+
+  //   // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
+  //   // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        if (session) setSessionValue(session);
+      },
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  return sessionValue;
+};
+
 // * User 의 생년월일, 성별을 얻기 위해 추가적으로 진행하는 요청
-export const useUserAdditionalInfo = (session: Session) => ({
+export const userAdditionalInfo = (session: Session) => ({
   queryKey: ['user-additional-info'],
   queryFn: async () => {
     const user: UserAdditionalType = {};
