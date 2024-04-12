@@ -8,20 +8,21 @@ import Link from '@/components/atoms/Link';
 import Divider from '@/components/atoms/Divider';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
-import { useSignInEmail } from '@/hooks/useSignIn';
-import { EmailAuthType } from '@/types/auth.type';
+import { useSignInEmail, useSignInSocial } from '@/hooks/useSignIn';
+import { EmailAuthType, SocialType } from '@/types/auth.type';
 
 export default function SignInTemplate() {
-	const Form = FormProvider;
-  const form = useForm();
-	const onSubmit = (data) => console.log(data);
-	
   const Form = FormProvider;
   const form = useForm<EmailAuthType>();
   const { signInEmail, isSignInEmail } = useSignInEmail();
   const { signInSocial, isSignInSocial } = useSignInSocial();
   const onSubmitEmail = (data: EmailAuthType) => {
     signInEmail(data);
+  };
+
+  const onClickSocial = (event: MouseEvent<HTMLButtonElement>) => {
+    const { id } = event.currentTarget;
+    signInSocial(id as SocialType);
   };
 
   return (
@@ -72,24 +73,19 @@ export default function SignInTemplate() {
           <Divider.Row>SNS 계정으로 로그인</Divider.Row>
         </div>
         <Container.FlexRow className="mx-auto gap-[1rem]">
-          <IconButton
-            button="Outline"
+          <IconButton.Outline
+            id="kakao"
             iconType="kakaotalk-logo"
+            disabled={isSignInSocial}
             className="rounded-full p-[0.75rem]"
-          />
-          <IconButton
-            button="Outline"
-            iconType="google-logo"
-            className="rounded-full p-[0.75rem]"
-          />
-          <IconButton
-            button="Outline"
-            iconType="apple-logo"
-            className="rounded-full p-[0.75rem]"
+            onClick={onClickSocial}
           />
           <IconButton.Outline
-            iconType="meta-logo"
+            id="google"
+            iconType="google-logo"
+            disabled={isSignInSocial}
             className="rounded-full p-[0.75rem]"
+            onClick={onClickSocial}
           />
         </Container.FlexRow>
       </Container.FlexCol>
