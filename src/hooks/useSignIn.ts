@@ -99,7 +99,7 @@ export const useSignInSocial = () => {
   return { signInSocial, isSignInSocial };
 };
 
-export const useAuth = () => {
+export const useSignInState = () => {
   const [sessionValue, setSessionValue] = useState<Session>();
 
   //   // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
@@ -163,14 +163,15 @@ export const useUpdateUser = () => {
       // * 성별과 생년월일을 업데이트 후 신규 가입 시에만 닉네임 및 status(정지 여부)에 대한 값이 없어 수동으로 추가
       const { user } = data.data;
       if (user) {
+        const { id } = user;
         const {
           gender,
-          avatar,
+          avatar_url: avatar,
           birth,
-          user_name: name,
+          name,
           email,
         } = user.user_metadata;
-        const payload = { gender, avatar, birth, name, email };
+        const payload = { id, gender, avatar, birth, name, email };
         if (!user.user_metadata.nickname) {
           const updatePayload = { status: 0, nickname: name };
           await supabase.auth.updateUser({ data: { ...updatePayload } });
