@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
@@ -12,7 +12,7 @@ export default function About() {
   // ! Layout.template.tsx 의 onAuthStateChange 에서 navigate 동작
   // ! 현재 About 컴포넌트는 Layout.template.tsx 외부에 위치한 컴포넌트로 임시로 작성
   // ! TODO 제거
-  const setUser = useSetRecoilState(UserAtom);
+  const [user, setUser] = useRecoilState(UserAtom);
   const navigate = useNavigate();
   const onClickSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -21,13 +21,25 @@ export default function About() {
     navigate('/sign/in');
   };
   return (
-    <Container.FlexRow>
-      <span>서비스 소개 및 사용방법</span>
-      <Button.Fill className="rounded-xl p-4">
+    <Container.FlexCol className="gap-4">
+      <Typography.Head1>서비스 소개 및 사용방법</Typography.Head1>
+      <Typography.P1>고유번호: {user?.id}</Typography.P1>
+      <Typography.P1>생년월일: {user?.birth}</Typography.P1>
+      <Typography.P1>성별 : {user?.gender}</Typography.P1>
+      <Typography.P1>성명 : {user?.name}</Typography.P1>
+      <Typography.P1>이메일 : {user?.email}</Typography.P1>
+      {user?.avatar && (
+        <img
+          className="size-[100px] rounded-full"
+          src={user?.avatar}
+          alt="avatar"
+        />
+      )}
+      <Button.Fill className="w-[100px] rounded-xl p-4">
         <Typography.P2 className="text-white" onClick={onClickSignOut}>
           로그아웃
         </Typography.P2>
       </Button.Fill>
-    </Container.FlexRow>
+    </Container.FlexCol>
   );
 }
