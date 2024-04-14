@@ -13,6 +13,8 @@ type StepTitleType = {
   title: string;
   isActive?: boolean;
 };
+
+
 function StepTitle({ num, title, isActive }: StepTitleType) {
   return (
     <Container.FlexRow className="mb-3 items-center gap-3">
@@ -92,6 +94,9 @@ const stepInfos = [
   },
 ];
 
+
+// TODO: DeepType?을 통해서 할 수 있으면 정확한 type 추론
+// TODO: carousel 개수와 data연관짓기
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const alternateProperty = <T extends Record<string, any>>(
   data: T[],
@@ -150,8 +155,11 @@ export default function SignUpProfileLayoutTemplate(
     else setCurrentStep(prev => prev + 1);
   };
 
+
+
   // * 자식을 Children.toArray(children)과 같이 배열로도 받아 재 정렬을 할 수도 있다.
   // const numsOfCarouselItems = Children.count(children);
+
 
   const addedIsActivePropertyStepInfos = alternateProperty<
     (typeof stepInfos)[number]
@@ -172,6 +180,8 @@ export default function SignUpProfileLayoutTemplate(
     }[];
   }[];
 
+
+  
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
       {/* Step Indicator */}

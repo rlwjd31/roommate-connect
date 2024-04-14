@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
+import { useRecoilState } from 'recoil';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -11,7 +12,24 @@ import SignUpProfile2_1Template from '@/components/templates/SignUpProfile2_1.te
 import SignUpProfile2_2Template from '@/components/templates/SignUpProfile2_2.template';
 import SignUpProfile3_1Template from '@/components/templates/SignUpProfile3_1.template';
 import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.template';
+import { SignUpType } from '@/types/signUp.type';
 import Button from '@/components/atoms/Button';
+import { SignUpProfileSelector } from '@/stores/sign.store';
+
+const testData: SignUpType = {
+  type: 0,
+  rental_type: 1,
+  regions: ['서울시 강동구'],
+  deposit_price: [100, 3000],
+  term: [2, 6],
+  monthly_price: [30, 40],
+  smoking: true,
+  pet: 0,
+  appeals: ['난 꿀꿀이'],
+  gender: 1,
+  mates_number: 1,
+  mate_appeals: ['너도 꿀꿀이'],
+};
 
 export type ProfileFormValues = {
   appealsInputValue: string;
@@ -27,6 +45,9 @@ export default function SignUpProfile() {
       mateAppealsInputValute: '',
     },
   });
+  const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
+    SignUpProfileSelector,
+  );
 
   // ! 하위계층 구조에 있는 input element내의 enter키를 누르면 bubbling에 의해 form이 event를 받게된다.
   // ! 이로 인해서 input element에서 enter는 badge를 만드는 목적을 가지지만 form onSubmit event를 발생시켜
@@ -43,6 +64,7 @@ export default function SignUpProfile() {
     // event?.preventDefault();
     console.log('when a;sdklnfl;aksdjfl;kajsdf');
     console.log('✅ onSubmit data', data);
+    setAllSignUpProfileState(testData);
   };
 
   return (
