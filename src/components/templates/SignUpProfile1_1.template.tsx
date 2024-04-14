@@ -47,7 +47,8 @@ export default function SignUpProfile1_1Template() {
           {TypeValue.map((typeItem, index) => (
             <IconButton.Outline
               key={typeItem}
-              className={`flex-1 gap-y-5 rounded-lg py-5 ${index === type && 'border-point bg-brown4'}`}
+              className={`flex-1 gap-y-5 rounded-lg py-5 `}
+              isActive={index === type}
               iconType={TypeIcon[index]}
               direction="top"
               id={String(index)}
@@ -64,7 +65,8 @@ export default function SignUpProfile1_1Template() {
           {RentalTypeValue.map((rentalTypeItem, index) => (
             <Button.Outline
               key={rentalTypeItem}
-              className={`flex-1 rounded-lg py-5 ${index === rentalType && 'border-point bg-brown4'}`}
+              className="flex-1 rounded-lg py-5"
+              isActive={index === rentalType}
               id={String(index)}
               onClick={onClickRentalType}
             >

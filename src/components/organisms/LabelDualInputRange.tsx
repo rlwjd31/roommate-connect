@@ -28,8 +28,12 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
   return (
     <Container.FlexCol className={className}>
       <Container.FlexRow className="mb-7 justify-between">
-        {label && <Typography.SubTitle2>{label}</Typography.SubTitle2>}
-        <Typography.SubTitle2>
+        {label && (
+          <Typography.SubTitle2 className="text-brown">
+            {label}
+          </Typography.SubTitle2>
+        )}
+        <Typography.SubTitle2 className="text-brown">
           {rangeValue[0] === rangeValue[1]
             ? generateUnit(rangeValue[0])
             : `${generateUnit(rangeValue[0])} ~ ${generateUnit(rangeValue[1])}`}

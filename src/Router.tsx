@@ -7,6 +7,7 @@ import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
 import SignUpProfile from '@/components/pages/SignUpProfile';
 import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
+import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 
 const router = createBrowserRouter([
   {
@@ -40,9 +41,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'up',
-            element: (
-              <SignUp />
-            ),
+            element: <SignUp />,
           },
         ],
       },
@@ -58,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: 'component-test',
         element: <ComponentTest />,
+      },
+      {
+        path: 'signup-outro',
+        element: <SignUpProfileOutro />,
       },
     ],
   },

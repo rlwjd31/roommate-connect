@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -22,6 +22,7 @@ import StepIndicator from '@/components/atoms/StepLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
+import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
 import StepNavigation from '@/components/molecules/StepNavigation';
 
 export default function ComponentTest() {
@@ -51,7 +52,7 @@ export default function ComponentTest() {
     },
   ];
   const [rangeValue, setRangeValue] = useState<number>(0);
-  const { register } = useForm();
+  const formValues = useForm();
 
   return (
     <div className="flex flex-col bg-bg p-8">
@@ -361,49 +362,42 @@ export default function ComponentTest() {
             stroke="brown3"
             iconClassName="group-hover:[&_path]:stoke-subColor2"
           >
-            <Typography.SpanMid2 className="text-brown group-hover:text-brown4">
+            <Typography.SpanMid2 className="text-brown">
               Button And Outline With Icon
             </Typography.SpanMid2>
           </BadgeButton.Outline>
           <BadgeButton.Outline>
-            <Typography.Head3 className="text-brown group-hover:text-brown4">
+            <Typography.Head3 className="text-brown">
               Button And Outline Without Icon
             </Typography.Head3>
           </BadgeButton.Outline>
           <Badge.Fill>
-            <Typography.P1 className="text-brown4 group-hover:text-brown">
+            <Typography.P1 className="text-brown4">
               None Button And Fill Without Icon
             </Typography.P1>
           </Badge.Fill>
-          <Badge.Fill
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="point"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
-          >
-            <Typography.P1 className="text-brown4 group-hover:text-brown">
+          <Badge.Fill>
+            <Icon
+              type="right-arrow"
+              stroke="point"
+              className="group-hover:[&_path]:stroke-subColor2"
+            />
+            <Typography.P1 className="text-brown4">
               None Button And Fill With Icon
             </Typography.P1>
           </Badge.Fill>
-          <Badge.Outline
-            className="flex justify-between p-2"
-            icon={
-              <Icon
-                type="right-arrow"
-                stroke="point"
-                className="group-hover:[&_path]:stroke-subColor2"
-              />
-            }
-          >
-            <Typography.Span1 className="text-center text-brown group-hover:text-brown4">
+          <Badge.Outline className="flex justify-between p-2">
+            <Icon
+              type="right-arrow"
+              stroke="point"
+              className="group-hover:[&_path]:stroke-subColor2"
+            />
+            <Typography.Span1 className="text-center text-brown">
               None Button And Outline With Icon
             </Typography.Span1>
           </Badge.Outline>
           <Badge.Outline className="flex justify-center p-2">
-            <Typography.Span2 className="text-center text-brown group-hover:text-brown4">
+            <Typography.Span2 className="text-center text-brown">
               None Button And Outline Without Icon
             </Typography.Span2>
           </Badge.Outline>
@@ -538,7 +532,7 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <StepNavigation contents={labelStepContents} currentStep={1} />
+      <StepNavigation contents={labelStepContents} />
       <StepNavigation
         contents={[
           { labelName: '흡연, 반려동물', isActive: true },
@@ -551,27 +545,27 @@ export default function ComponentTest() {
         <Carousel order={carouselStep}>
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://source.unsplash.com/random/300×300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
           <img
             src="https://picsum.photos/300/300"
-            alt="house image"
+            alt="house"
             className="flex-1"
           />
         </Carousel>
@@ -605,12 +599,14 @@ export default function ComponentTest() {
         <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
         <h1 className="text-Head2">TextField Test</h1>
         {/* <TextField /> */}
-        {/* <TextField
-          text="name"
-          name="name"
-          containerStyle="mt-3"
-          options={{ required: true, minLength: 2 }}
-        /> */}
+        <FormProvider {...formValues}>
+          <TextField
+            labelName="name"
+            name="name"
+            containerStyle="mt-3"
+            options={{ required: true, minLength: 2 }}
+          />
+        </FormProvider>
       </Container>
     </div>
   );

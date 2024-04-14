@@ -1,4 +1,7 @@
 import { atom, selector } from 'recoil';
+
+import { SignUpType } from '@/types/signUp.type';
+
 // ? type 집 유형 0: 원룸/오피스텔, 1: 빌라/연립, 2: 아파트, 3: 단독주택 @number
 export const SignUpProfileTypeAtom = atom<SignUpType['type']>({
   key: 'signUpProfileTypeAtom',
@@ -42,7 +45,9 @@ export const SignUpProfilePetAtom = atom<SignUpType['pet']>({
 // ? appeals 유저의 어필할 매력(배열형태) @string[]
 export const SignUpProfileAppealsAtom = atom<SignUpType['appeals']>({
   key: 'signUpProfileAppealsAtom',
-  default: [],
+  // TODO: 나중에 기본값 빈 배열로 다시 setting
+  default: ['늦게 자요', '늦게 자요', '늦게 자요'],
+  // default: [],
 });
 // ? gender 상대방의 성별 0: 상관없음, 1: 남성, 2: 여성 @number
 export const SignUpProfileGenderAtom = atom<SignUpType['gender']>({
