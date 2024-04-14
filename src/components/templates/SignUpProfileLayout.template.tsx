@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
@@ -50,15 +50,15 @@ const stepInfos = [
     stepContents: [
       {
         labelName: '집 유형, 매물 종류',
-        isActive: false,
+        carouselCurrentStep: 0,
       },
       {
         labelName: '위치, 기간',
-        isActive: true,
+        carouselCurrentStep: 1,
       },
       {
         labelName: '가격대',
-        isActive: false,
+        carouselCurrentStep: 2,
       },
     ],
   },
@@ -68,11 +68,11 @@ const stepInfos = [
     stepContents: [
       {
         labelName: '흡연, 반려동물',
-        isActive: false,
+        carouselCurrentStep: 3,
       },
       {
         labelName: '나의 라이프스타일 어필',
-        isActive: true,
+        carouselCurrentStep: 4,
       },
     ],
   },
@@ -82,15 +82,57 @@ const stepInfos = [
     stepContents: [
       {
         labelName: '성별, 인원 수',
-        isActive: false,
+        carouselCurrentStep: 5,
       },
       {
         labelName: '원하는 라이프스타일 어필',
-        isActive: true,
+        carouselCurrentStep: 6,
       },
     ],
   },
 ];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const alternateProperty = <T extends Record<string, any>>(
+  data: T[],
+  injectTargetPath: string[],
+  targetKey: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  callback: (value: T[keyof T]) => Record<string, any>,
+  removeKey: string = '',
+) => {
+  const removeProperty = (key: string, obj: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { [key]: _, ...restObj } = obj;
+
+    return restObj;
+  };
+
+  const traverseToAlternate = (nestedData: T[], keyIndex = 0): T[] =>
+    nestedData.map(d => {
+      const currentKey = injectTargetPath[keyIndex];
+      const isPathEnd = keyIndex === injectTargetPath.length;
+      const injectedObj = {
+        ...(isPathEnd
+          ? callback(d[targetKey] as T[keyof T])
+          : {
+              [`${currentKey}`]: traverseToAlternate(
+                d[currentKey] as T[],
+                keyIndex + 1,
+              ),
+            }),
+      };
+
+      return removeProperty(removeKey, {
+        ...d,
+        ...injectedObj,
+      }) as T;
+    });
+
+  const result = traverseToAlternate(data);
+
+  return result;
+};
 
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
@@ -108,17 +150,45 @@ export default function SignUpProfileLayoutTemplate(
     else setCurrentStep(prev => prev + 1);
   };
 
+  // * 자식을 Children.toArray(children)과 같이 배열로도 받아 재 정렬을 할 수도 있다.
+  // const numsOfCarouselItems = Children.count(children);
+
+  const addedIsActivePropertyStepInfos = alternateProperty<
+    (typeof stepInfos)[number]
+  >(
+    stepInfos,
+    ['stepContents'],
+    'carouselCurrentStep',
+    value => ({
+      isActive: value === currentStep,
+    }),
+    'carouselCurrentStep',
+  ) as unknown as {
+    stepTitle: string;
+    stepNum: number;
+    stepContents: {
+      labelName: string;
+      isActive: boolean;
+    }[];
+  }[];
+
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
       {/* Step Indicator */}
       <Container.FlexCol className="w-full min-w-48">
-        {stepInfos.map(({ stepTitle, stepNum, stepContents }) => (
-          <Container.FlexCol key={stepTitle} className="mb-12">
-            {/* 큰 stepTitle에 해당될 때 조건식 필요 true로 대체 */}
-            <StepTitle num={stepNum} isActive title={stepTitle} />
-            <StepNavigation className="pl-[14px]" contents={stepContents} />
-          </Container.FlexCol>
-        ))}
+        {addedIsActivePropertyStepInfos.map(
+          ({ stepTitle, stepNum, stepContents }) => (
+            <Container.FlexCol key={stepTitle} className="mb-12">
+              {/* 큰 stepTitle에 해당될 때 조건식 필요 true로 대체 */}
+              <StepTitle
+                num={stepNum}
+                isActive={stepContents.some(content => content.isActive)}
+                title={stepTitle}
+              />
+              <StepNavigation className="pl-[14px]" contents={stepContents} />
+            </Container.FlexCol>
+          ),
+        )}
       </Container.FlexCol>
       <Container.FlexCol className="justify-between">
         <Container className="w-[894px]">
