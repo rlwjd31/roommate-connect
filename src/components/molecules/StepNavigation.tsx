@@ -6,6 +6,7 @@ type Props = {
     labelName: string;
     isActive: boolean;
   }[];
+};
 
 export default function StepNavigation({ contents }: Props) {
   return (
