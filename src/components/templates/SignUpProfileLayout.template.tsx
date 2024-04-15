@@ -7,13 +7,13 @@ import Typography from '@/components/atoms/Typography';
 import Carousel from '@/components/organisms/Carousel';
 import StepNavigation from '@/components/molecules/StepNavigation';
 import cn from '@/libs/cn';
+import Button from '@/components/atoms/Button';
 
 type StepTitleType = {
   num: string | number;
   title: string;
   isActive?: boolean;
 };
-
 
 function StepTitle({ num, title, isActive }: StepTitleType) {
   return (
@@ -94,7 +94,6 @@ const stepInfos = [
   },
 ];
 
-
 // TODO: DeepType?을 통해서 할 수 있으면 정확한 type 추론
 // TODO: carousel 개수와 data연관짓기
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -145,21 +144,21 @@ export default function SignUpProfileLayoutTemplate(
   const { children } = props;
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
+  const numsOfCarouselChildren = Children.count(children);
+  const isFirstOfCarousel = currentStep === 0;
+  const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
 
   const onClickPrevButton = () => {
-    if (currentStep === 0) navigate('/signup-intro');
+    if (isFirstOfCarousel) navigate('/signup-intro');
     else setCurrentStep(prev => prev - 1);
   };
   const onClickNextButton = () => {
-    if (currentStep === 6) navigate('/signup-outro');
+    if (isLastOfCarousel) navigate('/signup-outro');
     else setCurrentStep(prev => prev + 1);
   };
 
-
-
   // * 자식을 Children.toArray(children)과 같이 배열로도 받아 재 정렬을 할 수도 있다.
   // const numsOfCarouselItems = Children.count(children);
-
 
   const addedIsActivePropertyStepInfos = alternateProperty<
     (typeof stepInfos)[number]
@@ -180,8 +179,6 @@ export default function SignUpProfileLayoutTemplate(
     }[];
   }[];
 
-
-  
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
       {/* Step Indicator */}
@@ -213,14 +210,25 @@ export default function SignUpProfileLayoutTemplate(
           >
             <Typography.P1 className="text-brown">이전</Typography.P1>
           </IconButton.Outline>
-          <IconButton.Fill
-            className="gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
-            iconType="right-arrow"
-            stroke="bg"
-            onClick={onClickNextButton}
-          >
-            <Typography.P1 className="text-bg">다음</Typography.P1>
-          </IconButton.Fill>
+          {isLastOfCarousel ? (
+            <Button.Fill
+              className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
+              onClick={onClickNextButton}
+              type="submit"
+            >
+              <Typography.P1 className="text-bg">완료</Typography.P1>
+            </Button.Fill>
+          ) : (
+            <IconButton.Fill
+              className="gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
+              iconType="right-arrow"
+              stroke="bg"
+              onClick={onClickNextButton}
+              type="button"
+            >
+              <Typography.P1 className="text-bg">다음</Typography.P1>
+            </IconButton.Fill>
+          )}
         </Container.FlexRow>
       </Container.FlexCol>
     </Container.FlexRow>
