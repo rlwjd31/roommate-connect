@@ -16,7 +16,7 @@ type BadgesButtonsProps = CustomIconType &
     contents: string[];
     badgeClassName?: string;
     badgeType?: 'Fill' | 'Outline';
-    iconType?: IconType;
+    iconType?: IconType | undefined;
     direction?: IconDirectionType;
     iconClassName?: string;
     typoClassName?: string;
@@ -81,7 +81,7 @@ export default function BadgeButtons({
 BadgeButtons.defaultProps = {
   badgeClassName: '',
   iconClassName: '',
-  iconType: 'close',
+  iconType: undefined,
   direction: 'right',
   typoType: 'P1',
   typoClassName: '',
