@@ -3,6 +3,7 @@
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
 import { useRecoilState } from 'recoil';
+import { DevTool } from '@hookform/devtools';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -68,26 +69,29 @@ export default function SignUpProfile() {
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <form
-        onSubmit={formMethods.handleSubmit(testOnSubmit)}
-        onKeyDown={preventFormTakeSubmitEvent}
-      >
-        <SignUpProfileLayoutTemplate>
-          <SignUpProfile2_2Template />
-          <SignUpProfile1_1Template />
-          <SignUpProfile1_2Template />
-          <SignUpProfile1_3Template />
-          <SignUpProfile2_1Template />
-          <SignUpProfile3_1Template />
-          <SignUpProfile3_2Template />
-        </SignUpProfileLayoutTemplate>
-        {/* TODO: 아래 button은 test용으로 지워야 됨 */}
-        {/* test below element occur submit event and input element doesn't occur subit event */}
-        <Button.Fill type="submit" className="p-10">
-          Submit
-        </Button.Fill>
-      </form>
-    </FormProvider>
+    <>
+      <FormProvider {...formMethods}>
+        <form
+          onSubmit={formMethods.handleSubmit(testOnSubmit)}
+          onKeyDown={preventFormTakeSubmitEvent}
+        >
+          <SignUpProfileLayoutTemplate>
+            <SignUpProfile2_2Template />
+            <SignUpProfile1_1Template />
+            <SignUpProfile1_2Template />
+            <SignUpProfile1_3Template />
+            <SignUpProfile2_1Template />
+            <SignUpProfile3_1Template />
+            <SignUpProfile3_2Template />
+          </SignUpProfileLayoutTemplate>
+          {/* TODO: 아래 button은 test용으로 지워야 됨 */}
+          {/* test below element occur submit event and input element doesn't occur subit event */}
+          <Button.Fill type="submit" className="p-10">
+            Submit
+          </Button.Fill>
+        </form>
+      </FormProvider>
+      <DevTool control={formMethods.control} />
+    </>
   );
 }

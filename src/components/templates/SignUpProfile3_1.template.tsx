@@ -13,7 +13,7 @@ import IconButton from '@/components/molecules/IconButton';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 
-export default function SignUpProfile1_2Template() {
+export default function SignUpProfile3_1Template() {
   const [gender, setGender] = useRecoilState(SignUpProfileGenderAtom);
   const [matesNumber, setMatesNumber] = useRecoilState(
     SignUpProfileMatesNumberAtom,
