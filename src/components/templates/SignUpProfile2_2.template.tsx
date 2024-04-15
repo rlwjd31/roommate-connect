@@ -37,18 +37,15 @@ export default function SignUpProfile1_2Template() {
           <Typography.SubTitle1 className="mb-11 text-brown">
             상대방에게 어필하고 싶은 3개를 작성해주세요
           </Typography.SubTitle1>
-          <Container.FlexRow className="gap-2">
-            {appeals.map(appeal => (
-              <BadgeButton.Fill
-                key={appeal}
-                className="gap-x-5 rounded-[30px] p-4"
-                iconType="close"
-                stroke="bg"
-              >
-                <Typography.P1 className="text-bg">{appeal}</Typography.P1>
-              </BadgeButton.Fill>
-            ))}
-          </Container.FlexRow>
+          <BadgeButtons
+            contents={appeals}
+            className="gap-2"
+            badgeClassName="gap-x-5 rounded-[30px] p-4"
+            stroke="bg"
+            iconType="close"
+            typoClassName="text-bg"
+            onClick={() => alert('clicked!!')}
+          />
           {/* TODO: activeWatch 지워야 함 => debug */}
           <TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
             containerStyle="mt-5"
@@ -68,9 +65,31 @@ export default function SignUpProfile1_2Template() {
             }}
           />
         </Container.FlexCol>
+        {/* badge 선택지들 UI가 나오면 그 때 적용하기 */}
         <Container.FlexCol>
-          {/* badge 선택지들 UI가 나오면 그 때 적용하기 */}
-          <Typography.Head1>나중에 badge 선택지들 나열</Typography.Head1>
+          <Typography.SubTitle1 className="mb-11 text-brown">
+            떠오르는 것이 없다면 선택해주세요
+          </Typography.SubTitle1>
+          <BadgeButtons
+            contents={[
+              '외향적',
+              '내향적',
+              '야행성',
+              '직장인이에요',
+              '학생이에요',
+              '청소 잘 해요',
+              '친구초대 안 해요',
+              '요리 잘 해요',
+              '혼밥 싫어요',
+              '더위 잘 타요',
+              '추위 잘 타요',
+            ]}
+            className="flex flex-wrap gap-3"
+            badgeClassName="gap-x-5 rounded-[30px] p-4 min-w-max"
+            stroke="bg"
+            typoClassName="text-bg"
+            onClick={() => alert('clicked!!')}
+          />
         </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>

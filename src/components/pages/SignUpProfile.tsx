@@ -50,11 +50,6 @@ export default function SignUpProfile() {
     SignUpProfileSelector,
   );
 
-  // ! 하위계층 구조에 있는 input element내의 enter키를 누르면 bubbling에 의해 form이 event를 받게된다.
-  // ! 이로 인해서 input element에서 enter는 badge를 만드는 목적을 가지지만 form onSubmit event를 발생시켜
-  // ! global state가 초기화되는 현상이 일어난다.
-  // ! 따라서, form에서 enter 키로 인한 onSubmit event를 막아 badge가 create될 때마다 submit 내부에 들어갈 logic들의 실행을 막을 수 있다.
-  // ! e.key === 'Enter'일 때만 event를 prevent하면 onSubmit event가 발생하지 않으므로 event를 촉발시킨 주최가 input으로 제한한다.
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement)
       e.preventDefault();
