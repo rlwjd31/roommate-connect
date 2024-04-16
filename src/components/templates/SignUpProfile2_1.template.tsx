@@ -39,11 +39,6 @@ export default function SignUpProfile2_1Template() {
     iconType: IconType;
   }[] = [
     {
-      displayValue: '상관없어요',
-      stateValue: 0,
-      iconType: 'dont-mind-pet',
-    },
-    {
       displayValue: '반려동물 키워요',
       stateValue: 1,
       iconType: 'pet-lover',
@@ -52,6 +47,11 @@ export default function SignUpProfile2_1Template() {
       displayValue: '반려동물 NO',
       stateValue: 2,
       iconType: 'none-pet-lover',
+    },
+    {
+      displayValue: '상관없어요',
+      stateValue: 0,
+      iconType: 'dont-mind-pet',
     },
   ];
 
@@ -73,10 +73,8 @@ export default function SignUpProfile2_1Template() {
           {smokeInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className={cn(
-                'flex-1 gap-y-5 rounded-lg py-5',
-                stateValue === smoking && 'border-point bg-brown4',
-              )}
+              className="flex-1 gap-y-5 rounded-lg py-5"
+              isActive={stateValue === smoking}
               iconType={iconType}
               direction="top"
               onClick={() => onClickSmokingType(stateValue)}
@@ -94,10 +92,8 @@ export default function SignUpProfile2_1Template() {
           {petInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className={cn(
-                'flex-1 gap-y-5 rounded-lg py-5',
-                stateValue === pet && 'border-point bg-brown4',
-              )}
+              className="flex-1 gap-y-5 rounded-lg py-5"
+              isActive={stateValue === pet}
               iconType={iconType}
               direction="top"
               onClick={() => onClickPettype(stateValue)}
