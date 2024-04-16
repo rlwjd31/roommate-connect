@@ -25,13 +25,10 @@ export default function TextField<T extends FieldValues>(
     inputStyle,
     placeholder,
     options,
-    activeWatch,
     onKeyDown,
   } = props;
 
-  const { register, formState, watch } = useFormContext();
-
-  if (activeWatch) console.log(`watch(${name})`, watch(name));
+  const { register, formState } = useFormContext();
 
   return (
     <Container className={containerStyle}>
