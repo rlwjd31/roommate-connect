@@ -9,7 +9,7 @@ import {
 } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 
-export default function SignUpProfile1_2Template() {
+export default function SignUpProfile1_3Template() {
   const [depositPrice, setDepositPrice] = useRecoilState(
     SignUpProfileDepositPriceAtom,
   );
