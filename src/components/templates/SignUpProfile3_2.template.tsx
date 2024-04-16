@@ -41,6 +41,9 @@ export default function SignUpProfile3_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
+          <Typography.SubTitle1 className="mb-11 text-brown">
+            떠오르는 것이 없다면 선택해주세요
+          </Typography.SubTitle1>
           <BadgeButtons
             contents={[
               '외향적',

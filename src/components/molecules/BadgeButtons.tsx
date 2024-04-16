@@ -21,7 +21,7 @@ type BadgesButtonsProps = CustomIconType &
     iconClassName?: string;
     typoClassName?: string;
     typoType?: TypoOmittedType;
-    onClick?: MouseEventHandler<HTMLButtonElement>;
+    onClick?: (badgeContent: string) => void;
   };
 
 const BadgeType = {
@@ -65,7 +65,7 @@ export default function BadgeButtons({
           iconType={iconType}
           iconClassName={iconClassName}
           direction={direction}
-          onClick={onClick}
+          onClick={() => onClick(content)}
           stroke={stroke}
           fill={fill}
         >

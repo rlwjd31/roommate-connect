@@ -38,7 +38,8 @@ export type ProfileFormValues = {
 };
 
 export default function SignUpProfile() {
-  // ! react-hook-form의 register의 options property는 input field의 값이 update될 때 마다 invoke된다.
+  // ! react-hook-form의 register의 options property는 
+  // ! input field의 값이 update될 때 마다 invoke된다. - by docs
   const formMethods = useForm<ProfileFormValues>({
     mode: 'onSubmit',
     defaultValues: {
@@ -46,6 +47,7 @@ export default function SignUpProfile() {
       mateAppealsInputValute: '',
     },
   });
+  
   const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
     SignUpProfileSelector,
   );
@@ -57,8 +59,6 @@ export default function SignUpProfile() {
 
   // * profile에 필요한 recoil state들 전체 update
   const testOnSubmit: SubmitHandler<ProfileFormValues> = (data, event) => {
-    // event?.preventDefault();
-    console.log('when a;sdklnfl;aksdjfl;kajsdf');
     console.log('✅ onSubmit data', data);
     setAllSignUpProfileState(testData);
   };
