@@ -1,4 +1,4 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, RegisterOptions, useForm } from 'react-hook-form';
 import { MouseEvent } from 'react';
 
 import Container from '@/components/atoms/Container';
@@ -25,6 +25,14 @@ export default function SignInTemplate() {
     signInSocial(id as SocialType);
   };
 
+  const validationOptions: { [key in keyof EmailAuthType]: RegisterOptions } = {
+    email: { required: { value: true, message: '이메일을 입력해주세요' } },
+    password: {
+      required: { value: true, message: '비밀번호를 입력해주세요' },
+      min: { value: 8, message: '비밀번호는 8자 이상이어야 합니다' },
+    },
+  };
+
   return (
     <Container.FlexCol className="gap-[3.75rem]">
       <Container.FlexCol className="w-full">
@@ -39,6 +47,7 @@ export default function SignInTemplate() {
                 text="이메일"
                 type="email"
                 name="email"
+                options={validationOptions.email}
                 placeholder="이메일 입력"
                 inputStyle="bg-transparent mt-[1rem]"
               />
@@ -46,6 +55,7 @@ export default function SignInTemplate() {
                 text="비밀번호"
                 type="password"
                 name="password"
+                options={validationOptions.password}
                 placeholder="비밀번호 입력"
                 inputStyle="bg-transparent mt-[1rem]"
                 containerStyle="mt-7"
