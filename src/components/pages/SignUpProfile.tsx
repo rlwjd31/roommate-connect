@@ -38,7 +38,7 @@ export type ProfileFormValues = {
 };
 
 export default function SignUpProfile() {
-  // ! react-hook-form의 register의 options property는 
+  // ! react-hook-form의 register의 options property는
   // ! input field의 값이 update될 때 마다 invoke된다. - by docs
   const formMethods = useForm<ProfileFormValues>({
     mode: 'onSubmit',
@@ -47,7 +47,7 @@ export default function SignUpProfile() {
       mateAppealsInputValute: '',
     },
   });
-  
+
   const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
     SignUpProfileSelector,
   );
@@ -71,11 +71,11 @@ export default function SignUpProfile() {
           onKeyDown={preventFormTakeSubmitEvent}
         >
           <SignUpProfileLayoutTemplate>
-            <SignUpProfile2_2Template />
             <SignUpProfile1_1Template />
             <SignUpProfile1_2Template />
             <SignUpProfile1_3Template />
             <SignUpProfile2_1Template />
+            <SignUpProfile2_2Template />
             <SignUpProfile3_1Template />
             <SignUpProfile3_2Template />
           </SignUpProfileLayoutTemplate>

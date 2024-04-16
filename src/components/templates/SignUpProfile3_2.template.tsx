@@ -1,10 +1,11 @@
 import { useRecoilState } from 'recoil';
+import { KeyboardEvent } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignUpProfileMateAppealsAtom } from '@/stores/sign.store';
-import BadgeButton from '@/components/molecules/BadgeButton';
 import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
@@ -13,6 +14,26 @@ export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
     SignUpProfileMateAppealsAtom,
   );
+  const { setValue: setInputValue, watch } =
+    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValute'>>();
+
+  const createBadge = (badgeContent: string) => {
+    if (!mateAppeals.includes(badgeContent)) {
+      setInputValue('mateAppealsInputValute', '');
+      setMateAppeals(prev => [...prev, badgeContent]);
+    }
+  };
+
+  const deleteBadge = (badgeContent: string) =>
+    setMateAppeals(prev =>
+      prev.filter(mateAppeal => mateAppeal !== badgeContent),
+    );
+
+  const pressEnterCreateBadge = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      createBadge(watch('mateAppealsInputValute'));
+    }
+  };
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -32,12 +53,14 @@ export default function SignUpProfile3_2Template() {
             stroke="bg"
             iconType="close"
             typoClassName="text-bg"
-            onClick={() => alert('clicked!!')}
+            onClick={deleteBadge}
           />
           <TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
             containerStyle="mt-5"
+            placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
             name="mateAppealsInputValute"
+            onKeyDown={pressEnterCreateBadge}
           />
         </Container.FlexCol>
         <Container.FlexCol>
@@ -62,7 +85,7 @@ export default function SignUpProfile3_2Template() {
             badgeClassName="gap-x-5 rounded-[30px] p-4 min-w-max"
             stroke="bg"
             typoClassName="text-bg"
-            onClick={() => alert('clicked!!')}
+            onClick={createBadge}
           />
         </Container.FlexCol>
       </Container.FlexCol>
