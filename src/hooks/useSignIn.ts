@@ -30,7 +30,9 @@ export const useSignInEmail = () => {
           '잘못된 이메일 또는 비밀번호입니다',
       };
       toast.update('signin', {
-        render: errorMessage[error.message],
+        render:
+          errorMessage[error.message] ??
+          '오류가 발생했습니다. 잠시 후 다시 시도해주세요',
         autoClose: 2000,
         type: 'error',
       });
