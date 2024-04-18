@@ -1,11 +1,16 @@
-import { toast } from 'react-toastify';
+import { toast, ToastOptions } from 'react-toastify';
 
 import { toastErrorMessage } from '@/constants/toastMessage';
 
-export const createToast = (id: string, message: string) =>
+export const createToast = (
+  id: string,
+  message: string,
+  options?: ToastOptions,
+) =>
   toast(message, {
     toastId: id,
     autoClose: false,
+    ...options,
   });
 
 export const successToast = (id: string, message: string) =>
