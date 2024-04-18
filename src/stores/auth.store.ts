@@ -2,6 +2,11 @@ import { atom, AtomEffect } from 'recoil';
 
 import { UserLocalStorageType, UserType } from '@/types/auth.type';
 
+export const IsNotVerifiedAtom = atom({
+  key: 'isNotVerifiedAtom',
+  default: false,
+});
+
 const UserAtomEffect =
   (key: string): AtomEffect<UserType | null> =>
   ({ setSelf }) => {

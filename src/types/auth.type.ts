@@ -3,7 +3,11 @@ import { Session } from '@supabase/supabase-js';
 export type EmailAuthType = {
   email: string;
   password: string;
+  token?: string;
 };
+
+// * 미인증 유저가 로그인 할 경우 인증할 때 사용할 타입
+export type VerifyEmailType = Omit<EmailAuthType, 'password'>;
 
 // * 추가 과정(API)이 필요한 데이터 타입
 export type UserAdditionalType = {
