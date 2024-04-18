@@ -1,4 +1,4 @@
-import { toast, ToastOptions } from 'react-toastify';
+import { toast, Flip, ToastOptions } from 'react-toastify';
 
 import { toastErrorMessage } from '@/constants/toastMessage';
 
@@ -10,15 +10,26 @@ export const createToast = (
   toast(message, {
     toastId: id,
     autoClose: false,
+    isLoading: true,
     ...options,
   });
 
 export const successToast = (id: string, message: string) =>
-  toast.update(id, { render: message, type: 'success', autoClose: 1500 });
+  toast.update(id, {
+    render: message,
+    delay: 500,
+    type: 'success',
+    autoClose: 1500,
+    transition: Flip,
+    isLoading: false,
+  });
 
 export const errorToast = (id: string, message: string) =>
   toast.update(id, {
     render: toastErrorMessage(message),
+    delay: 500,
     type: 'error',
     autoClose: 1500,
+    transition: Flip,
+    isLoading: false,
   });
