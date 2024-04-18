@@ -1,4 +1,3 @@
-import { toast } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
 import { AuthError, Session } from '@supabase/supabase-js';
@@ -15,28 +14,15 @@ import {
   UserType,
 } from '@/types/auth.type';
 import { fetchGet } from '@/libs/fetch';
+import { createToast, errorToast, successToast } from '@/libs/toast';
 
 export const useSignInEmail = () => {
   const setUser = useSetRecoilState(UserAtom);
   const { mutate: signInEmail, isPending: isSignInEmail } = useMutation({
-    mutationFn: (payload: EmailAuthType) =>
+    mutationFn: async (payload: EmailAuthType) =>
       supabase.auth.signInWithPassword(payload),
-    onMutate: () => {
-      toast('로그인 시도 중...', { toastId: 'signin', autoClose: false });
-    },
-    onError: (error: AuthError) => {
-      const errorMessage: { [key: string]: string } = {
-        'Failed to sign in: Invalid login credentials':
-          '잘못된 이메일 또는 비밀번호입니다',
-      };
-      toast.update('signin', {
-        render:
-          errorMessage[error.message] ??
-          '오류가 발생했습니다. 잠시 후 다시 시도해주세요',
-        autoClose: 2000,
-        type: 'error',
-      });
-    },
+    onMutate: () => createToast('signin', '로그인 시도 중...'),
+    onError: (error: AuthError) => errorToast('signin', error.message),
     onSuccess: async data => {
       if (data.data.user) {
         const { email, id } = data.data.user;
@@ -55,14 +41,9 @@ export const useSignInEmail = () => {
           };
           // * Recoil 상태로 유저정보 등록
           setUser(payload);
-          toast.update('signin', {
-            render: '로그인 성공!',
-            autoClose: 2000,
-            type: 'success',
-          });
-        } else
-          throw new Error('오류가 발생했습니다. 잠시 후 다시 시도해 주세요');
-      }
+          successToast('signin', '로그인 성공!');
+        }
+      } else throw new Error(data.error?.message);
     },
   });
   return { signInEmail, isSignInEmail };
@@ -87,15 +68,9 @@ export const useSignInSocial = () => {
         options: options[payload],
       });
     },
+    onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
-      toast.update('signin', {
-        render: error.message,
-        autoClose: 2000,
-        type: 'error',
-      });
-    },
-    onMutate: () => {
-      toast('로그인 시도 중...', { toastId: 'signin', autoClose: false });
+      errorToast('signin', error.message);
     },
   });
   return { signInSocial, isSignInSocial };
@@ -184,24 +159,14 @@ export const useUpdateUser = () => {
             nickname: user.user_metadata.nickname,
           });
         }
-        toast.update('signin', {
-          render: '로그인 완료',
-          autoClose: 1500,
-          type: 'success',
-        });
+        successToast('signin', `${name}님 환영합니다!`);
         // * Recoil 상태로 유저정보 등록
         setUser(payload as UserType);
       } else {
         throw new Error('오류가 발생했습니다. 잠시 후 다시 시도해 주세요');
       }
     },
-    onError: error => {
-      toast.update('signin', {
-        render: error.message,
-        autoClose: 2000,
-        type: 'error',
-      });
-    },
+    onError: error => errorToast('signin', error.message),
   });
   return { updateUser, isUpdateUser };
 };
