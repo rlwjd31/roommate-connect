@@ -16,34 +16,45 @@ import {
 import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 
+const preProcessingUserData = (
+  data: AuthTokenResponsePassword | AuthResponse,
+): UserType | undefined => {
+  if (data.data.user?.email) {
+    const { email, id } = data.data.user;
+    const { gender, avatar, birth, name, nickname, status } =
+      data.data.user.user_metadata;
+    return {
+      gender,
+      avatar,
+      birth,
+      name,
+      nickname,
+      email,
+      id,
+      status,
+    };
+  }
+  throw new Error(data.error?.message);
+};
+
 export const useSignInEmail = () => {
   const setUser = useSetRecoilState(UserAtom);
+  const setIsNotVerified = useSetRecoilState(IsNotVerifiedAtom);
   const { mutate: signInEmail, isPending: isSignInEmail } = useMutation({
     mutationFn: async (payload: EmailAuthType) =>
       supabase.auth.signInWithPassword(payload),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
-    onError: (error: AuthError) => errorToast('signin', error.message),
+    onError: (error: AuthError) => {
+      errorToast('signin', error.message);
+      if (error.message === 'Email not confirmed') {
+        setIsNotVerified(true);
+      }
+    },
     onSuccess: async data => {
-      if (data.data.user) {
-        const { email, id } = data.data.user;
-        if (email) {
-          const { gender, avatar, birth, name, nickname, status } =
-            data.data.user.user_metadata;
-          const payload = {
-            gender,
-            avatar,
-            birth,
-            name,
-            nickname,
-            email,
-            id,
-            status,
-          };
-          // * Recoil 상태로 유저정보 등록
-          setUser(payload);
-          successToast('signin', '로그인 성공!');
-        }
-      } else throw new Error(data.error?.message);
+      const payload = preProcessingUserData(data);
+      // * Recoil 상태로 유저정보 등록
+      if (payload) setUser(payload);
+      successToast('signin', '로그인 성공!');
     },
   });
   return { signInEmail, isSignInEmail };
