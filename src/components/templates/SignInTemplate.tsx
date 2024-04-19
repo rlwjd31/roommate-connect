@@ -1,23 +1,68 @@
-import { FormProvider, RegisterOptions, useForm } from 'react-hook-form';
-import { MouseEvent } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { MouseEvent, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import TextField from '@/components/molecules/TextField';
 import Link from '@/components/atoms/Link';
 import Divider from '@/components/atoms/Divider';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
-import { useSignInEmail, useSignInSocial } from '@/hooks/useSignIn';
-import { EmailAuthType, SocialType } from '@/types/auth.type';
+import {
+  useSignInEmail,
+  useSignInSocial,
+  useVerifyEmail,
+} from '@/hooks/useSignIn';
+import { EmailAuthType, SocialType, VerifyEmailType } from '@/types/auth.type';
+import { IsNotVerifiedAtom } from '@/stores/auth.store';
+import FormItem from '@/components/molecules/FormItem';
+import { supabase } from '@/libs/supabaseClient';
+import { createToast } from '@/libs/toast';
+import { FormValidationType } from '@/types/form.type';
 
 export default function SignInTemplate() {
   const Form = FormProvider;
   const form = useForm<EmailAuthType>();
+  const [isReSendVerifyEmail, setIsReSendVerifyEmail] = useState(false);
+  const isNotVerified = useRecoilValue(IsNotVerifiedAtom);
   const { signInEmail, isSignInEmail } = useSignInEmail();
+  const { verifyEmail, isVerifyEmail } = useVerifyEmail();
   const { signInSocial, isSignInSocial } = useSignInSocial();
   const onSubmitEmail = (data: EmailAuthType) => {
     signInEmail(data);
+  };
+
+  const isPending = isSignInEmail || isSignInSocial || isVerifyEmail;
+
+  // * 회원가입에서 Email 인증을 거치지 않고 로그인 시 다시 인증번호를 전송하는 기능
+  const onReSendVerifyEmail = async () => {
+    setIsReSendVerifyEmail(true);
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: form.getValues('email'),
+    });
+    if (error)
+      createToast(
+        'verifyEmail',
+        '너무 많은 요청을 보냈습니다. 나중에 다시 시도하세요.',
+        {
+          autoClose: 1000,
+          type: 'error',
+          isLoading: false,
+        },
+      );
+    else
+      createToast(
+        'verifyEmail',
+        '인증번호를 전송했습니다. 이메일을 확인해주세요',
+        { autoClose: 1000, type: 'info', isLoading: false },
+      );
+    setIsReSendVerifyEmail(false);
+  };
+
+  // * 미인증 로그인 시 인증하는 기능
+  const onVerifyEmail = (data: VerifyEmailType) => {
+    verifyEmail(data);
   };
 
   const onClickSocial = (event: MouseEvent<HTMLButtonElement>) => {
@@ -25,11 +70,22 @@ export default function SignInTemplate() {
     signInSocial(id as SocialType);
   };
 
-  const validationOptions: { [key in keyof EmailAuthType]: RegisterOptions } = {
-    email: { required: { value: true, message: '이메일을 입력해주세요' } },
+  const validationOptions: FormValidationType<EmailAuthType> = {
+    email: {
+      required: { value: true, message: '이메일을 입력해주세요' },
+      pattern: {
+        value: /^\S+@\S+\.\S+$/,
+        message: '올바른 이메일 형식이 아닙니다',
+      },
+    },
     password: {
       required: { value: true, message: '비밀번호를 입력해주세요' },
       min: { value: 8, message: '비밀번호는 8자 이상이어야 합니다' },
+    },
+    token: {
+      required: { value: true, message: '인증번호를 입력해주세요' },
+      maxLength: { value: 6, message: '인증번호는 6자 입니다' },
+      minLength: { value: 6, message: '인증번호는 6자 입니다' },
     },
   };
 
@@ -42,16 +98,19 @@ export default function SignInTemplate() {
         </Container.FlexCol>
         <Container.FlexCol>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmitEmail)}>
-              <TextField
+            <form
+              onSubmit={form.handleSubmit(
+                isNotVerified ? onVerifyEmail : onSubmitEmail,
+              )}
+            >
+              <FormItem.TextField
                 text="이메일"
-                type="email"
                 name="email"
                 options={validationOptions.email}
                 placeholder="이메일 입력"
                 inputStyle="bg-transparent mt-[1rem]"
               />
-              <TextField
+              <FormItem.TextField
                 text="비밀번호"
                 type="password"
                 name="password"
@@ -60,6 +119,28 @@ export default function SignInTemplate() {
                 inputStyle="bg-transparent mt-[1rem]"
                 containerStyle="mt-7"
               />
+              {isNotVerified && (
+                <Container.FlexRow className="mt-7 gap-x-2">
+                  <FormItem.TextField
+                    containerStyle="flex-1"
+                    text="인증번호"
+                    type="number"
+                    options={validationOptions.token}
+                    placeholder="000000"
+                    inputStyle="bg-transparent mt-[1rem]"
+                    name="token"
+                  />
+                  <Button.Outline
+                    className={`${form.formState.errors.token ? 'mb-5' : 'mb-2'} mt-8 rounded-[0.625rem] px-[0.6875rem]`}
+                    disabled={isReSendVerifyEmail}
+                    onClick={onReSendVerifyEmail}
+                  >
+                    <Typography.P3 className="text-brown">
+                      인증요청
+                    </Typography.P3>
+                  </Button.Outline>
+                </Container.FlexRow>
+              )}
               <div className="mt-4 flex flex-row-reverse gap-2">
                 <Link to="/sign/up">회원가입</Link>
                 <Divider.Row />
@@ -68,10 +149,10 @@ export default function SignInTemplate() {
               <Button.Fill
                 type="submit"
                 className="mt-[3.25rem] w-full rounded-[10px]"
-                disabled={isSignInEmail}
+                disabled={isPending}
               >
                 <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                  로그인
+                  {isNotVerified ? '인증 후 로그인' : '로그인'}
                 </Typography.P3>
               </Button.Fill>
             </form>
@@ -86,14 +167,14 @@ export default function SignInTemplate() {
           <IconButton.Outline
             id="kakao"
             iconType="kakaotalk-logo"
-            disabled={isSignInSocial}
+            disabled={isPending}
             className="rounded-full p-[0.75rem]"
             onClick={onClickSocial}
           />
           <IconButton.Outline
             id="google"
             iconType="google-logo"
-            disabled={isSignInSocial}
+            disabled={isPending}
             className="rounded-full p-[0.75rem]"
             onClick={onClickSocial}
           />

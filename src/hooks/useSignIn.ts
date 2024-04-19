@@ -1,10 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { useSetRecoilState } from 'recoil';
-import { AuthError, Session } from '@supabase/supabase-js';
+import {
+  AuthError,
+  AuthResponse,
+  AuthTokenResponsePassword,
+  Session,
+} from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
 import { supabase } from '@/libs/supabaseClient';
-import { UserAtom } from '@/stores/auth.store';
+import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
 import {
   EmailAuthType,
   GoogleOAuthType,
@@ -12,6 +17,7 @@ import {
   SocialType,
   UserAdditionalType,
   UserType,
+  VerifyEmailType,
 } from '@/types/auth.type';
 import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
@@ -58,6 +64,30 @@ export const useSignInEmail = () => {
     },
   });
   return { signInEmail, isSignInEmail };
+};
+
+export const useVerifyEmail = () => {
+  const setUser = useSetRecoilState(UserAtom);
+  const { mutate: verifyEmail, isPending: isVerifyEmail } = useMutation({
+    mutationFn: async (payload: VerifyEmailType) => {
+      const { email, token } = payload;
+      if (token) {
+        return supabase.auth.verifyOtp({ email, token, type: 'email' });
+      }
+      throw new Error('토큰이 없습니다.');
+    },
+    onMutate: () => createToast('signin', '인증 후 로그인 시도 중...'),
+    onSuccess: async data => {
+      const payload = preProcessingUserData(data);
+      // * Recoil 상태로 유저정보 등록
+      if (payload) setUser(payload);
+      successToast('signin', '로그인 성공!');
+    },
+    onError: (error: AuthError) => {
+      errorToast('signin', error.message);
+    },
+  });
+  return { verifyEmail, isVerifyEmail };
 };
 
 export const useSignInSocial = () => {
