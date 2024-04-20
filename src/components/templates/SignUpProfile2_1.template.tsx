@@ -10,7 +10,6 @@ import {
 import IconButton from '@/components/molecules/IconButton';
 import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
-import cn from '@/libs/cn';
 
 export default function SignUpProfile2_1Template() {
   const [smoking, setSmoking] = useRecoilState(SignUpProfileSmokingAtom);

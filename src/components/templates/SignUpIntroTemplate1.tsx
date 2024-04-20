@@ -14,7 +14,6 @@ export default function SignUpIntroTemplate1({
   const Form = FormProvider;
   const form = useForm();
   const onSubmit = data => {
-    console.log(data);
     step(1);
   };
 

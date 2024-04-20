@@ -10,7 +10,6 @@ import {
 import { SignUpType } from '@/types/signUp.type';
 import { IconType } from '@/types/icon.type';
 import IconButton from '@/components/molecules/IconButton';
-import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 
 export default function SignUpProfile3_1Template() {
