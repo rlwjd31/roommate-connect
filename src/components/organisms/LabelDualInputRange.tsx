@@ -42,11 +42,15 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
         rangeValue={rangeValue}
         {...others}
       />
-      <Container.FlexRow className="justify-between">
-        <Typography.Span1>{rangeMinRulerValue}</Typography.Span1>
-        <Typography.Span1>{rangeMidRulerValue}</Typography.Span1>
-        <Typography.Span1>{`${rangeMaxRulerValue} 이상`}</Typography.Span1>
-      </Container.FlexRow>
+      <Container className="relative bg-red-300">
+        <Typography.Span1 className="absolute left-0 top-0">
+          {rangeMinRulerValue}
+        </Typography.Span1>
+        <Typography.Span1 className="absolute left-1/2 top-0 -translate-x-1/2">
+          {rangeMidRulerValue}
+        </Typography.Span1>
+        <Typography.Span1 className="absolute right-0 top-0 translate-x-1/4">{`${rangeMaxRulerValue} 이상`}</Typography.Span1>
+      </Container>
     </Container.FlexCol>
   );
 }
