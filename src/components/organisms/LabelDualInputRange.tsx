@@ -3,6 +3,7 @@ import DualInputRange, {
 } from '@/components/molecules/DualInputRange';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
+import unitConverters from '@/libs/generateUnit';
 
 type LabelDualInputRangeProps = DualInputRangeType & {
   label?: string;
@@ -10,21 +11,16 @@ type LabelDualInputRangeProps = DualInputRangeType & {
 };
 export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
   const { label, category, rangeValue, min, max, className, ...others } = props;
-  const generateUnit = (value: number) => {
-    if (category === 'price') {
-      if (value === 0) return '0원';
-      if (value >= 10000) return `${value / 10000}억원`;
-      return `${value}만원`;
-    }
-    if (category === 'term') {
-      const year = Math.floor(value / 12);
-      const month = value % 12;
-      if (value < 12) return `${month}개월`;
-      if (value % 12 === 0) return `${year}년`;
-      return `${year}년 ${month}개월`;
-    }
-    return value;
-  };
+  const [rangeMinValue, rangeMaxValue] = [
+    unitConverters[category](rangeValue[0], max),
+    unitConverters[category](rangeValue[1], max),
+  ];
+  const [rangeMinRulerValue, rangeMidRulerValue, rangeMaxRulerValue] = [
+    unitConverters[category](min, max),
+    unitConverters[category](Math.floor((min + max) / 2), max),
+    unitConverters[category](max, max),
+  ];
+
   return (
     <Container.FlexCol className={className}>
       <Container.FlexRow className="mb-7 justify-between">
@@ -34,9 +30,9 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
           </Typography.SubTitle2>
         )}
         <Typography.SubTitle2 className="text-brown">
-          {rangeValue[0] === rangeValue[1]
-            ? generateUnit(rangeValue[0])
-            : `${generateUnit(rangeValue[0])} ~ ${generateUnit(rangeValue[1])}`}
+          {rangeMinValue === rangeMaxValue
+            ? rangeMinValue
+            : `${rangeMinValue} ~ ${rangeMaxValue}`}
         </Typography.SubTitle2>
       </Container.FlexRow>
       <DualInputRange
@@ -47,9 +43,9 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
         {...others}
       />
       <Container.FlexRow className="justify-between">
-        <Typography.Span1>{generateUnit(min)}</Typography.Span1>
-        <Typography.Span1>{generateUnit((min + max) / 2)}</Typography.Span1>
-        <Typography.Span1>{generateUnit(max)} 이상</Typography.Span1>
+        <Typography.Span1>{rangeMinRulerValue}</Typography.Span1>
+        <Typography.Span1>{rangeMidRulerValue}</Typography.Span1>
+        <Typography.Span1>{`${rangeMaxRulerValue} 이상`}</Typography.Span1>
       </Container.FlexRow>
     </Container.FlexCol>
   );
