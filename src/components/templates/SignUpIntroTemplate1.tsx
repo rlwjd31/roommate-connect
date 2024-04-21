@@ -1,20 +1,29 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
 import TextField from '@/components/molecules/TextField';
 
+type SignUpFormData1 = {
+  name: string;
+  identificationNumber: string;
+};
+
 export default function SignUpIntroTemplate1({
   step,
+  setPrevData,
 }: {
   step: Dispatch<SetStateAction<number>>;
+  setPrevData: (data) => void;
 }) {
   const Form = FormProvider;
-  const form = useForm();
-  const onSubmit = data => {
+  const form = useForm<SignUpFormData1>();
+
+  const onSubmit = (data: SignUpFormData1) => {
     console.log(data);
+    setPrevData(data);
     step(1);
   };
 

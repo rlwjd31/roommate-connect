@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/atoms/Button';
@@ -8,61 +8,88 @@ import Typography from '@/components/atoms/Typography';
 import TextField from '@/components/molecules/TextField';
 import supabase from '@/libs/supabaseClient';
 
-type UserAdditionalType = {
-  birth?: number;
-  gender?: number;
-};
-type UserType = UserAdditionalType & {
-  avatar: string;
-  email: string;
-  id: string;
+type PrevData = {
   name: string;
-  nickname: string | null;
-  status: number;
+  identificationNumber: string;
+};
+
+type VerifyFormData = {
+  email: string;
+  password: string;
+  otp: string;
 };
 
 type SignUpIntroTemplate2Props = {
-  userData: UserType;
-  handleSignUp: (formData: UserFormData) => void;
+  prevData: PrevData;
 };
 
 export default function SignUpIntroTemplate2({
-  userData,
-  handleSignUp,
+  prevData,
 }: SignUpIntroTemplate2Props) {
   const Form = FormProvider;
   // TODO: resolver를 나중에 만들어서 useForm에 추가
-  const form = useForm();
+  const form = useForm<VerifyFormData>();
   const navigate = useNavigate();
 
   const [showVerification, setShowVerification] = useState(false);
 
-  const onSubmit = async formData => {
-    if (!showVerification) {
-      try {
-        await handleSignUp(formData);
-        setShowVerification(true);
-      } catch (error) {
-        console.error('회원가입에 실패했습니다. 👉🏻', error.message);
-      }
-    } else {
-      const { data, error } = await supabase.auth.verifyOtp({
+  const onSubmitSignUp = async (formData: VerifyFormData) => {
+    const userData = { ...formData, ...prevData };
+    const birth = userData.identificationNumber.slice(0, 6);
+    const gender = userData.identificationNumber.slice(6);
+
+    try {
+      const { error } = await supabase.auth.signUp({
         email: userData.email,
-        token: formData.verificationNumber,
-        type: 'email',
+        password: userData.password,
+        options: {
+          data: {
+            token: true,
+            name: userData.name,
+            birth,
+            gender: gender === '1' || gender === '3' ? 1 : 2,
+            nickName: userData.name,
+            status: 0,
+          },
+        },
       });
-      if (!error) navigate('/signup-intro');
-      else alert('인증번호가 틀렸습니다.');
+      if (error) {
+        console.error('🚨SignUp Error', error.message);
+        return;
+      }
+      setShowVerification(true);
+    } catch (error) {
+      console.error('🚨SignUpSubmit Error', error.message);
     }
   };
+
+  const onSubmitVerify = async (formData: VerifyFormData) => {
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        email: formData.email,
+        token: formData.otp,
+        type: 'email',
+      });
+      if (error) {
+        console.error('🚨OTP인증오류!👉🏻', error.message);
+        return;
+      }
+      console.log('🎉회원가입 성공!');
+      navigate('/signup-intro');
+    } catch (error) {
+      console.error('🚨VerifySubmit Error', error.message);
+    }
+  };
+
+  const onSubmit: SubmitHandler<VerifyFormData> = !showVerification
+    ? onSubmitSignUp
+    : onSubmitVerify;
 
   return (
     <Container.FlexCol className="min-w-full flex-1 gap-[3.25rem]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            {/* TODO: UI - Textfield flex does not adjust width -> modification required. */}
-
             <TextField
               labelName="이메일"
               type="text"
@@ -75,7 +102,6 @@ export default function SignUpIntroTemplate2({
                 },
               }}
               placeholder="이메일 입력"
-              containerStyle="grow mr-[0.5rem]"
             />
             <TextField
               labelName="비밀번호"
@@ -114,24 +140,25 @@ export default function SignUpIntroTemplate2({
               placeholder="비밀번호 입력"
             />
           </Container.FlexCol>
-          {showVerification && (
-            <TextField
-              labelName="인증번호"
-              type="text"
-              name="verificationNumber"
-              options={{ required: '인증번호를 입력해주세요.' }}
-              placeholder="인증번호 입력"
-            />
-          )}
-          {!showVerification ? (
-            <Button.Fill
-              type="submit"
-              className="mt-[3.25rem] w-full rounded-[10px]"
-            >
-              <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                인증 요청
-              </Typography.P3>
-            </Button.Fill>
+          {showVerification ? (
+            <>
+              <TextField
+                labelName="인증번호"
+                type="text"
+                name="otp"
+                options={{ required: '인증번호를 입력해주세요.' }}
+                placeholder="인증번호 입력"
+                containerStyle="mt-[1.625rem]"
+              />
+              <Button.Fill
+                type="submit"
+                className="mt-[3.25rem] w-full rounded-[10px]"
+              >
+                <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
+                  인증 요청
+                </Typography.P3>
+              </Button.Fill>
+            </>
           ) : (
             <Button.Fill
               type="submit"
