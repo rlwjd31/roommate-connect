@@ -1,6 +1,20 @@
-import { atom, RecoilState, selectorFamily } from 'recoil';
+import { atom, AtomEffect, RecoilState, selectorFamily } from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
+
+const signUpProfileKey = 'signUpProfile';
+
+const persistSignUpProfile: AtomEffect<SignUpType> = ({ setSelf, onSet }) => {
+  const tempSignUpProfileData = sessionStorage.getItem(signUpProfileKey);
+
+  if (tempSignUpProfileData !== null)
+    setSelf(JSON.parse(tempSignUpProfileData));
+
+  onSet((newValue, _, isReset) => {
+    if (isReset) sessionStorage.removeItem(signUpProfileKey);
+    else sessionStorage.setItem(signUpProfileKey, JSON.stringify(newValue));
+  });
+};
 
 /**
  * `SignUpProfileState`은 atom으로 회원가입에 필요한 개인정보를 제외한 선호하는 프로필 옵션을 관리하는 state이다.
@@ -39,6 +53,7 @@ export const SignUpProfileState: RecoilState<SignUpType> = atom<SignUpType>({
     mates_number: undefined,
     mate_appeals: [],
   },
+  effects: [persistSignUpProfile],
 });
 
 export const SignupProfileStateSelector = selectorFamily({
