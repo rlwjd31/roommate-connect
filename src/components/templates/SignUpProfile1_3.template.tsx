@@ -3,19 +3,17 @@ import { useRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import {
-  SignUpProfileDepositPriceAtom,
-  SignUpProfileMonthlyPriceAtom,
-} from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 
 export default function SignUpProfile1_3Template() {
   const [depositPrice, setDepositPrice] = useRecoilState(
-    SignUpProfileDepositPriceAtom,
+    SignupProfileStateSelector('deposit_price'),
   );
   const [monthlyPrice, setMonthlyPrice] = useRecoilState(
-    SignUpProfileMonthlyPriceAtom,
+    SignupProfileStateSelector('monthly_price'),
   );
+
   return (
     <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>

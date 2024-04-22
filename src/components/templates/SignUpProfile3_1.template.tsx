@@ -3,19 +3,18 @@ import { useRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import {
-  SignUpProfileGenderAtom,
-  SignUpProfileMatesNumberAtom,
-} from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
 import { IconType } from '@/types/icon.type';
 import IconButton from '@/components/molecules/IconButton';
 import Button from '@/components/atoms/Button';
 
 export default function SignUpProfile3_1Template() {
-  const [gender, setGender] = useRecoilState(SignUpProfileGenderAtom);
+  const [gender, setGender] = useRecoilState(
+    SignupProfileStateSelector('gender'),
+  );
   const [matesNumber, setMatesNumber] = useRecoilState(
-    SignUpProfileMatesNumberAtom,
+    SignupProfileStateSelector('mates_number'),
   );
 
   const genderInfos: {
@@ -67,6 +66,7 @@ export default function SignUpProfile3_1Template() {
 
   const onClickMateNumbertype = (stateValue: SignUpType['mates_number']) =>
     setMatesNumber(stateValue);
+
 
   return (
     <Container.FlexCol className="min-w-full px-2">

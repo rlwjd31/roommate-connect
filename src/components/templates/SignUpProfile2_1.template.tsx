@@ -3,17 +3,16 @@ import { useRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import {
-  SignUpProfilePetAtom,
-  SignUpProfileSmokingAtom,
-} from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
 import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
 
 export default function SignUpProfile2_1Template() {
-  const [smoking, setSmoking] = useRecoilState(SignUpProfileSmokingAtom);
-  const [pet, setPet] = useRecoilState(SignUpProfilePetAtom);
+  const [smoking, setSmoking] = useRecoilState(
+    SignupProfileStateSelector('smoking'),
+  );
+  const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
 
   const smokeInfos: {
     displayValue: string;
