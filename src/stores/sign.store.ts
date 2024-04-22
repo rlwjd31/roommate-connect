@@ -20,17 +20,14 @@ export const SignUpProfileState = atom<SignUpType>({
   },
 });
 
-export const SignupProfileStateSelector = selectorFamily<
-  SignUpType[keyof SignUpType],
-  keyof SignUpType
->({
+export const SignupProfileStateSelector = selectorFamily({
   key: 'signupProfileStateSelector',
   get:
-    param =>
+    <K extends keyof SignUpType>(param: K) =>
     ({ get }) =>
       get(SignUpProfileState)[param],
   set:
-    param =>
+    <K extends keyof SignUpType>(param: K) =>
     ({ set }, newValue) =>
       set(SignUpProfileState, prevState => ({
         ...prevState,
