@@ -1,10 +1,16 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
-import TextField from '@/components/molecules/TextField';
+import FormItem from '@/components/molecules/FormItem';
+import {
+  SignUpUserBirthAtom,
+  SignUpUserGenderAtom,
+  SignUpUserNameAtom,
+} from '@/stores/sign.store';
 
 type SignUpFormData1 = {
   name: string;
@@ -13,17 +19,23 @@ type SignUpFormData1 = {
 
 export default function SignUpIntroTemplate1({
   step,
-  setPrevData,
 }: {
   step: Dispatch<SetStateAction<number>>;
-  setPrevData: (data) => void;
 }) {
   const Form = FormProvider;
   const form = useForm<SignUpFormData1>();
+  const setName = useSetRecoilState(SignUpUserNameAtom);
+  const setBirth = useSetRecoilState(SignUpUserBirthAtom);
+  const setGender = useSetRecoilState(SignUpUserGenderAtom);
 
   const onSubmit = (data: SignUpFormData1) => {
     console.log(data);
-    setPrevData(data);
+    const userBirth = Number(data.identificationNumber.slice(0, 6));
+    const userGender = Number(data.identificationNumber.slice(6));
+
+    setName(data.name);
+    setBirth(userBirth);
+    setGender(userGender === 1 || userGender === 3 ? 1 : 2);
     step(1);
   };
 
@@ -32,7 +44,7 @@ export default function SignUpIntroTemplate1({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            <TextField
+            <FormItem.TextField
               labelName="이름"
               type="text"
               name="name"
@@ -46,7 +58,7 @@ export default function SignUpIntroTemplate1({
               placeholder="이름 입력"
               inputStyle="mt-[1rem]"
             />
-            <TextField
+            <FormItem.TextField
               labelName="주민등록번호"
               type="text"
               name="identificationNumber"

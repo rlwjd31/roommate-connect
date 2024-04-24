@@ -1,87 +1,48 @@
-import { useState } from 'react';
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
+import {
+  SignUpUserBirthAtom,
+  SignUpUserGenderAtom,
+  SignUpUserNameAtom,
+  ShowVerificationAtom,
+} from '@/stores/sign.store';
+import { EmailAuthType } from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import TextField from '@/components/molecules/TextField';
-import supabase from '@/libs/supabaseClient';
+import FormItem from '@/components/molecules/FormItem';
+import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
 
-type PrevData = {
-  name: string;
-  identificationNumber: string;
-};
-
-type VerifyFormData = {
-  email: string;
-  password: string;
-  otp: string;
-};
-
-type SignUpIntroTemplate2Props = {
-  prevData: PrevData;
-};
-
-export default function SignUpIntroTemplate2({
-  prevData,
-}: SignUpIntroTemplate2Props) {
+export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
   // TODO: resolver를 나중에 만들어서 useForm에 추가
-  const form = useForm<VerifyFormData>();
-  const navigate = useNavigate();
+  const form = useForm<EmailAuthType>();
+  const showVerification = useRecoilValue(ShowVerificationAtom);
+  const name = useRecoilValue(SignUpUserNameAtom);
+  const birth = useRecoilValue(SignUpUserBirthAtom);
+  const gender = useRecoilValue(SignUpUserGenderAtom);
 
-  const [showVerification, setShowVerification] = useState(false);
+  const { signUpEmail, isSignUpEmail } = useSignUpEmail();
+  const { verifyEmail, isVerifyEmail } = useVerifyEmail({
+    mutateMessage: '인증 중입니다.',
+    successMessage: '🎉인증성공! 회원가입 되셨습니다!',
+  });
 
-  const onSubmitSignUp = async (formData: VerifyFormData) => {
-    const userData = { ...formData, ...prevData };
-    const birth = userData.identificationNumber.slice(0, 6);
-    const gender = userData.identificationNumber.slice(6);
+  const isPending = isSignUpEmail || isVerifyEmail;
 
-    try {
-      const { error } = await supabase.auth.signUp({
-        email: userData.email,
-        password: userData.password,
-        options: {
-          data: {
-            token: true,
-            name: userData.name,
-            birth,
-            gender: gender === '1' || gender === '3' ? 1 : 2,
-            nickName: userData.name,
-            status: 0,
-          },
-        },
-      });
-      if (error) {
-        console.error('🚨SignUp Error', error.message);
-        return;
-      }
-      setShowVerification(true);
-    } catch (error) {
-      console.error('🚨SignUpSubmit Error', error.message);
+  const onSubmitSignUp = async (formData: EmailAuthType) => {
+    if (birth && gender) {
+      const userData = { ...formData, birth, gender, name };
+      signUpEmail(userData);
     }
   };
 
-  const onSubmitVerify = async (formData: VerifyFormData) => {
-    try {
-      const { error } = await supabase.auth.verifyOtp({
-        email: formData.email,
-        token: formData.otp,
-        type: 'email',
-      });
-      if (error) {
-        console.error('🚨OTP인증오류!👉🏻', error.message);
-        return;
-      }
-      console.log('🎉회원가입 성공!');
-      navigate('/signup-intro');
-    } catch (error) {
-      console.error('🚨VerifySubmit Error', error.message);
-    }
+  const onSubmitVerify = async (formData: EmailAuthType) => {
+    verifyEmail(formData);
   };
 
-  const onSubmit: SubmitHandler<VerifyFormData> = !showVerification
+  const onSubmit: SubmitHandler<EmailAuthType> = !showVerification
     ? onSubmitSignUp
     : onSubmitVerify;
 
@@ -90,7 +51,7 @@ export default function SignUpIntroTemplate2({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            <TextField
+            <FormItem.TextField
               labelName="이메일"
               type="text"
               name="email"
@@ -103,7 +64,7 @@ export default function SignUpIntroTemplate2({
               }}
               placeholder="이메일 입력"
             />
-            <TextField
+            <FormItem.TextField
               labelName="비밀번호"
               type="password"
               name="password"
@@ -122,7 +83,7 @@ export default function SignUpIntroTemplate2({
               }}
               placeholder="비밀번호 입력"
             />
-            <TextField
+            <FormItem.TextField
               labelName="비밀번호 재입력"
               type="password"
               name="confirmPassword"
@@ -142,10 +103,10 @@ export default function SignUpIntroTemplate2({
           </Container.FlexCol>
           {showVerification ? (
             <>
-              <TextField
+              <FormItem.TextField
                 labelName="인증번호"
                 type="text"
-                name="otp"
+                name="token"
                 options={{ required: '인증번호를 입력해주세요.' }}
                 placeholder="인증번호 입력"
                 containerStyle="mt-[1.625rem]"
@@ -153,6 +114,7 @@ export default function SignUpIntroTemplate2({
               <Button.Fill
                 type="submit"
                 className="mt-[3.25rem] w-full rounded-[10px]"
+                disabled={isPending}
               >
                 <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
                   인증 요청
@@ -163,6 +125,7 @@ export default function SignUpIntroTemplate2({
             <Button.Fill
               type="submit"
               className="mt-[3.25rem] w-full rounded-[10px]"
+              disabled={isPending}
             >
               <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
                 확인
