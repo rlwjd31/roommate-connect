@@ -5,16 +5,18 @@ import { useSetRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
-import FormItem from '@/components/molecules/FormItem';
+import TextField from '@/components/molecules/TextField';
 import {
   SignUpUserBirthAtom,
   SignUpUserGenderAtom,
   SignUpUserNameAtom,
 } from '@/stores/sign.store';
+import FormItem from '@/components/molecules/FormItem';
 
 type SignUpFormData1 = {
   name: string;
-  identificationNumber: string;
+  birth: string;
+  gender: string;
 };
 
 export default function SignUpIntroTemplate1({
@@ -30,12 +32,10 @@ export default function SignUpIntroTemplate1({
 
   const onSubmit = (data: SignUpFormData1) => {
     console.log(data);
-    const userBirth = Number(data.identificationNumber.slice(0, 6));
-    const userGender = Number(data.identificationNumber.slice(6));
 
     setName(data.name);
-    setBirth(userBirth);
-    setGender(userGender === 1 || userGender === 3 ? 1 : 2);
+    setBirth(Number(data.birth));
+    setGender(data.gender === '1' || data.gender === '3' ? 1 : 2);
     step(1);
   };
 
@@ -44,7 +44,7 @@ export default function SignUpIntroTemplate1({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            <FormItem.TextField
+            <TextField
               labelName="이름"
               type="text"
               name="name"
@@ -58,22 +58,54 @@ export default function SignUpIntroTemplate1({
               placeholder="이름 입력"
               inputStyle="mt-[1rem]"
             />
-            <FormItem.TextField
-              labelName="주민등록번호"
-              type="text"
-              name="identificationNumber"
-              options={{
-                required: '필수 입력 사항입니다.',
-                minLength: { value: 7, message: '7자리 모두 입력해주세요.' },
-                maxLength: { value: 7, message: '7자리만 입력해주세요.' },
-                pattern: {
-                  value: /^[0-9]{6}[-\s.]?[1-4]{1}$/,
-                  message: '숫자만 입력 가능합니다.',
-                },
-              }}
-              placeholder="7자리 ex) 990101-1******"
-              inputStyle="mt-[1rem]"
-            />
+            <Container.FlexRow className="gap-[1rem]">
+              <FormItem.TextField
+                labelName="주민등록번호"
+                type="text"
+                name="birth"
+                options={{
+                  required: '필수 입력 사항입니다.',
+                  minLength: {
+                    value: 6,
+                    message: '주민등록번호 앞 6자리를 입력해주세요.',
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: '주민등록번호 앞 6자리를 입력해주세요.',
+                  },
+                  pattern: {
+                    value: /^[0-9]{6}$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+                placeholder="990101"
+                inputStyle="mt-[1rem]"
+              />
+              <p className="mt-[3.5rem]">-</p>
+              <FormItem.TextField
+                type="text"
+                name="gender"
+                option={{
+                  required: '필수 입력 사항입니다.',
+                  minLength: {
+                    value: 1,
+                    message:
+                      '주민등록번호 뒷자리의 첫번째 숫자를 입력해주세요.',
+                  },
+                  maxLength: {
+                    value: 1,
+                    message:
+                      '주민등록번호 뒷자리의 첫번째 숫자를 입력해주세요.',
+                  },
+                  pattern: {
+                    value: /^[1-4]{1}$/,
+                    message: '숫자만 입력 가능합니다.',
+                  },
+                }}
+                inputStyle="mt-[2rem] w-[2.75rem]"
+              />
+              <p className="mt-[3.5rem]">* * * * * *</p>
+            </Container.FlexRow>
           </Container.FlexCol>
           <Button.Fill
             type="submit"
