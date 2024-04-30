@@ -1,22 +1,14 @@
-import { MouseEvent } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
+import { AlertModalAtom } from '@/stores/globalModal.store';
 
-export type AlertModalProps = {
-  title: string;
-  message: string;
-  buttonContent?: string;
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-};
+export default function AlertModal() {
+  const { title, message, onClick, buttonContent } =
+    useRecoilValue(AlertModalAtom);
 
-export default function AlertModal({
-  title,
-  message,
-  buttonContent,
-  onClick,
-}: AlertModalProps) {
   return (
     <Container.FlexRow className="fixed left-0 top-0 z-50 h-[100vh] w-[100vw] items-center justify-center bg-[#6D6D6D]/50">
       <Container.FlexCol className="w-full max-w-96 gap-3 rounded-2xl bg-bg p-6 text-brown">

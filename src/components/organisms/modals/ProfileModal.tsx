@@ -1,5 +1,9 @@
-export type ProfileModalProps = {};
+import { useRecoilValue } from 'recoil';
 
-export default function ProfileModal(props: ProfileModalProps) {
+import { ProfileModalAtom } from '@/stores/globalModal.store';
+
+export default function ProfileModal() {
+  const profileModalState = useRecoilValue(ProfileModalAtom);
+
   return <div>ConfirmModal</div>;
 }
