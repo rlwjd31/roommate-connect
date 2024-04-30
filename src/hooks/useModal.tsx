@@ -2,7 +2,11 @@ import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
 
 import { GlobalModalAtom, ModalSelector } from '@/stores/globalModal.store';
-import { ModalStateByType, ModalType } from '@/types/modal.type';
+import {
+  ConfirmModalState,
+  ModalStateByType,
+  ModalType,
+} from '@/types/modal.type';
 
 type UseModalProps<T extends ModalType> = {
   type: T;
@@ -10,7 +14,6 @@ type UseModalProps<T extends ModalType> = {
 };
 
 // ! 나중에 modal을 연속적으로 띄우고 싶을 때 queue의 형태로 modal을 구현필요할 수도???
-
 export default function useModal<T extends ModalType>({
   type,
   modalProps,
@@ -27,27 +30,26 @@ export default function useModal<T extends ModalType>({
 
   useEffect(() => {
     setGlobalModalState(prev => ({ ...prev, modalType: type }));
-    setModal(
-      'onClickCancel' in modalProps
-        ? {
-            ...modalProps,
-            onClickConfirm: () => {
-              modalProps.onClickConfirm();
-              closeModal();
-            },
-            onClickCancel: () => {
-              modalProps.onClickCancel();
-              closeModal();
-            },
-          }
-        : {
-            ...modalProps,
-            onClickConfirm: () => {
-              modalProps.onClickConfirm();
-              closeModal();
-            },
-          },
-    );
+
+    // ! closeModal과 같이 모든 button에 대한 기본 동작을 넣어주면된다.
+    // ! 추후, async후 modal이 닫히게 될 기능이 있다면 closeModal()을 function scope의
+    // ! 맨 하단에 위치
+    const nextModalProps = {
+      ...modalProps,
+      onClickConfirm: () => {
+        modalProps.onClickConfirm();
+        closeModal();
+      },
+    };
+
+    if ('onClickCancel' in modalProps) {
+      (nextModalProps as ConfirmModalState).onClickCancel = () => {
+        modalProps.onClickCancel();
+        closeModal();
+      };
+    }
+
+    setModal(nextModalProps);
   }, []);
 
   return { openModal, closeModal, getModalState, isModalOpen: isOpen === true };
