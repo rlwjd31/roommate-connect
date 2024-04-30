@@ -1,48 +1,39 @@
-import { FC } from 'react';
+import { useRecoilValue } from 'recoil';
+import { ReactNode } from 'react';
 
 import Container from '@/components/atoms/Container';
-import AlertModal, {
-  AlertModalProps,
-} from '@/components/organisms/modals/AlertModal';
-import ConfirmModal, {
-  ConfirmModalProps,
-} from '@/components/organisms/modals/ConfirmModal';
-import ProfileModal, {
-  ProfileModalProps,
-} from '@/components/organisms/modals/ProfileModal';
+import AlertModal from '@/components/organisms/modals/AlertModal';
+import ConfirmModal from '@/components/organisms/modals/ConfirmModal';
+import ProfileModal from '@/components/organisms/modals/ProfileModal';
+import { GlobalModalAtom } from '@/stores/globalModal.store';
 
-type ModalType = 'Alert' | 'Confirm' | 'Profile';
-
-type ModalTypeProps = {
-  Alert: AlertModalProps;
-  Confirm: ConfirmModalProps;
-  Profile: ProfileModalProps;
+type ModalContainerType = {
+  children: ReactNode;
 };
 
-type GlobalModalProps<T extends ModalType> = {
-  modalType: T;
-  modalProps: ModalTypeProps[T];
-};
-
-// eslint-disable-next-line react-refresh/only-export-components
-const TypesOfModals: {
-  [T in ModalType]: FC<ModalTypeProps[T]>;
-} = {
-  Alert: AlertModal,
-  Confirm: ConfirmModal,
-  Profile: ProfileModal,
-};
-
-export default function GlobalModal<T extends ModalType>({
-  modalType,
-  modalProps,
-}: GlobalModalProps<T>) {
-  const SelectedModal: FC<ModalTypeProps[T]> = TypesOfModals[modalType];
-
+function ModalContainer({ children }: ModalContainerType) {
   return (
     <Container.FlexRow className="fixed left-0 top-0 z-50 h-[100vh] w-[100vw] items-center justify-center bg-[#6D6D6D]/50">
-      <SelectedModal {...modalProps} />
+      {children}
     </Container.FlexRow>
   );
 }
 
+export default function GlobalModal() {
+  const { modalType, isOpen } = useRecoilValue(GlobalModalAtom);
+
+  // eslint-disable-next-line react-refresh/only-export-components
+  const TypesOfModals = {
+    Alert: AlertModal,
+    Confirm: ConfirmModal,
+    Profile: ProfileModal,
+  };
+
+  const SelectedModal = TypesOfModals[modalType];
+
+  return isOpen ? (
+    <ModalContainer>
+      <SelectedModal />
+    </ModalContainer>
+  ) : null;
+}
