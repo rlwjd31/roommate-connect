@@ -10,6 +10,7 @@ type UseModalProps<T extends ModalType> = {
 };
 
 // ! 나중에 modal을 연속적으로 띄우고 싶을 때 queue의 형태로 modal을 구현필요할 수도???
+
 export default function useModal<T extends ModalType>({
   type,
   modalProps,
@@ -18,17 +19,36 @@ export default function useModal<T extends ModalType>({
     useRecoilState(GlobalModalAtom);
   const [modal, setModal] = useRecoilState(ModalSelector(modalType));
 
-  useEffect(() => {
-    setGlobalModalState(prev => ({ ...prev, modalType: type }));
-    setModal(modalProps);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const modalOpen = () =>
+  const openModal = () =>
     setGlobalModalState(prev => ({ ...prev, isOpen: true }));
   const closeModal = () =>
     setGlobalModalState(prev => ({ ...prev, isOpen: false }));
   const getModalState = () => modal;
 
-  return { modalOpen, closeModal, getModalState, isModalOpen: isOpen === true };
+  useEffect(() => {
+    setGlobalModalState(prev => ({ ...prev, modalType: type }));
+    setModal(
+      'onClickCancel' in modalProps
+        ? {
+            ...modalProps,
+            onClickConfirm: () => {
+              modalProps.onClickConfirm();
+              closeModal();
+            },
+            onClickCancel: () => {
+              modalProps.onClickCancel();
+              closeModal();
+            },
+          }
+        : {
+            ...modalProps,
+            onClickConfirm: () => {
+              modalProps.onClickConfirm();
+              closeModal();
+            },
+          },
+    );
+  }, []);
+
+  return { openModal, closeModal, getModalState, isModalOpen: isOpen === true };
 }
