@@ -4,16 +4,16 @@ import { useEffect } from 'react';
 import { GlobalModalAtom, ModalSelector } from '@/stores/globalModal.store';
 import { ModalStateByType, ModalType } from '@/types/modal.type';
 
-type UseModalProps = {
-  type: ModalType;
-  modalProps: ModalStateByType[ModalType];
+type UseModalProps<T extends ModalType> = {
+  type: T;
+  modalProps: ModalStateByType[T];
 };
 
 // ! 나중에 modal을 연속적으로 띄우고 싶을 때 queue의 형태로 modal을 구현필요할 수도???
-export default function useModal({
+export default function useModal<T extends ModalType>({
   type,
   modalProps,
-}: UseModalProps) {
+}: UseModalProps<T>) {
   const [{ isOpen, modalType }, setGlobalModalState] =
     useRecoilState(GlobalModalAtom);
   const [modal, setModal] = useRecoilState(ModalSelector(modalType));
