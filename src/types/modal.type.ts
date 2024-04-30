@@ -1,5 +1,3 @@
-import { MouseEvent } from 'react';
-
 export type ModalType = 'Alert' | 'Confirm' | 'Profile';
 
 export type GlobalModalState = {
@@ -18,19 +16,20 @@ export type AlertModalState = {
   title: string;
   message: string;
   buttonContent: string;
-  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  onClickConfirm: () => void;
 };
 
 export type ConfirmModalState = {
   type: 'Confim';
   title: string;
   message: string;
-  onClickCancel: (e: MouseEvent<HTMLButtonElement>) => void;
-  onClickConfirm: (e: MouseEvent<HTMLButtonElement>) => void;
+  onClickCancel: () => void;
+  onClickConfirm: () => void;
   confirmButtonContent: string;
   cancelButtonContent: string;
 };
 
 export type ProfileModalState = {
   type: 'Profile';
+  onClickConfirm: () => void;
 };

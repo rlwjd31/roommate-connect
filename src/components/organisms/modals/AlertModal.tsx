@@ -6,7 +6,7 @@ import Typography from '@/components/atoms/Typography';
 import { AlertModalAtom } from '@/stores/globalModal.store';
 
 export default function AlertModal() {
-  const { title, message, onClick, buttonContent } =
+  const { title, message, onClickConfirm, buttonContent } =
     useRecoilValue(AlertModalAtom);
 
   return (
@@ -18,7 +18,7 @@ export default function AlertModal() {
         </Container.FlexCol>
         <Container.FlexRow className="justify-end">
           <Button.Ghost
-            onClick={onClick}
+            onClick={onClickConfirm}
             type="button"
             className="translate-y-[15px] px-5 py-4"
           >

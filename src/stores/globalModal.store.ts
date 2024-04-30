@@ -24,7 +24,7 @@ export const AlertModalAtom = atom<AlertModalState>({
     title: '',
     message: '',
     buttonContent: '',
-    onClick: () => {},
+    onClickConfirm: () => {},
   },
 });
 
@@ -45,6 +45,7 @@ export const ProfileModalAtom = atom<ProfileModalState>({
   key: 'profileModalState',
   default: {
     type: 'Profile',
+    onClickConfirm: () => {},
   },
 });
 export const ModalSelector = selectorFamily<
