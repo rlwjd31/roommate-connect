@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import useModal from 'hooks/useModal';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -36,7 +37,28 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
-
+  const { openModal: openAlertModal } = useModal({
+    type: 'Alert',
+    modalProps: {
+      type: 'Alert',
+      title: '알림',
+      message: '이메일로 인증번호가 전송되었습니다.',
+      buttonContent: '확인',
+      onClickConfirm: () => alert('AlertModal is Popped!!'),
+    },
+  });
+  const { openModal: openConfirmModal } = useModal({
+    type: 'Confirm',
+    modalProps: {
+      type: 'Confim',
+      title: '친구 차단',
+      message: '선택한 유저를 차단하시겠습니까?',
+      confirmButtonContent: '차단',
+      cancelButtonContent: '취소',
+      onClickConfirm: () => alert('user is blocked!!✅'),
+      onClickCancel: () => {},
+    },
+  });
   const labelStepContents = [
     {
       labelName: '집 유형, 매물 종류',
@@ -53,6 +75,8 @@ export default function ComponentTest() {
   ];
   const [rangeValue, setRangeValue] = useState<number>(0);
   const formValues = useForm();
+
+  console.log('📝📝📝 component Test is rendered!!');
 
   return (
     <div className="flex flex-col bg-bg p-8">
@@ -608,6 +632,15 @@ export default function ComponentTest() {
           />
         </FormProvider>
       </Container>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      {/* Alert & Confirm & Profile Modal test */}
+      <h1 className="text-Head2">ModalTest</h1>
+      <button className="mb-10" type="button" onClick={openAlertModal}>
+        Alert modal 열기
+      </button>
+      <button type="button" onClick={openConfirmModal}>
+        Confirm modal 열기
+      </button>
     </div>
   );
 }

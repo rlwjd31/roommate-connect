@@ -30,6 +30,7 @@ export default function GlobalModal() {
   };
 
   const SelectedModal = TypesOfModals[modalType];
+  console.log('SelectedModal', SelectedModal);
 
   return isOpen ? (
     <ModalContainer>

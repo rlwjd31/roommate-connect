@@ -20,7 +20,7 @@ export default function useModal<T extends ModalType>({
 }: UseModalProps<T>) {
   const [{ isOpen, modalType }, setGlobalModalState] =
     useRecoilState(GlobalModalAtom);
-  const [modal, setModal] = useRecoilState(ModalSelector(modalType));
+  const [modal, setModal] = useRecoilState(ModalSelector(type));
 
   const openModal = () =>
     setGlobalModalState(prev => ({ ...prev, isOpen: true }));
@@ -42,15 +42,18 @@ export default function useModal<T extends ModalType>({
       },
     };
 
-    if ('onClickCancel' in modalProps) {
+    if (modalProps.type === 'Confim') {
       (nextModalProps as ConfirmModalState).onClickCancel = () => {
         modalProps.onClickCancel();
         closeModal();
       };
     }
+    console.log('nextModalProps in useEffect 👇\n', nextModalProps);
 
-    setModal(nextModalProps);
+    setModal({ ...nextModalProps });
   }, []);
+
+  console.log('console modal state =>', modal);
 
   return { openModal, closeModal, getModalState, isModalOpen: isOpen === true };
 }
