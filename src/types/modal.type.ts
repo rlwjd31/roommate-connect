@@ -1,8 +1,8 @@
 export type ModalType = 'Alert' | 'Confirm' | 'Profile';
 
-export type GlobalModalState = {
-  modalType: ModalType;
-};
+// export type GlobalModalState = {
+//   modalType: ModalType;
+// };
 
 export type ModalStateByType = {
   Alert: AlertModalState;

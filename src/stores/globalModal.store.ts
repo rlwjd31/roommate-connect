@@ -3,17 +3,15 @@ import { atom, errorSelector, selectorFamily } from 'recoil';
 import {
   AlertModalState,
   ConfirmModalState,
-  GlobalModalState,
+  // GlobalModalState,
   ModalStateByType,
   ModalType,
   ProfileModalState,
 } from '@/types/modal.type';
 
-export const GlobalModalAtom = atom<GlobalModalState>({
+export const GlobalModalAtom = atom<ModalType>({
   key: 'globalModalstate',
-  default: {
-    modalType: 'Alert',
-  },
+  default: 'Alert'
 });
 
 export const AlertModalAtom = atom<AlertModalState>({

@@ -6,7 +6,7 @@ import ProfileModal from '@/components/organisms/modals/ProfileModal';
 import { GlobalModalAtom } from '@/stores/globalModal.store';
 
 export default function GlobalModal() {
-  const { modalType } = useRecoilValue(GlobalModalAtom);
+  const  modalType  = useRecoilValue(GlobalModalAtom);
 
   // eslint-disable-next-line react-refresh/only-export-components
   const TypesOfModals = {

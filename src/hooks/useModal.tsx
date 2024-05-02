@@ -15,7 +15,7 @@ export default function useModal<T extends ModalType>(modalType: T) {
   // ! globalModal의 modalType에 따라 최종적으로 한 개의 modal(SelectedModal)이 되므로,
   // ! type에 따른 modal의 state가 바뀔 때 GlobalModalState의 modalType을 변경해주어야 한다.
   useEffect(() => {
-    setGlobalModalState(prev => ({ ...prev, modalType }));
+    setGlobalModalState(modalType);
   }, [modalState, modalType, setGlobalModalState]);
 
   return {
