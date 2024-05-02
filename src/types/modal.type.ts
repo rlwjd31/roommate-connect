@@ -1,7 +1,6 @@
 export type ModalType = 'Alert' | 'Confirm' | 'Profile';
 
 export type GlobalModalState = {
-  isOpen: boolean;
   modalType: ModalType;
 };
 
@@ -12,6 +11,7 @@ export type ModalStateByType = {
 };
 
 export type AlertModalState = {
+  isOpen: boolean;
   type: 'Alert';
   title: string;
   message: string;
@@ -20,6 +20,7 @@ export type AlertModalState = {
 };
 
 export type ConfirmModalState = {
+  isOpen: boolean;
   type: 'Confim';
   title: string;
   message: string;
@@ -30,6 +31,7 @@ export type ConfirmModalState = {
 };
 
 export type ProfileModalState = {
+  isOpen: boolean;
   type: 'Profile';
   onClickConfirm: () => void;
 };

@@ -12,7 +12,6 @@ import {
 export const GlobalModalAtom = atom<GlobalModalState>({
   key: 'globalModalstate',
   default: {
-    isOpen: false,
     modalType: 'Alert',
   },
 });
@@ -20,6 +19,7 @@ export const GlobalModalAtom = atom<GlobalModalState>({
 export const AlertModalAtom = atom<AlertModalState>({
   key: 'alertModalState',
   default: {
+    isOpen: false,
     type: 'Alert',
     title: '',
     message: '',
@@ -31,6 +31,7 @@ export const AlertModalAtom = atom<AlertModalState>({
 export const ConfirmModalAtom = atom<ConfirmModalState>({
   key: 'confirmModalState',
   default: {
+    isOpen: false,
     type: 'Confim',
     title: '',
     message: '',
