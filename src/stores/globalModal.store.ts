@@ -45,32 +45,31 @@ export const ConfirmModalAtom = atom<ConfirmModalState>({
 export const ProfileModalAtom = atom<ProfileModalState>({
   key: 'profileModalState',
   default: {
+    isOpen: false,
     type: 'Profile',
     onClickConfirm: () => {},
   },
 });
-export const ModalSelector = selectorFamily<
-  ModalStateByType[keyof ModalStateByType],
-  ModalType
->({
+
+export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
   get:
     <P extends ModalType>(modalType: P) =>
     ({ get }) => {
       switch (modalType) {
         case 'Alert':
-          return get(AlertModalAtom) as AlertModalState;
+          return get(AlertModalAtom) as ModalStateByType[P];
         case 'Confirm':
-          return get(ConfirmModalAtom) as ConfirmModalState;
+          return get(ConfirmModalAtom) as ModalStateByType[P];
         case 'Profile':
-          return get(ProfileModalAtom) as ProfileModalState;
+          return get(ProfileModalAtom) as ModalStateByType[P];
         default:
           errorSelector('Undefined cannot be a value of ModalType.');
-          return get(AlertModalAtom) as AlertModalState;
+          throw new Error('Undefined cannot be a value of ModalType.');
       }
     },
   set:
-    modalType =>
+    <P extends ModalType>(modalType: P) =>
     ({ set }, newModalState) => {
       switch (modalType) {
         case 'Alert':
@@ -84,8 +83,8 @@ export const ModalSelector = selectorFamily<
           break;
         default:
           // eslint-disable-next-line no-console
-          console.warn(`Received unexpected modal type: ${modalType}`);
           errorSelector(`Received unexpected modal type: ${modalType}`);
+          throw new Error(`Received unexpected modal type: ${modalType}`);
       }
     },
 });
