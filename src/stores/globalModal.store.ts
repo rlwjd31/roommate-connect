@@ -3,7 +3,6 @@ import { atom, errorSelector, selectorFamily } from 'recoil';
 import {
   AlertModalState,
   ConfirmModalState,
-  // GlobalModalState,
   ModalStateByType,
   ModalType,
   ProfileModalState,

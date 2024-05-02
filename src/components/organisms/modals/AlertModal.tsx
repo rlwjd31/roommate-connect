@@ -10,8 +10,6 @@ export default function AlertModal() {
   const { title, message, onClickConfirm, buttonContent, isOpen } =
     useRecoilValue(AlertModalAtom);
 
-  console.log('AlertModal rendered!!');
-
   return isOpen ? (
     <ModalContainer>
       <Container.FlexCol className="w-full max-w-96 gap-3 rounded-2xl bg-bg p-6 text-brown">

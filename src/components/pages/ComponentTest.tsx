@@ -87,8 +87,6 @@ export default function ComponentTest() {
   const [rangeValue, setRangeValue] = useState<number>(0);
   const formValues = useForm();
 
-  console.log('📝📝📝 component Test is rendered!!');
-
   return (
     <div className="flex flex-col bg-bg p-8">
       {/* Button test */}

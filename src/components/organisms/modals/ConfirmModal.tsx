@@ -17,7 +17,6 @@ export default function ConfirmModal() {
     onClickCancel,
   } = useRecoilValue(ConfirmModalAtom);
 
-  console.log('confirm modal rendered!!');
   return isOpen ? (
     <ModalContainer>
       <Container.FlexCol className="w-full max-w-96 gap-3 rounded-2xl bg-bg p-6 text-brown">
