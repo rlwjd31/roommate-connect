@@ -25,6 +25,7 @@ import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
 import StepNavigation from '@/components/molecules/StepNavigation';
+import { AlertModalState, ConfirmModalState } from '@/types/modal.type';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -37,28 +38,38 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
-  const { openModal: openAlertModal } = useModal({
+
+  const { setModalState: setAlertModal, closeModal: closeAlertModal } =
+    useModal('Alert');
+  const alertModaContext: AlertModalState = {
+    isOpen: true,
     type: 'Alert',
-    modalProps: {
-      type: 'Alert',
-      title: '알림',
-      message: '이메일로 인증번호가 전송되었습니다.',
-      buttonContent: '확인',
-      onClickConfirm: () => alert('AlertModal is Popped!!'),
+    title: '알림',
+    message: '이메일로 인증번호가 전송되었습니다.',
+    buttonContent: '확인',
+    onClickConfirm: () => {
+      alert('AlertModal is Popped!!');
+      closeAlertModal();
     },
-  });
-  const { openModal: openConfirmModal } = useModal({
-    type: 'Confirm',
-    modalProps: {
-      type: 'Confim',
-      title: '친구 차단',
-      message: '선택한 유저를 차단하시겠습니까?',
-      confirmButtonContent: '차단',
-      cancelButtonContent: '취소',
-      onClickConfirm: () => alert('user is blocked!!✅'),
-      onClickCancel: () => {},
+  };
+  const { setModalState: setConfirmModal, closeModal: closeConfirmModal } =
+    useModal('Confirm');
+  const confirmModalContext: ConfirmModalState = {
+    isOpen: true,
+    type: 'Confim',
+    title: '친구 차단',
+    message: '선택한 유저를 차단하시겠습니까?',
+    confirmButtonContent: '차단',
+    cancelButtonContent: '취소',
+    onClickConfirm: () => {
+      alert('user is blocked!!✅');
+      closeConfirmModal();
     },
-  });
+    onClickCancel: () => {
+      closeConfirmModal();
+    },
+  };
+
   const labelStepContents = [
     {
       labelName: '집 유형, 매물 종류',
@@ -635,10 +646,17 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* Alert & Confirm & Profile Modal test */}
       <h1 className="text-Head2">ModalTest</h1>
-      <button className="mb-10" type="button" onClick={openAlertModal}>
+      <button
+        className="mb-10"
+        type="button"
+        onClick={() => setAlertModal(alertModaContext)}
+      >
         Alert modal 열기
       </button>
-      <button type="button" onClick={openConfirmModal}>
+      <button
+        type="button"
+        onClick={() => setConfirmModal(confirmModalContext)}
+      >
         Confirm modal 열기
       </button>
     </div>
