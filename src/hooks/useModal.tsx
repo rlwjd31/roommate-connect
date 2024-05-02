@@ -1,59 +1,28 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useEffect } from 'react';
 
+import { ModalType } from '@/types/modal.type';
 import { GlobalModalAtom, ModalSelector } from '@/stores/globalModal.store';
-import {
-  ConfirmModalState,
-  ModalStateByType,
-  ModalType,
-} from '@/types/modal.type';
 
-type UseModalProps<T extends ModalType> = {
-  type: T;
-  modalProps: ModalStateByType[T];
-};
+export default function useModal<T extends ModalType>(modalType: T) {
+  const setGlobalModalState = useSetRecoilState(GlobalModalAtom);
+  const [modalState, setModalState] = useRecoilState(ModalSelector(modalType));
 
-// ! 나중에 modal을 연속적으로 띄우고 싶을 때 queue의 형태로 modal을 구현필요할 수도???
-export default function useModal<T extends ModalType>({
-  type,
-  modalProps,
-}: UseModalProps<T>) {
-  const [{ isOpen, modalType }, setGlobalModalState] =
-    useRecoilState(GlobalModalAtom);
-  const [modal, setModal] = useRecoilState(ModalSelector(type));
+  const openModal = () => setModalState(prev => ({ ...prev, isOpen: true }));
+  const closeModal = () => setModalState(prev => ({ ...prev, isOpen: false }));
+  const getModalState = () => modalState;
 
-  const openModal = () =>
-    setGlobalModalState(prev => ({ ...prev, isOpen: true }));
-  const closeModal = () =>
-    setGlobalModalState(prev => ({ ...prev, isOpen: false }));
-  const getModalState = () => modal;
-
+  // ! globalModal의 modalType에 따라 최종적으로 한 개의 modal(SelectedModal)이 되므로,
+  // ! type에 따른 modal의 state가 바뀔 때 GlobalModalState의 modalType을 변경해주어야 한다.
   useEffect(() => {
-    setGlobalModalState(prev => ({ ...prev, modalType: type }));
+    setGlobalModalState(prev => ({ ...prev, modalType }));
+  }, [modalState, modalType, setGlobalModalState]);
 
-    // ! closeModal과 같이 모든 button에 대한 기본 동작을 넣어주면된다.
-    // ! 추후, async후 modal이 닫히게 될 기능이 있다면 closeModal()을 function scope의
-    // ! 맨 하단에 위치
-    const nextModalProps = {
-      ...modalProps,
-      onClickConfirm: () => {
-        modalProps.onClickConfirm();
-        closeModal();
-      },
-    };
-
-    if (modalProps.type === 'Confim') {
-      (nextModalProps as ConfirmModalState).onClickCancel = () => {
-        modalProps.onClickCancel();
-        closeModal();
-      };
-    }
-    console.log('nextModalProps in useEffect 👇\n', nextModalProps);
-
-    setModal({ ...nextModalProps });
-  }, []);
-
-  console.log('console modal state =>', modal);
-
-  return { openModal, closeModal, getModalState, isModalOpen: isOpen === true };
+  return {
+    openModal,
+    closeModal,
+    getModalState,
+    setModalState,
+    isModalOpen: modalState.isOpen === true,
+  };
 }
