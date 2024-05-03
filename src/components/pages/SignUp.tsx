@@ -22,7 +22,7 @@ export default function SignUp() {
   };
   return (
     <Container.FlexCol className="w-full gap-[2.5rem]">
-      <IconButton.Goast
+      <IconButton.Ghost
         onClick={onClickPrevButton}
         iconType="back"
         iconClassName="mx-auto"
