@@ -4,13 +4,14 @@ import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import { AlertModalAtom } from '@/stores/globalModal.store';
+import ModalContainer from '@/components/organisms/modals/ModalContainer';
 
 export default function AlertModal() {
-  const { title, message, onClickConfirm, buttonContent } =
+  const { title, message, onClickConfirm, buttonContent, isOpen } =
     useRecoilValue(AlertModalAtom);
 
-  return (
-    <Container.FlexRow className="fixed left-0 top-0 z-50 h-[100vh] w-[100vw] items-center justify-center bg-[#6D6D6D]/50">
+  return isOpen ? (
+    <ModalContainer>
       <Container.FlexCol className="w-full max-w-96 gap-3 rounded-2xl bg-bg p-6 text-brown">
         <Container.FlexCol className="gap-6">
           <Typography.SubTitle3>{title}</Typography.SubTitle3>
@@ -28,8 +29,8 @@ export default function AlertModal() {
           </Button.Ghost>
         </Container.FlexRow>
       </Container.FlexCol>
-    </Container.FlexRow>
-  );
+    </ModalContainer>
+  ) : null;
 }
 
 AlertModal.defaultProps = {
