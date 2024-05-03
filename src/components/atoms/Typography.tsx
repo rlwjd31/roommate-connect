@@ -1,6 +1,7 @@
 import React, { ComponentProps, ReactNode } from 'react';
 
 import cn from '@/libs/cn';
+import TypoType from '@/types/typo.type';
 
 type TypographyProps =
   | ComponentProps<'span'>
@@ -9,21 +10,6 @@ type TypographyProps =
       children: React.ReactNode;
       className?: string;
     };
-
-type TypoType =
-  | 'Head1'
-  | 'Head2'
-  | 'Head3'
-  | 'SubTitle1'
-  | 'SubTitle2'
-  | 'SubTitle3'
-  | 'P1'
-  | 'P2'
-  | 'P3'
-  | 'Span1'
-  | 'Span2'
-  | 'SpanMid1'
-  | 'SpanMid2';
 
 type TypographyComponentProps = {
   [key in TypoType]: (props: TypographyProps) => ReactNode;

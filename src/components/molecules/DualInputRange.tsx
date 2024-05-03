@@ -39,8 +39,8 @@ export default function DualInputRange({
     return setRangeValue(validateRangeValue(type, Number(value)));
   };
 
-  const minGradientStopPoint = getGradientStop(rangeValue[0], min, max);
-  const maxGradientStopPoint = getGradientStop(rangeValue[1], min, max);
+  const minGradientStopPoint = getGradientStop(rangeValue[0], min, max + step);
+  const maxGradientStopPoint = getGradientStop(rangeValue[1], min, max + step);
 
   const minDuplicateStyle =
     rangeValue[0] === rangeValue[1] && rangeValue[0] === min

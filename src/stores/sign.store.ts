@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil';
+import { atom, DefaultValue, RecoilState, selector } from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
 
@@ -45,9 +45,7 @@ export const SignUpProfilePetAtom = atom<SignUpType['pet']>({
 // ? appeals 유저의 어필할 매력(배열형태) @string[]
 export const SignUpProfileAppealsAtom = atom<SignUpType['appeals']>({
   key: 'signUpProfileAppealsAtom',
-  // TODO: 나중에 기본값 빈 배열로 다시 setting
-  default: ['늦게 자요', '늦게 자요', '늦게 자요'],
-  // default: [],
+  default: [],
 });
 // ? gender 상대방의 성별 0: 상관없음, 1: 남성, 2: 여성 @number
 export const SignUpProfileGenderAtom = atom<SignUpType['gender']>({
@@ -94,5 +92,34 @@ export const SignUpProfileSelector = selector<SignUpType>({
       mates_number: matesNumber,
       mate_appeals: mateAppeals,
     };
+  },
+  set: ({ set, reset }, newValue) => {
+    if (newValue instanceof DefaultValue) {
+      reset(SignUpProfileTypeAtom);
+      reset(SignUpProfileRentalTypeAtom);
+      reset(SignUpProfileRegionsAtom);
+      reset(SignUpProfileTermAtom);
+      reset(SignUpProfileDepositPriceAtom);
+      reset(SignUpProfileMonthlyPriceAtom);
+      reset(SignUpProfileSmokingAtom);
+      reset(SignUpProfilePetAtom);
+      reset(SignUpProfileAppealsAtom);
+      reset(SignUpProfileGenderAtom);
+      reset(SignUpProfileMatesNumberAtom);
+      reset(SignUpProfileMateAppealsAtom);
+    } else {
+      set(SignUpProfileTypeAtom, newValue.type);
+      set(SignUpProfileRentalTypeAtom, newValue.rental_type);
+      set(SignUpProfileRegionsAtom, newValue.regions);
+      set(SignUpProfileTermAtom, newValue.term);
+      set(SignUpProfileDepositPriceAtom, newValue.deposit_price);
+      set(SignUpProfileMonthlyPriceAtom, newValue.monthly_price);
+      set(SignUpProfileSmokingAtom, newValue.smoking);
+      set(SignUpProfilePetAtom, newValue.pet);
+      set(SignUpProfileAppealsAtom, newValue.appeals);
+      set(SignUpProfileGenderAtom, newValue.gender);
+      set(SignUpProfileMatesNumberAtom, newValue.mates_number);
+      set(SignUpProfileMateAppealsAtom, newValue.mate_appeals);
+    }
   },
 });

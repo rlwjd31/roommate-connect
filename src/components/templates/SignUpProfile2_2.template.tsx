@@ -1,89 +1,100 @@
 import { useRecoilState } from 'recoil';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+import { KeyboardEvent } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignUpProfileAppealsAtom } from '@/stores/sign.store';
-import BadgeButton from '@/components/molecules/BadgeButton';
 import TextField from '@/components/molecules/TextField';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import BadgeButtons from '@/components/molecules/BadgeButtons';
 
-type FormValues = {
-  appeals: string;
-  additionalAppeals: string;
-};
-
-export default function SignUpProfile1_2Template() {
+export default function SignUpProfile2_2Template() {
   const [appeals, setAppeals] = useRecoilState(SignUpProfileAppealsAtom);
-  const formMethods = useForm<FormValues>({ mode: 'onSubmit' });
-  const validateAppeal = (appeal: string) => {
-    console.log('appeal', appeal);
-    if (appeal === '') return '값을 입력해주세요';
-    if (appeals.length + 1 < 3) return '3개 모두 입력해주세요';
+  const { setValue: setInputValue, watch } =
+    useFormContext<Pick<ProfileFormValues, 'appealsInputValue'>>();
 
-    return '';
+  const createBadge = (badgeContent: string) => {
+    if (!appeals.includes(badgeContent)) {
+      setInputValue('appealsInputValue', '');
+      setAppeals(prev => [...prev, badgeContent]);
+    }
   };
 
-  const testOnSubmit: SubmitHandler<FormValues> = data => {
-    console.log(data);
-    // return 'something';
+  const deleteBadge = (badgeContent: string) =>
+    setAppeals(prev => prev.filter(appeal => appeal !== badgeContent));
+
+  const pressEnterCreateBadge = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      createBadge(watch('appealsInputValue'));
+    }
   };
 
   return (
     <Container.FlexCol className="min-w-full px-2">
-      <FormProvider {...formMethods}>
-        <form onSubmit={formMethods.handleSubmit(testOnSubmit)}>
-          <Container.FlexCol>
-            <SignUpProfileStepTitleTemplate
-              step="2-2"
-              title="나의 라이프스타일은..."
-            />
-            <Container.FlexCol className="mb-[68px]">
-              <Typography.SubTitle1 className="mb-11 text-brown">
-                상대방에게 어필하고 싶은 3개를 작성해주세요
-              </Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
-                {appeals.map(appeal => (
-                  <BadgeButton.Fill
-                    key={appeal}
-                    className="gap-x-5 rounded-[30px] p-4"
-                    iconType="close"
-                    stroke="bg"
-                  >
-                    <Typography.P1>{appeal}</Typography.P1>
-                  </BadgeButton.Fill>
-                ))}
-              </Container.FlexRow>
-              {/* TODO: activeWatch 지워야 함 => debug*/}
-              <TextField
-              
-                containerStyle="mt-5"
-                type="text"
-                name="이거 뭥미"
-                activeWatch
-              />
-            </Container.FlexCol>
-            <Container.FlexCol>
-              <Typography.SubTitle1 className="mb-11 text-brown">
-                추가적으로 어필해주세요(생략 가능)
-              </Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
-                {appeals.map(appeal => (
-                  <BadgeButton.Fill
-                    key={appeal}
-                    className="gap-x-5 rounded-[30px] p-4"
-                    iconType="close"
-                    stroke="bg"
-                  >
-                    <Typography.P1>{appeal}</Typography.P1>
-                  </BadgeButton.Fill>
-                ))}
-              </Container.FlexRow>
-              <TextField containerStyle="mt-5" type="text" name="이거뭥미" />
-            </Container.FlexCol>
-          </Container.FlexCol>
-        </form>
-      </FormProvider>
+      <Container.FlexCol>
+        <SignUpProfileStepTitleTemplate
+          step="2-2"
+          title="나의 라이프스타일은..."
+        />
+        <Container.FlexCol className="mb-[68px]">
+          <Typography.SubTitle1 className="mb-11 text-brown">
+            상대방에게 어필하고 싶은 3개를 작성해주세요
+          </Typography.SubTitle1>
+          <BadgeButtons
+            contents={appeals}
+            className="gap-2"
+            badgeClassName="gap-x-5 rounded-[30px] p-4"
+            stroke="bg"
+            iconType="close"
+            typoClassName="text-bg"
+            onClick={deleteBadge}
+          />
+          <TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
+            containerStyle="mt-5"
+            placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
+            type="text"
+            name="appealsInputValue"
+            onKeyDown={pressEnterCreateBadge}
+            options={{
+              // onChange: ,
+              validate: (something1, something2) => {
+                console.log('something1', something1);
+                console.log('something2', something2);
+                return true;
+              },
+              // onBlur: e => console.log('🤣 blur', e),
+            }}
+          />
+        </Container.FlexCol>
+        {/* badge 선택지들 UI가 나오면 그 때 적용하기 */}
+        <Container.FlexCol>
+          <Typography.SubTitle1 className="mb-11 text-brown">
+            떠오르는 것이 없다면 선택해주세요
+          </Typography.SubTitle1>
+          <BadgeButtons
+            contents={[
+              '외향적',
+              '내향적',
+              '야행성',
+              '직장인이에요',
+              '학생이에요',
+              '청소 잘 해요',
+              '친구초대 안 해요',
+              '요리 잘 해요',
+              '혼밥 싫어요',
+              '더위 잘 타요',
+              '추위 잘 타요',
+            ]}
+            className="flex flex-wrap gap-3"
+            badgeClassName="gap-x-5 rounded-[30px] p-4 min-w-max"
+            stroke="bg"
+            typoClassName="text-bg"
+            onClick={createBadge}
+          />
+        </Container.FlexCol>
+      </Container.FlexCol>
     </Container.FlexCol>
   );
 }

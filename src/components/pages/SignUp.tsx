@@ -12,7 +12,6 @@ import Button from '@/components/atoms/Button';
 export default function SignUp() {
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
-  console.log(currentStep);
 
   const onClickPrevButton = () => {
     if (currentStep === 0) navigate('/sign/in');

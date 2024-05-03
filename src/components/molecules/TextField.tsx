@@ -14,7 +14,9 @@ export type TextFieldProps<T extends FieldValues> = InputProps & {
   inputStyle?: string;
 };
 
-export default function TextField<T extends FieldValues>(props: TextFieldProps<T>) {
+export default function TextField<T extends FieldValues>(
+  props: TextFieldProps<T>,
+) {
   const {
     labelName,
     type,
@@ -23,12 +25,10 @@ export default function TextField<T extends FieldValues>(props: TextFieldProps<T
     inputStyle,
     placeholder,
     options,
-    activeWatch,
+    onKeyDown,
   } = props;
 
-  const { register, formState, watch } = useFormContext();
-
-  if (activeWatch) console.log(watch(name));
+  const { register, formState } = useFormContext();
 
   return (
     <Container className={containerStyle}>
@@ -37,6 +37,7 @@ export default function TextField<T extends FieldValues>(props: TextFieldProps<T
         type={type}
         className={inputStyle}
         placeholder={placeholder}
+        onKeyDown={onKeyDown}
         {...register(name, options)}
       />
       <Typography.Span2

@@ -10,16 +10,17 @@ export type SignUpType = {
   type: 0 | 1 | 2 | 3 | undefined;
   /**
    * ### 집 대여 유형
-   * - 0: 월세
-   * - 1: 전세
-   * - 2: 반 전세
+   * - 0: 상관없음
+   * - 1: 월세
+   * - 2: 전세
+   * - 3: 반 전세
    * - undefined: 지정되지 않음(초기값)
    */
-  rental_type: 0 | 1 | 2 | undefined;
+  rental_type: 0 | 1 | 2 | 3 | undefined;
   /**
    * ### 유저가 찾는 지역
    * - `${region} ${district}`의 배열형태
-   * ```
+   *
    * [
    *  `${region} ${district}`,
    *  `${region} ${district}`,
