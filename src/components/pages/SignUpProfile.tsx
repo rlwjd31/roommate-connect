@@ -57,7 +57,6 @@ export default function SignUpProfile() {
 
   // * profile에 필요한 recoil state들 전체 update
   const testOnSubmit: SubmitHandler<ProfileFormValues> = (data, event) => {
-    // event?.preventDefault();
     console.log('when a;sdklnfl;aksdjfl;kajsdf');
     console.log('✅ onSubmit data', data);
     setAllSignUpProfileState(testData);

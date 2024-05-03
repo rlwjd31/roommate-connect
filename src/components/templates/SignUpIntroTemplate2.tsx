@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import TextField from '@/components/molecules/TextField';
+import FormItem from '@/components/molecules/FormItem';
 
 export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
@@ -32,7 +32,7 @@ export default function SignUpIntroTemplate2() {
             <Container.FlexRow className="w-full items-center">
               {/* TODO: Textfield flex does not adjust width -> modification required. */}
               {/* TODO: Input - Button should be same line */}
-              <TextField
+              <FormItem.TextField
                 labelName="이메일"
                 type="text"
                 name="email"
@@ -54,7 +54,7 @@ export default function SignUpIntroTemplate2() {
               </Button.Outline>
             </Container.FlexRow>
             {showVerification && (
-              <TextField
+              <FormItem.TextField
                 labelName="인증번호"
                 type="text"
                 name="verificationNumber"
@@ -62,7 +62,7 @@ export default function SignUpIntroTemplate2() {
                 placeholder="인증번호 입력"
               />
             )}
-            <TextField
+            <FormItem.TextField
               labelName="비밀번호"
               type="password"
               name="password"
@@ -81,7 +81,7 @@ export default function SignUpIntroTemplate2() {
               }}
               placeholder="비밀번호 입력"
             />
-            <TextField
+            <FormItem.TextField
               labelName="비밀번호 재입력"
               type="password"
               name="confirmPassword"

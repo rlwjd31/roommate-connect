@@ -1,14 +1,12 @@
 import { useRecoilState } from 'recoil';
-import { useFormContext } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignUpProfileAppealsAtom } from '@/stores/sign.store';
-import BadgeButton from '@/components/molecules/BadgeButton';
-import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import FormItem from '@/components/molecules/FormItem';
 
 type FormValues = {
   appeals: string;
@@ -47,7 +45,7 @@ export default function SignUpProfile1_2Template() {
             onClick={() => alert('clicked!!')}
           />
           {/* TODO: activeWatch 지워야 함 => debug */}
-          <TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
+          <FormItem.TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
             containerStyle="mt-5"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"

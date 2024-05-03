@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
-import TextField from '@/components/molecules/TextField';
+import FormItem from '@/components/molecules/FormItem';
 
 export default function SignUpIntroTemplate1({
   step,
@@ -23,7 +23,7 @@ export default function SignUpIntroTemplate1({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            <TextField
+            <FormItem.TextField
               labelName="이름"
               type="text"
               name="name"
@@ -37,7 +37,7 @@ export default function SignUpIntroTemplate1({
               placeholder="이름 입력"
               inputStyle="mt-[1rem]"
             />
-            <TextField
+            <FormItem.TextField
               labelName="주민등록번호"
               type="text"
               name="identificationNumber"
