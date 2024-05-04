@@ -61,7 +61,8 @@ export default function InputRange({
   overlap = false,
   ...others
 }: InputRangeProps) {
-  const stopPoint = getGradientStop(value, min, max);
+  const oneStepHigherValue = max + step;
+  const stopPoint = getGradientStop(value, min, oneStepHigherValue);
 
   return (
     <Container.Grid
@@ -76,7 +77,7 @@ export default function InputRange({
         onChange={onChange}
         type="range"
         min={min}
-        max={max}
+        max={oneStepHigherValue}
         step={step}
         value={value}
         {...others}

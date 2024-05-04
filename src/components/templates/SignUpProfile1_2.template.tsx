@@ -11,6 +11,7 @@ import {
   SignUpProfileTermAtom,
 } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 
 export default function SignUpProfile1_2Template() {
   const [regions, setRegions] = useRecoilState(SignUpProfileRegionsAtom);
@@ -37,10 +38,12 @@ export default function SignUpProfile1_2Template() {
             ))}
           </Container.FlexRow>
           {/* TODO Selector 변경 */}
-          <Container.FlexRow>
+          <DistrictSelector />
+
+          {/* <Container.FlexRow>
             <Selector label="지역" contents={region} />
-            <Selector label="지역" contents={district['경기']} />
-          </Container.FlexRow>
+            <Selector label="시, 구" contents={district['경기']} />
+          </Container.FlexRow> */}
         </Container.FlexCol>
         <Container.FlexCol>
           <Typography.SubTitle1 className="mb-11 text-brown">

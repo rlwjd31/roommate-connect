@@ -1,4 +1,7 @@
-import { atom, selector } from 'recoil';
+import { atom, DefaultValue, RecoilState, selector } from 'recoil';
+
+import { SignUpType } from '@/types/signUp.type';
+
 // ? type 집 유형 0: 원룸/오피스텔, 1: 빌라/연립, 2: 아파트, 3: 단독주택 @number
 export const SignUpProfileTypeAtom = atom<SignUpType['type']>({
   key: 'signUpProfileTypeAtom',
@@ -89,5 +92,34 @@ export const SignUpProfileSelector = selector<SignUpType>({
       mates_number: matesNumber,
       mate_appeals: mateAppeals,
     };
+  },
+  set: ({ set, reset }, newValue) => {
+    if (newValue instanceof DefaultValue) {
+      reset(SignUpProfileTypeAtom);
+      reset(SignUpProfileRentalTypeAtom);
+      reset(SignUpProfileRegionsAtom);
+      reset(SignUpProfileTermAtom);
+      reset(SignUpProfileDepositPriceAtom);
+      reset(SignUpProfileMonthlyPriceAtom);
+      reset(SignUpProfileSmokingAtom);
+      reset(SignUpProfilePetAtom);
+      reset(SignUpProfileAppealsAtom);
+      reset(SignUpProfileGenderAtom);
+      reset(SignUpProfileMatesNumberAtom);
+      reset(SignUpProfileMateAppealsAtom);
+    } else {
+      set(SignUpProfileTypeAtom, newValue.type);
+      set(SignUpProfileRentalTypeAtom, newValue.rental_type);
+      set(SignUpProfileRegionsAtom, newValue.regions);
+      set(SignUpProfileTermAtom, newValue.term);
+      set(SignUpProfileDepositPriceAtom, newValue.deposit_price);
+      set(SignUpProfileMonthlyPriceAtom, newValue.monthly_price);
+      set(SignUpProfileSmokingAtom, newValue.smoking);
+      set(SignUpProfilePetAtom, newValue.pet);
+      set(SignUpProfileAppealsAtom, newValue.appeals);
+      set(SignUpProfileGenderAtom, newValue.gender);
+      set(SignUpProfileMatesNumberAtom, newValue.mates_number);
+      set(SignUpProfileMateAppealsAtom, newValue.mate_appeals);
+    }
   },
 });

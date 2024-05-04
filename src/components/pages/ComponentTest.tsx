@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -18,12 +18,12 @@ import InputRange from '@/components/atoms/InputRange';
 import Label from '@/components/atoms/Label';
 import Input from '@/components/atoms/Input';
 import TextField from '@/components/molecules/TextField';
-import StepIndicator from '@/components/atoms/StepIndicator';
+import StepIndicator from '@/components/atoms/StepLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
-import { toast } from 'react-toastify';
+import StepNavigation from '@/components/molecules/StepNavigation';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -36,24 +36,23 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
-  toast('토스트 메시지');
 
-  const labelStepIndicatorContents = [
+  const labelStepContents = [
     {
-      label: '집 유형, 매물 종류',
-      routePath: '/',
+      labelName: '집 유형, 매물 종류',
+      isActive: false,
     },
     {
-      label: '위치, 기간',
-      routePath: '/',
+      labelName: '위치, 기간',
+      isActive: true,
     },
     {
-      label: '가격대',
-      routePath: '/',
+      labelName: '가격대',
+      isActive: false,
     },
   ];
   const [rangeValue, setRangeValue] = useState<number>(0);
-  const { register } = useForm();
+  const formValues = useForm();
 
   return (
     <div className="flex flex-col bg-bg p-8">
@@ -523,17 +522,23 @@ export default function ComponentTest() {
       </Container>
       {/* Step Indicator test */}
       <h1 className="my-12 text-Head1">Step Indicator</h1>
-      <StepIndicator totalStepCount={3} currentStep={1} direction="vertical" />
+      <div>
+        <StepIndicator labelName="집 유형, 매물 종류" />
+      </div>
       <div className="mb-7" />
-      <StepIndicator
-        totalStepCount={3}
-        currentStep={1}
-        direction="horizontal"
-      />
+      <div>
+        <StepIndicator labelName="위치, 기간" />
+      </div>
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <LabelStepIndicator contents={labelStepIndicatorContents} />
+      <StepNavigation contents={labelStepContents} />
+      <StepNavigation
+        contents={[
+          { labelName: '흡연, 반려동물', isActive: true },
+          { labelName: '나의 라이프스타일 어필', isActive: false },
+        ]}
+      />
       {/* Carousel Test */}
       <Typography.Head1 className="mt-12">Carousel </Typography.Head1>
       <Container className="w-[300px]">
@@ -594,14 +599,14 @@ export default function ComponentTest() {
         <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
         <h1 className="text-Head2">TextField Test</h1>
         {/* <TextField /> */}
-        <TextField
-          text="name"
-          name="name"
-          containerStyle="mt-3"
-          register={register}
-          options={{ required: true, minLength: 2 }}
-          helperText="이름은 2글자 이상이어야 합니다."
-        />
+        <FormProvider {...formValues}>
+          <TextField
+            labelName="name"
+            name="name"
+            containerStyle="mt-3"
+            options={{ required: true, minLength: 2 }}
+          />
+        </FormProvider>
       </Container>
     </div>
   );

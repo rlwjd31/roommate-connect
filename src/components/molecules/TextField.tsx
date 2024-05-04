@@ -1,43 +1,58 @@
-import { UseFormRegister, RegisterOptions, FieldValues } from 'react-hook-form';
+import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form';
 
-import Container from '../atoms/Container';
-import Input from '../atoms/Input';
-import Label from '../atoms/Label';
-import Typography from '../atoms/Typography';
+import Container from '@/components/atoms/Container';
+import Input, { InputProps } from '@/components/atoms/Input';
+import Label from '@/components/atoms/Label';
+import Typography from '@/components/atoms/Typography';
 
-export type TextFieldProps = {
-  text: string;
-	type: string;
-  name: string;
+export type TextFieldProps<T extends FieldValues> = InputProps & {
+  name: keyof T;
+  labelName?: string;
+  options?: RegisterOptions;
+  activeWatch?: boolean;
   containerStyle?: string;
   inputStyle?: string;
-  register: UseFormRegister<FieldValues>;
-  options: RegisterOptions;
-  helperText: string;
 };
 
-export default function TextField(props: TextFieldProps) {
+export default function TextField<T extends FieldValues>(
+  props: TextFieldProps<T>,
+) {
   const {
-    text,
-		type,
+    labelName,
+    type,
     name,
     containerStyle,
     inputStyle,
-    register,
+    placeholder,
     options,
-    helperText,
+    onKeyDown,
   } = props;
+
+  const { register, formState } = useFormContext();
+
   return (
     <Container className={containerStyle}>
-      <Label>{text}</Label>
-      <Input type={type} className={inputStyle} {...register(name, options)} />
+      <Label>{labelName}</Label>
+      <Input
+        type={type}
+        className={inputStyle}
+        placeholder={placeholder}
+        onKeyDown={onKeyDown}
+        {...register(name, options)}
+      />
       <Typography.Span2
-        className={`${helperText && 'invisible'} mt-[8px] block text-point`}
+        className={`${!formState.errors[name]?.message && 'invisible'} mt-[8px] block text-point`}
       >
-        {helperText || '&nbsp'}
+        {formState.errors[name]?.message as string}
       </Typography.Span2>
     </Container>
   );
 }
 
-TextField.defaultProps = { containerStyle: '', inputStyle: '' };
+TextField.defaultProps = {
+  containerStyle: '',
+  inputStyle: '',
+  options: {},
+  labelName: '',
+  activeWatch: false,
+};

@@ -1,185 +1,275 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="72" fill="none">
-  <rect width="31" height="29" x="57" y="40" fill="#E1BE96" rx="14.5" />
-  <rect width="31" height="29" x="57" y="40" fill="url(#a)" rx="14.5" />
-  <rect
-    width="15.252"
-    height="9.805"
-    fill="#E1BE96"
-    rx="4.5"
-    transform="matrix(.75488 -.65587 .75488 .65587 50 46.003)"
-  />
-  <rect
-    width="15.252"
-    height="9.805"
-    fill="url(#b)"
-    rx="4.5"
-    transform="matrix(.75488 -.65587 .75488 .65587 50 46.003)"
-  />
-  <rect
-    width="15.252"
-    height="9.805"
-    fill="#E1BE96"
-    rx="4.5"
-    transform="matrix(.75488 .65587 -.75488 .65587 84.846 37)"
-  />
-  <rect
-    width="15.252"
-    height="9.805"
-    fill="url(#c)"
-    rx="4.5"
-    transform="matrix(.75488 .65587 -.75488 .65587 84.846 37)"
-  />
-  <circle cx="65.5" cy="54.5" r="1.5" fill="#643927" />
-  <circle cx="76.5" cy="54.5" r="1.5" fill="#643927" />
-  <ellipse cx="71" cy="64.5" fill="#FDF7F1" rx="7" ry="5.5" />
-  <ellipse cx="71" cy="64.5" fill="url(#d)" rx="7" ry="5.5" />
-  <circle cx="70" cy="63" r="2" fill="#643927" />
-  <path
-    fill="#D3D3D3"
-    d="m44.142 42.95-2.608 11.18-8.573-8.573 11.181-2.607Z"
-  />
-  <path
-    fill="url(#e)"
-    d="m44.142 42.95-2.608 11.18-8.573-8.573 11.181-2.607Z"
-  />
-  <rect width="32" height="24" x="11" y="45" fill="#D3D3D3" rx="12" />
-  <rect width="32" height="24" x="11" y="45" fill="url(#f)" rx="12" />
-  <circle cx="23.5" cy="57.5" r="1.5" fill="#643927" />
-  <circle cx="34.5" cy="57.5" r="1.5" fill="#643927" />
-  <g fill="snow">
-    <circle cx="27.5" cy="62.5" r="2.5" />
-    <circle cx="31.5" cy="62.5" r="2.5" />
+<svg
+  width="100"
+  height="72"
+  viewBox="0 0 100 72"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g id="pet-lover">
+    <g id="dog">
+      <rect
+        id="Rectangle 388"
+        x="57"
+        y="40"
+        width="31"
+        height="29"
+        rx="14.5"
+        fill="#E1BE96"
+      />
+      <rect
+        id="Rectangle 392"
+        x="57"
+        y="40"
+        width="31"
+        height="29"
+        rx="14.5"
+        fill="url(#paint0_linear_1059_12020)"
+      />
+      <rect
+        id="Rectangle 389"
+        width="15.2516"
+        height="9.80462"
+        rx="4.5"
+        transform="matrix(0.754878 -0.655865 0.754878 0.655865 50 46.0029)"
+        fill="#E1BE96"
+      />
+      <rect
+        id="Rectangle 394"
+        width="15.2516"
+        height="9.80462"
+        rx="4.5"
+        transform="matrix(0.754878 -0.655865 0.754878 0.655865 50 46.0029)"
+        fill="url(#paint1_linear_1059_12020)"
+      />
+      <rect
+        id="Rectangle 390"
+        width="15.2516"
+        height="9.80462"
+        rx="4.5"
+        transform="matrix(0.754878 0.655865 -0.754878 0.655865 84.8462 37)"
+        fill="#E1BE96"
+      />
+      <rect
+        id="Rectangle 393"
+        width="15.2516"
+        height="9.80462"
+        rx="4.5"
+        transform="matrix(0.754878 0.655865 -0.754878 0.655865 84.8462 37)"
+        fill="url(#paint2_linear_1059_12020)"
+      />
+      <circle id="Ellipse 89" cx="65.5" cy="54.5" r="1.5" fill="#643927" />
+      <circle id="Ellipse 90" cx="76.5" cy="54.5" r="1.5" fill="#643927" />
+      <ellipse
+        id="Ellipse 92"
+        cx="71"
+        cy="64.5"
+        rx="7"
+        ry="5.5"
+        fill="#FDF7F1"
+      />
+      <ellipse
+        id="Ellipse 93"
+        cx="71"
+        cy="64.5"
+        rx="7"
+        ry="5.5"
+        fill="url(#paint3_linear_1059_12020)"
+      />
+      <circle id="Ellipse 91" cx="70" cy="63" r="2" fill="#643927" />
+    </g>
+    <g id="cat">
+      <path
+        id="Polygon 11"
+        d="M44.1421 42.9497L41.5344 54.1306L32.9612 45.5574L44.1421 42.9497Z"
+        fill="#D3D3D3"
+      />
+      <path
+        id="Polygon 13"
+        d="M44.1421 42.9497L41.5344 54.1306L32.9612 45.5574L44.1421 42.9497Z"
+        fill="url(#paint4_linear_1059_12020)"
+      />
+      <rect
+        id="Rectangle 391"
+        x="11"
+        y="45"
+        width="32"
+        height="24"
+        rx="12"
+        fill="#D3D3D3"
+      />
+      <rect
+        id="Rectangle 395"
+        x="11"
+        y="45"
+        width="32"
+        height="24"
+        rx="12"
+        fill="url(#paint5_linear_1059_12020)"
+      />
+      <circle id="Ellipse 86" cx="23.5" cy="57.5" r="1.5" fill="#643927" />
+      <circle id="Ellipse 87" cx="34.5" cy="57.5" r="1.5" fill="#643927" />
+      <g id="Group 703">
+        <circle id="Ellipse 93_2" cx="27.5" cy="62.5" r="2.5" fill="#FFFAFA" />
+        <circle id="Ellipse 94" cx="31.5" cy="62.5" r="2.5" fill="#FFFAFA" />
+      </g>
+      <g id="Group 705">
+        <circle
+          id="Ellipse 93_3"
+          cx="27.5"
+          cy="62.5"
+          r="2.5"
+          fill="url(#paint6_linear_1059_12020)"
+        />
+        <circle
+          id="Ellipse 94_2"
+          cx="31.5"
+          cy="62.5"
+          r="2.5"
+          fill="url(#paint7_linear_1059_12020)"
+        />
+      </g>
+      <circle id="Ellipse 88" cx="29.5" cy="60.5" r="1.5" fill="#643927" />
+      <path
+        id="Polygon 10"
+        d="M8.94975 43.9497L20.1306 46.5574L11.5574 55.1306L8.94975 43.9497Z"
+        fill="#D3D3D3"
+      />
+      <path
+        id="Polygon 12"
+        d="M8.94975 43.9497L20.1306 46.5574L11.5574 55.1306L8.94975 43.9497Z"
+        fill="url(#paint8_linear_1059_12020)"
+      />
+    </g>
+    <g id="heart">
+      <path
+        id="Vector"
+        d="M37.6031 16.0681L47.4852 25.2581C47.8953 25.6394 48.4367 25.8519 49 25.8519C49.5633 25.8519 50.1047 25.6394 50.5148 25.2581L60.3969 16.0681C62.0594 14.5265 63 12.3638 63 10.1031V9.78716C63 5.97935 60.2383 2.73264 56.4703 2.10618C53.9766 1.69217 51.4391 2.50385 49.6562 4.27973L49 4.93343L48.3438 4.27973C46.5609 2.50385 44.0234 1.69217 41.5297 2.10618C37.7617 2.73264 35 5.97935 35 9.78716V10.1031C35 12.3638 35.9406 14.5265 37.6031 16.0681Z"
+        fill="#FEB8B8"
+      />
+      <path
+        id="Vector_2"
+        d="M37.6031 16.0681L47.4852 25.2581C47.8953 25.6394 48.4367 25.8519 49 25.8519C49.5633 25.8519 50.1047 25.6394 50.5148 25.2581L60.3969 16.0681C62.0594 14.5265 63 12.3638 63 10.1031V9.78716C63 5.97935 60.2383 2.73264 56.4703 2.10618C53.9766 1.69217 51.4391 2.50385 49.6562 4.27973L49 4.93343L48.3438 4.27973C46.5609 2.50385 44.0234 1.69217 41.5297 2.10618C37.7617 2.73264 35 5.97935 35 9.78716V10.1031C35 12.3638 35.9406 14.5265 37.6031 16.0681Z"
+        fill="url(#paint9_linear_1059_12020)"
+      />
+    </g>
   </g>
-  <circle cx="27.5" cy="62.5" r="2.5" fill="url(#g)" />
-  <circle cx="31.5" cy="62.5" r="2.5" fill="url(#h)" />
-  <circle cx="29.5" cy="60.5" r="1.5" fill="#643927" />
-  <path fill="#D3D3D3" d="m8.95 43.95 11.18 2.607-8.573 8.574L8.95 43.95Z" />
-  <path fill="url(#i)" d="m8.95 43.95 11.18 2.607-8.573 8.574L8.95 43.95Z" />
-  <path
-    fill="#FEB8B8"
-    d="m37.603 16.068 9.882 9.19a2.224 2.224 0 0 0 3.03 0l9.882-9.19A8.134 8.134 0 0 0 63 10.103v-.316c0-3.808-2.762-7.054-6.53-7.68a7.838 7.838 0 0 0-6.814 2.173L49 4.933l-.656-.653a7.838 7.838 0 0 0-6.814-2.174C37.762 2.733 35 5.98 35 9.787v.316c0 2.26.94 4.424 2.603 5.965Z"
-  />
-  <path
-    fill="url(#j)"
-    d="m37.603 16.068 9.882 9.19a2.224 2.224 0 0 0 3.03 0l9.882-9.19A8.134 8.134 0 0 0 63 10.103v-.316c0-3.808-2.762-7.054-6.53-7.68a7.838 7.838 0 0 0-6.814 2.173L49 4.933l-.656-.653a7.838 7.838 0 0 0-6.814-2.174C37.762 2.733 35 5.98 35 9.787v.316c0 2.26.94 4.424 2.603 5.965Z"
-  />
   <defs>
     <linearGradient
-      id="a"
+      id="paint0_linear_1059_12020"
       x1="72.5"
-      x2="72.5"
       y1="40"
+      x2="72.5"
       y2="69"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFDEB7" />
-      <stop offset=".71" stop-color="#E1BE96" stop-opacity="0" />
+      <stop offset="0.71" stop-color="#E1BE96" stop-opacity="0" />
       <stop offset="1" stop-color="#E0A174" />
     </linearGradient>
     <linearGradient
-      id="b"
-      x1="13.768"
-      x2=".257"
-      y1=".804"
-      y2="1.193"
+      id="paint1_linear_1059_12020"
+      x1="13.7682"
+      y1="0.803725"
+      x2="0.256846"
+      y2="1.19291"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFE1BF" />
-      <stop offset=".715" stop-color="#E1BE96" stop-opacity="0" />
-      <stop offset="1" stop-color="#E0A174" stop-opacity=".8" />
+      <stop offset="0.715" stop-color="#E1BE96" stop-opacity="0" />
+      <stop offset="1" stop-color="#E0A174" stop-opacity="0.8" />
     </linearGradient>
     <linearGradient
-      id="c"
-      x1=".402"
-      x2="14.524"
-      y1="4.172"
-      y2="1.218"
+      id="paint2_linear_1059_12020"
+      x1="0.401855"
+      y1="4.17226"
+      x2="14.5238"
+      y2="1.21826"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFE1BF" />
-      <stop offset=".605" stop-color="#E1BE96" stop-opacity="0" />
+      <stop offset="0.605" stop-color="#E1BE96" stop-opacity="0" />
       <stop offset="1" stop-color="#E0A174" />
       <stop offset="1" stop-color="#E0A174" />
     </linearGradient>
     <linearGradient
-      id="d"
+      id="paint3_linear_1059_12020"
       x1="71"
-      x2="71"
       y1="59"
+      x2="71"
       y2="70"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FDF7F1" stop-opacity="0" />
-      <stop offset=".95" stop-color="#EACFB7" />
+      <stop offset="0.95" stop-color="#EACFB7" />
     </linearGradient>
     <linearGradient
-      id="e"
+      id="paint4_linear_1059_12020"
       x1="42"
-      x2="40"
       y1="42.5"
+      x2="40"
       y2="52"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FFF3E1" />
-      <stop offset=".565" stop-color="#D3D3D3" stop-opacity="0" />
+      <stop offset="0.565" stop-color="#D3D3D3" stop-opacity="0" />
       <stop offset="1" stop-color="#B6B6B6" />
     </linearGradient>
     <linearGradient
-      id="f"
+      id="paint5_linear_1059_12020"
       x1="27"
-      x2="27"
       y1="44"
+      x2="27"
       y2="69"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#F3E7D6" />
-      <stop offset=".265" stop-color="#D3D3D3" />
+      <stop offset="0.265" stop-color="#D3D3D3" />
       <stop offset="1" stop-color="#B4B4B4" />
     </linearGradient>
     <linearGradient
-      id="g"
+      id="paint6_linear_1059_12020"
       x1="27.5"
+      y1="60"
       x2="27.5"
-      y1="60"
       y2="65"
       gradientUnits="userSpaceOnUse"
     >
-      <stop offset=".375" stop-color="snow" stop-opacity="0" />
+      <stop offset="0.375" stop-color="#FFFAFA" stop-opacity="0" />
       <stop offset="1" stop-color="#DCD2D2" />
     </linearGradient>
     <linearGradient
-      id="h"
+      id="paint7_linear_1059_12020"
       x1="31.5"
-      x2="31.5"
       y1="60"
+      x2="31.5"
       y2="65"
       gradientUnits="userSpaceOnUse"
     >
-      <stop offset=".375" stop-color="snow" stop-opacity="0" />
+      <stop offset="0.375" stop-color="#FFFAFA" stop-opacity="0" />
       <stop offset="1" stop-color="#DCD2D2" />
     </linearGradient>
     <linearGradient
-      id="i"
+      id="paint8_linear_1059_12020"
       x1="12"
-      x2="17"
       y1="41.5"
+      x2="17"
       y2="54"
       gradientUnits="userSpaceOnUse"
     >
       <stop stop-color="#FEF3E1" />
-      <stop offset=".52" stop-color="#D3D3D3" stop-opacity="0" />
+      <stop offset="0.52" stop-color="#D3D3D3" stop-opacity="0" />
       <stop offset="1" stop-color="#C2C2C2" />
     </linearGradient>
     <linearGradient
-      id="j"
+      id="paint9_linear_1059_12020"
       x1="49"
-      x2="49"
       y1="2"
-      y2="25.852"
+      x2="49"
+      y2="25.8519"
       gradientUnits="userSpaceOnUse"
     >
-      <stop offset=".085" stop-color="#FFD9D9" />
-      <stop offset=".39" stop-color="#FEB8B8" stop-opacity="0" />
+      <stop offset="0.085" stop-color="#FFD9D9" />
+      <stop offset="0.39" stop-color="#FEB8B8" stop-opacity="0" />
       <stop offset="1" stop-color="#FFA1A1" />
     </linearGradient>
   </defs>
