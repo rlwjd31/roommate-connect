@@ -4,7 +4,7 @@ import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import { ConfirmModalAtom } from '@/stores/globalModal.store';
-import ModalContainer from '@/components/organisms/modals/ModalContainer';
+import ModalBackdrop from '@/components/organisms/modals/ModalBackdrop';
 
 export default function ConfirmModal() {
   const {
@@ -18,7 +18,7 @@ export default function ConfirmModal() {
   } = useRecoilValue(ConfirmModalAtom);
 
   return isOpen ? (
-    <ModalContainer>
+    <ModalBackdrop modalType="Confirm">
       <Container.FlexCol className="w-full max-w-96 gap-3 rounded-2xl bg-bg p-6 text-brown">
         <Container.FlexCol className="gap-6">
           <Typography.SubTitle3>{title}</Typography.SubTitle3>
@@ -45,7 +45,7 @@ export default function ConfirmModal() {
           </Button.Ghost>
         </Container.FlexRow>
       </Container.FlexCol>
-    </ModalContainer>
+    </ModalBackdrop>
   ) : null;
 }
 
