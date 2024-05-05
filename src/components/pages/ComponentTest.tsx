@@ -23,9 +23,12 @@ import StepIndicator from '@/components/atoms/StepLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
 import StepNavigation from '@/components/molecules/StepNavigation';
-import { AlertModalState, ConfirmModalState } from '@/types/modal.type';
+import {
+  AlertModalState,
+  ConfirmModalState,
+  ProfileModalState,
+} from '@/types/modal.type';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -39,6 +42,7 @@ export default function ComponentTest() {
     0, 100,
   ]);
 
+  // ****************************** modal 관련 state *******************************
   const { setModalState: setAlertModal, closeModal: closeAlertModal } =
     useModal('Alert');
   const alertModaContext: AlertModalState = {
@@ -69,6 +73,22 @@ export default function ComponentTest() {
       closeConfirmModal();
     },
   };
+  const { setModalState: setProfileModal, closeModal: closeProfileModal } =
+    useModal('Profile');
+  const profileModalContext: ProfileModalState = {
+    isOpen: true,
+    buttonContent: '1:1 채팅',
+    type: 'Profile',
+    userId: '',
+    userName: 'user1234',
+    profileMessage: '안녕하세요!!!',
+    profileImage: '',
+    onClickChat: () => {
+      alert('send chat request to user1234!!!');
+      closeProfileModal();
+    },
+  };
+  // ******************************* modal 관련 state *******************************
 
   const labelStepContents = [
     {
@@ -653,9 +673,16 @@ export default function ComponentTest() {
       </button>
       <button
         type="button"
+        className="mb-10"
         onClick={() => setConfirmModal(confirmModalContext)}
       >
         Confirm modal 열기
+      </button>
+      <button
+        type="button"
+        onClick={() => setProfileModal(profileModalContext)}
+      >
+        Profile modal 열기
       </button>
     </div>
   );

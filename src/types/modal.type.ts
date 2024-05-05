@@ -29,5 +29,10 @@ export type ConfirmModalState = {
 export type ProfileModalState = {
   isOpen: boolean;
   type: 'Profile';
-  onClickConfirm: () => void;
+  onClickChat: () => void;
+  userId: string;
+  userName: string;
+  profileMessage: string;
+  profileImage: string;
+  buttonContent: string;
 };

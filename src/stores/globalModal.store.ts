@@ -10,7 +10,7 @@ import {
 
 export const GlobalModalAtom = atom<ModalType>({
   key: 'globalModalstate',
-  default: 'Alert'
+  default: 'Alert',
 });
 
 export const AlertModalAtom = atom<AlertModalState>({
@@ -43,8 +43,16 @@ export const ProfileModalAtom = atom<ProfileModalState>({
   key: 'profileModalState',
   default: {
     isOpen: false,
+    buttonContent: '',
     type: 'Profile',
-    onClickConfirm: () => {},
+    // TODO: userId fetch from supabase
+    userId: '',
+    userName: '',
+    profileMessage: '',
+    profileImage: '',
+    onClickChat: () => {
+      alert('send chat request to user1234!!!');
+    },
   },
 });
 
