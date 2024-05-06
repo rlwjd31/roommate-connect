@@ -1,10 +1,10 @@
-import './App.css';
 import { RecoilRoot } from 'recoil';
 import { ToastContainer } from 'react-toastify';
 
 import Router from './Router';
-
 import 'react-toastify/dist/ReactToastify.css';
+import './App.css';
+import GlobalModal from '@/components/templates/GlobalModal';
 
 function App() {
   return (
@@ -23,8 +23,8 @@ function App() {
         stacked
         pauseOnFocusLoss={false}
       />
+      <GlobalModal />
     </RecoilRoot>
   );
 }
-
 export default App;

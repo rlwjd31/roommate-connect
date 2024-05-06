@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import useModal from 'hooks/useModal';
 
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
@@ -22,8 +23,12 @@ import StepIndicator from '@/components/atoms/StepLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import LabelStepIndicator from '@/components/molecules/LabelStepIndicator';
 import StepNavigation from '@/components/molecules/StepNavigation';
+import {
+  AlertModalState,
+  ConfirmModalState,
+  ProfileModalState,
+} from '@/types/modal.type';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -36,6 +41,54 @@ export default function ComponentTest() {
   const [dualRangeValue, setDualRangeValue] = useState<InputRangeState>([
     0, 100,
   ]);
+
+  // ****************************** modal 관련 state *******************************
+  const { setModalState: setAlertModal, closeModal: closeAlertModal } =
+    useModal('Alert');
+  const alertModaContext: AlertModalState = {
+    isOpen: true,
+    type: 'Alert',
+    title: '알림',
+    message: '이메일로 인증번호가 전송되었습니다.',
+    buttonContent: '확인',
+    onClickConfirm: () => {
+      alert('AlertModal is Popped!!');
+      closeAlertModal();
+    },
+  };
+  const { setModalState: setConfirmModal, closeModal: closeConfirmModal } =
+    useModal('Confirm');
+  const confirmModalContext: ConfirmModalState = {
+    isOpen: true,
+    type: 'Confim',
+    title: '친구 차단',
+    message: '선택한 유저를 차단하시겠습니까?',
+    confirmButtonContent: '차단',
+    cancelButtonContent: '취소',
+    onClickConfirm: () => {
+      alert('user is blocked!!✅');
+      closeConfirmModal();
+    },
+    onClickCancel: () => {
+      closeConfirmModal();
+    },
+  };
+  const { setModalState: setProfileModal, closeModal: closeProfileModal } =
+    useModal('Profile');
+  const profileModalContext: ProfileModalState = {
+    isOpen: true,
+    buttonContent: '1:1 채팅',
+    type: 'Profile',
+    userId: '',
+    userName: 'user1234',
+    profileMessage: '안녕하세요!!!',
+    profileImage: '',
+    onClickChat: () => {
+      alert('send chat request to user1234!!!');
+      closeProfileModal();
+    },
+  };
+  // ******************************* modal 관련 state *******************************
 
   const labelStepContents = [
     {
@@ -608,6 +661,29 @@ export default function ComponentTest() {
           />
         </FormProvider>
       </Container>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      {/* Alert & Confirm & Profile Modal test */}
+      <h1 className="text-Head2">ModalTest</h1>
+      <button
+        className="mb-10"
+        type="button"
+        onClick={() => setAlertModal(alertModaContext)}
+      >
+        Alert modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setConfirmModal(confirmModalContext)}
+      >
+        Confirm modal 열기
+      </button>
+      <button
+        type="button"
+        onClick={() => setProfileModal(profileModalContext)}
+      >
+        Profile modal 열기
+      </button>
     </div>
   );
 }
