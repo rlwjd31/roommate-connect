@@ -163,22 +163,20 @@ export default function SignInTemplate() {
         <div className="flex">
           <Divider.Row>SNS 계정으로 로그인</Divider.Row>
         </div>
-        <Container.FlexRow className="mx-auto gap-[1rem]">
-          <IconButton.Outline
+        <Container.FlexCol className="gap-y-5">
+          <IconButton.Ghost
             id="kakao"
             iconType="kakaotalk-logo"
             disabled={isPending}
-            className="rounded-full p-[0.75rem]"
             onClick={onClickSocial}
           />
-          <IconButton.Outline
+          <IconButton.Ghost
             id="google"
             iconType="google-logo"
             disabled={isPending}
-            className="rounded-full p-[0.75rem]"
             onClick={onClickSocial}
           />
-        </Container.FlexRow>
+        </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>
   );
