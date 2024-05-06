@@ -5,13 +5,15 @@ import { KeyboardEvent } from 'react';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import { SignUpProfileAppealsAtom } from '@/stores/sign.store';
 import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 
 export default function SignUpProfile2_2Template() {
-  const [appeals, setAppeals] = useRecoilState(SignUpProfileAppealsAtom);
+  const [appeals, setAppeals] = useRecoilState(
+    SignupProfileStateSelector('appeals'),
+  );
   const { setValue: setInputValue, watch } =
     useFormContext<Pick<ProfileFormValues, 'appealsInputValue'>>();
 

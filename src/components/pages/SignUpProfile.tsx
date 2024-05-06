@@ -48,9 +48,10 @@ export default function SignUpProfile() {
     },
   });
 
-  const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
-    SignUpProfileSelector,
-  );
+  // ! TODO: refactoring 후 전체를 가져오는 Get과 set에 대한 logic구현
+  // const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
+  //   SignUpProfileSelector,
+  // );
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement)
@@ -59,7 +60,7 @@ export default function SignUpProfile() {
 
   // * profile에 필요한 recoil state들 전체 update
   const testOnSubmit: SubmitHandler<ProfileFormValues> = (data, event) => {
-    setAllSignUpProfileState(testData);
+    // setAllSignUpProfileState(testData);
   };
 
   return (

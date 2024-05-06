@@ -5,17 +5,16 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
-import {
-  SignUpProfileRentalTypeAtom,
-  SignUpProfileTypeAtom,
-} from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
 import { IconType } from '@/types/icon.type';
 
 export default function SignUpProfile1_1Template() {
-  const [type, setType] = useRecoilState(SignUpProfileTypeAtom);
+  const [houseType, setHouseType] = useRecoilState(
+    SignupProfileStateSelector('type'),
+  );
   const [rentalType, setRentalType] = useRecoilState(
-    SignUpProfileRentalTypeAtom,
+    SignupProfileStateSelector('rental_type'),
   );
 
   const houseTypeInfos: {
@@ -67,7 +66,8 @@ export default function SignUpProfile1_1Template() {
     },
   ];
 
-  const onClickType = (stateValue: SignUpType['type']) => setType(stateValue);
+  const onClickType = (stateValue: SignUpType['type']) =>
+    setHouseType(stateValue);
   const onClickRentalType = (stateValue: SignUpType['rental_type']) =>
     setRentalType(stateValue);
 
@@ -84,7 +84,7 @@ export default function SignUpProfile1_1Template() {
             <IconButton.Outline
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"
-              isActive={stateValue === type}
+              isActive={stateValue === houseType}
               iconType={iconType}
               direction="top"
               onClick={() => onClickType(stateValue)}
