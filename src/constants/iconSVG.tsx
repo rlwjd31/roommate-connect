@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 
 import Apartment from '@/assets/icons/apartment.svg?react';
-import AppleLogo from '@/assets/icons/apple-logo.svg?react';
 import Close from '@/assets/icons/close.svg?react';
 import DontMindPet from '@/assets/icons/dont-mind-pet.svg?react';
 import DontMindSex from '@/assets/icons/dont-mind-sex.svg?react';
@@ -13,7 +12,6 @@ import KakaotalkLogo from '@/assets/icons/kakaotalk-logo.svg?react';
 import LeftArrowLogo from '@/assets/icons/left-arrow.svg?react';
 import Logo from '@/assets/icons/logo.svg?react';
 import Male from '@/assets/icons/male.svg?react';
-import MetaLogo from '@/assets/icons/meta-logo.svg?react';
 import NonePetLover from '@/assets/icons/none-pet-lover.svg?react';
 import NoneSmoke from '@/assets/icons/none-smoke.svg?react';
 import PetLover from '@/assets/icons/pet-lover.svg?react';
@@ -52,10 +50,8 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'right-arrow': <RightArrow />,
   close: <Close />,
   'expand-arrow': <ExpandArrow />,
-  'apple-logo': <AppleLogo />,
   'google-logo': <GoogleLogo />,
   'kakaotalk-logo': <KakaotalkLogo />,
-  'meta-logo': <MetaLogo />,
   invisible: <Invisible />,
   visible: <Visible />,
   'alarm-exist': <AlarmExist />,
