@@ -10,7 +10,6 @@ import {
 import { SignUpType } from '@/types/signUp.type';
 import { IconType } from '@/types/icon.type';
 import IconButton from '@/components/molecules/IconButton';
-import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 
 export default function SignUpProfile3_1Template() {
@@ -81,10 +80,8 @@ export default function SignUpProfile3_1Template() {
           {genderInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className={cn(
-                'flex-1 gap-y-5 rounded-lg py-5',
-                stateValue === gender && 'border-point bg-brown4',
-              )}
+              className="flex-1 gap-y-5 rounded-lg py-5"
+              isActive={stateValue === gender}
               iconType={iconType}
               direction="top"
               onClick={() => onClickGenderType(stateValue)}
@@ -102,11 +99,8 @@ export default function SignUpProfile3_1Template() {
           {mateNumberInfos.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
-              className={cn(
-                'flex-1 gap-y-5 rounded-lg py-5',
-
-                stateValue === matesNumber && 'border-point bg-brown4',
-              )}
+              className="flex-1 gap-y-5 rounded-lg py-5"
+              isActive={stateValue === matesNumber}
               onClick={() => onClickMateNumbertype(stateValue)}
             >
               <Typography.P2 className="flex-1 text-brown">

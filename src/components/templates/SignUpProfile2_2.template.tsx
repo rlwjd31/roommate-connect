@@ -6,23 +6,28 @@ import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignUpProfileAppealsAtom } from '@/stores/sign.store';
-import BadgeButton from '@/components/molecules/BadgeButton';
 import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import BadgeButtons from '@/components/molecules/BadgeButtons';
 
-type FormValues = {
-  appeals: string;
-  additionalAppeals: string;
-};
-
-export default function SignUpProfile1_2Template() {
+export default function SignUpProfile2_2Template() {
   const [appeals, setAppeals] = useRecoilState(SignUpProfileAppealsAtom);
+  const { setValue: setInputValue, watch } =
+    useFormContext<Pick<ProfileFormValues, 'appealsInputValue'>>();
 
-  const createBadgeOnEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.key);
-    if (e.key === 'Enter') {
-      console.log('눌림!!', e.currentTarget.value);
-      alert('눌림!!', e.currentTarget.value);
+  const createBadge = (badgeContent: string) => {
+    if (!appeals.includes(badgeContent)) {
+      setInputValue('appealsInputValue', '');
+      setAppeals(prev => [...prev, badgeContent]);
+    }
+  };
+
+  const deleteBadge = (badgeContent: string) =>
+    setAppeals(prev => prev.filter(appeal => appeal !== badgeContent));
+
+  const pressEnterCreateBadge = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
+      createBadge(watch('appealsInputValue'));
     }
   };
 
@@ -44,16 +49,14 @@ export default function SignUpProfile1_2Template() {
             stroke="bg"
             iconType="close"
             typoClassName="text-bg"
-            onClick={() => alert('clicked!!')}
+            onClick={deleteBadge}
           />
-          {/* TODO: activeWatch 지워야 함 => debug */}
           <TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
             containerStyle="mt-5"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
             name="appealsInputValue"
-            activeWatch
-            onKeyDown={createBadgeOnEnter}
+            onKeyDown={pressEnterCreateBadge}
             options={{
               // onChange: ,
               validate: (something1, something2) => {
@@ -88,7 +91,7 @@ export default function SignUpProfile1_2Template() {
             badgeClassName="gap-x-5 rounded-[30px] p-4 min-w-max"
             stroke="bg"
             typoClassName="text-bg"
-            onClick={() => alert('clicked!!')}
+            onClick={createBadge}
           />
         </Container.FlexCol>
       </Container.FlexCol>

@@ -16,11 +16,11 @@ export type SignUpType = {
    * - 3: 반 전세
    * - undefined: 지정되지 않음(초기값)
    */
-  rental_type: 0 | 1 | 2 | undefined;
+  rental_type: 0 | 1 | 2 | 3 | undefined;
   /**
    * ### 유저가 찾는 지역
    * - `${region} ${district}`의 배열형태
-   * 
+   *
    * [
    *  `${region} ${district}`,
    *  `${region} ${district}`,

@@ -1,5 +1,4 @@
 import { useRecoilState } from 'recoil';
-import { MouseEvent } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -10,6 +9,8 @@ import {
   SignUpProfileRentalTypeAtom,
   SignUpProfileTypeAtom,
 } from '@/stores/sign.store';
+import { SignUpType } from '@/types/signUp.type';
+import { IconType } from '@/types/icon.type';
 
 export default function SignUpProfile1_1Template() {
   const [type, setType] = useRecoilState(SignUpProfileTypeAtom);
@@ -17,24 +18,59 @@ export default function SignUpProfile1_1Template() {
     SignUpProfileRentalTypeAtom,
   );
 
-  const TypeValue = ['원룸/오피스텔', '빌라/연립', '아파트', '단독주택'];
-  const TypeIcon = [
-    'studio-officetel',
-    'villa-townhouse',
-    'apartment',
-    'single-family-house',
-  ] as const;
-  const RentalTypeValue = ['월세', '반전세', '전세', '상관없음'];
+  const houseTypeInfos: {
+    displayValue: string;
+    stateValue: SignUpType['type'];
+    iconType: IconType;
+  }[] = [
+    {
+      displayValue: '원룸/오피스텔',
+      stateValue: 0,
+      iconType: 'studio-officetel',
+    },
+    {
+      displayValue: '빌라/연립',
+      stateValue: 1,
+      iconType: 'villa-townhouse',
+    },
+    {
+      displayValue: '아파트',
+      stateValue: 2,
+      iconType: 'apartment',
+    },
+    {
+      displayValue: '단독주택',
+      stateValue: 3,
+      iconType: 'single-family-house',
+    },
+  ];
 
-  const onClickType = (event: MouseEvent<HTMLButtonElement>) => {
-    const { id } = event.currentTarget;
-    setType(Number(id));
-  };
+  const rentalTypeInfos: {
+    displayValue: string;
+    stateValue: SignUpType['rental_type'];
+  }[] = [
+    {
+      displayValue: '월세',
+      stateValue: 1,
+    },
+    {
+      displayValue: '반전세',
+      stateValue: 2,
+    },
+    {
+      displayValue: '전세',
+      stateValue: 3,
+    },
+    {
+      displayValue: '상관없음',
+      stateValue: 0,
+    },
+  ];
 
-  const onClickRentalType = (event: MouseEvent<HTMLButtonElement>) => {
-    const { id } = event.currentTarget;
-    setRentalType(Number(id));
-  };
+  const onClickType = (stateValue: SignUpType['type']) => setType(stateValue);
+  const onClickRentalType = (stateValue: SignUpType['rental_type']) =>
+    setRentalType(stateValue);
+
   return (
     <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
@@ -44,17 +80,18 @@ export default function SignUpProfile1_1Template() {
         </Typography.SubTitle1>
         {/* TODO ICON 변경 */}
         <Container.FlexRow className="mb-[4.25rem] mt-11 gap-x-6">
-          {TypeValue.map((typeItem, index) => (
+          {houseTypeInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
-              key={typeItem}
-              className={`flex-1 gap-y-5 rounded-lg py-5 `}
-              isActive={index === type}
-              iconType={TypeIcon[index]}
+              key={displayValue}
+              className="flex-1 gap-y-5 rounded-lg py-5"
+              isActive={stateValue === type}
+              iconType={iconType}
               direction="top"
-              id={String(index)}
-              onClick={onClickType}
+              onClick={() => onClickType(stateValue)}
             >
-              <Typography.P2 className="text-brown">{typeItem}</Typography.P2>
+              <Typography.P2 className="text-brown">
+                {displayValue}
+              </Typography.P2>
             </IconButton.Outline>
           ))}
         </Container.FlexRow>
@@ -62,16 +99,15 @@ export default function SignUpProfile1_1Template() {
           매물 종류
         </Typography.SubTitle1>
         <Container.FlexRow className="mt-11 gap-x-6">
-          {RentalTypeValue.map((rentalTypeItem, index) => (
+          {rentalTypeInfos.map(({ displayValue, stateValue }) => (
             <Button.Outline
-              key={rentalTypeItem}
+              key={displayValue}
               className="flex-1 rounded-lg py-5"
-              isActive={index === rentalType}
-              id={String(index)}
-              onClick={onClickRentalType}
+              isActive={stateValue === rentalType}
+              onClick={() => onClickRentalType(stateValue)}
             >
               <Typography.P2 className="flex-1 text-brown">
-                {rentalTypeItem}
+                {displayValue}
               </Typography.P2>
             </Button.Outline>
           ))}

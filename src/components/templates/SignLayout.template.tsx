@@ -1,10 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import cn from '@/libs/cn';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
+import { UserAtom } from '@/stores/auth.store';
 
 export default function SignLayoutTemplate() {
+  const navigate = useNavigate();
+  const user = useRecoilValue(UserAtom);
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user]);
   return (
     <>
       <Container
