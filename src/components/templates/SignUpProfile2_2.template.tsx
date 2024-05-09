@@ -5,10 +5,10 @@ import { KeyboardEvent } from 'react';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
+import FormItem from '@/components/molecules/FormItem';
 
 export default function SignUpProfile2_2Template() {
   const [appeals, setAppeals] = useRecoilState(
@@ -53,7 +53,7 @@ export default function SignUpProfile2_2Template() {
             typoClassName="text-bg"
             onClick={deleteBadge}
           />
-          <TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
+          <FormItem.TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
             containerStyle="mt-5"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
