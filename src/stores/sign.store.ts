@@ -1,4 +1,4 @@
-import { atom, AtomEffect, RecoilState, selectorFamily } from 'recoil';
+import { atom, AtomEffect, RecoilState, selector, selectorFamily } from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
 import { EmailAuthType, UserType } from '@/types/auth.type';

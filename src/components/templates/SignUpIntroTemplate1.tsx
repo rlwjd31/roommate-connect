@@ -85,7 +85,7 @@ export default function SignUpIntroTemplate1({
               <FormItem.TextField
                 type="text"
                 name="gender"
-                option={{
+                options={{
                   required: '필수 입력 사항입니다.',
                   minLength: {
                     value: 1,

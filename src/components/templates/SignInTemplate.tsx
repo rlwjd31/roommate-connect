@@ -104,14 +104,14 @@ export default function SignInTemplate() {
               )}
             >
               <FormItem.TextField
-                text="이메일"
+                labelName="이메일"
                 name="email"
                 options={validationOptions.email}
                 placeholder="이메일 입력"
                 inputStyle="bg-transparent mt-[1rem]"
               />
               <FormItem.TextField
-                text="비밀번호"
+                labelName="비밀번호"
                 type="password"
                 name="password"
                 options={validationOptions.password}
@@ -123,7 +123,7 @@ export default function SignInTemplate() {
                 <Container.FlexRow className="mt-7 gap-x-2">
                   <FormItem.TextField
                     containerStyle="flex-1"
-                    text="인증번호"
+                    labelName="인증번호"
                     type="number"
                     options={validationOptions.token}
                     placeholder="000000"
