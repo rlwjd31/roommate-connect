@@ -1,4 +1,4 @@
-export type ModalType = 'Alert' | 'Confirm' | 'Profile';
+export type ModalType = 'Alert' | 'Confirm' | 'Profile' | 'RoomateApply';
 
 export type ModalStateByType = {
   Alert: AlertModalState;
