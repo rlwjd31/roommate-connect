@@ -1,4 +1,8 @@
-export type ModalType = 'Alert' | 'Confirm' | 'Profile';
+export type ModalType =
+  | 'Alert'
+  | 'Confirm'
+  | 'Profile'
+  | 'RoommateApplicationStatus';
 
 export type ModalStateByType = {
   Alert: AlertModalState;
