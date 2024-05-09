@@ -7,7 +7,6 @@ import SignUpIntroTemplate2 from '@/components/templates/SignUpIntroTemplate2';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import Button from '@/components/atoms/Button';
 
 export default function SignUp() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -23,9 +22,9 @@ export default function SignUp() {
   };
   return (
     <Container.FlexCol className="w-full gap-[2.5rem]">
-      <IconButton.Outline
+      <IconButton.Ghost
         onClick={onClickPrevButton}
-        iconType="left-arrow"
+        iconType="back"
         iconClassName="mx-auto"
         className="size-[2.75rem] rounded-full"
       />
