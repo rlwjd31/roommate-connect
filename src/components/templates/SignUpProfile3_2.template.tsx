@@ -5,15 +5,16 @@ import { useFormContext } from 'react-hook-form';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import { SignUpProfileMateAppealsAtom } from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import TextField from '@/components/molecules/TextField';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 
 export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
-    SignUpProfileMateAppealsAtom,
+    SignupProfileStateSelector('mate_appeals'),
   );
+
   const { setValue: setInputValue, watch } =
     useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValute'>>();
 

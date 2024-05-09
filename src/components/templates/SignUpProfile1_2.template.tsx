@@ -4,18 +4,15 @@ import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
-import Selector from '@/components/molecules/Selector';
-import { district, region } from '@/constants/regions';
-import {
-  SignUpProfileRegionsAtom,
-  SignUpProfileTermAtom,
-} from '@/stores/sign.store';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 
 export default function SignUpProfile1_2Template() {
-  const [regions, setRegions] = useRecoilState(SignUpProfileRegionsAtom);
-  const [term, setTerm] = useRecoilState(SignUpProfileTermAtom);
+  const [regions, setRegions] = useRecoilState(
+    SignupProfileStateSelector('regions'),
+  );
+  const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
   // ! TODO Selector 연결 후 제거
   const regi = ['경기 고양시', '서울 강남구'];
@@ -37,13 +34,7 @@ export default function SignUpProfile1_2Template() {
               </BadgeButton.Fill>
             ))}
           </Container.FlexRow>
-          {/* TODO Selector 변경 */}
           <DistrictSelector />
-
-          {/* <Container.FlexRow>
-            <Selector label="지역" contents={region} />
-            <Selector label="시, 구" contents={district['경기']} />
-          </Container.FlexRow> */}
         </Container.FlexCol>
         <Container.FlexCol>
           <Typography.SubTitle1 className="mb-11 text-brown">
