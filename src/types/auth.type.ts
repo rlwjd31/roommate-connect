@@ -25,6 +25,7 @@ export type UserType = UserAdditionalType & {
   status: number;
 };
 
+
 // * 로그인 후 LocalStorage 타입
 export type UserLocalStorageType = Session;
 

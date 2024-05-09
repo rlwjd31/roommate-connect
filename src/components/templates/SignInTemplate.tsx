@@ -88,6 +88,7 @@ export default function SignInTemplate() {
       minLength: { value: 6, message: '인증번호는 6자 입니다' },
     },
   };
+
   return (
     <Container.FlexCol className="gap-[3.75rem]">
       <Container.FlexCol className="w-full">

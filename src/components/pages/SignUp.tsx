@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Carousel from '@/components/organisms/Carousel';
@@ -7,7 +7,7 @@ import SignUpIntroTemplate2 from '@/components/templates/SignUpIntroTemplate2';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import Button from '@/components/atoms/Button';
+import supabase from '@/libs/supabaseClient';
 
 export default function SignUp() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -17,10 +17,12 @@ export default function SignUp() {
     if (currentStep === 0) navigate('/sign/in');
     else setCurrentStep(prev => prev - 1);
   };
-  const onClickNextButton = () => {
-    if (currentStep === 1) navigate('/signup-intro');
-    else setCurrentStep(prev => prev + 1);
-  };
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(async event => {
+      if (event === 'SIGNED_IN') navigate('/signup-intro');
+    });
+  }, []);
+
   return (
     <Container.FlexCol className="w-full gap-[2.5rem]">
       <IconButton.Outline
