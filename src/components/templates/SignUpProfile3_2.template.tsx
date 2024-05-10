@@ -42,29 +42,8 @@ export default function SignUpProfile3_2Template() {
         <SignUpProfileStepTitleTemplate
           step="3-2"
           title="나의 원하는 룸메이트는..."
-        />
-        <Container.FlexCol className="mb-[68px]">
-          <Typography.SubTitle1 className="mb-11 text-brown">
-            내가 상대방에게 원하는 어필 3개를 작성해주세요
-          </Typography.SubTitle1>
-          <BadgeButtons
-            contents={mateAppeals}
-            className="gap-2"
-            badgeClassName="gap-x-5 rounded-[30px] p-4"
-            stroke="bg"
-            iconType="close"
-            typoClassName="text-bg"
-            onClick={deleteBadge}
-          />
-          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
-            containerStyle="mt-5"
-            placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
-            type="text"
-            name="mateAppealsInputValute"
-            onKeyDown={pressEnterCreateBadge}
-          />
-        </Container.FlexCol>
-        <Container.FlexCol>
+        />{' '}
+        <Container.FlexCol className="mb-[4.25rem]">
           <Typography.SubTitle1 className="mb-11 text-brown">
             떠오르는 것이 없다면 선택해주세요
           </Typography.SubTitle1>
@@ -82,11 +61,32 @@ export default function SignUpProfile3_2Template() {
               '더위 잘 타요',
               '추위 잘 타요',
             ]}
-            className="flex flex-wrap gap-3"
-            badgeClassName="gap-x-5 rounded-[30px] p-4 min-w-max"
+            className="flex flex-wrap gap-x-2 gap-y-3"
+            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
             stroke="bg"
-            typoClassName="text-bg"
+            typoStyle="text-bg"
             onClick={createBadge}
+          />
+        </Container.FlexCol>
+        <Container.FlexCol>
+          <Typography.SubTitle1 className="mb-11 text-brown">
+            내가 상대방에게 원하는 어필 3개를 작성해주세요
+          </Typography.SubTitle1>
+          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
+            placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
+            type="text"
+            name="mateAppealsInputValute"
+            onKeyDown={pressEnterCreateBadge}
+            containerStyle="mb-10"
+          />
+          <BadgeButtons
+            contents={mateAppeals}
+            className="flex flex-wrap gap-x-2 gap-y-3"
+            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
+            stroke="bg"
+            iconType="close"
+            typoStyle="text-bg"
+            onClick={deleteBadge}
           />
         </Container.FlexCol>
       </Container.FlexCol>
