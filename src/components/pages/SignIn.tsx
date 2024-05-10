@@ -6,7 +6,7 @@ import {
   useSignInState,
   userAdditionalInfo,
   useUpdateUser,
-} from '@/hooks/useSignIn';
+} from '@/hooks/useSign';
 
 export default function SignIn() {
   const { updateUser } = useUpdateUser();

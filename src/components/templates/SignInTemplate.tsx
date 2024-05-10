@@ -12,7 +12,7 @@ import {
   useSignInEmail,
   useSignInSocial,
   useVerifyEmail,
-} from '@/hooks/useSignIn';
+} from '@/hooks/useSign';
 import { EmailAuthType, SocialType, VerifyEmailType } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
@@ -26,7 +26,10 @@ export default function SignInTemplate() {
   const [isReSendVerifyEmail, setIsReSendVerifyEmail] = useState(false);
   const isNotVerified = useRecoilValue(IsNotVerifiedAtom);
   const { signInEmail, isSignInEmail } = useSignInEmail();
-  const { verifyEmail, isVerifyEmail } = useVerifyEmail();
+  const { verifyEmail, isVerifyEmail } = useVerifyEmail({
+    mutateMessage: '인증 후 로그인 시도 중...',
+    successMessage: '로그인 성공!',
+  });
   const { signInSocial, isSignInSocial } = useSignInSocial();
   const onSubmitEmail = (data: EmailAuthType) => {
     signInEmail(data);

@@ -15,6 +15,10 @@ export type UserAdditionalType = {
   gender?: number;
 };
 
+// * 회원가입 시 사용되는 타입
+export type SignUpUserType = EmailAuthType &
+  UserAdditionalType & { name: string };
+
 // * 상태로 관리할 User 의 타입
 export type UserType = UserAdditionalType & {
   avatar: string;
@@ -24,7 +28,6 @@ export type UserType = UserAdditionalType & {
   nickname: string | null;
   status: number;
 };
-
 
 // * 로그인 후 LocalStorage 타입
 export type UserLocalStorageType = Session;

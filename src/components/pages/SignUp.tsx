@@ -7,7 +7,7 @@ import SignUpIntroTemplate2 from '@/components/templates/SignUpIntroTemplate2';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import supabase from '@/libs/supabaseClient';
+import { supabase } from '@/libs/supabaseClient';
 
 export default function SignUp() {
   const [currentStep, setCurrentStep] = useState(0);

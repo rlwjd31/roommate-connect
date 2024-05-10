@@ -8,12 +8,13 @@ import {
 } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 
-import supabase from '@/libs/supabaseClient';
+import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
 import {
   EmailAuthType,
   GoogleOAuthType,
   KakaoOAuthType,
+  SignUpUserType,
   SocialType,
   UserAdditionalType,
   UserType,
@@ -22,7 +23,6 @@ import {
 import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 import { ShowVerificationAtom } from '@/stores/sign.store';
-import { SignUpUserType } from '@/types/signUp.type';
 
 const preProcessingUserData = (
   data: AuthTokenResponsePassword | AuthResponse,
@@ -75,7 +75,6 @@ export const useSignUpEmail = () => {
   return { signUpEmail, isSignUpEmail };
 };
 
-
 export const useSignInEmail = () => {
   const setUser = useSetRecoilState(UserAtom);
   const setIsNotVerified = useSetRecoilState(IsNotVerifiedAtom);
@@ -99,7 +98,12 @@ export const useSignInEmail = () => {
   return { signInEmail, isSignInEmail };
 };
 
-export const useVerifyEmail = ({mutateMessage, successMessage }: {[key :string]:string}) => {
+export const useVerifyEmail = ({
+  mutateMessage,
+  successMessage,
+}: {
+  [key: string]: string;
+}) => {
   const setUser = useSetRecoilState(UserAtom);
   const { mutate: verifyEmail, isPending: isVerifyEmail } = useMutation({
     mutationFn: async (payload: VerifyEmailType) => {
