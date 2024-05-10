@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { Children, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
@@ -147,6 +147,7 @@ export default function SignUpProfileLayoutTemplate(
   const numsOfCarouselChildren = Children.count(children);
   const isFirstOfCarousel = currentStep === 0;
   const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
+  const isInitialRendered = useRef<boolean>(true);
 
   const onClickPrevButton = () => {
     if (isFirstOfCarousel) navigate('/signup-intro');
@@ -157,8 +158,21 @@ export default function SignUpProfileLayoutTemplate(
     else setCurrentStep(prev => prev + 1);
   };
 
-  // * 자식을 Children.toArray(children)과 같이 배열로도 받아 재 정렬을 할 수도 있다.
-  // const numsOfCarouselItems = Children.count(children);
+  // * persist carousel state(currentStep) with session Storage
+  useEffect(() => {
+    const carouselStepKey = 'carouselStep';
+    const carouselStep = sessionStorage.getItem(carouselStepKey);
+
+    if (isInitialRendered.current) {
+      isInitialRendered.current = false;
+
+      if (carouselStep) {
+        setCurrentStep(JSON.parse(carouselStep));
+      }
+    } else {
+      sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
+    }
+  }, [currentStep]);
 
   const addedIsActivePropertyStepInfos = alternateProperty<
     (typeof stepInfos)[number]
