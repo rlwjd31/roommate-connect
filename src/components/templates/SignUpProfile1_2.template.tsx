@@ -14,7 +14,6 @@ export default function SignUpProfile1_2Template() {
   );
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
-  // ! TODO Selector 연결 후 제거
   const regi = ['경기 고양시', '서울 강남구'];
   return (
     <Container.FlexCol className="min-w-full px-2">

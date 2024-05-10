@@ -44,7 +44,7 @@ export default function SignUpIntroTemplate1({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <Container.FlexCol className="gap-[1.625rem]">
-            <TextField
+            <FormItem.TextField
               labelName="이름"
               type="text"
               name="name"

@@ -1,10 +1,10 @@
 import { useRecoilState } from 'recoil';
-import { useFormContext } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
+
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import { SignupProfileStateSelector } from '@/stores/sign.store';

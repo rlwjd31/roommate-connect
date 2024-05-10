@@ -1,3 +1,4 @@
+
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 
@@ -13,6 +14,7 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
+
 
 export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
