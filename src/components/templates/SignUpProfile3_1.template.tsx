@@ -67,7 +67,6 @@ export default function SignUpProfile3_1Template() {
   const onClickMateNumbertype = (stateValue: SignUpType['mates_number']) =>
     setMatesNumber(stateValue);
 
-
   return (
     <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
@@ -76,7 +75,10 @@ export default function SignUpProfile3_1Template() {
           title="나의 원하는 룸메이트는..."
         />
         <Typography.SubTitle1 className="text-brown">성별</Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 w-full justify-start gap-x-6">
+        <Container.FlexRow
+          style={{ width: `${(genderInfos.length / 4) * 100}%` }}
+          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
+        >
           {genderInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
@@ -95,7 +97,10 @@ export default function SignUpProfile3_1Template() {
         <Typography.SubTitle1 className="text-brown">
           인원 수
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 gap-x-6">
+        <Container.FlexRow
+          className="mb-[4.25rem] mt-11 gap-x-6"
+          style={{ width: `${(mateNumberInfos.length / 4) * 100}%` }}
+        >
           {mateNumberInfos.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}

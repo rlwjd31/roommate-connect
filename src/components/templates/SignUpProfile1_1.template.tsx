@@ -79,7 +79,10 @@ export default function SignUpProfile1_1Template() {
           집 유형
         </Typography.SubTitle1>
         {/* TODO ICON 변경 */}
-        <Container.FlexRow className="mb-[4.25rem] mt-11 gap-x-6">
+        <Container.FlexRow
+          className="mb-[4.25rem] mt-11 gap-x-6"
+          style={{ width: `${(houseTypeInfos.length / 4) * 100}%` }}
+        >
           {houseTypeInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
@@ -98,7 +101,10 @@ export default function SignUpProfile1_1Template() {
         <Typography.SubTitle1 className="text-brown">
           매물 종류
         </Typography.SubTitle1>
-        <Container.FlexRow className="mt-11 gap-x-6">
+        <Container.FlexRow
+          className="mt-11 gap-x-6"
+          style={{ width: `${(rentalTypeInfos.length / 4) * 100}%` }}
+        >
           {rentalTypeInfos.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
