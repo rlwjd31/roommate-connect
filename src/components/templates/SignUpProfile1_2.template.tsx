@@ -20,6 +20,10 @@ export default function SignUpProfile1_2Template() {
     district: SelectorItemValueType<'시, 구'>,
   ) => setRegions(prev => [...prev, `${region} ${district}`]);
 
+  const onClickDeleteRegionBadge = (
+    value: `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`,
+  ) => setRegions(prev => prev.filter(location => location !== value));
+
   return (
     <Container.FlexCol className="min-w-full px-2">
       <Container.FlexCol>
@@ -30,9 +34,10 @@ export default function SignUpProfile1_2Template() {
             {regions?.map(location => (
               <BadgeButton.Fill
                 key={location}
-                className="gap-x-5 rounded-[30px] p-4"
+                className="gap-x-5 rounded-[30px] px-4 pb-[11px] pt-[13px] text-bg"
                 iconType="close"
                 stroke="bg"
+                onClick={() => onClickDeleteRegionBadge(location)}
               >
                 <Typography.P1>{location}</Typography.P1>
               </BadgeButton.Fill>
