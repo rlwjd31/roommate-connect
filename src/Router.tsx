@@ -7,13 +7,14 @@ import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
 import SignUpProfile from '@/components/pages/SignUpProfile';
 import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
+import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 
 const router = createBrowserRouter([
   {
     path: '/',
     index: true,
-    element: <span>서비스 소개 및 사용방법</span>,
+    element: <About />,
   },
   {
     element: <LayoutTemplate />,

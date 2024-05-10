@@ -21,12 +21,10 @@ export type IconType =
   | 'left-arrow'
   | 'expand-arrow'
   | 'close'
-  | 'apple-logo'
   | 'google-logo'
   | 'invisible'
   | 'kakaotalk-logo'
-  | 'meta-logo'
-  | 'visible'
+  | 'visible';
   | 'alarm-exist'
   | 'alarm-none'
   | 'avartar'

@@ -8,22 +8,44 @@ type ContainerProps = ComponentProps<'div'>;
 export default function Container({
   children,
   className = '',
+  ...others
 }: ContainerProps) {
-  return <div className={cn(className)}>{children}</div>;
+  return (
+    <div className={cn(className)} {...others}>
+      {children}
+    </div>
+  );
 }
 
-const GridContainer: FC<ContainerProps> = ({ children, className = '' }) => (
-  <div className={cn('grid', className)}>{children}</div>
+const GridContainer: FC<ContainerProps> = ({
+  children,
+  className = '',
+  ...others
+}) => (
+  <div className={cn('grid', className)} {...others}>
+    {children}
+  </div>
 );
 
-const FlexRowContainer: FC<ContainerProps> = ({ children, className = '' }) => (
-  <div className={cn('flex', className)}>{children}</div>
+const FlexRowContainer: FC<ContainerProps> = ({
+  children,
+  className = '',
+  ...others
+}) => (
+  <div className={cn('flex', className)} {...others}>
+    {children}
+  </div>
 );
 
 const FlexColumnContainer: FC<ContainerProps> = ({
   children,
   className = '',
-}) => <div className={cn('flex flex-col', className)}>{children}</div>;
+  ...others
+}) => (
+  <div className={cn('flex flex-col', className)} {...others}>
+    {children}
+  </div>
+);
 
 Container.FlexRow = FlexRowContainer;
 Container.FlexCol = FlexColumnContainer;

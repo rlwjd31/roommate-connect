@@ -5,15 +5,16 @@ import { useFormContext } from 'react-hook-form';
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
-import { SignUpProfileMateAppealsAtom } from '@/stores/sign.store';
-import TextField from '@/components/molecules/TextField';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
+import FormItem from '@/components/molecules/FormItem';
 
 export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
-    SignUpProfileMateAppealsAtom,
+    SignupProfileStateSelector('mate_appeals'),
   );
+
   const { setValue: setInputValue, watch } =
     useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValute'>>();
 
@@ -55,7 +56,7 @@ export default function SignUpProfile3_2Template() {
             typoClassName="text-bg"
             onClick={deleteBadge}
           />
-          <TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
+          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
             containerStyle="mt-5"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
