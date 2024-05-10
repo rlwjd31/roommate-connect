@@ -1,4 +1,4 @@
-import { ComponentProps, MouseEventHandler } from 'react';
+import { ComponentProps } from 'react';
 
 import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
 import BadgeButton from '@/components/molecules/BadgeButton';
@@ -14,12 +14,12 @@ type TypoOmittedType = Exclude<
 type BadgesButtonsProps = CustomIconType &
   Omit<ComponentProps<'div'>, 'onClick'> & {
     contents: string[];
-    badgeClassName?: string;
+    badgeStyle?: string;
     badgeType?: 'Fill' | 'Outline';
     iconType?: IconType | undefined;
     direction?: IconDirectionType;
-    iconClassName?: string;
-    typoClassName?: string;
+    iconStyle?: string;
+    typoStyle?: string;
     typoType?: TypoOmittedType;
     onClick?: (badgeContent: string) => void;
   };
@@ -40,14 +40,14 @@ const TypoTypeComponent = {
 };
 
 export default function BadgeButtons({
-  badgeClassName,
+  badgeStyle,
   iconType,
   direction,
-  iconClassName,
+  iconStyle,
   contents,
   badgeType = 'Fill',
   className,
-  typoClassName,
+  typoStyle,
   typoType = 'P1',
   onClick = () => {},
   stroke,
@@ -61,15 +61,15 @@ export default function BadgeButtons({
       {contents.map(content => (
         <BadgeButtonComponent
           key={content}
-          className={badgeClassName}
+          className={badgeStyle}
           iconType={iconType}
-          iconClassName={iconClassName}
+          iconClassName={iconStyle}
           direction={direction}
           onClick={() => onClick(content)}
           stroke={stroke}
           fill={fill}
         >
-          <TypographyComponent className={typoClassName}>
+          <TypographyComponent className={typoStyle}>
             {content}
           </TypographyComponent>
         </BadgeButtonComponent>
@@ -79,12 +79,12 @@ export default function BadgeButtons({
 }
 
 BadgeButtons.defaultProps = {
-  badgeClassName: '',
-  iconClassName: '',
+  badgeStyle: '',
+  iconStyle: '',
   iconType: undefined,
   direction: 'right',
   typoType: 'P1',
-  typoClassName: '',
+  typoStyle: '',
   badgeType: 'Fill',
   onClick: () => {},
 };
