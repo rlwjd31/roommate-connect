@@ -5,7 +5,7 @@ import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';
 import Carousel from '@/components/organisms/Carousel';
-import StepNavigation from '@/components/molecules/StepNavigation';
+import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 
@@ -44,55 +44,6 @@ StepTitle.defaultProps = {
 type SignProfileLayoutTemplateProps = {
   children: React.ReactNode;
 };
-
-const stepInfos = [
-  {
-    stepTitle: '내가 찾는 집',
-    stepNum: 1,
-    stepContents: [
-      {
-        labelName: '집 유형, 매물 종류',
-        carouselCurrentStep: 0,
-      },
-      {
-        labelName: '위치, 기간',
-        carouselCurrentStep: 1,
-      },
-      {
-        labelName: '가격대',
-        carouselCurrentStep: 2,
-      },
-    ],
-  },
-  {
-    stepTitle: '나의 라이프스타일',
-    stepNum: 2,
-    stepContents: [
-      {
-        labelName: '흡연, 반려동물',
-        carouselCurrentStep: 3,
-      },
-      {
-        labelName: '나의 라이프스타일 어필',
-        carouselCurrentStep: 4,
-      },
-    ],
-  },
-  {
-    stepTitle: '내가 원하는 룸메이트',
-    stepNum: 3,
-    stepContents: [
-      {
-        labelName: '성별, 인원 수',
-        carouselCurrentStep: 5,
-      },
-      {
-        labelName: '원하는 라이프스타일 어필',
-        carouselCurrentStep: 6,
-      },
-    ],
-  },
-];
 
 // TODO: DeepType?을 통해서 할 수 있으면 정확한 type 추론
 // TODO: carousel 개수와 data연관짓기
@@ -148,6 +99,62 @@ export default function SignUpProfileLayoutTemplate(
   const isFirstOfCarousel = currentStep === 0;
   const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
   const isInitialRendered = useRef<boolean>(true);
+
+  const stepInfos = [
+    {
+      stepTitle: '내가 찾는 집',
+      stepNum: 1,
+      stepContents: [
+        {
+          labelName: '집 유형, 매물 종류',
+          carouselCurrentStep: 0,
+          onClick: () => setCurrentStep(0),
+        },
+        {
+          labelName: '위치, 기간',
+          carouselCurrentStep: 1,
+          onClick: () => setCurrentStep(1),
+        },
+        {
+          labelName: '가격대',
+          carouselCurrentStep: 2,
+          onClick: () => setCurrentStep(2),
+        },
+      ],
+    },
+    {
+      stepTitle: '나의 라이프스타일',
+      stepNum: 2,
+      stepContents: [
+        {
+          labelName: '흡연, 반려동물',
+          carouselCurrentStep: 3,
+          onClick: () => setCurrentStep(3),
+        },
+        {
+          labelName: '나의 라이프스타일 어필',
+          carouselCurrentStep: 4,
+          onClick: () => setCurrentStep(4),
+        },
+      ],
+    },
+    {
+      stepTitle: '내가 원하는 룸메이트',
+      stepNum: 3,
+      stepContents: [
+        {
+          labelName: '성별, 인원 수',
+          carouselCurrentStep: 5,
+          onClick: () => setCurrentStep(5),
+        },
+        {
+          labelName: '원하는 라이프스타일 어필',
+          carouselCurrentStep: 6,
+          onClick: () => setCurrentStep(6),
+        },
+      ],
+    },
+  ];
 
   const onClickPrevButton = () => {
     if (isFirstOfCarousel) navigate('/signup-intro');
@@ -206,7 +213,7 @@ export default function SignUpProfileLayoutTemplate(
                 isActive={stepContents.some(content => content.isActive)}
                 title={stepTitle}
               />
-              <StepNavigation className="pl-[14px]" contents={stepContents} />
+              <StepNavLinks className="pl-[14px]" contents={stepContents} />
             </Container.FlexCol>
           ),
         )}

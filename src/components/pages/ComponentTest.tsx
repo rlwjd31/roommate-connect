@@ -19,11 +19,11 @@ import InputRange from '@/components/atoms/InputRange';
 import Label from '@/components/atoms/Label';
 import Input from '@/components/atoms/Input';
 import TextField from '@/components/molecules/TextField';
-import StepIndicator from '@/components/atoms/StepLink';
+import StepIndicator from '@/components/atoms/StepNavLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import StepNavigation from '@/components/molecules/StepNavigation';
+import StepNavLinks from '@/components/molecules/StepNavLinks';
 import {
   AlertModalState,
   ConfirmModalState,
@@ -585,8 +585,8 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <StepNavigation contents={labelStepContents} />
-      <StepNavigation
+      <StepNavLinks contents={labelStepContents} />
+      <StepNavLinks
         contents={[
           { labelName: '흡연, 반려동물', isActive: true },
           { labelName: '나의 라이프스타일 어필', isActive: false },

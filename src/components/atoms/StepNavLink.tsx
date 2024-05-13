@@ -28,25 +28,28 @@ Step.defaultProps = {
   className: '',
 };
 
-type StepIndicatorProps = {
-  className?: string;
+export type StepNavLinkProps = {
   isActive?: boolean;
   labelName: string;
+  onClick?: () => void;
 };
 
-export default function StepLink({
+export default function StepNavLink({
   labelName,
   isActive,
-  className,
-}: StepIndicatorProps) {
+  onClick,
+  ...others
+}: StepNavLinkProps) {
   const baseStyle = 'relative flex items-center gap-7 text-brown2 py-[11px]';
 
   return (
     <Button.Ghost
       className={`${baseStyle}
-        ${className}
+        
       [&:not(:first-of-type)]:after:absolute [&:not(:first-of-type)]:after:-top-1/2 [&:not(:first-of-type)]:after:left-[3px] [&:not(:first-of-type)]:after:h-full [&:not(:first-of-type)]:after:w-[1px] [&:not(:first-of-type)]:after:bg-brown2
       `}
+      onClick={onClick}
+      {...others}
     >
       <Step isActive={isActive} />
       <Typography.Span1 className={cn(isActive && 'text-brown')}>
@@ -56,7 +59,7 @@ export default function StepLink({
   );
 }
 
-StepLink.defaultProps = {
-  className: '',
+StepNavLink.defaultProps = {
   isActive: false,
+  onClick: () => {},
 };
