@@ -1,19 +1,35 @@
+import { useRecoilState } from 'recoil';
+import { ChangeEvent } from 'react';
+
 import ModalBackdrop from './ModalBackdrop';
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import Container from '@/components/atoms/Container';
+import { RoommateApplyAtom } from '@/stores/globalModal.store';
 
 export default function RoommateApplyModal() {
-  const roommateAppeals = [
-    '1명',
-    '남성',
-    '잠귀 어두운 분',
-    '청소 자주해요',
-    '늦게 자요',
-  ];
+  const [
+    {
+      isOpen,
+      introduceContent,
+      roommateAppeals,
+      onClickCancel,
+      onClickConfirm,
+    },
+    setRoommateApplyState,
+  ] = useRecoilState(RoommateApplyAtom);
 
-  return (
+  const onChangeIntroduceContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const newInroduceContent = e.currentTarget.value;
+
+    setRoommateApplyState(prev => ({
+      ...prev,
+      introduceContent: newInroduceContent,
+    }));
+  };
+
+  return isOpen ? (
     <ModalBackdrop modalType="RoommateApply">
       <Container.FlexCol className="max-h-[808px] max-w-[678px] bg-bg p-8 text-brown">
         <Typography.Head3 className="border-b-[0.5px] border-brown pb-7">
@@ -38,18 +54,28 @@ export default function RoommateApplyModal() {
             <Container.FlexCol>
               <textarea
                 placeholder="나를 소개하는 글을 작성해보세요."
+                value={introduceContent}
+                onChange={onChangeIntroduceContent}
                 className="h-72 w-full rounded-[15px] bg-brown3 p-6 placeholder:text-brown2"
               />
             </Container.FlexCol>
           </Container.FlexCol>
         </Container.FlexCol>
         <Container.FlexRow className="justify-end gap-2">
-          <Button.Outline className="rounded-lg px-9 py-4">취소</Button.Outline>
-          <Button.Fill className="rounded-lg px-9 py-4 text-bg">
+          <Button.Outline
+            onClick={onClickCancel}
+            className="rounded-lg px-9 py-4"
+          >
+            취소
+          </Button.Outline>
+          <Button.Fill
+            onClick={onClickConfirm}
+            className="rounded-lg px-9 py-4 text-bg"
+          >
             전송
           </Button.Fill>
         </Container.FlexRow>
       </Container.FlexCol>
     </ModalBackdrop>
-  );
+  ) : null;
 }
