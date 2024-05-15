@@ -45,49 +45,54 @@ type SignProfileLayoutTemplateProps = {
   children: React.ReactNode;
 };
 
-// TODO: DeepType?을 통해서 할 수 있으면 정확한 type 추론
-// TODO: carousel 개수와 data연관짓기
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const alternateProperty = <T extends Record<string, any>>(
-  data: T[],
-  injectTargetPath: string[],
-  targetKey: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  callback: (value: T[keyof T]) => Record<string, any>,
-  removeKey: string = '',
-) => {
-  const removeProperty = (key: string, obj: Record<string, unknown>) => {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const { [key]: _, ...restObj } = obj;
-
-    return restObj;
-  };
-
-  const traverseToAlternate = (nestedData: T[], keyIndex = 0): T[] =>
-    nestedData.map(d => {
-      const currentKey = injectTargetPath[keyIndex];
-      const isPathEnd = keyIndex === injectTargetPath.length;
-      const injectedObj = {
-        ...(isPathEnd
-          ? callback(d[targetKey] as T[keyof T])
-          : {
-              [`${currentKey}`]: traverseToAlternate(
-                d[currentKey] as T[],
-                keyIndex + 1,
-              ),
-            }),
-      };
-
-      return removeProperty(removeKey, {
-        ...d,
-        ...injectedObj,
-      }) as T;
-    });
-
-  const result = traverseToAlternate(data);
-
-  return result;
-};
+const stepInfos = [
+  {
+    stepTitle: '내가 찾는 집',
+    stepNum: 1,
+    stepContents: [
+      {
+        labelName: '집 유형, 매물 종류',
+        carouselCurrentStep: 0,
+      },
+      {
+        labelName: '위치, 기간',
+        carouselCurrentStep: 1,
+      },
+      {
+        labelName: '가격대',
+        carouselCurrentStep: 2,
+      },
+    ],
+  },
+  {
+    stepTitle: '나의 라이프스타일',
+    stepNum: 2,
+    stepContents: [
+      {
+        labelName: '흡연, 반려동물',
+        carouselCurrentStep: 3,
+      },
+      {
+        labelName: '나의 라이프스타일 어필',
+        carouselCurrentStep: 4,
+      },
+    ],
+  },
+  {
+    stepTitle: '내가 원하는 룸메이트',
+    stepNum: 3,
+    stepContents: [
+      {
+        labelName: '성별, 인원 수',
+        carouselCurrentStep: 5,
+      },
+      {
+        labelName: '원하는 라이프스타일 어필',
+        carouselCurrentStep: 6,
+      },
+    ],
+  },
+];
 
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
@@ -99,62 +104,6 @@ export default function SignUpProfileLayoutTemplate(
   const isFirstOfCarousel = currentStep === 0;
   const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
   const isInitialRendered = useRef<boolean>(true);
-
-  const stepInfos = [
-    {
-      stepTitle: '내가 찾는 집',
-      stepNum: 1,
-      stepContents: [
-        {
-          labelName: '집 유형, 매물 종류',
-          carouselCurrentStep: 0,
-          onClick: () => setCurrentStep(0),
-        },
-        {
-          labelName: '위치, 기간',
-          carouselCurrentStep: 1,
-          onClick: () => setCurrentStep(1),
-        },
-        {
-          labelName: '가격대',
-          carouselCurrentStep: 2,
-          onClick: () => setCurrentStep(2),
-        },
-      ],
-    },
-    {
-      stepTitle: '나의 라이프스타일',
-      stepNum: 2,
-      stepContents: [
-        {
-          labelName: '흡연, 반려동물',
-          carouselCurrentStep: 3,
-          onClick: () => setCurrentStep(3),
-        },
-        {
-          labelName: '나의 라이프스타일 어필',
-          carouselCurrentStep: 4,
-          onClick: () => setCurrentStep(4),
-        },
-      ],
-    },
-    {
-      stepTitle: '내가 원하는 룸메이트',
-      stepNum: 3,
-      stepContents: [
-        {
-          labelName: '성별, 인원 수',
-          carouselCurrentStep: 5,
-          onClick: () => setCurrentStep(5),
-        },
-        {
-          labelName: '원하는 라이프스타일 어필',
-          carouselCurrentStep: 6,
-          onClick: () => setCurrentStep(6),
-        },
-      ],
-    },
-  ];
 
   const onClickPrevButton = () => {
     if (isFirstOfCarousel) navigate('/signup-intro');
@@ -181,49 +130,34 @@ export default function SignUpProfileLayoutTemplate(
     }
   }, [currentStep]);
 
-  const addedIsActivePropertyStepInfos = alternateProperty<
-    (typeof stepInfos)[number]
-  >(
-    stepInfos,
-    ['stepContents'],
-    'carouselCurrentStep',
-    value => ({
-      isActive: value === currentStep,
-    }),
-    'carouselCurrentStep',
-  ) as unknown as {
-    stepTitle: string;
-    stepNum: number;
-    stepContents: {
-      labelName: string;
-      isActive: boolean;
-    }[];
-  }[];
-
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
-      {/* Step Indicator */}
       <Container.FlexCol className="w-full min-w-48">
-        {addedIsActivePropertyStepInfos.map(
-          ({ stepTitle, stepNum, stepContents }) => (
-            <Container.FlexCol key={stepTitle} className="mb-12">
-              {/* 큰 stepTitle에 해당될 때 조건식 필요 true로 대체 */}
-              <StepTitle
-                num={stepNum}
-                isActive={stepContents.some(content => content.isActive)}
-                title={stepTitle}
-              />
-              <StepNavLinks className="pl-[14px]" contents={stepContents} />
-            </Container.FlexCol>
-          ),
-        )}
+        {stepInfos.map(({ stepTitle, stepNum, stepContents }) => (
+          <Container.FlexCol key={stepTitle} className="mb-12">
+            <StepTitle
+              num={stepNum}
+              isActive={stepContents.some(
+                content => content.carouselCurrentStep === currentStep,
+              )}
+              title={stepTitle}
+            />
+            <StepNavLinks
+              className="pl-[14px]"
+              contents={stepContents.map(stepContent => ({
+                ...stepContent,
+                isActive: currentStep === stepContent.carouselCurrentStep,
+                onClick: () => setCurrentStep(stepContent.carouselCurrentStep),
+              }))}
+            />
+          </Container.FlexCol>
+        ))}
       </Container.FlexCol>
       <Container.FlexCol className="justify-between">
         <Container className="w-[894px]">
           <Carousel order={currentStep}>{children}</Carousel>
         </Container>
         <Container.FlexRow className="justify-end gap-x-3 pb-[76px]">
-          {/* TODO right-arrow to left-arrow */}
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
             iconType="left-arrow"
