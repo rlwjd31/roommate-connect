@@ -5,12 +5,7 @@ import { useSetRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
-import TextField from '@/components/molecules/TextField';
-import {
-  SignUpUserBirthAtom,
-  SignUpUserGenderAtom,
-  SignUpUserNameAtom,
-} from '@/stores/sign.store';
+import { SignUpEmailUserAtom } from '@/stores/sign.store';
 import FormItem from '@/components/molecules/FormItem';
 
 type SignUpFormData1 = {
@@ -26,16 +21,18 @@ export default function SignUpIntroTemplate1({
 }) {
   const Form = FormProvider;
   const form = useForm<SignUpFormData1>();
-  const setName = useSetRecoilState(SignUpUserNameAtom);
-  const setBirth = useSetRecoilState(SignUpUserBirthAtom);
-  const setGender = useSetRecoilState(SignUpUserGenderAtom);
+  const setSignUpEmailUser = useSetRecoilState(SignUpEmailUserAtom);
 
   const onSubmit = (data: SignUpFormData1) => {
     console.log(data);
 
-    setName(data.name);
-    setBirth(Number(data.birth));
-    setGender(data.gender === '1' || data.gender === '3' ? 1 : 2);
+    setSignUpEmailUser(prev => ({
+      ...prev,
+      name: data.name,
+      birth: Number(data.birth),
+      gender: data.gender === '1' || data.gender === '3' ? 1 : 2,
+    }));
+
     step(1);
   };
 
