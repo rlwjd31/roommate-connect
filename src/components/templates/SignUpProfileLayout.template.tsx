@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { Children, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
@@ -8,6 +11,8 @@ import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
+import { canGoNextCarousel } from '@/stores/sign.store';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 
 type StepTitleType = {
   num: string | number;
@@ -104,14 +109,39 @@ export default function SignUpProfileLayoutTemplate(
   const isFirstOfCarousel = currentStep === 0;
   const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
   const isInitialRendered = useRef<boolean>(true);
+  const {
+    trigger,
+    formState: { errors },
+  } = useFormContext<ProfileFormValues>();
 
   const onClickPrevButton = () => {
     if (isFirstOfCarousel) navigate('/signup-intro');
     else setCurrentStep(prev => prev - 1);
   };
-  const onClickNextButton = () => {
-    if (isLastOfCarousel) navigate('/signup-outro');
-    else setCurrentStep(prev => prev + 1);
+
+  const onClickNextButton = async () => {
+    let canGoNextCarousel = true;
+
+    switch (currentStep) {
+      case 0: {
+        const isStepValid = await trigger(['houseType', 'rentalType']);
+        console.log('houseTypeValue', isStepValid);
+        console.log(errors);
+        // TODO: Alternate alert API to toast alert
+        if (!isStepValid) {
+          if (errors.houseType) alert(errors.houseType?.message);
+          if (errors.rentalType) alert(errors.rentalType?.message);
+          canGoNextCarousel = false;
+        }
+        break;
+      }
+
+      default:
+        console.log('validating now...');
+        break;
+    }
+
+    if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
   };
 
   // * persist carousel state(currentStep) with session Storage
@@ -168,7 +198,6 @@ export default function SignUpProfileLayoutTemplate(
           {isLastOfCarousel ? (
             <Button.Fill
               className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
-              onClick={onClickNextButton}
               type="submit"
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
