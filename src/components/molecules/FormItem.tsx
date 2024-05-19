@@ -1,12 +1,8 @@
-import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 
 import TextField, { TextFieldProps } from '@/components/molecules/TextField';
-import Input, { InputProps } from '@/components/atoms/Input';
+import Input from '@/components/atoms/Input';
 
-type FormItemHiddenProps = InputProps & {
-  children: React.ReactNode;
-  options: RegisterOptions;
-};
 export default function FormItem() {}
 
 FormItem.TextField = function FormItemTextField<T extends FieldValues>(
@@ -24,18 +20,22 @@ FormItem.TextField = function FormItemTextField<T extends FieldValues>(
   );
 };
 
-FormItem.Hidden = function FormItemPassword(props: FormItemHiddenProps) {
-  const { children, defaultValue, name, options } = props;
-  const { register } = useFormContext();
+FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
+  props: TextFieldProps<T>,
+) {
+  const { defaultValue, name, options = {} } = props;
+  const { control } = useFormContext();
+
   if (name)
     return (
-      <Input
-        type="hidden"
+      <Controller
+        name={name}
+        control={control}
         defaultValue={defaultValue}
-        {...register(name, options)}
-      >
-        {children}
-      </Input>
+        rules={options}
+        render={({ field }) => <Input type="hidden" {...field} />}
+      />
     );
+
   return <span>Name 속성이 필요합니다</span>;
 };
