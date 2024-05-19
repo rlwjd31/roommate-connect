@@ -8,6 +8,7 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
+import { useEffect } from 'react';
 
 export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
@@ -29,13 +30,14 @@ export default function SignUpIntroTemplate2() {
   const isPending = isSignUpEmail || isVerifyEmail;
 
   const onSubmitSignUp = async (formData: EmailAuthType) => {
+    console.log(formData);
     if (signUpEmailUser.birth !== 0 && signUpEmailUser.gender !== 0) {
       setSignUpEmailUser(prev => ({
         ...prev,
         email: formData.email,
         password: formData.password,
       }));
-      signUpEmail(signUpEmailUser);
+			signUpEmail();
     }
   };
 

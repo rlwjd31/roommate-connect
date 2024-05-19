@@ -96,12 +96,4 @@ export const SignUpEmailUserAtom = atom<EmailAuthType>({
   },
 });
 
-export const SignUpIntroSelector = selectorFamily({
-  key: 'signUpIntroSelector',
-  get:
-    <U extends keyof EmailAuthType>(param: U) =>
-    ({ get }) =>
-      get(SignUpEmailUserAtom)[param],
-});
-
 export default {};
