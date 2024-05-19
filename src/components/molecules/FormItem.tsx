@@ -31,7 +31,9 @@ FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
       <Controller
         name={name}
         control={control}
-        defaultValue={defaultValue}
+        // ! defaultValue type맞추기 어려워 any로 타입 우회
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        defaultValue={defaultValue ?? ('' as any)}
         rules={options}
         render={({ field }) => <Input type="hidden" {...field} />}
       />
