@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { Children, useEffect, useRef, useState } from 'react';
+import { Children, ReactNode, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
@@ -11,7 +10,6 @@ import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
-import { canGoNextCarousel } from '@/stores/sign.store';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 
 type StepTitleType = {
@@ -47,7 +45,7 @@ StepTitle.defaultProps = {
 };
 
 type SignProfileLayoutTemplateProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 const stepInfos = [

@@ -133,9 +133,4 @@ export const SignUpIntroSelector = selector<UserType & EmailAuthType>({
   },
 });
 
-export const canGoNextCarousel = atom<boolean>({
-  key: 'signupProfileCanGoNextCarousel',
-  default: false,
-});
-
 export default {};
