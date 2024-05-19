@@ -77,14 +77,14 @@ export default function SignUpProfile2_2Template() {
             containerStyle="mb-10"
             options={{
               // onChange: ,
-              validate: (something1, something2) => {
-                console.log('something1', something1);
-                console.log('something2', something2);
-                return true;
-              },
+              validate: (something1, something2) =>
+                // console.log('something1', something1);
+                // console.log('something2', something2);
+                true,
               // onBlur: e => console.log('🤣 blur', e),
             }}
           />
+
           <BadgeButtons
             contents={appeals}
             className="flex flex-wrap gap-x-2 gap-y-3"
