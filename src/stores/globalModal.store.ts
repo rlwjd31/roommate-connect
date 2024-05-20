@@ -6,6 +6,7 @@ import {
   ModalStateByType,
   ModalType,
   ProfileModalState,
+  RoommateApplicationState,
 } from '@/types/modal.type';
 
 export const GlobalModalAtom = atom<ModalType>({
@@ -55,6 +56,22 @@ export const ProfileModalAtom = atom<ProfileModalState>({
     },
   },
 });
+export const RoommateApplicationAtom = atom<RoommateApplicationState>({
+  key: 'RoomamateApplicationState',
+  default: {
+    isOpen: false,
+    type: 'RoommateApplicationStatus',
+    profileImage: '',
+    userName: '',
+    roommateAppeals: [],
+    introduceContent: '',
+    onClickChat: () => {
+      alert('상대방과의 채팅이 시작합니다!');
+    },
+    onClickCancel: () => {},
+    onClickConfirm: () => {},
+  },
+});
 
 export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
@@ -68,6 +85,9 @@ export const ModalSelector = selectorFamily({
           return get(ConfirmModalAtom) as ModalStateByType[P];
         case 'Profile':
           return get(ProfileModalAtom) as ModalStateByType[P];
+        case 'RoommateApplicationStatus':
+          return get(RoommateApplicationAtom) as ModalStateByType[P];
+
         default:
           errorSelector('Undefined cannot be a value of ModalType.');
           throw new Error('Undefined cannot be a value of ModalType.');
@@ -85,6 +105,12 @@ export const ModalSelector = selectorFamily({
           break;
         case 'Profile':
           set(ProfileModalAtom, newModalState as ProfileModalState);
+          break;
+        case 'RoommateApplicationStatus':
+          set(
+            RoommateApplicationAtom,
+            newModalState as RoommateApplicationState,
+          );
           break;
         default:
           // eslint-disable-next-line no-console
