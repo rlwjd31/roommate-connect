@@ -8,6 +8,7 @@ export type ModalStateByType = {
   Alert: AlertModalState;
   Confirm: ConfirmModalState;
   Profile: ProfileModalState;
+  RoommateApplicationStatus: RoommateApplicationState;
 };
 
 export type AlertModalState = {
@@ -39,4 +40,15 @@ export type ProfileModalState = {
   profileMessage: string;
   profileImage: string;
   buttonContent: string;
+};
+export type RoommateApplicationState = {
+  isOpen: boolean;
+  type: 'RoommateApplicationStatus';
+  profileImage: string;
+  userName: string;
+  roommateAppeals: string[];
+  introduceContent: string;
+  onClickChat: () => void;
+  onClickCancel: () => void;
+  onClickConfirm: () => void;
 };
