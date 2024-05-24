@@ -6,6 +6,7 @@ import {
   ModalStateByType,
   ModalType,
   ProfileModalState,
+  RoommateApplicationState,
   RoommateApplyState,
 } from '@/types/modal.type';
 
@@ -56,6 +57,22 @@ export const ProfileModalAtom = atom<ProfileModalState>({
     },
   },
 });
+export const RoommateApplicationAtom = atom<RoommateApplicationState>({
+  key: 'RoommateApplicationState',
+  default: {
+    isOpen: false,
+    type: 'RoommateApplicationStatus',
+    profileImage: '',
+    userName: '',
+    roommateAppeals: [],
+    introduceContent: '',
+    onClickChat: () => {
+      alert('상대방과의 채팅이 시작합니다!');
+    },
+    onClickCancel: () => {},
+    onClickConfirm: () => {},
+  },
+});
 
 export const RoommateApplyAtom = atom<RoommateApplyState>({
   key: 'RoommateApplyState',
@@ -81,6 +98,8 @@ export const ModalSelector = selectorFamily({
           return get(ConfirmModalAtom) as ModalStateByType[P];
         case 'Profile':
           return get(ProfileModalAtom) as ModalStateByType[P];
+        case 'RoommateApplicationStatus':
+          return get(RoommateApplicationAtom) as ModalStateByType[P];
         case 'RoommateApply':
           return get(RoommateApplyAtom) as ModalStateByType[P];
         default:
@@ -101,10 +120,15 @@ export const ModalSelector = selectorFamily({
         case 'Profile':
           set(ProfileModalAtom, newModalState as ProfileModalState);
           break;
+        case 'RoommateApplicationStatus':
+          set(
+            RoommateApplicationAtom,
+            newModalState as RoommateApplicationState,
+          );
+          break;
         case 'RoommateApply':
           set(RoommateApplyAtom, newModalState as RoommateApplyState);
           break;
-
         default:
           // eslint-disable-next-line no-console
           errorSelector(`Received unexpected modal type: ${modalType}`);

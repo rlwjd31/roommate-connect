@@ -28,6 +28,7 @@ import {
   AlertModalState,
   ConfirmModalState,
   ProfileModalState,
+  RoommateApplicationState,
   RoommateApplyState,
 } from '@/types/modal.type';
 
@@ -89,6 +90,15 @@ export default function ComponentTest() {
       closeProfileModal();
     },
   };
+  const {
+    setModalState: setRoommateApplicationModal,
+    closeModal: closeRoommateApplicationModal,
+  } = useModal('RoommateApplicationStatus');
+  const RoommateApplicationContext: RoommateApplicationState = {
+    isOpen: true,
+    type: 'RoommateApplicationStatus',
+    profileImage: '',
+    userName: 'user123',
 
   const {
     setModalState: setRoommateApplyModal,
@@ -105,6 +115,18 @@ export default function ComponentTest() {
       '청소 자주해요',
       '늦게 자요',
     ],
+    introduceContent:
+      '안녕하세요! 1년 6개월 동안 사는 것을 희망하고 조용히 지낼 수 있습니다. 집이 좋아보여서 신청해봅니다!',
+    onClickChat() {
+      alert('상대방과의 채팅이 시작합니다!');
+      closeRoommateApplicationModal();
+    },
+    onClickConfirm: () => {
+      alert('user123 님을 수락하셨습니다!');
+      closeConfirmModal();
+    },
+    onClickCancel: () => {
+      closeConfirmModal();
     onClickCancel: () => {
       closeRoommateApplyModal();
     },
@@ -709,6 +731,13 @@ export default function ComponentTest() {
         onClick={() => setProfileModal(profileModalContext)}
       >
         Profile modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setRoommateApplicationModal(RoommateApplicationContext)}
+      >
+        RoommateApplicationStatus modal 열기
       </button>
       <button
         type="button"

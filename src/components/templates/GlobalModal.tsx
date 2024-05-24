@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import AlertModal from '@/components/organisms/modals/AlertModal';
 import ConfirmModal from '@/components/organisms/modals/ConfirmModal';
 import ProfileModal from '@/components/organisms/modals/ProfileModal';
+import RoomMateApplicationStatus from '../organisms/modals/RoommateApplicationStatusModal';
 import { GlobalModalAtom } from '@/stores/globalModal.store';
 import RoommateApplyModal from '../organisms/modals/RoommateApplyModal';
 
@@ -14,6 +15,7 @@ export default function GlobalModal() {
     Alert: AlertModal,
     Confirm: ConfirmModal,
     Profile: ProfileModal,
+    RoommateApplicationStatus: RoomMateApplicationStatus,
     RoommateApply: RoommateApplyModal,
   };
 

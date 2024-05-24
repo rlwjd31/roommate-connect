@@ -15,6 +15,7 @@ export default {
         brown3: '#DDCFC4',
         brown4: '#FFF7F1',
         brown5: '#FFFEFB',
+        brown6: '#F5EDE6',
         point: '#FF7759',
         'hover-outline': '#FFFBF8',
         'active-fill': '#4C2A1C',
