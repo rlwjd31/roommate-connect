@@ -28,6 +28,7 @@ import {
   AlertModalState,
   ConfirmModalState,
   ProfileModalState,
+  RoommateApplyState,
 } from '@/types/modal.type';
 
 export default function ComponentTest() {
@@ -86,6 +87,30 @@ export default function ComponentTest() {
     onClickChat: () => {
       alert('send chat request to user1234!!!');
       closeProfileModal();
+    },
+  };
+
+  const {
+    setModalState: setRoommateApplyModal,
+    closeModal: closeRoommateApplyModal,
+  } = useModal('RoommateApply');
+  const RoommateApplyModalContext: RoommateApplyState = {
+    isOpen: true,
+    type: 'RoommateApply',
+    introduceContent: '',
+    roommateAppeals: [
+      '1명',
+      '남성',
+      '잠귀 어두운 분',
+      '청소 자주해요',
+      '늦게 자요',
+    ],
+    onClickCancel: () => {
+      closeRoommateApplyModal();
+    },
+    onClickConfirm: () => {
+      alert('Completed Apply');
+      closeRoommateApplyModal();
     },
   };
   // ******************************* modal 관련 state *******************************
@@ -680,9 +705,17 @@ export default function ComponentTest() {
       </button>
       <button
         type="button"
+        className="mb-10"
         onClick={() => setProfileModal(profileModalContext)}
       >
         Profile modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setRoommateApplyModal(RoommateApplyModalContext)}
+      >
+        Roommate modal 열기
       </button>
     </div>
   );
