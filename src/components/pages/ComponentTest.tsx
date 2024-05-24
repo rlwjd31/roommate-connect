@@ -90,6 +90,7 @@ export default function ComponentTest() {
       closeProfileModal();
     },
   };
+
   const {
     setModalState: setRoommateApplicationModal,
     closeModal: closeRoommateApplicationModal,
@@ -99,15 +100,6 @@ export default function ComponentTest() {
     type: 'RoommateApplicationStatus',
     profileImage: '',
     userName: 'user123',
-
-  const {
-    setModalState: setRoommateApplyModal,
-    closeModal: closeRoommateApplyModal,
-  } = useModal('RoommateApply');
-  const RoommateApplyModalContext: RoommateApplyState = {
-    isOpen: true,
-    type: 'RoommateApply',
-    introduceContent: '',
     roommateAppeals: [
       '1명',
       '남성',
@@ -127,6 +119,24 @@ export default function ComponentTest() {
     },
     onClickCancel: () => {
       closeConfirmModal();
+    },
+  };
+
+  const {
+    setModalState: setRoommateApplyModal,
+    closeModal: closeRoommateApplyModal,
+  } = useModal('RoommateApply');
+  const RoommateApplyModalContext: RoommateApplyState = {
+    isOpen: true,
+    type: 'RoommateApply',
+    introduceContent: '',
+    roommateAppeals: [
+      '1명',
+      '남성',
+      '잠귀 어두운 분',
+      '청소 자주해요',
+      '늦게 자요',
+    ],
     onClickCancel: () => {
       closeRoommateApplyModal();
     },
