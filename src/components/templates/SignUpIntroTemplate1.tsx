@@ -102,7 +102,8 @@ export default function SignUpIntroTemplate1({
                     message: '숫자만 입력 가능합니다.',
                   },
                 }}
-                inputStyle="mt-[2rem] w-[2.75rem]"
+                inputStyle="mt-[2rem] "
+                containerStyle="w-[2.5rem]"
               />
               <p className="mt-[3.5rem]">* * * * * *</p>
             </Container.FlexRow>

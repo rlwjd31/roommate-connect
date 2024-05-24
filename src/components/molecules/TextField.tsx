@@ -41,7 +41,7 @@ export default function TextField<T extends FieldValues>(
         {...register(name, options)}
       />
       <Typography.Span2
-        className={`${!formState.errors[name]?.message && 'invisible'} mt-[8px] block text-point`}
+        className={`${!formState.errors[name]?.message && 'invisible h-3'} mt-[8px] block text-point`}
       >
         {formState.errors[name]?.message as string}
       </Typography.Span2>
