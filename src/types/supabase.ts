@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   graphql_public: {
     Tables: {
       [_ in never]: never
@@ -34,54 +34,6 @@ export interface Database {
   }
   public: {
     Tables: {
-      user: {
-        Row: {
-          avatar: string
-          birth: number
-          created_at: string
-          email: string
-          gender: number
-          id: string
-          login_type: string
-          name: string
-          nickname: string
-          password: string
-          phone_number: number
-          status: number
-          updated_at: string
-        }
-        Insert: {
-          avatar: string
-          birth: number
-          created_at?: string
-          email: string
-          gender: number
-          id?: string
-          login_type: string
-          name: string
-          nickname: string
-          password: string
-          phone_number: number
-          status: number
-          updated_at?: string
-        }
-        Update: {
-          avatar?: string
-          birth?: number
-          created_at?: string
-          email?: string
-          gender?: number
-          id?: string
-          login_type?: string
-          name?: string
-          nickname?: string
-          password?: string
-          phone_number?: number
-          status?: number
-          updated_at?: string
-        }
-        Relationships: []
-      }
       user_activity: {
         Row: {
           category: number
@@ -112,12 +64,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "user_activity_user_id_fkey"
+            foreignKeyName: "public_user_activity_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_alarm: {
@@ -153,12 +105,12 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "user_alarm_user_id_fkey"
+            foreignKeyName: "user_alarm_users_id_fk"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_alarm_setting: {
@@ -172,7 +124,6 @@ export interface Database {
           lounge_alarm_1: boolean
           lounge_alarm_2: boolean
           updated_at: string
-          user_id: string
         }
         Insert: {
           chat_alarm_1: boolean
@@ -180,11 +131,10 @@ export interface Database {
           house_alarm_1: boolean
           house_alarm_2: boolean
           house_alarm_3: boolean
-          id?: string
+          id: string
           lounge_alarm_1: boolean
           lounge_alarm_2: boolean
           updated_at?: string
-          user_id?: string
         }
         Update: {
           chat_alarm_1?: boolean
@@ -196,16 +146,15 @@ export interface Database {
           lounge_alarm_1?: boolean
           lounge_alarm_2?: boolean
           updated_at?: string
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_alarm_setting_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
+            foreignKeyName: "user_alarm_setting_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_block: {
@@ -235,9 +184,9 @@ export interface Database {
             foreignKeyName: "user_block_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_friend: {
@@ -267,16 +216,48 @@ export interface Database {
             foreignKeyName: "user_friend_friend_id_fkey"
             columns: ["friend_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "user_friend_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      user_house_status: {
+        Row: {
+          created_at: string
+          house_id: string
+          house_status: number
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          house_id?: string
+          house_status?: number
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          house_id?: string
+          house_status?: number
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_house_status_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_lifestyle: {
@@ -309,9 +290,9 @@ export interface Database {
             foreignKeyName: "user_lifestyle_id_fkey"
             columns: ["id"]
             isOneToOne: true
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_looking_house: {
@@ -353,9 +334,9 @@ export interface Database {
             foreignKeyName: "user_looking_house_id_fkey"
             columns: ["id"]
             isOneToOne: true
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       user_mate_style: {
@@ -388,9 +369,48 @@ export interface Database {
             foreignKeyName: "user_mate_style_id_fkey"
             columns: ["id"]
             isOneToOne: true
-            referencedRelation: "user"
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      user_send_friend: {
+        Row: {
+          created_at: string
+          from_id: string
+          id: string
+          to_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          from_id: string
+          id?: string
+          to_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          from_id?: string
+          id?: string
+          to_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_send_friend_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_send_friend_to_id_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user_theme: {
@@ -401,16 +421,14 @@ export interface Database {
           languague: number
           theme: number
           updated_at: string
-          user_id: string
         }
         Insert: {
           created_at?: string
           font_size: number
-          id?: string
+          id: string
           languague: number
           theme: number
           updated_at?: string
-          user_id?: string
         }
         Update: {
           created_at?: string
@@ -419,16 +437,15 @@ export interface Database {
           languague?: number
           theme?: number
           updated_at?: string
-          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_theme_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
+            foreignKeyName: "user_theme_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
@@ -554,7 +571,102 @@ export interface Database {
             isOneToOne: false
             referencedRelation: "buckets"
             referencedColumns: ["id"]
-          }
+          },
+        ]
+      }
+      s3_multipart_uploads: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          id: string
+          in_progress_size: number
+          key: string
+          owner_id: string | null
+          upload_signature: string
+          version: string
+        }
+        Insert: {
+          bucket_id: string
+          created_at?: string
+          id: string
+          in_progress_size?: number
+          key: string
+          owner_id?: string | null
+          upload_signature: string
+          version: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          id?: string
+          in_progress_size?: number
+          key?: string
+          owner_id?: string | null
+          upload_signature?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s3_multipart_uploads_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      s3_multipart_uploads_parts: {
+        Row: {
+          bucket_id: string
+          created_at: string
+          etag: string
+          id: string
+          key: string
+          owner_id: string | null
+          part_number: number
+          size: number
+          upload_id: string
+          version: string
+        }
+        Insert: {
+          bucket_id: string
+          created_at?: string
+          etag: string
+          id?: string
+          key: string
+          owner_id?: string | null
+          part_number: number
+          size?: number
+          upload_id: string
+          version: string
+        }
+        Update: {
+          bucket_id?: string
+          created_at?: string
+          etag?: string
+          id?: string
+          key?: string
+          owner_id?: string | null
+          part_number?: number
+          size?: number
+          upload_id?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "s3_multipart_uploads_parts_bucket_id_fkey"
+            columns: ["bucket_id"]
+            isOneToOne: false
+            referencedRelation: "buckets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "s3_multipart_uploads_parts_upload_id_fkey"
+            columns: ["upload_id"]
+            isOneToOne: false
+            referencedRelation: "s3_multipart_uploads"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
@@ -587,13 +699,44 @@ export interface Database {
         Args: {
           name: string
         }
-        Returns: unknown
+        Returns: string[]
       }
       get_size_by_bucket: {
         Args: Record<PropertyKey, never>
         Returns: {
           size: number
           bucket_id: string
+        }[]
+      }
+      list_multipart_uploads_with_delimiter: {
+        Args: {
+          bucket_id: string
+          prefix_param: string
+          delimiter_param: string
+          max_keys?: number
+          next_key_token?: string
+          next_upload_token?: string
+        }
+        Returns: {
+          key: string
+          id: string
+          created_at: string
+        }[]
+      }
+      list_objects_with_delimiter: {
+        Args: {
+          bucket_id: string
+          prefix_param: string
+          delimiter_param: string
+          max_keys?: number
+          start_after?: string
+          next_token?: string
+        }
+        Returns: {
+          name: string
+          id: string
+          metadata: Json
+          updated_at: string
         }[]
       }
       search: {
@@ -626,14 +769,16 @@ export interface Database {
   }
 }
 
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
         Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
@@ -641,67 +786,67 @@ export type Tables<
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
+    : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
     ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
+    : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never

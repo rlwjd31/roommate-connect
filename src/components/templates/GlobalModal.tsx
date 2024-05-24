@@ -5,6 +5,7 @@ import ConfirmModal from '@/components/organisms/modals/ConfirmModal';
 import ProfileModal from '@/components/organisms/modals/ProfileModal';
 import RoomMateApplicationStatus from '../organisms/modals/RoommateApplicationStatusModal';
 import { GlobalModalAtom } from '@/stores/globalModal.store';
+import RoommateApplyModal from '../organisms/modals/RoommateApplyModal';
 
 export default function GlobalModal() {
   const modalType = useRecoilValue(GlobalModalAtom);
@@ -15,6 +16,7 @@ export default function GlobalModal() {
     Confirm: ConfirmModal,
     Profile: ProfileModal,
     RoommateApplicationStatus: RoomMateApplicationStatus,
+    RoommateApply: RoommateApplyModal,
   };
 
   const SelectedModal = TypesOfModals[modalType];

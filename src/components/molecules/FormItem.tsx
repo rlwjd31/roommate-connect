@@ -1,20 +1,18 @@
-import { RegisterOptions, useFormContext } from "react-hook-form";
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 
-import TextField, { TextFieldProps } from "@/components/molecules/TextField";
-import Input, { InputProps } from "@/components/atoms/Input";
+import TextField, { TextFieldProps } from '@/components/molecules/TextField';
+import Input from '@/components/atoms/Input';
 
-type FormItemHiddenProps = InputProps & {
-  children: React.ReactNode;
-  options: RegisterOptions;
-};
 export default function FormItem() {}
 
-FormItem.TextField = function FormItemTextField(props: TextFieldProps) {
-  const { type, text, name, options, ...others } = props;
+FormItem.TextField = function FormItemTextField<T extends FieldValues>(
+  props: TextFieldProps<T>,
+) {
+  const { type, labelName, name, options, ...others } = props;
   return (
     <TextField
       options={options}
-      text={text}
+      labelName={labelName}
       name={name}
       type={type}
       {...others}
@@ -22,18 +20,24 @@ FormItem.TextField = function FormItemTextField(props: TextFieldProps) {
   );
 };
 
-FormItem.Hidden = function FormItemPassword(props: FormItemHiddenProps) {
-  const { children, defaultValue, name, options } = props;
-  const { register } = useFormContext();
+FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
+  props: TextFieldProps<T>,
+) {
+  const { defaultValue, name, options = {} } = props;
+  const { control } = useFormContext();
+
   if (name)
     return (
-      <Input
-        type="hidden"
-        defaultValue={defaultValue} 
-        {...register(name, options)}
-      >
-        {children}
-      </Input>
+      <Controller
+        name={name}
+        control={control}
+        // ! defaultValue type맞추기 어려워 any로 타입 우회
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        defaultValue={defaultValue ?? ('' as any)}
+        rules={options}
+        render={({ field }) => <Input type="hidden" {...field} />}
+      />
     );
+
   return <span>Name 속성이 필요합니다</span>;
 };

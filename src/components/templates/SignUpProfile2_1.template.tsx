@@ -67,7 +67,10 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 w-full justify-start gap-x-6">
+        <Container.FlexRow
+          style={{ width: `${(smokeInfos.length / 4) * 100}%` }}
+          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
+        >
           {smokeInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
@@ -86,7 +89,10 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 gap-x-6">
+        <Container.FlexRow
+          style={{ width: `${(petInfos.length / 4) * 100}%` }}
+          className="mb-[4.25rem] mt-11 gap-x-6"
+        >
           {petInfos.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}

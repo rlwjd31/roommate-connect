@@ -19,16 +19,17 @@ import InputRange from '@/components/atoms/InputRange';
 import Label from '@/components/atoms/Label';
 import Input from '@/components/atoms/Input';
 import TextField from '@/components/molecules/TextField';
-import StepIndicator from '@/components/atoms/StepLink';
+import StepIndicator from '@/components/atoms/StepNavLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import StepNavigation from '@/components/molecules/StepNavigation';
+import StepNavLinks from '@/components/molecules/StepNavLinks';
 import {
   AlertModalState,
   ConfirmModalState,
   ProfileModalState,
   RoommateApplicationState,
+  RoommateApplyState,
 } from '@/types/modal.type';
 
 export default function ComponentTest() {
@@ -98,6 +99,15 @@ export default function ComponentTest() {
     type: 'RoommateApplicationStatus',
     profileImage: '',
     userName: 'user123',
+
+  const {
+    setModalState: setRoommateApplyModal,
+    closeModal: closeRoommateApplyModal,
+  } = useModal('RoommateApply');
+  const RoommateApplyModalContext: RoommateApplyState = {
+    isOpen: true,
+    type: 'RoommateApply',
+    introduceContent: '',
     roommateAppeals: [
       '1명',
       '남성',
@@ -117,6 +127,12 @@ export default function ComponentTest() {
     },
     onClickCancel: () => {
       closeConfirmModal();
+    onClickCancel: () => {
+      closeRoommateApplyModal();
+    },
+    onClickConfirm: () => {
+      alert('Completed Apply');
+      closeRoommateApplyModal();
     },
   };
   // ******************************* modal 관련 state *******************************
@@ -616,8 +632,8 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <StepNavigation contents={labelStepContents} />
-      <StepNavigation
+      <StepNavLinks contents={labelStepContents} />
+      <StepNavLinks
         contents={[
           { labelName: '흡연, 반려동물', isActive: true },
           { labelName: '나의 라이프스타일 어필', isActive: false },
@@ -722,6 +738,13 @@ export default function ComponentTest() {
         onClick={() => setRoommateApplicationModal(RoommateApplicationContext)}
       >
         RoommateApplicationStatus modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setRoommateApplyModal(RoommateApplyModalContext)}
+      >
+        Roommate modal 열기
       </button>
     </div>
   );
