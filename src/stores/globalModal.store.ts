@@ -57,7 +57,7 @@ export const ProfileModalAtom = atom<ProfileModalState>({
   },
 });
 export const RoommateApplicationAtom = atom<RoommateApplicationState>({
-  key: 'RoomamateApplicationState',
+  key: 'RoommateApplicationState',
   default: {
     isOpen: false,
     type: 'RoommateApplicationStatus',
