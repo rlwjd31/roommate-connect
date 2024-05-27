@@ -11,6 +11,7 @@ import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import { createToast } from '@/libs/toast';
 
 type StepTitleType = {
   num: string | number;
@@ -123,12 +124,50 @@ export default function SignUpProfileLayoutTemplate(
     switch (currentStep) {
       case 0: {
         const isStepValid = await trigger(['houseType', 'rentalType']);
-        console.log('houseTypeValue', isStepValid);
-        console.log(errors);
+
         // TODO: Alternate alert API to toast alert
         if (!isStepValid) {
-          if (errors.houseType) alert(errors.houseType?.message);
-          if (errors.rentalType) alert(errors.rentalType?.message);
+          if (errors.houseType) {
+            createToast(
+              'houseTypeValidationError',
+              errors.houseType?.message || '집 유형을 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          }
+          if (errors.rentalType)
+            createToast(
+              'rentalTypeValidationError',
+              errors.rentalType?.message || '매물 종류를 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          canGoNextCarousel = false;
+        }
+        break;
+      }
+      case 1: {
+        const isStepValid = await trigger(['regions']);
+
+        if (!isStepValid && errors.regions) {
+          createToast(
+            'regionsValidationError',
+            errors.regions?.message || '위치를 선택해주세요',
+            {
+              autoClose: 1000,
+              type: 'error',
+              isLoading: false,
+              position: 'top-center',
+            },
+          );
           canGoNextCarousel = false;
         }
         break;

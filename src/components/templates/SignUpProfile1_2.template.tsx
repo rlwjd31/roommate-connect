@@ -1,4 +1,6 @@
 import { useRecoilState } from 'recoil';
+import { useFormContext } from 'react-hook-form';
+import { useEffect } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -8,12 +10,15 @@ import { SignupProfileStateSelector } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import { SelectorItemValueType } from '@/types/regionDistrict.type';
+import FormItem from '@/components/molecules/FormItem';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 
 export default function SignUpProfile1_2Template() {
   const [regions, setRegions] = useRecoilState(
     SignupProfileStateSelector('regions'),
   );
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
+  const { setValue } = useFormContext<ProfileFormValues>();
 
   const onClickSelectFinish = (
     region: SelectorItemValueType<'지역'>,
@@ -23,6 +28,10 @@ export default function SignUpProfile1_2Template() {
   const onClickDeleteRegionBadge = (
     value: `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`,
   ) => setRegions(prev => prev.filter(location => location !== value));
+
+  useEffect(() => {
+    setValue('regions', JSON.stringify(regions));
+  }, [regions, term, setValue]);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -44,6 +53,21 @@ export default function SignUpProfile1_2Template() {
             ))}
           </Container.FlexRow>
           <DistrictSelector onSelectRegion={onClickSelectFinish} />
+          <FormItem.Hidden<Pick<ProfileFormValues, 'regions'>>
+            name="regions"
+            options={{
+              validate: {
+                isLengthExceeding: (regionArr: string) => {
+                  const parsedArr = JSON.parse(regionArr) as string[];
+                  if (parsedArr.length === 0) return '위치를 선택해주세요';
+                  if (parsedArr.length > 3)
+                    return '위치는 최대 3개까지 선택 가능합니다.';
+                  return true;
+                },
+              },
+            }}
+            defaultValue=""
+          />
         </Container.FlexCol>
         <Container.FlexCol>
           <Typography.SubTitle1 className="mb-11 text-brown">

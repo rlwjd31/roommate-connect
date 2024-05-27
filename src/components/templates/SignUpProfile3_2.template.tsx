@@ -72,10 +72,10 @@ export default function SignUpProfile3_2Template() {
           <Typography.SubTitle1 className="mb-11 text-brown">
             내가 상대방에게 원하는 어필 3개를 작성해주세요
           </Typography.SubTitle1>
-          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValute'>>
+          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValue'>>
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
-            name="mateAppealsInputValute"
+            name="mateAppealsInputValue"
             onKeyDown={pressEnterCreateBadge}
             containerStyle="mb-10"
           />

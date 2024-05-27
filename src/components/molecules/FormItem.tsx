@@ -35,7 +35,7 @@ FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         defaultValue={defaultValue ?? ('' as any)}
         rules={options}
-        render={({ field }) => <Input type="hidden" {...field} />}
+        render={({ field }) => <input type="hidden" {...field} />}
       />
     );
 

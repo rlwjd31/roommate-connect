@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-pascal-case */
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { Form, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
 import { DevTool } from '@hookform/devtools';
 
@@ -17,7 +17,8 @@ export type ProfileFormValues = {
   houseType: undefined | number;
   rentalType: undefined | number;
   appealsInputValue: string;
-  mateAppealsInputValute: string;
+  mateAppealsInputValue: string;
+  regions: string;
 };
 
 export default function SignUpProfile() {
@@ -27,7 +28,8 @@ export default function SignUpProfile() {
       houseType: undefined,
       rentalType: undefined,
       appealsInputValue: '',
-      mateAppealsInputValute: '',
+      mateAppealsInputValue: '',
+      regions: '',
     },
   });
 
