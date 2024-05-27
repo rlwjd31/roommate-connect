@@ -1,6 +1,7 @@
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { MouseEvent, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -13,27 +14,31 @@ import {
   useSignInSocial,
   useVerifyEmail,
 } from '@/hooks/useSign';
-import { EmailAuthType, SocialType, VerifyEmailType } from '@/types/auth.type';
+import {
+  EmailAuth,
+  EmailAuthType,
+  SocialType,
+  VerifyEmail,
+  VerifyEmailType,
+} from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
-import { FormValidationType } from '@/types/form.type';
 
 export default function SignInTemplate() {
   const Form = FormProvider;
-  const form = useForm<EmailAuthType>();
-  const [isReSendVerifyEmail, setIsReSendVerifyEmail] = useState(false);
   const isNotVerified = useRecoilValue(IsNotVerifiedAtom);
+  const form = useForm<EmailAuthType & VerifyEmailType>({
+    resolver: isNotVerified ? zodResolver(VerifyEmail) : zodResolver(EmailAuth),
+  });
+  const [isReSendVerifyEmail, setIsReSendVerifyEmail] = useState(false);
   const { signInEmail, isSignInEmail } = useSignInEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
     mutateMessage: '인증 후 로그인 시도 중...',
     successMessage: '로그인 성공!',
   });
   const { signInSocial, isSignInSocial } = useSignInSocial();
-  const onSubmitEmail = (data: EmailAuthType) => {
-    signInEmail(data);
-  };
 
   const isPending = isSignInEmail || isSignInSocial || isVerifyEmail;
 
@@ -63,33 +68,19 @@ export default function SignInTemplate() {
     setIsReSendVerifyEmail(false);
   };
 
-  // * 미인증 로그인 시 인증하는 기능
-  const onVerifyEmail = (data: VerifyEmailType) => {
-    verifyEmail(data);
-  };
-
   const onClickSocial = (event: MouseEvent<HTMLButtonElement>) => {
     const { id } = event.currentTarget;
     signInSocial(id as SocialType);
   };
 
-  const validationOptions: FormValidationType<EmailAuthType> = {
-    email: {
-      required: { value: true, message: '이메일을 입력해주세요' },
-      pattern: {
-        value: /^\S+@\S+\.\S+$/,
-        message: '올바른 이메일 형식이 아닙니다',
-      },
-    },
-    password: {
-      required: { value: true, message: '비밀번호를 입력해주세요' },
-      min: { value: 8, message: '비밀번호는 8자 이상이어야 합니다' },
-    },
-    token: {
-      required: { value: true, message: '인증번호를 입력해주세요' },
-      maxLength: { value: 6, message: '인증번호는 6자 입니다' },
-      minLength: { value: 6, message: '인증번호는 6자 입니다' },
-    },
+  const onSubmitHandle: SubmitHandler<
+    EmailAuthType | VerifyEmailType
+  > = data => {
+    if (isNotVerified) {
+      // * 미인증 로그인 시 인증하는 기능
+      verifyEmail(data as VerifyEmailType);
+    }
+    signInEmail(data as EmailAuthType);
   };
 
   return (
@@ -101,15 +92,10 @@ export default function SignInTemplate() {
         </Container.FlexCol>
         <Container.FlexCol>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(
-                isNotVerified ? onVerifyEmail : onSubmitEmail,
-              )}
-            >
+            <form onSubmit={form.handleSubmit(onSubmitHandle)}>
               <FormItem.TextField
                 labelName="이메일"
                 name="email"
-                options={validationOptions.email}
                 placeholder="이메일 입력"
                 inputStyle="bg-transparent mt-[1rem]"
               />
@@ -117,7 +103,6 @@ export default function SignInTemplate() {
                 labelName="비밀번호"
                 type="password"
                 name="password"
-                options={validationOptions.password}
                 placeholder="비밀번호 입력"
                 inputStyle="bg-transparent mt-[1rem]"
                 containerStyle="mt-7"
@@ -128,13 +113,12 @@ export default function SignInTemplate() {
                     containerStyle="flex-1"
                     labelName="인증번호"
                     type="number"
-                    options={validationOptions.token}
                     placeholder="000000"
                     inputStyle="bg-transparent mt-[1rem]"
                     name="token"
                   />
                   <Button.Outline
-                    className={`${form.formState.errors.token ? 'mb-5' : 'mb-2'} mt-8 rounded-[0.625rem] px-[0.6875rem]`}
+                    className={`${form.formState.errors?.token ? 'mb-5' : 'mb-2'} mt-8 rounded-[0.625rem] px-[0.6875rem]`}
                     disabled={isReSendVerifyEmail}
                     onClick={onReSendVerifyEmail}
                   >
