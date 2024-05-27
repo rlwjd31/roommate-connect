@@ -19,6 +19,8 @@ export type ProfileFormValues = {
   appealsInputValue: string;
   mateAppealsInputValue: string;
   regions: string;
+  smoking: undefined | string;
+  pet: undefined | number;
 };
 
 export default function SignUpProfile() {

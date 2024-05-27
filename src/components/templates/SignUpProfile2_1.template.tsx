@@ -1,4 +1,6 @@
 import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -7,13 +9,15 @@ import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
 import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
+import FormItem from '@/components/molecules/FormItem';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 
 export default function SignUpProfile2_1Template() {
   const [smoking, setSmoking] = useRecoilState(
     SignupProfileStateSelector('smoking'),
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
-
+  const { setValue } = useFormContext<ProfileFormValues>();
   const smokeInfos: {
     displayValue: string;
     stateValue: SignUpType['smoking'];
@@ -52,10 +56,15 @@ export default function SignUpProfile2_1Template() {
       iconType: 'dont-mind-pet',
     },
   ];
+  
+  useEffect(() => {
+    setValue('smoking', typeof pet === 'boolean' ? `${pet}` : undefined);
+    setValue('pet', pet);
+  }, [smoking, pet, setValue]);
 
   const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
     setSmoking(stateValue);
-  const onClickPettype = (stateValue: SignUpType['pet']) => setPet(stateValue);
+  const onClickPetType = (stateValue: SignUpType['pet']) => setPet(stateValue);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -85,6 +94,13 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'smoking'>>
+            name="smoking"
+            options={{
+              required: '흡연 여부를 선택해주세요',
+            }}
+            defaultValue={typeof pet === 'boolean' ? `${pet}` : undefined}
+          />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
           반려 동물
@@ -100,13 +116,20 @@ export default function SignUpProfile2_1Template() {
               isActive={stateValue === pet}
               iconType={iconType}
               direction="top"
-              onClick={() => onClickPettype(stateValue)}
+              onClick={() => onClickPetType(stateValue)}
             >
               <Typography.P2 className="text-brown">
                 {displayValue}
               </Typography.P2>
             </IconButton.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'pet'>>
+            name="pet"
+            options={{
+              required: '반려 동물 여부를 선택해주세요',
+            }}
+            defaultValue={pet}
+          />
         </Container.FlexRow>
       </Container.FlexCol>
     </Container.FlexCol>

@@ -172,6 +172,37 @@ export default function SignUpProfileLayoutTemplate(
         }
         break;
       }
+      case 3: {
+        const isStepValid = await trigger(['smoking', 'pet']);
+
+        if (!isStepValid) {
+          if (errors.smoking)
+            createToast(
+              'smokingValidationError',
+              errors.smoking?.message || '흡연 여부를 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          if (errors.pet) {
+            createToast(
+              'petValidationError',
+              errors.pet?.message || '반려동물 여부를 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          }
+          canGoNextCarousel = false;
+        }
+        break;
+      }
 
       default:
         console.log('validating now...');
