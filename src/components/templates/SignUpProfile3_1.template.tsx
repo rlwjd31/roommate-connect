@@ -12,6 +12,7 @@ import IconButton from '@/components/molecules/IconButton';
 import Button from '@/components/atoms/Button';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import FormItem from '@/components/molecules/FormItem';
+import { genderDisplayData, mateNumberDisplayData } from '@/constants/signUpProfileData';
 
 export default function SignUpProfile3_1Template() {
   const [gender, setGender] = useRecoilState(
@@ -22,49 +23,6 @@ export default function SignUpProfile3_1Template() {
   );
   const { setValue } = useFormContext<ProfileFormValues>();
 
-  const genderInfos: {
-    displayValue: string;
-    stateValue: SignUpType['gender'];
-    iconType: IconType;
-  }[] = [
-    {
-      displayValue: '남성',
-      stateValue: 1,
-      iconType: 'male',
-    },
-    {
-      displayValue: '여성',
-      stateValue: 2,
-      iconType: 'female',
-    },
-    {
-      displayValue: '상관없어요',
-      stateValue: 0,
-      iconType: 'dont-mind-sex',
-    },
-  ];
-
-  const mateNumberInfos: {
-    displayValue: string;
-    stateValue: SignUpType['mates_number'];
-  }[] = [
-    {
-      displayValue: '1명',
-      stateValue: 1,
-    },
-    {
-      displayValue: '2명',
-      stateValue: 2,
-    },
-    {
-      displayValue: '3명',
-      stateValue: 3,
-    },
-    {
-      displayValue: '상관없어요',
-      stateValue: 0,
-    },
-  ];
 
   useEffect(() => {
     setValue('gender', gender);
@@ -86,10 +44,10 @@ export default function SignUpProfile3_1Template() {
         />
         <Typography.SubTitle1 className="text-brown">성별</Typography.SubTitle1>
         <Container.FlexRow
-          style={{ width: `${(genderInfos.length / 4) * 100}%` }}
+          style={{ width: `${(genderDisplayData.length / 4) * 100}%` }}
           className="mb-[4.25rem] mt-11 justify-start gap-x-6"
         >
-          {genderInfos.map(({ displayValue, stateValue, iconType }) => (
+          {genderDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"
@@ -116,9 +74,9 @@ export default function SignUpProfile3_1Template() {
         </Typography.SubTitle1>
         <Container.FlexRow
           className="mb-[4.25rem] mt-11 gap-x-6"
-          style={{ width: `${(mateNumberInfos.length / 4) * 100}%` }}
+          style={{ width: `${(mateNumberDisplayData.length / 4) * 100}%` }}
         >
-          {mateNumberInfos.map(({ displayValue, stateValue }) => (
+          {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"

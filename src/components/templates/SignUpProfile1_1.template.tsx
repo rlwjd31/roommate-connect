@@ -9,58 +9,12 @@ import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
-import { IconType } from '@/types/icon.type';
 import FormItem from '@/components/molecules/FormItem';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
-
-const houseTypeInfos: {
-  displayValue: string;
-  stateValue: SignUpType['type'];
-  iconType: IconType;
-}[] = [
-  {
-    displayValue: '원룸/오피스텔',
-    stateValue: 0,
-    iconType: 'studio-officetel',
-  },
-  {
-    displayValue: '빌라/연립',
-    stateValue: 1,
-    iconType: 'villa-townhouse',
-  },
-  {
-    displayValue: '아파트',
-    stateValue: 2,
-    iconType: 'apartment',
-  },
-  {
-    displayValue: '단독주택',
-    stateValue: 3,
-    iconType: 'single-family-house',
-  },
-];
-
-const rentalTypeInfos: {
-  displayValue: string;
-  stateValue: SignUpType['rental_type'];
-}[] = [
-  {
-    displayValue: '월세',
-    stateValue: 1,
-  },
-  {
-    displayValue: '반전세',
-    stateValue: 2,
-  },
-  {
-    displayValue: '전세',
-    stateValue: 3,
-  },
-  {
-    displayValue: '상관없음',
-    stateValue: 0,
-  },
-];
+import {
+  houseTypeDisplayData,
+  rentalTypeDisplayData,
+} from '@/constants/signUpProfileData';
 
 export default function SignUpProfile1_1Template() {
   const [houseType, setHouseType] = useRecoilState(
@@ -90,22 +44,24 @@ export default function SignUpProfile1_1Template() {
         </Typography.SubTitle1>
         <Container.FlexRow
           className="mb-[4.25rem] mt-11 gap-x-6"
-          style={{ width: `${(houseTypeInfos.length / 4) * 100}%` }}
+          style={{ width: `${(houseTypeDisplayData.length / 4) * 100}%` }}
         >
-          {houseTypeInfos.map(({ displayValue, stateValue, iconType }) => (
-            <IconButton.Outline
-              key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
-              isActive={stateValue === houseType}
-              iconType={iconType}
-              direction="top"
-              onClick={() => onClickHouseType(stateValue)}
-            >
-              <Typography.P2 className="text-brown">
-                {displayValue}
-              </Typography.P2>
-            </IconButton.Outline>
-          ))}
+          {houseTypeDisplayData.map(
+            ({ displayValue, stateValue, iconType }) => (
+              <IconButton.Outline
+                key={displayValue}
+                className="flex-1 gap-y-5 rounded-lg py-5"
+                isActive={stateValue === houseType}
+                iconType={iconType}
+                direction="top"
+                onClick={() => onClickHouseType(stateValue)}
+              >
+                <Typography.P2 className="text-brown">
+                  {displayValue}
+                </Typography.P2>
+              </IconButton.Outline>
+            ),
+          )}
           <FormItem.Hidden<Pick<ProfileFormValues, 'houseType'>>
             name="houseType"
             options={{
@@ -119,9 +75,9 @@ export default function SignUpProfile1_1Template() {
         </Typography.SubTitle1>
         <Container.FlexRow
           className="mt-11 gap-x-6"
-          style={{ width: `${(rentalTypeInfos.length / 4) * 100}%` }}
+          style={{ width: `${(rentalTypeDisplayData.length / 4) * 100}%` }}
         >
-          {rentalTypeInfos.map(({ displayValue, stateValue }) => (
+          {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
               className="flex-1 rounded-lg py-5"
