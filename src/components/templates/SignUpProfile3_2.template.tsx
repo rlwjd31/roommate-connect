@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
@@ -16,11 +16,22 @@ export default function SignUpProfile3_2Template() {
   );
 
   const { setValue: setInputValue, watch } =
-    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValute'>>();
+    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValue'>>();
+  const { trigger, setValue } = useFormContext<ProfileFormValues>();
 
-  const createBadge = (badgeContent: string) => {
+  useEffect(() => {
+    setValue('mateAppeals', JSON.stringify(mateAppeals));
+  }, [mateAppeals, setValue]);
+
+  const createBadge = async (badgeContent: string) => {
+    // **************** badge content검증****************
+    const isBadgeContentValid = await trigger('mateAppealsInputValue');
+
+    if (!isBadgeContentValid) return;
+    // **************************************************
+
     if (!mateAppeals.includes(badgeContent)) {
-      setInputValue('mateAppealsInputValute', '');
+      setInputValue('mateAppealsInputValue', '');
       setMateAppeals(prev => [...prev, badgeContent]);
     }
   };
@@ -32,7 +43,7 @@ export default function SignUpProfile3_2Template() {
 
   const pressEnterCreateBadge = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-      createBadge(watch('mateAppealsInputValute'));
+      createBadge(watch('mateAppealsInputValue'));
     }
   };
 
@@ -78,6 +89,13 @@ export default function SignUpProfile3_2Template() {
             name="mateAppealsInputValue"
             onKeyDown={pressEnterCreateBadge}
             containerStyle="mb-10"
+            options={{
+              required: '어필을 입력해주세요',
+              minLength: {
+                value: 3,
+                message: '3글자 이상이어야 합니다.',
+              },
+            }}
           />
           <BadgeButtons
             contents={mateAppeals}
@@ -87,6 +105,21 @@ export default function SignUpProfile3_2Template() {
             iconType="close"
             typoStyle="text-bg"
             onClick={deleteBadge}
+          />
+          <FormItem.Hidden<Pick<ProfileFormValues, 'mateAppeals'>>
+            name="mateAppeals"
+            options={{
+              validate: {
+                isLengthExceeding: (mateAppealsArr: string) => {
+                  const parsedArr = JSON.parse(mateAppealsArr) as string[];
+                  if (parsedArr.length === 0) return '어필을 생성해주세요';
+                  if (parsedArr.length < 3)
+                    return '최소 3개 어필을 작성해주세요.';
+                  return true;
+                },
+              },
+            }}
+            defaultValue=""
           />
         </Container.FlexCol>
       </Container.FlexCol>

@@ -172,25 +172,6 @@ export default function SignUpProfileLayoutTemplate(
         }
         break;
       }
-      case 4: {
-        const isStepValid = await trigger(['appeals']);
-
-        if (!isStepValid && errors.appeals) {
-          createToast(
-            'appealsValidationError',
-            errors.appeals?.message || '어필을 입력해주세요',
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
-          canGoNextCarousel = false;
-        }
-
-        break;
-      }
       case 3: {
         const isStepValid = await trigger(['smoking', 'pet']);
 
@@ -220,6 +201,25 @@ export default function SignUpProfileLayoutTemplate(
           }
           canGoNextCarousel = false;
         }
+        break;
+      }
+      case 4: {
+        const isStepValid = await trigger(['appeals']);
+
+        if (!isStepValid && errors.appeals) {
+          createToast(
+            'appealsValidationError',
+            errors.appeals?.message || '어필을 입력해주세요',
+            {
+              autoClose: 1000,
+              type: 'error',
+              isLoading: false,
+              position: 'top-center',
+            },
+          );
+          canGoNextCarousel = false;
+        }
+
         break;
       }
       case 5: {
