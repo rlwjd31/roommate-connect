@@ -15,9 +15,10 @@ export default function SignUpProfile3_2Template() {
     SignupProfileStateSelector('mate_appeals'),
   );
 
-  const { setValue: setInputValue, watch } =
-    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValue'>>();
-  const { trigger, setValue } = useFormContext<ProfileFormValues>();
+  const { trigger, setValue, watch } =
+    useFormContext<
+      Pick<ProfileFormValues, 'mateAppeals' | 'mateAppealsInputValue'>
+    >();
 
   useEffect(() => {
     setValue('mateAppeals', JSON.stringify(mateAppeals));
@@ -31,7 +32,7 @@ export default function SignUpProfile3_2Template() {
     // **************************************************
 
     if (!mateAppeals.includes(badgeContent) && badgeContent !== '') {
-      setInputValue('mateAppealsInputValue', '');
+      setValue('mateAppealsInputValue', '');
       setMateAppeals(prev => [...prev, badgeContent]);
     }
   };

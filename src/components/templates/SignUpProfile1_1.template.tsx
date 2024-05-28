@@ -23,8 +23,8 @@ export default function SignUpProfile1_1Template() {
   const [rentalType, setRentalType] = useRecoilState(
     SignupProfileStateSelector('rental_type'),
   );
-  const { setValue } = useFormContext<ProfileFormValues>();
-
+  const { setValue } = useFormContext<Pick<ProfileFormValues, 'houseType' | 'rentalType'>>();
+  
   useEffect(() => {
     setValue('houseType', houseType);
     setValue('rentalType', rentalType);

@@ -14,9 +14,9 @@ export default function SignUpProfile2_2Template() {
   const [appeals, setAppeals] = useRecoilState(
     SignupProfileStateSelector('appeals'),
   );
-  const { setValue: setInputValue, watch } =
-    useFormContext<Pick<ProfileFormValues, 'appealsInputValue'>>();
-  const { trigger, setValue } = useFormContext<ProfileFormValues>();
+
+  const { trigger, setValue, watch } =
+    useFormContext<Pick<ProfileFormValues, 'appeals' | 'appealsInputValue'>>();
 
   useEffect(() => {
     setValue('appeals', JSON.stringify(appeals));
@@ -28,9 +28,9 @@ export default function SignUpProfile2_2Template() {
 
     if (!isBadgeContentValid) return;
     // **************************************************
-    
+
     if (!appeals.includes(badgeContent) && badgeContent !== '') {
-      setInputValue('appealsInputValue', '');
+      setValue('appealsInputValue', '');
       setAppeals(prev => [...prev, badgeContent]);
     }
   };

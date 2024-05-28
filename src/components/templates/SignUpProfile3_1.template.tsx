@@ -7,12 +7,14 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
-import { IconType } from '@/types/icon.type';
 import IconButton from '@/components/molecules/IconButton';
 import Button from '@/components/atoms/Button';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import FormItem from '@/components/molecules/FormItem';
-import { genderDisplayData, mateNumberDisplayData } from '@/constants/signUpProfileData';
+import {
+  genderDisplayData,
+  mateNumberDisplayData,
+} from '@/constants/signUpProfileData';
 
 export default function SignUpProfile3_1Template() {
   const [gender, setGender] = useRecoilState(
@@ -21,8 +23,8 @@ export default function SignUpProfile3_1Template() {
   const [matesNumber, setMatesNumber] = useRecoilState(
     SignupProfileStateSelector('mates_number'),
   );
-  const { setValue } = useFormContext<ProfileFormValues>();
-
+  const { setValue } =
+    useFormContext<Pick<ProfileFormValues, 'gender' | 'matesNumber'>>();
 
   useEffect(() => {
     setValue('gender', gender);

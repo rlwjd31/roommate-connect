@@ -7,18 +7,21 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
-import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
 import FormItem from '@/components/molecules/FormItem';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
-import { petDisplayData, smokeDisplayData } from '@/constants/signUpProfileData';
+import {
+  petDisplayData,
+  smokeDisplayData,
+} from '@/constants/signUpProfileData';
 
 export default function SignUpProfile2_1Template() {
   const [smoking, setSmoking] = useRecoilState(
     SignupProfileStateSelector('smoking'),
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
-  const { setValue } = useFormContext<ProfileFormValues>();
+  const { setValue } =
+    useFormContext<Pick<ProfileFormValues, 'smoking' | 'pet'>>();
 
   useEffect(() => {
     setValue(

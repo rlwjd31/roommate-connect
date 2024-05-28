@@ -18,7 +18,7 @@ export default function SignUpProfile1_2Template() {
     SignupProfileStateSelector('regions'),
   );
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
-  const { setValue } = useFormContext<ProfileFormValues>();
+  const { setValue } = useFormContext<Pick<ProfileFormValues, 'regions'>>();
 
   const onClickSelectFinish = (
     region: SelectorItemValueType<'지역'>,
