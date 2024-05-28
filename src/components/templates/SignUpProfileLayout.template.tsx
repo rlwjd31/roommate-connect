@@ -118,6 +118,23 @@ export default function SignUpProfileLayoutTemplate(
     else setCurrentStep(prev => prev - 1);
   };
 
+  const onClickSubmit = async () => {
+    const isFinalStepValid = await trigger(['mateAppeals']);
+
+    if (!isFinalStepValid && errors.mateAppeals) {
+      createToast(
+        'mateAppealsValidationError',
+        errors.mateAppeals?.message || '어필을 입력해주세요',
+        {
+          autoClose: 1000,
+          type: 'error',
+          isLoading: false,
+          position: 'top-center',
+        },
+      );
+    }
+  };
+
   const onClickNextButton = async () => {
     let canGoNextCarousel = true;
 
@@ -316,6 +333,7 @@ export default function SignUpProfileLayoutTemplate(
             <Button.Fill
               className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
               type="submit"
+              onClick={onClickSubmit}
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
             </Button.Fill>

@@ -51,11 +51,13 @@ export default function SignUpProfile() {
   ) => {
     console.log('form submit event is occurred!!!✅');
     console.log('formData', formData);
+    alert('something');
 
     // setAllSignUpProfileState(testData);
   };
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
+    console.log(e);
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement)
       e.preventDefault();
   };
