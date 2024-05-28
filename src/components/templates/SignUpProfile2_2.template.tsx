@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
@@ -16,8 +16,19 @@ export default function SignUpProfile2_2Template() {
   );
   const { setValue: setInputValue, watch } =
     useFormContext<Pick<ProfileFormValues, 'appealsInputValue'>>();
+  const { trigger, setValue } = useFormContext<ProfileFormValues>();
 
-  const createBadge = (badgeContent: string) => {
+  useEffect(() => {
+    setValue('appeals', JSON.stringify(appeals));
+  }, [appeals, setValue]);
+
+  const createBadge = async (badgeContent: string) => {
+    // **************** badge content검증****************
+    const isBadgeContentValid = await trigger('appealsInputValue');
+
+    if (!isBadgeContentValid) return;
+    // **************************************************
+    
     if (!appeals.includes(badgeContent)) {
       setInputValue('appealsInputValue', '');
       setAppeals(prev => [...prev, badgeContent]);
@@ -76,12 +87,11 @@ export default function SignUpProfile2_2Template() {
             onKeyDown={pressEnterCreateBadge}
             containerStyle="mb-10"
             options={{
-              // onChange: ,
-              validate: (something1, something2) =>
-                // console.log('something1', something1);
-                // console.log('something2', something2);
-                true,
-              // onBlur: e => console.log('🤣 blur', e),
+              required: '어필을 입력해주세요',
+              minLength: {
+                value: 3,
+                message: '3글자 이상이어야 합니다.',
+              },
             }}
           />
 
@@ -93,6 +103,21 @@ export default function SignUpProfile2_2Template() {
             iconType="close"
             typoStyle="text-bg"
             onClick={deleteBadge}
+          />
+          <FormItem.Hidden<Pick<ProfileFormValues, 'appeals'>>
+            name="appeals"
+            options={{
+              validate: {
+                isLengthExceeding: (appealArr: string) => {
+                  const parsedArr = JSON.parse(appealArr) as string[];
+                  if (parsedArr.length === 0) return '어필을 생성해주세요';
+                  if (parsedArr.length < 3)
+                    return '최소 3개 어필을 작성해주세요.';
+                  return true;
+                },
+              },
+            }}
+            defaultValue=""
           />
         </Container.FlexCol>
       </Container.FlexCol>

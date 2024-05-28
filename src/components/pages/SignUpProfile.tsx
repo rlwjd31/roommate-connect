@@ -17,7 +17,9 @@ export type ProfileFormValues = {
   houseType: undefined | number;
   rentalType: undefined | number;
   appealsInputValue: string;
+  appeals: string;
   mateAppealsInputValue: string;
+  mateAppeals: string;
   regions: string;
   smoking: undefined | string;
   pet: undefined | number;
@@ -31,13 +33,15 @@ export default function SignUpProfile() {
     defaultValues: {
       houseType: undefined,
       rentalType: undefined,
-      appealsInputValue: '',
-      mateAppealsInputValue: '',
       regions: '',
       smoking: undefined,
       pet: undefined,
       gender: undefined,
       matesNumber: undefined,
+      appealsInputValue: '',
+      appeals: '',
+      mateAppealsInputValue: '',
+      mateAppeals: '',
     },
   });
 
