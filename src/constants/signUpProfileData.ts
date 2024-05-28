@@ -1,6 +1,55 @@
 import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
 
+const stepDisplayData = [
+  {
+    stepTitle: '내가 찾는 집',
+    stepNum: 1,
+    stepContents: [
+      {
+        labelName: '집 유형, 매물 종류',
+        carouselCurrentStep: 0,
+      },
+      {
+        labelName: '위치, 기간',
+        carouselCurrentStep: 1,
+      },
+      {
+        labelName: '가격대',
+        carouselCurrentStep: 2,
+      },
+    ],
+  },
+  {
+    stepTitle: '나의 라이프스타일',
+    stepNum: 2,
+    stepContents: [
+      {
+        labelName: '흡연, 반려동물',
+        carouselCurrentStep: 3,
+      },
+      {
+        labelName: '나의 라이프스타일 어필',
+        carouselCurrentStep: 4,
+      },
+    ],
+  },
+  {
+    stepTitle: '내가 원하는 룸메이트',
+    stepNum: 3,
+    stepContents: [
+      {
+        labelName: '성별, 인원 수',
+        carouselCurrentStep: 5,
+      },
+      {
+        labelName: '원하는 라이프스타일 어필',
+        carouselCurrentStep: 6,
+      },
+    ],
+  },
+];
+
 const houseTypeDisplayData: {
   displayValue: string;
   stateValue: SignUpType['type'];
@@ -133,11 +182,60 @@ const mateNumberDisplayData: {
   },
 ];
 
+const signUpProfileValidationConfig = {
+  0: {
+    fields: ['houseType', 'rentalType'],
+    messages: {
+      houseType: '집 유형을 선택해주세요',
+      rentalType: '매물 종류를 선택해주세요',
+    },
+  },
+  1: {
+    fields: ['regions'],
+    messages: {
+      regions: '위치를 선택해주세요',
+    },
+  },
+  3: {
+    fields: ['smoking', 'pet'],
+    messages: {
+      smoking: '흡연 여부를 선택해주세요',
+      pet: '반려동물 여부를 선택해주세요',
+    },
+  },
+  4: {
+    fields: ['appeals'],
+    messages: {
+      appeals: '어필을 입력해주세요',
+    },
+  },
+  5: {
+    fields: ['gender', 'matesNumber'],
+    messages: {
+      gender: '성별을 선택해주세요',
+      matesNumber: '인원 수를 선택해주세요',
+    },
+  },
+  6: {
+    fields: ['mateAppeals'],
+    messages: {
+      mateAppeals: '어필을 입력해주세요',
+    },
+  },
+} as const;
+
+export type ValidationConfig = typeof signUpProfileValidationConfig;
+export type ValidationStep = keyof ValidationConfig;
+export type ValidationStepFieldName =
+  keyof ValidationConfig[ValidationStep]['messages'];
+
 export {
+  stepDisplayData,
   houseTypeDisplayData,
   rentalTypeDisplayData,
   smokeDisplayData,
   petDisplayData,
   genderDisplayData,
   mateNumberDisplayData,
+  signUpProfileValidationConfig,
 };

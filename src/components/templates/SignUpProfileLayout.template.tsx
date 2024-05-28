@@ -12,6 +12,12 @@ import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import { createToast } from '@/libs/toast';
+import {
+  signUpProfileValidationConfig,
+  stepDisplayData,
+  ValidationStep,
+  ValidationStepFieldName,
+} from '@/constants/signUpProfileData';
 
 type StepTitleType = {
   num: string | number;
@@ -49,55 +55,6 @@ type SignProfileLayoutTemplateProps = {
   children: ReactNode;
 };
 
-const stepInfos = [
-  {
-    stepTitle: '내가 찾는 집',
-    stepNum: 1,
-    stepContents: [
-      {
-        labelName: '집 유형, 매물 종류',
-        carouselCurrentStep: 0,
-      },
-      {
-        labelName: '위치, 기간',
-        carouselCurrentStep: 1,
-      },
-      {
-        labelName: '가격대',
-        carouselCurrentStep: 2,
-      },
-    ],
-  },
-  {
-    stepTitle: '나의 라이프스타일',
-    stepNum: 2,
-    stepContents: [
-      {
-        labelName: '흡연, 반려동물',
-        carouselCurrentStep: 3,
-      },
-      {
-        labelName: '나의 라이프스타일 어필',
-        carouselCurrentStep: 4,
-      },
-    ],
-  },
-  {
-    stepTitle: '내가 원하는 룸메이트',
-    stepNum: 3,
-    stepContents: [
-      {
-        labelName: '성별, 인원 수',
-        carouselCurrentStep: 5,
-      },
-      {
-        labelName: '원하는 라이프스타일 어필',
-        carouselCurrentStep: 6,
-      },
-    ],
-  },
-];
-
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
@@ -105,177 +62,67 @@ export default function SignUpProfileLayoutTemplate(
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
   const numsOfCarouselChildren = Children.count(children);
-  const isFirstOfCarousel = currentStep === 0;
-  const isLastOfCarousel = currentStep === numsOfCarouselChildren - 1;
+  const [isFirstOfCarousel, isLastOfCarousel] = [
+    currentStep === 0,
+    currentStep === numsOfCarouselChildren - 1,
+  ];
   const isInitialRendered = useRef<boolean>(true);
   const {
     trigger,
     formState: { errors },
   } = useFormContext<ProfileFormValues>();
 
+  const validationStep = async (carouselStep: ValidationStep) => {
+    const validationConfig = signUpProfileValidationConfig[carouselStep];
+
+    if (!validationConfig) return true;
+
+    const { fields, messages } = validationConfig;
+    const isStepValid = await trigger(fields);
+
+    if (!isStepValid) {
+      fields.forEach(field => {
+        if (errors[field]) {
+          createToast(
+            `${field}ValidationError`,
+            errors[field]?.message ||
+              messages[field as ValidationStepFieldName],
+            {
+              autoClose: 1000,
+              type: 'error',
+              isLoading: false,
+              position: 'top-center',
+            },
+          );
+        }
+      });
+      return false;
+    }
+    return true;
+  };
+
   const onClickPrevButton = () => {
     if (isFirstOfCarousel) navigate('/signup-intro');
     else setCurrentStep(prev => prev - 1);
   };
 
-  const onClickSubmit = async () => {
-    const isFinalStepValid = await trigger(['mateAppeals']);
-
-    if (!isFinalStepValid && errors.mateAppeals) {
-      createToast(
-        'mateAppealsValidationError',
-        errors.mateAppeals?.message || '어필을 입력해주세요',
-        {
-          autoClose: 1000,
-          type: 'error',
-          isLoading: false,
-          position: 'top-center',
-        },
-      );
-    }
-  };
-
   const onClickNextButton = async () => {
-    let canGoNextCarousel = true;
-
-    switch (currentStep) {
-      case 0: {
-        const isStepValid = await trigger(['houseType', 'rentalType']);
-
-        // TODO: Alternate alert API to toast alert
-        if (!isStepValid) {
-          if (errors.houseType) {
-            createToast(
-              'houseTypeValidationError',
-              errors.houseType?.message || '집 유형을 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          }
-          if (errors.rentalType)
-            createToast(
-              'rentalTypeValidationError',
-              errors.rentalType?.message || '매물 종류를 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          canGoNextCarousel = false;
-        }
-        break;
-      }
-      case 1: {
-        const isStepValid = await trigger(['regions']);
-
-        if (!isStepValid && errors.regions) {
-          createToast(
-            'regionsValidationError',
-            errors.regions?.message || '위치를 선택해주세요',
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
-          canGoNextCarousel = false;
-        }
-        break;
-      }
-      case 3: {
-        const isStepValid = await trigger(['smoking', 'pet']);
-
-        if (!isStepValid) {
-          if (errors.smoking)
-            createToast(
-              'smokingValidationError',
-              errors.smoking?.message || '흡연 여부를 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          if (errors.pet) {
-            createToast(
-              'petValidationError',
-              errors.pet?.message || '반려동물 여부를 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          }
-          canGoNextCarousel = false;
-        }
-        break;
-      }
-      case 4: {
-        const isStepValid = await trigger(['appeals']);
-
-        if (!isStepValid && errors.appeals) {
-          createToast(
-            'appealsValidationError',
-            errors.appeals?.message || '어필을 입력해주세요',
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
-          canGoNextCarousel = false;
-        }
-
-        break;
-      }
-      case 5: {
-        const isStepValid = await trigger(['gender', 'matesNumber']);
-
-        if (!isStepValid) {
-          if (errors.gender)
-            createToast(
-              'genderValidationError',
-              errors.gender?.message || '성별을 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          if (errors.matesNumber) {
-            createToast(
-              'matesNumberValidationError',
-              errors.matesNumber?.message || '인원 수를 선택해주세요',
-              {
-                autoClose: 1000,
-                type: 'error',
-                isLoading: false,
-                position: 'top-center',
-              },
-            );
-          }
-          canGoNextCarousel = false;
-        }
-        break;
-      }
-      default:
-        console.log('validating now...');
-        break;
-    }
+    const canGoNextCarousel = await validationStep(
+      currentStep as ValidationStep,
+    );
 
     if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
+  };
+
+  const onClickSubmit = async () => {
+    if (isLastOfCarousel) {
+      const isFinalStepValid = await validationStep(
+        currentStep as ValidationStep,
+      );
+
+      // ! TODO: fetch user profile data to supabase
+      if (isFinalStepValid) navigate('/signup-outro');
+    }
   };
 
   // * persist carousel state(currentStep) with session Storage
@@ -297,7 +144,7 @@ export default function SignUpProfileLayoutTemplate(
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
       <Container.FlexCol className="w-full min-w-48">
-        {stepInfos.map(({ stepTitle, stepNum, stepContents }) => (
+        {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
             <StepTitle
               num={stepNum}
