@@ -3,6 +3,7 @@
 import { Form, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { KeyboardEvent } from 'react';
 import { DevTool } from '@hookform/devtools';
+import { useRecoilValue } from 'recoil';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -12,6 +13,7 @@ import SignUpProfile2_1Template from '@/components/templates/SignUpProfile2_1.te
 import SignUpProfile2_2Template from '@/components/templates/SignUpProfile2_2.template';
 import SignUpProfile3_1Template from '@/components/templates/SignUpProfile3_1.template';
 import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.template';
+import { SignUpProfileState } from '@/stores/sign.store';
 
 export type ProfileFormValues = {
   houseType: undefined | number;
@@ -45,15 +47,14 @@ export default function SignUpProfile() {
     },
   });
 
+  const signUpProfileState = useRecoilValue(SignUpProfileState);
+
   // * profile에 필요한 recoil state들 전체 update
   const testOnSubmit: SubmitHandler<ProfileFormValues> = (
     formData: ProfileFormValues,
   ) => {
-    console.log('form submit event is occurred!!!✅');
-    console.log('formData', formData);
-    alert('something');
-
-    // setAllSignUpProfileState(testData);
+    console.log('signupProfilestate when onSubmit', signUpProfileState);
+    // TODO: send api call to update user profile meta data
   };
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {

@@ -30,7 +30,7 @@ export default function SignUpProfile3_2Template() {
     if (!isBadgeContentValid) return;
     // **************************************************
 
-    if (!mateAppeals.includes(badgeContent)) {
+    if (!mateAppeals.includes(badgeContent) && badgeContent !== '') {
       setInputValue('mateAppealsInputValue', '');
       setMateAppeals(prev => [...prev, badgeContent]);
     }
@@ -90,7 +90,6 @@ export default function SignUpProfile3_2Template() {
             onKeyDown={pressEnterCreateBadge}
             containerStyle="mb-10"
             options={{
-              required: '어필을 입력해주세요',
               minLength: {
                 value: 3,
                 message: '3글자 이상이어야 합니다.',
