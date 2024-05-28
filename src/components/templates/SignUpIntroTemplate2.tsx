@@ -1,6 +1,6 @@
-
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   SignUpUserBirthAtom,
@@ -8,18 +8,23 @@ import {
   SignUpUserNameAtom,
   ShowVerificationAtom,
 } from '@/stores/sign.store';
-import { EmailAuthType } from '@/types/auth.type';
+import {
+  EmailAuthType,
+  SignUpFormData2,
+  SignUpFormData2Type,
+  VerifyEmailType,
+} from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
 
-
 export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
-  // TODO: resolver를 나중에 만들어서 useForm에 추가
-  const form = useForm<EmailAuthType>();
+  const form = useForm<SignUpFormData2Type>({
+    resolver: zodResolver(SignUpFormData2),
+  });
   const showVerification = useRecoilValue(ShowVerificationAtom);
   const name = useRecoilValue(SignUpUserNameAtom);
   const birth = useRecoilValue(SignUpUserBirthAtom);
@@ -32,7 +37,6 @@ export default function SignUpIntroTemplate2() {
   });
 
   const isPending = isSignUpEmail || isVerifyEmail;
-
   const onSubmitSignUp = async (formData: EmailAuthType) => {
     if (birth && gender) {
       const userData = { ...formData, birth, gender, name };
@@ -40,13 +44,14 @@ export default function SignUpIntroTemplate2() {
     }
   };
 
-  const onSubmitVerify = async (formData: EmailAuthType) => {
+  const onSubmitVerify = async (formData: VerifyEmailType) => {
     verifyEmail(formData);
   };
 
-  const onSubmit: SubmitHandler<EmailAuthType> = !showVerification
-    ? onSubmitSignUp
-    : onSubmitVerify;
+  const onSubmit: SubmitHandler<SignUpFormData2Type> = data =>
+    !showVerification
+      ? onSubmitSignUp(data as EmailAuthType)
+      : onSubmitVerify(data as VerifyEmailType);
 
   return (
     <Container.FlexCol className="min-w-full flex-1 gap-[3.25rem]">
@@ -57,49 +62,18 @@ export default function SignUpIntroTemplate2() {
               labelName="이메일"
               type="text"
               name="email"
-              options={{
-                required: '필수 항목 입니다.',
-                pattern: {
-                  value: /^([a-z0-9_.-]+)@([\da-z.-]+)\.([a-z.]{2,6})$/,
-                  message: '이메일 형식으로 입력해주세요.',
-                },
-              }}
               placeholder="이메일 입력"
             />
             <FormItem.TextField
               labelName="비밀번호"
               type="password"
               name="password"
-              options={{
-                required: '비밀번호를 입력해주세요.',
-                minLength: {
-                  value: 8,
-                  message:
-                    '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
-                },
-                pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
-                  message:
-                    '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
-                },
-              }}
               placeholder="비밀번호 입력"
             />
             <FormItem.TextField
               labelName="비밀번호 재입력"
               type="password"
               name="confirmPassword"
-              options={{
-                required: '비밀번호를 확인해주세요.',
-                validate: {
-                  confirmPassword: value => {
-                    const { password } = form.getValues();
-                    return (
-                      password === value || '비밀번호가 일치하지 않습니다.'
-                    );
-                  },
-                },
-              }}
               placeholder="비밀번호 입력"
             />
           </Container.FlexCol>

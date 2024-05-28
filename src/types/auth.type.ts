@@ -21,19 +21,67 @@ export const VerifyEmail = EmailAuth.pick({ email: true }).extend({
 export type VerifyEmailType = z.infer<typeof VerifyEmail>;
 
 // * 추가 과정(API)이 필요한 데이터 타입
-export type UserAdditionalType = {
-  birth?: number;
-  gender?: number;
-};
 const UserAdditional = z.object({
   birth: z.number().optional(),
   gender: z.number().optional(),
 });
 export type UserAdditionalType = z.infer<typeof UserAdditional>;
 
+// * SignUp 1 페이지 타입
+// * birth, gender는 자체 제작 SignUp 페이지에서는 필수 필드
+export const SignUpFormData1 = z.object({
+  name: z
+    .string({ required_error: '필수 입력 사항입니다.' })
+    .min(2, { message: '최소 2글자 이상 입력해주세요.' }),
+  birth: z
+    .string({ required_error: '필수 입력 사항입니다.' })
+    .length(6, { message: '주민등록번호 앞 6자리를 입력해주세요.' })
+    .regex(/^\d+$/, {
+      message: '숫자만 입력 가능합니다.',
+    }),
+  gender: z
+    .string({ required_error: '필수 입력 사항입니다.' })
+    .length(1, { message: '주민등록번호 뒷자리의 첫번째 숫자를 입력해주세요.' })
+    .regex(/^[1-4]$/, {
+      message: '유효하지 않은 입력입니다.',
+    }),
+});
+export type SignUpFormData1Type = z.infer<typeof SignUpFormData1>;
+
+// * SignUp 2 페이지 타입
+const PasswordValidate = z
+  .string({ required_error: '비밀번호를 입력해주세요.' })
+  .min(8, {
+    message: '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
+  })
+  .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
+    message: '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
+  });
+export const SignUpFormData2 = z
+  .object({
+    email: z
+      .string({ required_error: '필수 입력 사항입니다.' })
+      .email({ message: '이메일 형식으로 입력해주세요.' }),
+    password: PasswordValidate,
+    confirmPassword: PasswordValidate,
+    token: z
+      .string({ required_error: '인증번호을 입력해주세요' })
+      .length(6, { message: '인증번호는 6자입니다.' })
+      .optional(),
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });
+export type SignUpFormData2Type = z.infer<typeof SignUpFormData2>;
+
+// * SignUp 1 페이지 타입 + SignUp 2 페이지 타입
+// * SignUp 2 confirmPassword는 불필요
 // * 회원가입 시 사용되는 타입
-export type SignUpUserType = EmailAuthType &
-  UserAdditionalType & { name: string };
+export const SignUpUser = SignUpFormData1.merge(
+  SignUpFormData2.innerType().omit({ confirmPassword: true }),
+);
+export type SignUpUserType = z.infer<typeof SignUpUser>;
 
 // * 상태로 관리할 User 의 타입
 export type UserType = UserAdditionalType & {

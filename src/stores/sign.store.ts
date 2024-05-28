@@ -1,7 +1,17 @@
-import { atom, AtomEffect, RecoilState, selector, selectorFamily } from 'recoil';
+import {
+  atom,
+  AtomEffect,
+  RecoilState,
+  selector,
+  selectorFamily,
+} from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
-import { EmailAuthType, UserType } from '@/types/auth.type';
+import {
+  EmailAuthType,
+  SignUpFormData1Type,
+  UserType,
+} from '@/types/auth.type';
 
 const signUpProfileKey = 'signUpProfile';
 
@@ -73,21 +83,21 @@ export const SignupProfileStateSelector = selectorFamily({
 });
 
 export const ShowVerificationAtom = atom({
-	key: 'showVerificationAtom',
-	default: false,
-})
+  key: 'showVerificationAtom',
+  default: false,
+});
 
-export const SignUpUserNameAtom = atom<UserType['name']>({
+export const SignUpUserNameAtom = atom<SignUpFormData1Type['name']>({
   key: 'signUpUserNameAtom',
   default: '',
 });
 
-export const SignUpUserBirthAtom = atom<UserType['birth']>({
+export const SignUpUserBirthAtom = atom<SignUpFormData1Type['birth']>({
   key: 'signUpUserBirthAtom',
   default: undefined,
 });
 
-export const SignUpUserGenderAtom = atom<UserType['gender']>({
+export const SignUpUserGenderAtom = atom<SignUpFormData1Type['gender']>({
   key: 'signUpUserGenderAtom',
   default: undefined,
 });
@@ -107,26 +117,24 @@ export const SignUpTokenAtom = atom<EmailAuthType['token']>({
   default: undefined,
 });
 
-export const SignUpIntroSelector = selector<UserType & EmailAuthType>(
-  {
-    key: 'SignUpIntroSelector',
-    get: ({ get }) => {
-      const name = get(SignUpUserNameAtom);
-      const birth = get(SignUpUserBirthAtom);
-      const gender = get(SignUpUserGenderAtom);
-      const email = get(SignUpUserEmailAtom);
-      const password = get(SignUpUserPasswordAtom);
-      const token = get(SignUpTokenAtom);
-      return {
-        name,
-        birth,
-        gender,
-        email,
-        password,
-        token,
-      };
-    },
+export const SignUpIntroSelector = selector<UserType & EmailAuthType>({
+  key: 'SignUpIntroSelector',
+  get: ({ get }) => {
+    const name = get(SignUpUserNameAtom);
+    const birth = get(SignUpUserBirthAtom);
+    const gender = get(SignUpUserGenderAtom);
+    const email = get(SignUpUserEmailAtom);
+    const password = get(SignUpUserPasswordAtom);
+    const token = get(SignUpTokenAtom);
+    return {
+      name,
+      birth,
+      gender,
+      email,
+      password,
+      token,
+    };
   },
-);
+});
 
 export default {};
