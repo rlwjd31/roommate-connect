@@ -21,6 +21,8 @@ export type ProfileFormValues = {
   regions: string;
   smoking: undefined | string;
   pet: undefined | number;
+  gender: undefined | number;
+  matesNumber: undefined | number;
 };
 
 export default function SignUpProfile() {
@@ -32,6 +34,10 @@ export default function SignUpProfile() {
       appealsInputValue: '',
       mateAppealsInputValue: '',
       regions: '',
+      smoking: undefined,
+      pet: undefined,
+      gender: undefined,
+      matesNumber: undefined,
     },
   });
 

@@ -1,4 +1,6 @@
 import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -8,6 +10,8 @@ import { SignUpType } from '@/types/signUp.type';
 import { IconType } from '@/types/icon.type';
 import IconButton from '@/components/molecules/IconButton';
 import Button from '@/components/atoms/Button';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import FormItem from '@/components/molecules/FormItem';
 
 export default function SignUpProfile3_1Template() {
   const [gender, setGender] = useRecoilState(
@@ -16,6 +20,7 @@ export default function SignUpProfile3_1Template() {
   const [matesNumber, setMatesNumber] = useRecoilState(
     SignupProfileStateSelector('mates_number'),
   );
+  const { setValue } = useFormContext<ProfileFormValues>();
 
   const genderInfos: {
     displayValue: string;
@@ -61,10 +66,15 @@ export default function SignUpProfile3_1Template() {
     },
   ];
 
+  useEffect(() => {
+    setValue('gender', gender);
+    setValue('matesNumber', matesNumber);
+  }, [gender, matesNumber, setValue]);
+
   const onClickGenderType = (stateValue: SignUpType['gender']) =>
     setGender(stateValue);
 
-  const onClickMateNumbertype = (stateValue: SignUpType['mates_number']) =>
+  const onClickMateNumberType = (stateValue: SignUpType['mates_number']) =>
     setMatesNumber(stateValue);
 
   return (
@@ -72,7 +82,7 @@ export default function SignUpProfile3_1Template() {
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="3-1"
-          title="나의 원하는 룸메이트는..."
+          title="내가 원하는 룸메이트는..."
         />
         <Typography.SubTitle1 className="text-brown">성별</Typography.SubTitle1>
         <Container.FlexRow
@@ -93,6 +103,13 @@ export default function SignUpProfile3_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'gender'>>
+            name="gender"
+            options={{
+              required: '성별을 선택해주세요',
+            }}
+            defaultValue={gender}
+          />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
           인원 수
@@ -106,13 +123,20 @@ export default function SignUpProfile3_1Template() {
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"
               isActive={stateValue === matesNumber}
-              onClick={() => onClickMateNumbertype(stateValue)}
+              onClick={() => onClickMateNumberType(stateValue)}
             >
               <Typography.P2 className="flex-1 text-brown">
                 {displayValue}
               </Typography.P2>
             </Button.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'matesNumber'>>
+            name="matesNumber"
+            options={{
+              required: '인원 수를 선택해주세요',
+            }}
+            defaultValue={matesNumber}
+          />
         </Container.FlexRow>
       </Container.FlexCol>
     </Container.FlexCol>

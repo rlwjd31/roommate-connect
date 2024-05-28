@@ -172,6 +172,7 @@ export default function SignUpProfileLayoutTemplate(
         }
         break;
       }
+
       case 3: {
         const isStepValid = await trigger(['smoking', 'pet']);
 
@@ -203,7 +204,37 @@ export default function SignUpProfileLayoutTemplate(
         }
         break;
       }
+      case 5: {
+        const isStepValid = await trigger(['gender', 'matesNumber']);
 
+        if (!isStepValid) {
+          if (errors.gender)
+            createToast(
+              'genderValidationError',
+              errors.gender?.message || '성별을 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          if (errors.matesNumber) {
+            createToast(
+              'matesNumberValidationError',
+              errors.matesNumber?.message || '인원 수를 선택해주세요',
+              {
+                autoClose: 1000,
+                type: 'error',
+                isLoading: false,
+                position: 'top-center',
+              },
+            );
+          }
+          canGoNextCarousel = false;
+        }
+        break;
+      }
       default:
         console.log('validating now...');
         break;

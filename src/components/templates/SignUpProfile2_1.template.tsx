@@ -56,9 +56,12 @@ export default function SignUpProfile2_1Template() {
       iconType: 'dont-mind-pet',
     },
   ];
-  
+
   useEffect(() => {
-    setValue('smoking', typeof pet === 'boolean' ? `${pet}` : undefined);
+    setValue(
+      'smoking',
+      typeof smoking === 'boolean' ? `${smoking}` : undefined,
+    );
     setValue('pet', pet);
   }, [smoking, pet, setValue]);
 
@@ -99,7 +102,9 @@ export default function SignUpProfile2_1Template() {
             options={{
               required: '흡연 여부를 선택해주세요',
             }}
-            defaultValue={typeof pet === 'boolean' ? `${pet}` : undefined}
+            defaultValue={
+              typeof smoking === 'boolean' ? `${smoking}` : undefined
+            }
           />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
