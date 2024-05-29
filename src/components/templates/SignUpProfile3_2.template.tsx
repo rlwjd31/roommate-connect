@@ -9,6 +9,7 @@ import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import FormItem from '@/components/molecules/FormItem';
+import { signUpProfileBadgeExamples } from '@/constants/signUpProfileData';
 
 export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
@@ -54,19 +55,7 @@ export default function SignUpProfile3_2Template() {
             떠오르는 것이 없다면 선택해주세요
           </Typography.SubTitle1>
           <BadgeButtons
-            contents={[
-              '외향적',
-              '내향적',
-              '야행성',
-              '직장인이에요',
-              '학생이에요',
-              '청소 잘 해요',
-              '친구초대 안 해요',
-              '요리 잘 해요',
-              '혼밥 싫어요',
-              '더위 잘 타요',
-              '추위 잘 타요',
-            ]}
+            contents={signUpProfileBadgeExamples}
             className="flex flex-wrap gap-x-2 gap-y-3"
             badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
             stroke="bg"

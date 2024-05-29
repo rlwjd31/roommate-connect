@@ -224,6 +224,20 @@ const signUpProfileValidationConfig = {
   },
 } as const;
 
+export const signUpProfileBadgeExamples = [
+  '외향적',
+  '내향적',
+  '야행성',
+  '직장인이에요',
+  '학생이에요',
+  '청소 잘 해요',
+  '친구초대 안 해요',
+  '요리 잘 해요',
+  '혼밥 싫어요',
+  '더위 잘 타요',
+  '추위 잘 타요',
+]
+
 export type ValidationConfig = typeof signUpProfileValidationConfig;
 export type ValidationStep = keyof ValidationConfig;
 export type ValidationStepFieldName =
