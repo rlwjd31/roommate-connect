@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { KeyboardEvent, useEffect } from 'react';
+import { KeyboardEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
@@ -16,13 +16,7 @@ export default function SignUpProfile3_2Template() {
   );
 
   const { trigger, setValue, watch } =
-    useFormContext<
-      Pick<ProfileFormValues, 'mateAppeals' | 'mateAppealsInputValue'>
-    >();
-
-  useEffect(() => {
-    setValue('mateAppeals', JSON.stringify(mateAppeals));
-  }, [mateAppeals, setValue]);
+    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValue'>>();
 
   const createBadge = async (badgeContent: string) => {
     // **************** badge content검증****************
@@ -120,6 +114,7 @@ export default function SignUpProfile3_2Template() {
               },
             }}
             defaultValue=""
+            valueProp={JSON.stringify(mateAppeals)}
           />
         </Container.FlexCol>
       </Container.FlexCol>

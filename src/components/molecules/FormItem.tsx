@@ -1,4 +1,10 @@
-import { Controller, FieldValues, useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  FieldValues,
+  useFormContext,
+  UseFormSetValue,
+} from 'react-hook-form';
+import { useEffect } from 'react';
 
 import TextField, { TextFieldProps } from '@/components/molecules/TextField';
 import Input from '@/components/atoms/Input';
@@ -24,10 +30,14 @@ FormItem.TextField = function FormItemTextField<T extends FieldValues>(
 };
 
 FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
-  props: TextFieldProps<T>,
+  props: TextFieldProps<T> & { valueProp: T[keyof T] },
 ) {
-  const { defaultValue, name, options = {} } = props;
-  const { control } = useFormContext();
+  const { defaultValue, name, valueProp, options = {} } = props;
+  const { control, setValue } = useFormContext();
+
+  useEffect(() => {
+    setValue(name, valueProp);
+  }, [valueProp, name, setValue]);
 
   if (name)
     return (

@@ -1,6 +1,4 @@
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -20,16 +18,6 @@ export default function SignUpProfile2_1Template() {
     SignupProfileStateSelector('smoking'),
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
-  const { setValue } =
-    useFormContext<Pick<ProfileFormValues, 'smoking' | 'pet'>>();
-
-  useEffect(() => {
-    setValue(
-      'smoking',
-      typeof smoking === 'boolean' ? `${smoking}` : undefined,
-    );
-    setValue('pet', pet);
-  }, [smoking, pet, setValue]);
 
   const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
     setSmoking(stateValue);
@@ -71,6 +59,7 @@ export default function SignUpProfile2_1Template() {
             defaultValue={
               typeof smoking === 'boolean' ? `${smoking}` : undefined
             }
+            valueProp={typeof smoking === 'boolean' ? `${smoking}` : undefined}
           />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
@@ -100,6 +89,7 @@ export default function SignUpProfile2_1Template() {
               required: '반려 동물 여부를 선택해주세요',
             }}
             defaultValue={pet}
+            valueProp={pet}
           />
         </Container.FlexRow>
       </Container.FlexCol>

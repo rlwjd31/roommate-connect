@@ -1,6 +1,4 @@
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -23,13 +21,6 @@ export default function SignUpProfile3_1Template() {
   const [matesNumber, setMatesNumber] = useRecoilState(
     SignupProfileStateSelector('mates_number'),
   );
-  const { setValue } =
-    useFormContext<Pick<ProfileFormValues, 'gender' | 'matesNumber'>>();
-
-  useEffect(() => {
-    setValue('gender', gender);
-    setValue('matesNumber', matesNumber);
-  }, [gender, matesNumber, setValue]);
 
   const onClickGenderType = (stateValue: SignUpType['gender']) =>
     setGender(stateValue);
@@ -69,6 +60,7 @@ export default function SignUpProfile3_1Template() {
               required: '성별을 선택해주세요',
             }}
             defaultValue={gender}
+            valueProp={gender}
           />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
@@ -96,6 +88,7 @@ export default function SignUpProfile3_1Template() {
               required: '인원 수를 선택해주세요',
             }}
             defaultValue={matesNumber}
+            valueProp={matesNumber}
           />
         </Container.FlexRow>
       </Container.FlexCol>

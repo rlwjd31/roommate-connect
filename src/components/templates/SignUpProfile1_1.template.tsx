@@ -1,6 +1,4 @@
 import { useRecoilState } from 'recoil';
-import { useFormContext } from 'react-hook-form';
-import { useEffect } from 'react';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -23,12 +21,7 @@ export default function SignUpProfile1_1Template() {
   const [rentalType, setRentalType] = useRecoilState(
     SignupProfileStateSelector('rental_type'),
   );
-  const { setValue } = useFormContext<Pick<ProfileFormValues, 'houseType' | 'rentalType'>>();
-  
-  useEffect(() => {
-    setValue('houseType', houseType);
-    setValue('rentalType', rentalType);
-  }, [houseType, rentalType, setValue]);
+  // const { setValue } = useFormContext<Pick<ProfileFormValues, 'houseType' | 'rentalType'>>();
 
   const onClickHouseType = (stateValue: SignUpType['type']) =>
     setHouseType(stateValue);
@@ -68,6 +61,7 @@ export default function SignUpProfile1_1Template() {
               required: '집 유형을 선택해주세요',
             }}
             defaultValue={houseType}
+            valueProp={houseType}
           />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
@@ -94,6 +88,7 @@ export default function SignUpProfile1_1Template() {
             options={{
               required: '매물 종류를 선택해주세요',
             }}
+            valueProp={rentalType}
             defaultValue={rentalType}
           />
         </Container.FlexRow>
