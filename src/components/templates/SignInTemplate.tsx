@@ -111,7 +111,7 @@ export default function SignInTemplate() {
                 name="email"
                 options={validationOptions.email}
                 placeholder="이메일 입력"
-                inputStyle="bg-transparent mt-[1rem]"
+                inputStyle="w-full bg-transparent mt-[1rem]"
               />
               <FormItem.TextField
                 labelName="비밀번호"
@@ -119,7 +119,7 @@ export default function SignInTemplate() {
                 name="password"
                 options={validationOptions.password}
                 placeholder="비밀번호 입력"
-                inputStyle="bg-transparent mt-[1rem]"
+                inputStyle="w-full bg-transparent mt-[1rem]"
                 containerStyle="mt-7"
               />
               {isNotVerified && (
@@ -130,7 +130,7 @@ export default function SignInTemplate() {
                     type="number"
                     options={validationOptions.token}
                     placeholder="000000"
-                    inputStyle="bg-transparent mt-[1rem]"
+                    inputStyle="w-full bg-transparent mt-[1rem]"
                     name="token"
                   />
                   <Button.Outline
