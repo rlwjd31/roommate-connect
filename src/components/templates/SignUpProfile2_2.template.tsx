@@ -55,6 +55,7 @@ export default function SignUpProfile2_2Template() {
           />
           <FormItem.TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
             containerStyle="mt-5"
+            inputStyle="w-full"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
             name="appealsInputValue"
