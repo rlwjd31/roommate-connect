@@ -19,15 +19,17 @@ import InputRange from '@/components/atoms/InputRange';
 import Label from '@/components/atoms/Label';
 import Input from '@/components/atoms/Input';
 import TextField from '@/components/molecules/TextField';
-import StepIndicator from '@/components/atoms/StepLink';
+import StepIndicator from '@/components/atoms/StepNavLink';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Carousel from '@/components/organisms/Carousel';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
-import StepNavigation from '@/components/molecules/StepNavigation';
+import StepNavLinks from '@/components/molecules/StepNavLinks';
 import {
   AlertModalState,
   ConfirmModalState,
   ProfileModalState,
+  RoommateApplicationState,
+  RoommateApplyState,
 } from '@/types/modal.type';
 
 export default function ComponentTest() {
@@ -86,6 +88,61 @@ export default function ComponentTest() {
     onClickChat: () => {
       alert('send chat request to user1234!!!');
       closeProfileModal();
+    },
+  };
+
+  const {
+    setModalState: setRoommateApplicationModal,
+    closeModal: closeRoommateApplicationModal,
+  } = useModal('RoommateApplicationStatus');
+  const RoommateApplicationContext: RoommateApplicationState = {
+    isOpen: true,
+    type: 'RoommateApplicationStatus',
+    profileImage: '',
+    userName: 'user123',
+    roommateAppeals: [
+      '1명',
+      '남성',
+      '잠귀 어두운 분',
+      '청소 자주해요',
+      '늦게 자요',
+    ],
+    introduceContent:
+      '안녕하세요! 1년 6개월 동안 사는 것을 희망하고 조용히 지낼 수 있습니다. 집이 좋아보여서 신청해봅니다!',
+    onClickChat() {
+      alert('상대방과의 채팅이 시작합니다!');
+      closeRoommateApplicationModal();
+    },
+    onClickConfirm: () => {
+      alert('user123 님을 수락하셨습니다!');
+      closeConfirmModal();
+    },
+    onClickCancel: () => {
+      closeConfirmModal();
+    },
+  };
+
+  const {
+    setModalState: setRoommateApplyModal,
+    closeModal: closeRoommateApplyModal,
+  } = useModal('RoommateApply');
+  const RoommateApplyModalContext: RoommateApplyState = {
+    isOpen: true,
+    type: 'RoommateApply',
+    introduceContent: '',
+    roommateAppeals: [
+      '1명',
+      '남성',
+      '잠귀 어두운 분',
+      '청소 자주해요',
+      '늦게 자요',
+    ],
+    onClickCancel: () => {
+      closeRoommateApplyModal();
+    },
+    onClickConfirm: () => {
+      alert('Completed Apply');
+      closeRoommateApplyModal();
     },
   };
   // ******************************* modal 관련 state *******************************
@@ -585,8 +642,8 @@ export default function ComponentTest() {
       <hr style={{ marginTop: '12rem', marginBottom: '2rem' }} />
       {/* LabelStepIndicator test */}
       <h1 className="my-12 text-Head1">LabelStepIndicator</h1>
-      <StepNavigation contents={labelStepContents} />
-      <StepNavigation
+      <StepNavLinks contents={labelStepContents} />
+      <StepNavLinks
         contents={[
           { labelName: '흡연, 반려동물', isActive: true },
           { labelName: '나의 라이프스타일 어필', isActive: false },
@@ -680,9 +737,24 @@ export default function ComponentTest() {
       </button>
       <button
         type="button"
+        className="mb-10"
         onClick={() => setProfileModal(profileModalContext)}
       >
         Profile modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setRoommateApplicationModal(RoommateApplicationContext)}
+      >
+        RoommateApplicationStatus modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setRoommateApplyModal(RoommateApplyModalContext)}
+      >
+        Roommate modal 열기
       </button>
     </div>
   );

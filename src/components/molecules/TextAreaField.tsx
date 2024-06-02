@@ -1,30 +1,34 @@
 import { FieldValues, RegisterOptions, useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
-import Input, { InputProps } from '@/components/atoms/Input';
+import TextArea, { TextAreaProps } from '@/components/atoms/TextArea';
 import Label from '@/components/atoms/Label';
 import Typography from '@/components/atoms/Typography';
 
-export type TextFieldProps<T extends FieldValues> = InputProps & {
+// ! TODO: state연계시 controller 비 연계시 controller제거
+
+export type TextAreaFieldProps<T extends FieldValues> = TextAreaProps & {
+  value: string | number;
   name: keyof T;
   labelName?: string;
   options?: RegisterOptions;
-  activeWatch?: boolean;
   containerStyle?: string;
-  inputStyle?: string;
+  textAreaStyle?: string;
+  defaultValue?: string;
 };
 
-export default function TextField<T extends FieldValues>(
-  props: TextFieldProps<T>,
+export default function TextAreaField<T extends FieldValues>(
+  props: TextAreaFieldProps<T>,
 ) {
   const {
     labelName,
-    type,
     name,
     containerStyle,
-    inputStyle,
+    textAreaStyle,
     placeholder,
     options,
+    value,
+    defaultValue,
     onKeyDown,
   } = props;
 
@@ -33,15 +37,16 @@ export default function TextField<T extends FieldValues>(
   return (
     <Container className={containerStyle}>
       <Label>{labelName}</Label>
-      <Input
-        type={type}
-        className={inputStyle}
+      <TextArea
+        className={textAreaStyle}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
+        value={value}
+        defaultValue={defaultValue}
         {...register(name, options)}
       />
       <Typography.Span2
-        className={`${!formState.errors[name]?.message && 'invisible h-3'} mt-[8px] block text-point`}
+        className={`${!formState.errors[name]?.message && 'invisible'} mt-[8px] block text-point`}
       >
         {formState.errors[name]?.message as string}
       </Typography.Span2>
@@ -49,10 +54,10 @@ export default function TextField<T extends FieldValues>(
   );
 }
 
-TextField.defaultProps = {
+TextAreaField.defaultProps = {
   containerStyle: '',
-  inputStyle: '',
+  textAreaStyle: '',
   options: {},
   labelName: '',
-  activeWatch: false,
+  defaultValue: '',
 };

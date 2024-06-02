@@ -12,7 +12,16 @@ import {
   SelectorItemValueType,
 } from '@/types/regionDistrict.type';
 
-export default function DistrictSelector() {
+type DistrictSelectorProps = {
+  onSelectRegion?: (
+    region: SelectorItemValueType<'지역'>,
+    district: SelectorItemValueType<'시, 구'>,
+  ) => void;
+};
+
+export default function DistrictSelector({
+  onSelectRegion = () => {},
+}: DistrictSelectorProps) {
   const [regionSelectorState, setRegionState] = useRecoilState<
     SelectorStateType<'지역'>
   >(MoleculeSelectorState('지역'));
@@ -27,6 +36,14 @@ export default function DistrictSelector() {
   const onClickDistrict = (content: SelectorItemValueType<'시, 구'>) => {
     setRegionState(prev => ({ ...prev, isOpen: false }));
     setDistrictState(prev => ({ ...prev, value: content, isOpen: false }));
+
+    // ! 상위 component에서 최종적인 region state를 setter하는 함수
+    if (!['지역', '시, 구'].includes(regionSelectorState.value)) {
+      onSelectRegion(
+        regionSelectorState.value as SelectorItemValueType<'지역'>,
+        content,
+      );
+    }
   };
 
   return (
@@ -40,7 +57,7 @@ export default function DistrictSelector() {
         onClick={onClickRegion}
       />
       <Selector<'시, 구'>
-        className="max-w-48 translate-x-[-1px] [&_div>li>button]:justify-start"
+        className="z-10 max-w-48 translate-x-[-1px] [&_div>li>button]:justify-start"
         contents={district[regionSelectorState.value as DistrictKeyType] ?? []}
         label="시, 구"
         state={districtSelectorState}
@@ -50,3 +67,7 @@ export default function DistrictSelector() {
     </Container.FlexRow>
   );
 }
+
+DistrictSelector.defaultProps = {
+  onSelectRegion: () => {},
+};

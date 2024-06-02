@@ -99,8 +99,10 @@ export default function SignUpIntroTemplate1({
                     message: '숫자만 입력 가능합니다.',
                   },
                 }}
-                inputStyle="mt-[2rem] w-[2.75rem]"
+                inputStyle="mt-[2rem] "
+                containerStyle="w-[2.5rem]"
               />
+              {/* TODO: *사이에 공백이 안 들어 가므로 공백 넣어주기 */}
               <p className="mt-[3.5rem]">* * * * * *</p>
             </Container.FlexRow>
           </Container.FlexCol>
