@@ -1,4 +1,10 @@
-import { atom, AtomEffect, RecoilState, selector, selectorFamily } from 'recoil';
+import {
+  atom,
+  AtomEffect,
+  RecoilState,
+  selector,
+  selectorFamily,
+} from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
 import { EmailAuthType, UserType } from '@/types/auth.type';
@@ -73,9 +79,9 @@ export const SignupProfileStateSelector = selectorFamily({
 });
 
 export const ShowVerificationAtom = atom({
-	key: 'showVerificationAtom',
-	default: false,
-})
+  key: 'showVerificationAtom',
+  default: false,
+});
 
 export const SignUpUserNameAtom = atom<UserType['name']>({
   key: 'signUpUserNameAtom',
@@ -107,26 +113,24 @@ export const SignUpTokenAtom = atom<EmailAuthType['token']>({
   default: undefined,
 });
 
-export const SignUpIntroSelector = selector<UserType & EmailAuthType>(
-  {
-    key: 'SignUpIntroSelector',
-    get: ({ get }) => {
-      const name = get(SignUpUserNameAtom);
-      const birth = get(SignUpUserBirthAtom);
-      const gender = get(SignUpUserGenderAtom);
-      const email = get(SignUpUserEmailAtom);
-      const password = get(SignUpUserPasswordAtom);
-      const token = get(SignUpTokenAtom);
-      return {
-        name,
-        birth,
-        gender,
-        email,
-        password,
-        token,
-      };
-    },
+export const SignUpIntroSelector = selector<UserType & EmailAuthType>({
+  key: 'SignUpIntroSelector',
+  get: ({ get }) => {
+    const name = get(SignUpUserNameAtom);
+    const birth = get(SignUpUserBirthAtom);
+    const gender = get(SignUpUserGenderAtom);
+    const email = get(SignUpUserEmailAtom);
+    const password = get(SignUpUserPasswordAtom);
+    const token = get(SignUpTokenAtom);
+    return {
+      name,
+      birth,
+      gender,
+      email,
+      password,
+      token,
+    };
   },
-);
+});
 
 export default {};
