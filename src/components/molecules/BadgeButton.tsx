@@ -5,7 +5,6 @@ import Button, { ButtonProps } from '@/components/atoms/Button';
 import Badge from '@/components/atoms/Badge';
 import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
 import Icon from '@/components/atoms/Icon';
-import cn from '@/libs/cn';
 
 type BadgeButtonProps = CustomIconType &
   Omit<ButtonProps, 'className'> & {
@@ -31,6 +30,8 @@ export default function BadgeButton(props: BadgeButtonProps) {
     badgeActive,
     ...others
   } = props;
+
+  const setBadge = badgeActive && badge === 'Outline' ? 'Fill' : badge;
   const directionStyle = {
     right: '',
     left: 'flex-row-reverse',
@@ -47,7 +48,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     />
   ) : null;
 
-  if (badge === 'Fill') {
+  if (setBadge === 'Fill') {
     return (
       <Button.Ghost {...others}>
         <Badge.Fill className={`${directionStyle[direction]} ${className}`}>
@@ -57,12 +58,10 @@ export default function BadgeButton(props: BadgeButtonProps) {
       </Button.Ghost>
     );
   }
-  if (badge === 'Outline') {
+  if (setBadge === 'Outline') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Outline
-          className={`${directionStyle[direction]} ${cn(className, badgeActive && 'bg-brown text-bg hover:text-brown')}`}
-        >
+        <Badge.Outline className={`${directionStyle[direction]} ${className}`}>
           {children}
           {iconComponent}
         </Badge.Outline>

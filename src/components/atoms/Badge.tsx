@@ -16,12 +16,12 @@ const badgeType: { type: BadgeType; defaultClassName: string }[] = [
   {
     type: 'Fill',
     defaultClassName:
-      'group flex items-center bg-brown hover:bg-brown1 hover:shadow-[0_4px_4px_0] hover:shadow-brown/25 active:bg-active-fill active:shadow-none focus:bg-brown focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:outline focus:outline-[3px] focus:shadow-brown/25',
+      'group flex items-center text-[#FFFAF5] bg-brown hover:bg-brown1 hover:shadow-[0_4px_4px_0] hover:shadow-brown/25 focus:bg-brown focus:text-bg focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:outline focus:outline-[3px] focus:shadow-brown/25',
   },
   {
     type: 'Outline',
     defaultClassName:
-      'group flex bg-bg items-center border-brown border hover:bg-hover-outline hover:shadow-[0_4px_4px_0] hover:shadow-brown/25 active:bg-active-outline active:shadow-none focus:outline-[3px] focus:outline focus:border-transparent focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:shadow-brown/25',
+      'group flex bg-bg items-center text-brown border-brown border hover:bg-hover-outline hover:shadow-[0_4px_4px_0] hover:shadow-brown/25  focus:outline-[3px] focus:outline focus:border-transparent focus:outline-subColor1 focus:shadow-[0_4px_4px_0] focus:shadow-brown/25',
   },
 ];
 const Badge = {} as BadgeComponentProps;
