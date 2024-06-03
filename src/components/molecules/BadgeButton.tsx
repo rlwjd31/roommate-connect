@@ -31,7 +31,13 @@ export default function BadgeButton(props: BadgeButtonProps) {
     ...others
   } = props;
 
-  const setBadge = badgeActive && badge === 'Outline' ? 'Fill' : badge;
+  let setBadge = '';
+  if ((badgeActive && badge === 'Outline') || badge === 'Fill') {
+    setBadge = 'Fill';
+  } else {
+    setBadge = 'Outline';
+  }
+
   const directionStyle = {
     right: '',
     left: 'flex-row-reverse',
