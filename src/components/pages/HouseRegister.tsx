@@ -85,7 +85,7 @@ export default function HouseRegister() {
     setDistrict({ value: '시, 구', isOpen: false });
   };
 
-	const onClickHouseType = (stateValue: HouseType['house_type']) => {
+  const onClickHouseType = (stateValue: HouseType['house_type']) => {
     form.setValue('house_type', stateValue);
   };
   const onClickRentalType = (stateValue: HouseType['rental_type']) => {
@@ -95,6 +95,47 @@ export default function HouseRegister() {
     form.setValue('mates_num', stateValue);
   };
 
+  const onSaveHouse = async (formData: HouseType, visible: number) => {
+    console.log(formData);
+
+    setSaving(true);
+    try {
+      const { error } = await supabase.from('house').insert({
+        ...formData,
+        visible,
+        region,
+        district,
+        house_size: Number(formData.house_size),
+        deposit_price: Number(formData.deposit_price),
+        monthly_price: Number(formData.monthly_price),
+        manage_price: Number(formData.manage_price),
+        house_img: images,
+        room_num: Number(formData.room_num),
+      });
+
+      if (error) {
+        errorToast('createHouse', '💧supabase 저장에 실패했습니다.');
+        console.error(error);
+      } else {
+        successToast('createHouse', '👍🏻 성공적으로 저장되었습니다.');
+        navigate('/');
+      }
+    } catch (error) {
+      errorToast('createHouse', '💧submit에 실패했습니다.');
+      console.error(error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const onSubmitHouse = (formData: HouseType) => {
+    onSaveHouse(formData, 1);
+  };
+
+  const onSaveTemporary = () => {
+    const formData = form.getValues();
+    onSaveHouse(formData, 0);
+  };
 
   return (
     <>
