@@ -85,6 +85,17 @@ export default function HouseRegister() {
     setDistrict({ value: '시, 구', isOpen: false });
   };
 
+	const onClickHouseType = (stateValue: HouseType['house_type']) => {
+    form.setValue('house_type', stateValue);
+  };
+  const onClickRentalType = (stateValue: HouseType['rental_type']) => {
+    form.setValue('rental_type', stateValue);
+  };
+  const onClickMatesNum = (stateValue: HouseType['mates_num']) => {
+    form.setValue('mates_num', stateValue);
+  };
+
+
   return (
     <>
       <Container.FlexCol className="mt-[4rem]">
