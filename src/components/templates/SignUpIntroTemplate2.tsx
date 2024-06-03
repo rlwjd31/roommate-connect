@@ -1,5 +1,5 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue} from 'recoil';
 
 import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
 import { EmailAuthType } from '@/types/auth.type';
@@ -8,16 +8,12 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
-import { useEffect } from 'react';
 
 export default function SignUpIntroTemplate2() {
   const Form = FormProvider;
   // TODO: resolver를 나중에 만들어서 useForm에 추가
   const form = useForm<EmailAuthType>();
   const showVerification = useRecoilValue(ShowVerificationAtom);
-  // const name = useRecoilValue(SignUpUserNameAtom);
-  // const birth = useRecoilValue(SignUpUserBirthAtom);
-  // const gender = useRecoilValue(SignUpUserGenderAtom);
   const [signUpEmailUser, setSignUpEmailUser] =
     useRecoilState(SignUpEmailUserAtom);
 
@@ -36,8 +32,8 @@ export default function SignUpIntroTemplate2() {
         ...prev,
         email: formData.email,
         password: formData.password,
-      }));
-			signUpEmail();
+      }))
+	signUpEmail();
     }
   };
 
