@@ -126,21 +126,21 @@ export default function HouseRegisterTemplate() {
   };
 
   const onSaveHouse = async (formData: HouseType, visible: number) => {
-    console.log(formData);
-
+    console.log(formData.district);
     setSaving(true);
     try {
       const { error } = await supabase.from('house').insert({
         ...formData,
         visible,
-        region,
-        district,
+        region: region.value,
+        district: district.value,
         house_size: Number(formData.house_size),
         deposit_price: Number(formData.deposit_price),
         monthly_price: Number(formData.monthly_price),
         manage_price: Number(formData.manage_price),
         house_img: images,
         room_num: Number(formData.room_num),
+        term,
       });
 
       if (error) {
@@ -380,7 +380,6 @@ export default function HouseRegisterTemplate() {
               원하는 기간
             </Typography.SubTitle1>
             <Container.FlexCol>
-              {/* LabelDualInputRange의 label 제거하고 값을 연산해서 최소값을 표현하기 */}
               <LabelDualInputRange
                 label="기간"
                 className=" w-[480px]"
@@ -388,8 +387,8 @@ export default function HouseRegisterTemplate() {
                 max={24}
                 step={1}
                 setRangeValue={setTerm}
-                category="term"
                 rangeValue={term}
+                category="term"
               />
             </Container.FlexCol>
           </Container.FlexRow>
@@ -398,9 +397,8 @@ export default function HouseRegisterTemplate() {
               상세 설명
             </Typography.SubTitle1>
             <textarea
-              required
               className="resize-none rounded-[8px] border border-solid border-brown bg-inherit p-5"
-              name="houseDescribe"
+              {...form.register('describe')}
               maxLength={200}
               rows={8}
               cols={100}
