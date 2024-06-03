@@ -40,7 +40,7 @@ export default function HouseRegisterTemplate() {
       monthly_price: undefined,
       manage_price: undefined,
       house_appeal: [],
-      mates_num: 0,
+      mates_num: 1,
       term: [0, 24],
       describe: '',
       bookmark: 0,
@@ -228,7 +228,7 @@ export default function HouseRegisterTemplate() {
                     key={displayValue}
                     className="rounded-[30px] px-[20px] py-[10px] text-brown"
                     onClick={() => onClickRentalType(stateValue)}
-                    isActive={stateValue === form.watch('rental_type')}
+                    badgeActive={stateValue === form.watch('rental_type')}
                   >
                     <Typography.P2>{displayValue}</Typography.P2>
                   </BadgeButton.Outline>
@@ -366,7 +366,7 @@ export default function HouseRegisterTemplate() {
               {matesNumInfo.map(({ displayValue, stateValue }) => (
                 <BadgeButton.Outline
                   key={displayValue}
-                  isActive={stateValue === form.watch('mates_num')}
+                  badgeActive={stateValue === form.watch('mates_num')}
                   onClick={() => onClickMatesNum(stateValue)}
                   className="rounded-[30px] px-[20px] py-[10px] text-brown"
                 >

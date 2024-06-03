@@ -5,6 +5,7 @@ import Button, { ButtonProps } from '@/components/atoms/Button';
 import Badge from '@/components/atoms/Badge';
 import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
 import Icon from '@/components/atoms/Icon';
+import cn from '@/libs/cn';
 
 type BadgeButtonProps = CustomIconType &
   Omit<ButtonProps, 'className'> & {
@@ -14,6 +15,7 @@ type BadgeButtonProps = CustomIconType &
     iconType?: IconType;
     direction?: IconDirectionType;
     iconClassName?: string;
+    badgeActive?: boolean;
   };
 
 export default function BadgeButton(props: BadgeButtonProps) {
@@ -26,6 +28,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     fill,
     stroke,
     iconClassName,
+    badgeActive,
     ...others
   } = props;
   const directionStyle = {
@@ -57,7 +60,9 @@ export default function BadgeButton(props: BadgeButtonProps) {
   if (badge === 'Outline') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Outline className={`${directionStyle[direction]} ${className}`}>
+        <Badge.Outline
+          className={`${directionStyle[direction]} ${cn(className, badgeActive && 'bg-brown text-bg hover:text-brown')}`}
+        >
           {children}
           {iconComponent}
         </Badge.Outline>
