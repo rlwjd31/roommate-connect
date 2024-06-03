@@ -24,8 +24,6 @@ export default function SignUpIntroTemplate1({
   const setSignUpEmailUser = useSetRecoilState(SignUpEmailUserAtom);
 
   const onSubmit = (data: SignUpFormData1) => {
-    console.log(data);
-
     setSignUpEmailUser(prev => ({
       ...prev,
       name: data.name,
@@ -102,7 +100,6 @@ export default function SignUpIntroTemplate1({
                 inputStyle="mt-[2rem] "
                 containerStyle="w-[2.5rem]"
               />
-              {/* TODO: *사이에 공백이 안 들어 가므로 공백 넣어주기 */}
               <p className="mt-[3.5rem]">* * * * * *</p>
             </Container.FlexRow>
           </Container.FlexCol>
