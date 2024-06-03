@@ -71,6 +71,20 @@ export default function HouseRegister() {
     },
   ];
 
+  const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
+  const [district, setDistrict] = useRecoilState(
+    MoleculeSelectorState('시, 구'),
+  );
+  const location =
+    region.value !== '지역' && district.value !== '시, 구'
+      ? `${region.value} ${district.value}`
+      : '';
+
+  const onDeleteLocationBadge = () => {
+    setRegion({ value: '지역', isOpen: false });
+    setDistrict({ value: '시, 구', isOpen: false });
+  };
+
   return (
     <>
       <Container.FlexCol className="mt-[4rem]">
