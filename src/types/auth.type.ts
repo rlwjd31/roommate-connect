@@ -33,18 +33,35 @@ export const SignUpFormData1 = z.object({
   name: z
     .string({ required_error: '필수 입력 사항입니다.' })
     .min(2, { message: '최소 2글자 이상 입력해주세요.' }),
-  birth: z
+  birth: z.coerce
     .string({ required_error: '필수 입력 사항입니다.' })
     .length(6, { message: '주민등록번호 앞 6자리를 입력해주세요.' })
     .regex(/^\d+$/, {
       message: '숫자만 입력 가능합니다.',
-    }),
+    })
+    .refine(
+      data => {
+        const dataYear = data.slice(0, 2);
+        const dataMonth = data.slice(2, 4);
+        const dataDay = data.slice(4, 6);
+        const dateToCompare = `${dataYear}-${dataMonth}-${dataDay}`;
+        const currentYear = new Date().getUTCFullYear() - 2000;
+        // * 입력한 날짜가 유효한 날짜인지 비교하여 반환
+        // * false가 나올 시 문제가 없고 true일 경우 에러
+        return Number(dataYear) > currentYear
+          ? !Number.isNaN(new Date(`19${dateToCompare}`).getDay())
+          : !Number.isNaN(new Date(`20${dateToCompare}`).getDay());
+      },
+      { message: '유효하지 않은 날짜입니다.' },
+    )
+    .transform(data => Number(data)),
   gender: z
     .string({ required_error: '필수 입력 사항입니다.' })
     .length(1, { message: '주민등록번호 뒷자리의 첫번째 숫자를 입력해주세요.' })
     .regex(/^[1-4]$/, {
       message: '유효하지 않은 입력입니다.',
-    }),
+    })
+    .transform(data => Number(data)),
 });
 export type SignUpFormData1Type = z.infer<typeof SignUpFormData1>;
 

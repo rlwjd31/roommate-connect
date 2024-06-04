@@ -1,17 +1,7 @@
-import {
-  atom,
-  AtomEffect,
-  RecoilState,
-  selector,
-  selectorFamily,
-} from 'recoil';
+import { atom, AtomEffect, RecoilState, selectorFamily } from 'recoil';
 
 import { SignUpType } from '@/types/signUp.type';
-import {
-  EmailAuthType,
-  SignUpFormData1Type,
-  UserType,
-} from '@/types/auth.type';
+import { SignUpUserType } from '@/types/auth.type';
 
 const signUpProfileKey = 'signUpProfile';
 
@@ -48,6 +38,7 @@ const persistSignUpProfile: AtomEffect<SignUpType> = ({ setSelf, onSet }) => {
  *
  * @effects persistSignUpProfile - session storage를 이용한 새로고침 시 state persistence
  */
+
 export const SignUpProfileState: RecoilState<SignUpType> = atom<SignUpType>({
   key: 'signUpProfileState',
   default: {
@@ -87,54 +78,14 @@ export const ShowVerificationAtom = atom({
   default: false,
 });
 
-export const SignUpUserNameAtom = atom<SignUpFormData1Type['name']>({
-  key: 'signUpUserNameAtom',
-  default: '',
-});
-
-export const SignUpUserBirthAtom = atom<SignUpFormData1Type['birth']>({
-  key: 'signUpUserBirthAtom',
-  default: undefined,
-});
-
-export const SignUpUserGenderAtom = atom<SignUpFormData1Type['gender']>({
-  key: 'signUpUserGenderAtom',
-  default: undefined,
-});
-
-export const SignUpUserEmailAtom = atom<EmailAuthType['email']>({
-  key: 'signUpUserEmailAtom',
-  default: undefined,
-});
-
-export const SignUpUserPasswordAtom = atom<EmailAuthType['password']>({
-  key: 'signUpUserPasswordAtom',
-  default: undefined,
-});
-
-export const SignUpTokenAtom = atom<EmailAuthType['token']>({
-  key: 'signUpTokenAton',
-  default: undefined,
-});
-
-export const SignUpIntroSelector = selector<UserType & EmailAuthType>({
-  key: 'SignUpIntroSelector',
-  get: ({ get }) => {
-    const name = get(SignUpUserNameAtom);
-    const birth = get(SignUpUserBirthAtom);
-    const gender = get(SignUpUserGenderAtom);
-    const email = get(SignUpUserEmailAtom);
-    const password = get(SignUpUserPasswordAtom);
-    const token = get(SignUpTokenAtom);
-    return {
-      name,
-      birth,
-      gender,
-      email,
-      password,
-      token,
-    };
+export const SignUpEmailUserAtom = atom<SignUpUserType>({
+  key: 'signUpEmailUserAtom',
+  default: {
+    name: '',
+    birth: 0,
+    gender: 0,
+    email: '',
+    password: '',
+    token: undefined,
   },
 });
-
-export default {};

@@ -6,11 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
-import {
-  SignUpUserBirthAtom,
-  SignUpUserGenderAtom,
-  SignUpUserNameAtom,
-} from '@/stores/sign.store';
+import { SignUpEmailUserAtom } from '@/stores/sign.store';
 import FormItem from '@/components/molecules/FormItem';
 import { SignUpFormData1, SignUpFormData1Type } from '@/types/auth.type';
 
@@ -23,16 +19,16 @@ export default function SignUpIntroTemplate1({
   const form = useForm<SignUpFormData1Type>({
     resolver: zodResolver(SignUpFormData1),
   });
-  const setName = useSetRecoilState(SignUpUserNameAtom);
-  const setBirth = useSetRecoilState(SignUpUserBirthAtom);
-  const setGender = useSetRecoilState(SignUpUserGenderAtom);
+  const setSignUpEmailUser = useSetRecoilState(SignUpEmailUserAtom);
 
   const onSubmit = (data: SignUpFormData1Type) => {
-    console.log(data);
+    setSignUpEmailUser(prev => ({
+      ...prev,
+      name: data.name,
+      birth: Number(data.birth),
+      gender: data.gender === 1 || data.gender === 3 ? 1 : 2,
+    }));
 
-    setName(data.name);
-    setBirth(data.birth);
-    setGender(data.gender === '1' || data.gender === '3' ? '1' : '2');
     step(1);
   };
 

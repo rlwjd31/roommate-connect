@@ -1,13 +1,8 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
-import {
-  SignUpUserBirthAtom,
-  SignUpUserGenderAtom,
-  SignUpUserNameAtom,
-  ShowVerificationAtom,
-} from '@/stores/sign.store';
+import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
 import {
   EmailAuthType,
   SignUpFormData2,
@@ -26,9 +21,8 @@ export default function SignUpIntroTemplate2() {
     resolver: zodResolver(SignUpFormData2),
   });
   const showVerification = useRecoilValue(ShowVerificationAtom);
-  const name = useRecoilValue(SignUpUserNameAtom);
-  const birth = useRecoilValue(SignUpUserBirthAtom);
-  const gender = useRecoilValue(SignUpUserGenderAtom);
+  const [signUpEmailUser, setSignUpEmailUser] =
+    useRecoilState(SignUpEmailUserAtom);
 
   const { signUpEmail, isSignUpEmail } = useSignUpEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
@@ -37,10 +31,15 @@ export default function SignUpIntroTemplate2() {
   });
 
   const isPending = isSignUpEmail || isVerifyEmail;
+
   const onSubmitSignUp = async (formData: EmailAuthType) => {
-    if (birth && gender) {
-      const userData = { ...formData, birth, gender, name };
-      signUpEmail(userData);
+    if (signUpEmailUser.birth !== 0 && signUpEmailUser.gender !== 0) {
+      setSignUpEmailUser(prev => ({
+        ...prev,
+        email: formData.email,
+        password: formData.password,
+      }));
+      signUpEmail();
     }
   };
 
