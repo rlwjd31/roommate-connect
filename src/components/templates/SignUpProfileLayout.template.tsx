@@ -72,6 +72,11 @@ export default function SignUpProfileLayoutTemplate(
     formState: { errors },
   } = useFormContext<ProfileFormValues>();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    trigger();
+  }, []);
+
   const validationStep = async (carouselStep: ValidationStep) => {
     const validationConfig = signUpProfileValidationConfig[carouselStep];
 
