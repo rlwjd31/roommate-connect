@@ -20,7 +20,13 @@ export default function SignUpProfile1_2Template() {
   const onClickSelectFinish = (
     region: SelectorItemValueType<'지역'>,
     district: SelectorItemValueType<'시, 구'>,
-  ) => setRegions(prev => [...prev, `${region} ${district}`]);
+  ) =>
+    setRegions(
+      prev =>
+        [
+          ...new Set([...prev, `${region} ${district}`]),
+        ] as `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`[],
+    );
 
   const onClickDeleteRegionBadge = (
     value: `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`,
