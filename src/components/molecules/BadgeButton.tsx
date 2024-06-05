@@ -14,6 +14,7 @@ type BadgeButtonProps = CustomIconType &
     iconType?: IconType;
     direction?: IconDirectionType;
     iconClassName?: string;
+    badgeActive?: boolean;
   };
 
 export default function BadgeButton(props: BadgeButtonProps) {
@@ -26,8 +27,17 @@ export default function BadgeButton(props: BadgeButtonProps) {
     fill,
     stroke,
     iconClassName,
+    badgeActive,
     ...others
   } = props;
+
+  let setBadge = '';
+  if ((badgeActive && badge === 'Outline') || badge === 'Fill') {
+    setBadge = 'Fill';
+  } else {
+    setBadge = 'Outline';
+  }
+
   const directionStyle = {
     right: '',
     left: 'flex-row-reverse',
@@ -44,7 +54,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
     />
   ) : null;
 
-  if (badge === 'Fill') {
+  if (setBadge === 'Fill') {
     return (
       <Button.Ghost {...others}>
         <Badge.Fill className={`${directionStyle[direction]} ${className}`}>
@@ -54,7 +64,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
       </Button.Ghost>
     );
   }
-  if (badge === 'Outline') {
+  if (setBadge === 'Outline') {
     return (
       <Button.Ghost {...others}>
         <Badge.Outline className={`${directionStyle[direction]} ${className}`}>
