@@ -2,6 +2,7 @@
 import { Children, ReactNode, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
+import { ToastContainer } from 'react-toastify';
 
 import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
@@ -82,18 +83,14 @@ export default function SignUpProfileLayoutTemplate(
 
     if (!isStepValid) {
       fields.forEach(field => {
-        if (errors[field]) {
-          createToast(
-            `${field}ValidationError`,
-            errors[field]?.message ||
-              messages[field as ValidationStepFieldName],
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
+        const message = errors[field]?.message;
+        if (message) {
+          createToast(`${field}ValidationError`, message, {
+            containerId: 'signUpProfileToastContainer',
+            autoClose: 1000,
+            isLoading: false,
+            type: 'error',
+          });
         }
       });
       return false;
@@ -143,6 +140,19 @@ export default function SignUpProfileLayoutTemplate(
 
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
+      <ToastContainer
+        containerId="signUpProfileToastContainer"
+        position="top-center"
+        stacked={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="light"
+        pauseOnFocusLoss={false}
+      />
       <Container.FlexCol className="w-full min-w-48">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
