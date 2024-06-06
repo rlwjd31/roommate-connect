@@ -5,6 +5,8 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import FormItem from '@/components/molecules/FormItem';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 
 export default function SignUpProfile1_3Template() {
   const [depositPrice, setDepositPrice] = useRecoilState(
@@ -32,6 +34,10 @@ export default function SignUpProfile1_3Template() {
             rangeValue={depositPrice}
             category="price"
           />
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'deposit_price'>>
+            name="deposit_price"
+            valueProp={depositPrice}
+          />
           <LabelDualInputRange
             label="월세"
             className="mt-[68px] w-[480px]"
@@ -41,6 +47,10 @@ export default function SignUpProfile1_3Template() {
             setRangeValue={setMonthlyPrice}
             rangeValue={monthlyPrice}
             category="price"
+          />
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'monthly_price'>>
+            name="monthly_price"
+            valueProp={monthlyPrice}
           />
         </Container.FlexCol>
       </Container.FlexCol>

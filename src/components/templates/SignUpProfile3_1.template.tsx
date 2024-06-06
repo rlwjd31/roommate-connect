@@ -4,10 +4,9 @@ import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 import IconButton from '@/components/molecules/IconButton';
 import Button from '@/components/atoms/Button';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import FormItem from '@/components/molecules/FormItem';
 import {
   genderDisplayData,
@@ -22,11 +21,12 @@ export default function SignUpProfile3_1Template() {
     SignupProfileStateSelector('mates_number'),
   );
 
-  const onClickGenderType = (stateValue: SignUpType['gender']) =>
+  const onClickGenderType = (stateValue: SignUpProfileFormType['gender']) =>
     setGender(stateValue);
 
-  const onClickMateNumberType = (stateValue: SignUpType['mates_number']) =>
-    setMatesNumber(stateValue);
+  const onClickMateNumberType = (
+    stateValue: SignUpProfileFormType['mates_number'],
+  ) => setMatesNumber(stateValue);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -54,12 +54,8 @@ export default function SignUpProfile3_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'gender'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'gender'>>
             name="gender"
-            options={{
-              required: '성별을 선택해주세요',
-            }}
-            defaultValue={gender}
             valueProp={gender}
           />
         </Container.FlexRow>
@@ -82,12 +78,8 @@ export default function SignUpProfile3_1Template() {
               </Typography.P2>
             </Button.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'matesNumber'>>
-            name="matesNumber"
-            options={{
-              required: '인원 수를 선택해주세요',
-            }}
-            defaultValue={matesNumber}
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'mates_number'>>
+            name="mates_number"
             valueProp={matesNumber}
           />
         </Container.FlexRow>

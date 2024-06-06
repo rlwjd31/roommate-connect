@@ -1,11 +1,14 @@
 import { atom, AtomEffect, RecoilState, selectorFamily } from 'recoil';
 
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileType } from '@/types/signUp.type';
 import { SignUpUserType } from '@/types/auth.type';
 
 const signUpProfileKey = 'signUpProfile';
 
-const persistSignUpProfile: AtomEffect<SignUpType> = ({ setSelf, onSet }) => {
+const persistSignUpProfile: AtomEffect<SignUpProfileType> = ({
+  setSelf,
+  onSet,
+}) => {
   const tempSignUpProfileData = sessionStorage.getItem(signUpProfileKey);
 
   if (tempSignUpProfileData !== null)
@@ -21,7 +24,7 @@ const persistSignUpProfile: AtomEffect<SignUpType> = ({ setSelf, onSet }) => {
  * `SignUpProfileState`은 atom으로 회원가입에 필요한 개인정보를 제외한 선호하는 프로필 옵션을 관리하는 state이다.
  * undefined는 초기값으로 사용자가 아직 선택하지 않았음을 의미.
  *
- * @type {RecoilState<SignUpType>}
+ * @type {RecoilState<SignUpProfileType>}
  *
  * @property { 0 | 1 | 2 | 3 | undefined } type - 집 유형 (0: 원룸/오피스텔, 1: 빌라/연립, 2: 아파트, 3: 단독주택)
  * @property { 0 | 1 | 2 | 3 | undefined } rental_type - 집 대여 유형 (0: 월세, 1: 전세, 2: 반 전세)
@@ -39,33 +42,34 @@ const persistSignUpProfile: AtomEffect<SignUpType> = ({ setSelf, onSet }) => {
  * @effects persistSignUpProfile - session storage를 이용한 새로고침 시 state persistence
  */
 
-export const SignUpProfileState: RecoilState<SignUpType> = atom<SignUpType>({
-  key: 'signUpProfileState',
-  default: {
-    type: undefined,
-    rental_type: undefined,
-    regions: [],
-    deposit_price: [0, 10000],
-    term: [0, 24],
-    monthly_price: [0, 500],
-    smoking: undefined,
-    pet: undefined,
-    appeals: [],
-    gender: undefined,
-    mates_number: undefined,
-    mate_appeals: [],
-  },
-  effects: [persistSignUpProfile],
-});
+export const SignUpProfileState: RecoilState<SignUpProfileType> =
+  atom<SignUpProfileType>({
+    key: 'signUpProfileState',
+    default: {
+      type: undefined,
+      rental_type: undefined,
+      regions: [],
+      deposit_price: [0, 10000],
+      term: [0, 24],
+      monthly_price: [0, 500],
+      smoking: undefined,
+      pet: undefined,
+      appeals: [],
+      gender: undefined,
+      mates_number: undefined,
+      mate_appeals: [],
+    },
+    effects: [persistSignUpProfile],
+  });
 
 export const SignupProfileStateSelector = selectorFamily({
   key: 'signupProfileStateSelector',
   get:
-    <K extends keyof SignUpType>(param: K) =>
+    <K extends keyof SignUpProfileType>(param: K) =>
     ({ get }) =>
       get(SignUpProfileState)[param],
   set:
-    <K extends keyof SignUpType>(param: K) =>
+    <K extends keyof SignUpProfileType>(param: K) =>
     ({ set }, newValue) =>
       set(SignUpProfileState, prevState => ({
         ...prevState,

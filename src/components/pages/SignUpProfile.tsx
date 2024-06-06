@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/jsx-pascal-case */
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect } from 'react';
 import { DevTool } from '@hookform/devtools';
 import { useRecoilValue } from 'recoil';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -13,47 +13,45 @@ import SignUpProfile2_1Template from '@/components/templates/SignUpProfile2_1.te
 import SignUpProfile2_2Template from '@/components/templates/SignUpProfile2_2.template';
 import SignUpProfile3_1Template from '@/components/templates/SignUpProfile3_1.template';
 import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.template';
+import { SignUpProfileForm, SignUpProfileFormType } from '@/types/signUp.type';
 import { SignUpProfileState } from '@/stores/sign.store';
 
-export type ProfileFormValues = {
-  houseType: undefined | number;
-  rentalType: undefined | number;
-  appealsInputValue: string;
-  appeals: string;
-  mateAppealsInputValue: string;
-  mateAppeals: string;
-  regions: string;
-  smoking: undefined | string;
-  pet: undefined | number;
-  gender: undefined | number;
-  matesNumber: undefined | number;
-};
-
 export default function SignUpProfile() {
-  const formMethods = useForm<ProfileFormValues>({
+  const signUpProfileState = useRecoilValue(SignUpProfileState);
+  const formMethods = useForm<SignUpProfileFormType>({
     mode: 'onSubmit',
     defaultValues: {
-      houseType: undefined,
-      rentalType: undefined,
-      regions: '',
+      type: undefined,
+      rental_type: undefined,
+      regions: [],
       smoking: undefined,
       pet: undefined,
       gender: undefined,
-      matesNumber: undefined,
+      mates_number: undefined,
+      appeals: [],
+      mate_appeals: [],
+      term: [],
+      deposit_price: [],
+      monthly_price: [],
       appealsInputValue: '',
-      appeals: '',
       mateAppealsInputValue: '',
-      mateAppeals: '',
     },
+    resolver: zodResolver(SignUpProfileForm),
   });
 
-  const signUpProfileState = useRecoilValue(SignUpProfileState);
+  useEffect(() => {
+    Object.entries(signUpProfileState).forEach(([key, value]) => {
+      formMethods.setValue(key as keyof SignUpProfileFormType, value);
+      if (key !== 'appealsInputValue' && key !== 'mateAppealsInputValue')
+        formMethods.trigger(key as keyof SignUpProfileFormType);
+    });
+  }, []);
 
   // * profile에 필요한 recoil state들 전체 update
-  const testOnSubmit: SubmitHandler<ProfileFormValues> = (
-    formData: ProfileFormValues,
+  const testOnSubmit: SubmitHandler<SignUpProfileFormType> = (
+    formData: SignUpProfileFormType,
   ) => {
-    console.log('signupProfilestate when onSubmit', signUpProfileState);
+    console.log('signupProfilestate when onSubmit', formData);
     // TODO: send api call to update user profile meta data
   };
 

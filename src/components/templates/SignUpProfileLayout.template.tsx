@@ -11,14 +11,13 @@ import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import { createToast } from '@/libs/toast';
 import {
   signUpProfileValidationConfig,
   stepDisplayData,
   ValidationStep,
-  ValidationStepFieldName,
 } from '@/constants/signUpProfileData';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 
 type StepTitleType = {
   num: string | number;
@@ -71,14 +70,14 @@ export default function SignUpProfileLayoutTemplate(
   const {
     trigger,
     formState: { errors },
-  } = useFormContext<ProfileFormValues>();
+  } = useFormContext<SignUpProfileFormType>();
 
   const validationStep = async (carouselStep: ValidationStep) => {
     const validationConfig = signUpProfileValidationConfig[carouselStep];
 
     if (!validationConfig) return true;
 
-    const { fields, messages } = validationConfig;
+    const { fields } = validationConfig;
     const isStepValid = await trigger(fields);
 
     if (!isStepValid) {
