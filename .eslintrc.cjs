@@ -36,6 +36,7 @@ module.exports = {
 
     // * react
     'react/jsx-props-no-spreading': 0,
+    'react/jsx-pascal-case': 0,
     'react/react-in-jsx-scope': 0,
     'import/prefer-default-export': 1,
     'import/no-extraneous-dependencies': 0,
@@ -54,6 +55,7 @@ module.exports = {
 
     // * typescript
     '@typescript-eslint/no-shadow': ['warn'],
+    '@typescript-eslint/naming-convention': 0,
 
     // * react-query
     '@tanstack/query/exhaustive-deps': 'error',
