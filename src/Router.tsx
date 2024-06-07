@@ -9,6 +9,7 @@ import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
+import HouseDetailTemplate from '@/components/templates/HouseDetailTemplate';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
         path: 'signup-outro',
         element: <SignUpProfileOutro />,
       },
+      { path: 'house-detail', element: <HouseDetailTemplate /> },
     ],
   },
 ]);
