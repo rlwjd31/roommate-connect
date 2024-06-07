@@ -24,22 +24,27 @@ export default function MultiImageForm({
   const len = images.length;
 
   const handleAddImages = async (file: File) => {
-    try {
-      const newFileName = uuid();
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(`house/${newFileName}`, file);
-      if (error) {
-        errorToast('uploadImage', '💧 이미지 저장에 실패했습니다.(1)');
-        console.log(error);
-        return;
+    if (!files.includes(file)) {
+      try {
+        const newFileName = uuid();
+        const { data, error } = await supabase.storage
+          .from('images')
+          .upload(`house/${newFileName}`, file);
+        if (error) {
+          errorToast('uploadImage', '💧 이미지 저장에 실패했습니다.(1)');
+          console.log(error);
+          return;
+        }
+        const res = supabase.storage.from('images').getPublicUrl(data.path);
+        setFiles(prevFiles => [file, ...prevFiles]);
+        setImages(prev => [...prev, res.data.publicUrl]);
+      } catch (error) {
+        errorToast('uploadImage', '💧 이미지 저장에 실패했습니다.(2)');
+        console.error(error);
       }
-      const res = supabase.storage.from('images').getPublicUrl(data.path);
-      setFiles(prevFiles => [file, ...prevFiles]);
-      setImages(prev => [...prev, res.data.publicUrl]);
-    } catch (error) {
-      errorToast('uploadImage', '💧 이미지 저장에 실패했습니다.(2)');
-      console.error(error);
+    } else {
+      // 왜 toast가 뜨지 않을 까...........
+      errorToast('uploadImage', '👀 중복된 이미지입니다.');
     }
   };
 
@@ -83,7 +88,7 @@ export default function MultiImageForm({
       <Container.FlexRow className="gap-6">
         <Label
           htmlFor="house_img"
-          className="flex size-[282px] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+          className="flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
         >
           <Icon type="camera" />
           <Input
@@ -97,17 +102,13 @@ export default function MultiImageForm({
         </Label>
         {images.map((img, idx) => (
           <IconButton.Ghost
-            id={`img_${idx}`}
-            key={`${idx}`}
+            key={`img_${idx}`}
             iconType="close"
             iconClassName="relative bottom-[7.25rem] right-7"
             stroke="brown"
             onClick={onClickDeleteImg}
           >
-            <Img
-              className="size-[282px] object-cover"
-              src={img}
-            />
+            <Img className="size-[17rem] object-cover" src={img} />
           </IconButton.Ghost>
         ))}
         {len < 3 &&
@@ -117,7 +118,7 @@ export default function MultiImageForm({
               <Label
                 key={idx}
                 htmlFor="house_img"
-                className="flex size-[282px] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+                className="flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
               />
             ))}
       </Container.FlexRow>
