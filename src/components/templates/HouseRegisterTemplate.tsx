@@ -397,7 +397,7 @@ export default function HouseRegisterTemplate() {
               상세 설명
             </Typography.SubTitle1>
             <textarea
-              className="resize-none rounded-[8px] border border-solid border-brown bg-inherit p-5"
+              className="resize-none rounded-[8px] border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
               {...form.register('describe')}
               maxLength={200}
               rows={8}
