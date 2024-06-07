@@ -80,7 +80,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexRow className="mt-14 justify-between gap-7">
           <Container.FlexCol className="gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
-              <Icon className="[&>svg]:size-16 " type="avartar" />
+              <Icon className="[&>svg]:size-16 " type="avatar" />
               <Typography.Head3>user123</Typography.Head3>
             </Container.FlexRow>
             <Container.FlexCol className="gap-6">
@@ -199,7 +199,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-7 py-8">
           <Container.FlexRow className="justify-between">
             <Container.FlexRow className="gap-4 ">
-              <Icon type="avartar" />
+              <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user123</Typography.P1>
                 <Typography.Span1>1시간 전</Typography.Span1>
@@ -217,7 +217,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-7 py-7">
           <Container.FlexRow className="justify-between">
             <Container.FlexRow className="gap-4 ">
-              <Icon type="avartar" />
+              <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user1234</Typography.P1>
                 <Typography.Span1>1시간 전</Typography.Span1>
