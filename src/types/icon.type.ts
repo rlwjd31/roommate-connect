@@ -28,7 +28,9 @@ export type IconType =
   | 'alarm-exist'
   | 'alarm-none'
   | 'avartar'
-  | 'back';
+  | 'back'
+  | 'heart'
+  | 'share';
 
 export type CustomIconType = {
   fill?: ColorType;
