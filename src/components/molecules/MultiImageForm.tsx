@@ -7,16 +7,28 @@ import Input from '@/components/atoms/Input';
 import Label from '@/components/atoms/Label';
 import { errorToast } from '@/libs/toast';
 import Img from '@/components/atoms/Img';
+import Container from '@/components/atoms/Container';
+import Typography from '@/components/atoms/Typography';
+import IconButton from '@/components/molecules/IconButton';
 
-export default function MultiImageForm({ images, setImages }) {
+type MultiImageFormProps = {
+  images: string[];
+  setImages: React.Dispatch<React.SetStateAction<string[]>>;
+};
+
+export default function MultiImageForm({
+  images,
+  setImages,
+}: MultiImageFormProps) {
   const [files, setFiles] = useState<File[]>([]);
+  const len = images.length;
 
   const handleAddImages = async (file: File) => {
     try {
       const newFileName = uuid();
       const { data, error } = await supabase.storage
         .from('images')
-        .upload(`${newFileName}`, file);
+        .upload(`house/${newFileName}`, file);
       if (error) {
         errorToast('uploadImage', '💧 이미지 저장에 실패했습니다.(1)');
         console.log(error);
@@ -33,7 +45,6 @@ export default function MultiImageForm({ images, setImages }) {
 
   const handleFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files;
-    console.log(fileList);
     if (fileList) {
       const filesArray = Array.from(fileList);
       filesArray.forEach(file => {
@@ -42,27 +53,82 @@ export default function MultiImageForm({ images, setImages }) {
     }
   };
 
+  const onClickDeleteImg = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget;
+    const imgElement = target.querySelector('img');
+    if (imgElement) {
+      const imgSrc = imgElement.src;
+      const path = imgSrc.split('/').slice(-1);
+      try {
+        const { error } = await supabase.storage
+          .from('images')
+          .remove([`house/${path}`]);
+        setImages(prev => prev.filter(img => img !== imgSrc));
+        if (error) {
+          errorToast(
+            'deleteImage',
+            '⛔️ supabase에서 이미지를 삭제하는 데 실패했습니다.',
+          );
+          console.error(error);
+        }
+      } catch (error) {
+        errorToast('deleteImage', '⛔️ 이미지 삭제에 실패했습니다.');
+        console.error(error);
+      }
+    }
+  };
+
   return (
-    <>
-      {images.map((img, idx) => (
-        <div className="size-[208px]" key={idx}>
-          <Img src={img} />
-        </div>
-      ))}
-      <Label
-        htmlFor="house_img"
-        className="flex size-[282px] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
-      >
-        <Icon type="camera" />
-        <Input
-          type="file"
-          id="house_img"
-          name="house_img"
-          className="hidden"
-          onChange={handleFiles}
-          multiple
-        />
-      </Label>
-    </>
+    <Container.FlexCol>
+      <Container.FlexRow className="gap-6">
+        <Label
+          htmlFor="house_img"
+          className="flex size-[282px] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+        >
+          <Icon type="camera" />
+          <Input
+            type="file"
+            id="house_img"
+            name="house_img"
+            className="hidden"
+            onChange={handleFiles}
+            multiple
+          />
+        </Label>
+        {images.map((img, idx) => (
+          <IconButton.Ghost
+            id={`img_${idx}`}
+            key={`${idx}`}
+            iconType="close"
+            iconClassName="relative bottom-[7.25rem] right-7"
+            stroke="brown"
+            onClick={onClickDeleteImg}
+          >
+            <Img
+              className="size-[282px] object-cover"
+              src={img}
+            />
+          </IconButton.Ghost>
+        ))}
+        {len < 3 &&
+          Array(3 - len)
+            .fill(0)
+            .map((_, idx) => (
+              <Label
+                key={idx}
+                htmlFor="house_img"
+                className="flex size-[282px] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+              />
+            ))}
+      </Container.FlexRow>
+      <Container.FlexRow>
+        <Typography.SubTitle1 className="relative bottom-11 left-5 text-brown">
+          {`${len} / 10`}{' '}
+        </Typography.SubTitle1>
+        <Typography.SubTitle1 className="relative bottom-11 left-[17rem] text-brown">
+          대표사진
+        </Typography.SubTitle1>
+      </Container.FlexRow>
+    </Container.FlexCol>
   );
 }

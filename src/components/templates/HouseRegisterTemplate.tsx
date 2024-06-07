@@ -48,8 +48,8 @@ export default function HouseRegisterTemplate() {
       user_id: 'da140999-9cb7-4adc-8dda-193bba8a474e',
     },
   });
-  const [saving, setSaving] = useState(false);
-  const [images, setImages] = useState([]);
+  const [saving, setSaving] = useState<boolean>(false);
+  const [images, setImages] = useState<string[]>([]);
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
   const matesNumInfo = [
