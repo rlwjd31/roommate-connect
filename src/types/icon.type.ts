@@ -30,7 +30,15 @@ export type IconType =
   | 'avatar'
   | 'back'
   | 'heart'
-  | 'share';
+  | 'share'
+  | 'mini-smoke'
+  | 'mini-none-smoke'
+  | 'mini-male'
+  | 'mini-female'
+  | 'mini-gender-intersex'
+  | 'mini-pet-lover'
+  | 'mini-none-pet-lover'
+  | 'mini-dont-mind-pet';
 
 export type CustomIconType = {
   fill?: ColorType;

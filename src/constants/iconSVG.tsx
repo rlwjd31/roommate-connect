@@ -29,6 +29,14 @@ import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avatar from '@/assets/icons/avatar.svg?react';
 import Heart from '@/assets/icons/heart.svg?react';
 import Share from '@/assets/icons/share.svg?react';
+import MiniSmoke from '@/assets/icons/mini-smoke.svg?react';
+import MiniNoneSmoke from '@/assets/icons/mini-none-smoke.svg?react';
+import MiniMale from '@/assets/icons/mini-male-icon.svg?react';
+import MiniFemale from '@/assets/icons/mini-female-icon.svg?react';
+import GenderIntersex from '@/assets/icons/ph_gender-intersex.svg?react';
+import MiniPetLover from '@/assets/icons/mini-pet-lover.svg?react';
+import MiniNonePetLover from '@/assets/icons/mini-none-pet-lover.svg?react';
+import MiniDontMindPet from '@/assets/icons/mini-dont-mind-pet.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -61,6 +69,14 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   avatar: <Avatar />,
   heart: <Heart />,
   share: <Share />,
+  'mini-smoke': <MiniSmoke />,
+  'mini-none-smoke': <MiniNoneSmoke />,
+  'mini-male': <MiniMale />,
+  'mini-female': <MiniFemale />,
+  'mini-gender-intersex': <GenderIntersex />,
+  'mini-pet-lover': <MiniPetLover />,
+  'mini-none-pet-lover': <MiniNonePetLover />,
+  'mini-dont-mind-pet': <MiniDontMindPet />,
 };
 
 export default IconSVG;
