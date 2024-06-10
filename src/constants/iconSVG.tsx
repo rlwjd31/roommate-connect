@@ -28,6 +28,8 @@ import AlarmExist from '@/assets/icons/alarm-exist.svg?react';
 import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avartar from '@/assets/icons/avatar.svg?react';
 import Camera from '@/assets/icons/camera.svg?react';
+import Next from '@/assets/icons/next.svg?react';
+import Prev from '@/assets/icons/prev.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -59,6 +61,8 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'alarm-none': <AlarmNone />,
   avartar: <Avartar />,
   camera: <Camera />,
+  prev: <Prev />,
+  next: <Next />,
 };
 
 export default IconSVG;
