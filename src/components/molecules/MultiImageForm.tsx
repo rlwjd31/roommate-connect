@@ -85,10 +85,10 @@ export default function MultiImageForm({
 
   return (
     <Container.FlexCol>
-      <Container.FlexRow className="gap-6">
+      <Container.FlexRow className="gap-4">
         <Label
           htmlFor="house_img"
-          className="flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+          className="mb-0 mr-[11px] flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
         >
           <Icon type="camera" />
           <Input
@@ -118,7 +118,7 @@ export default function MultiImageForm({
               <Label
                 key={idx}
                 htmlFor="house_img"
-                className="flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+                className="mb-0 mr-[11px] flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
               />
             ))}
       </Container.FlexRow>
