@@ -1,42 +1,36 @@
+import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Divider from '@/components/atoms/Divider';
 import Icon from '@/components/atoms/Icon';
 import Img from '@/components/atoms/Img';
-import Input from '@/components/atoms/Input';
+import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
-import BadgeButton from '@/components/molecules/BadgeButton';
 import IconButton from '@/components/molecules/IconButton';
 
 export default function HouseDetailTemplate() {
+  const houseImages = [
+    'https://source.unsplash.com/random/300×300?1',
+    'https://source.unsplash.com/random/300×300?2',
+    'https://source.unsplash.com/random/300×300?3',
+    'https://source.unsplash.com/random/300×300?4',
+    'https://source.unsplash.com/random/300×300?5',
+    'https://source.unsplash.com/random/300×300?5',
+    'https://source.unsplash.com/random/300×300?5',
+    'https://source.unsplash.com/random/300×300?5',
+  ];
+
   return (
     <Container.FlexCol className="gap-8 ">
       <Container.Grid className="max-h-[590px] grid-cols-4 grid-rows-2 gap-5">
-        <Img
-          src="https://source.unsplash.com/random/300×300"
-          alt="house image"
-          className="col-span-2 row-span-2"
-        />
-        <Img
-          src="https://source.unsplash.com/random/300×300"
-          alt="house image"
-          className=""
-        />
-        <Img
-          src="https://source.unsplash.com/random/300×300"
-          alt="house image"
-          className=""
-        />
-        <Img
-          src="https://source.unsplash.com/random/300×300"
-          alt="house image"
-          className=""
-        />
-        <Img
-          src="https://source.unsplash.com/random/300×300"
-          alt="house image"
-          className=""
-        />
+        {houseImages.slice(0, 5).map((src, index) => (
+          <Img
+            key={src}
+            src={src}
+            alt={`house image ${index + 1}`}
+            className={index === 0 ? 'col-span-2 row-span-2' : ''}
+          />
+        ))}
       </Container.Grid>
       <Container.FlexCol>
         <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
@@ -86,34 +80,37 @@ export default function HouseDetailTemplate() {
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>자기소개</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <Button.Outline className="rounded-3xl px-5 py-2">
+                <Badge.Outline className="rounded-3xl px-5 py-1">
+                  <Icon type="mini-male" className="pr-2" />
                   남성
-                </Button.Outline>
-                <Button.Outline className="rounded-3xl px-5 py-2">
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-1">
+                  <Icon type="mini-smoke" className="pr-2" />
                   흡연자
-                </Button.Outline>
-                <Button.Outline className="rounded-3xl px-5 py-2">
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-1">
+                  <Icon type="mini-none-pet-lover" className="pr-2" />
                   반려동물 NO
-                </Button.Outline>
+                </Badge.Outline>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>라이프 스타일</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <Button.Outline className="rounded-3xl px-5 py-2">
-                  늦게 자요
-                </Button.Outline>
-                <Button.Outline className="rounded-3xl px-5 py-2">
-                  청소 자주해요
-                </Button.Outline>
-                <Button.Outline className="rounded-3xl px-5 py-2">
-                  코골이 해요
-                </Button.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-2">
+                  <Typography.P2>늦게 자요</Typography.P2>
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-2">
+                  <Typography.P2>청소 자주해요</Typography.P2>
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-2">
+                  <Typography.P2>코골이 해요</Typography.P2>
+                </Badge.Outline>
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexCol className="gap-12 p-8 text-brown">
-            <Container.FlexCol className="gap-5">
+          <Container.FlexCol className="gap-12 rounded-lg bg-brown6 p-8 text-brown">
+            <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
                 <Typography.Head3>월세 500/70</Typography.Head3>
                 <Divider.Col />
@@ -125,39 +122,46 @@ export default function HouseDetailTemplate() {
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>하우스 소개</Typography.SubTitle1>
-              <Container.FlexRow className="items-center">
+              <Container.FlexRow className="items-center gap-5">
                 <Icon type="apartment" />
-                <BadgeButton.Fill className="rounded-3xl px-5 py-2 text-white">
+                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
                   원룸/오피스텔
-                </BadgeButton.Fill>
+                </Badge.Fill>
+                <Container.FlexRow className="gap-3 ">
+                  <Typography.P2>12평</Typography.P2>
+                  <Divider.Col />
+                  <Typography.P2>방 1개</Typography.P2>
+                  <Divider.Col />
+                  <Typography.P2>2층</Typography.P2>
+                </Container.FlexRow>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>이런 특징이 있어요</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <BadgeButton.Fill className="rounded-3xl px-5 py-2 text-white">
+                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
                   역 도보 5분
-                </BadgeButton.Fill>
-                <BadgeButton.Fill className="rounded-3xl px-5 py-2 text-white">
+                </Badge.Fill>
+                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
                   정류장 3분
-                </BadgeButton.Fill>
-                <BadgeButton.Fill className="rounded-3xl px-5 py-2 text-white">
+                </Badge.Fill>
+                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
                   햇빛 잘 들어요
-                </BadgeButton.Fill>
+                </Badge.Fill>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <BadgeButton.Outline className="rounded-3xl px-5 py-2">
+                <Badge.Outline className="rounded-3xl px-5 py-2">
                   1명
-                </BadgeButton.Outline>
-                <BadgeButton.Outline className="rounded-3xl px-5 py-2">
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-2">
                   최소 1년 6개월 이상
-                </BadgeButton.Outline>
-                <BadgeButton.Outline className="rounded-3xl px-5 py-2">
+                </Badge.Outline>
+                <Badge.Outline className="rounded-3xl px-5 py-2">
                   반려동물 NO
-                </BadgeButton.Outline>
+                </Badge.Outline>
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
@@ -165,7 +169,7 @@ export default function HouseDetailTemplate() {
 
         <Container.FlexCol className="gap-7 pb-16 text-brown ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
-          <Container.FlexCol className="rounded-lg bg-brown3 p-8">
+          <Container.FlexCol className="rounded-lg bg-brown6 p-8">
             <p className="leading-6">
               안녕하세요 반포동 원룸에서 룸메이트를 구하고 있습니다. <br />
               <br />
@@ -184,10 +188,11 @@ export default function HouseDetailTemplate() {
             댓글 2개
           </Typography.SubTitle1>
           <Container.FlexCol className="items-end gap-8	">
-            <Input
+            <TextArea
               type="text"
               name="comment"
               placeholder="댓글을 남겨보세요."
+              rows={5}
             />
             <Button.Fill className="h-12 w-16 items-center justify-center rounded-lg text-white	">
               등록
@@ -205,7 +210,7 @@ export default function HouseDetailTemplate() {
                 <Typography.Span1>1시간 전</Typography.Span1>
               </Container.FlexCol>
             </Container.FlexRow>
-            <Container.FlexRow className="gap-2">
+            <Container.FlexRow className="gap-2 text-brown">
               <Button.Ghost>답변</Button.Ghost>
               <Button.Ghost>수정</Button.Ghost>
               <Button.Ghost>삭제</Button.Ghost>
@@ -223,10 +228,8 @@ export default function HouseDetailTemplate() {
                 <Typography.Span1>1시간 전</Typography.Span1>
               </Container.FlexCol>
             </Container.FlexRow>
-            <Container.FlexRow className="gap-2">
+            <Container.FlexRow className="gap-2 text-brown">
               <Button.Ghost>답변</Button.Ghost>
-              <Button.Ghost>수정</Button.Ghost>
-              <Button.Ghost>삭제</Button.Ghost>
             </Container.FlexRow>
           </Container.FlexRow>
           <Typography.P2 className="text-brown">
