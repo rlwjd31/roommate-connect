@@ -40,6 +40,9 @@ export default {
       fontFamily: {
         'Noto-Sans-KR': ['Noto Sans KR'],
       },
+      lineHeight: {
+        150: '1.5',
+      },
     },
   },
   plugins: [
