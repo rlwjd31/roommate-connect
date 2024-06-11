@@ -31,7 +31,7 @@ PointAlert.defaultProps = {
 
 export default function ChatList() {
   return (
-    <Container.FlexCol className="w-full max-w-[21.75rem] bg-brown6">
+    <Container.FlexCol className="w-full max-w-[21.75rem] border-0.5 border-r-brown1 bg-brown6">
       <Container.FlexRow className="items-center gap-2 p-6">
         <Typography.SubTitle1 className="translate-y-[1px] text-brown">
           채팅
