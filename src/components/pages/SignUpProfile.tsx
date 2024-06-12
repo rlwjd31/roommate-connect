@@ -58,7 +58,6 @@ export default function SignUpProfile() {
   };
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
-    console.log(e);
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement)
       e.preventDefault();
   };
