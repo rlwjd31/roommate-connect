@@ -9,6 +9,8 @@ import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
+import Chat from '@/components/pages/Chat';
+import ChatRoom from '@/components/templates/ChatRoom';
 
 const router = createBrowserRouter([
   {
@@ -18,11 +20,27 @@ const router = createBrowserRouter([
   },
   {
     element: <LayoutTemplate />,
-    children: [{ path: 'chats', element: <span>chats page</span> }],
+    children: [
+      {
+        path: 'chats',
+        element: <Chat />,
+        children: [
+          {
+            path: ':chatId',
+            element: <ChatRoom />,
+          },
+        ],
+      },
+    ],
   },
   {
     element: <LayoutTemplate />,
-    children: [{ path: 'lounge', element: <span>lounge page</span> }],
+    children: [
+      {
+        path: 'lounge',
+        element: <span>lounge page</span>,
+      },
+    ],
   },
   {
     element: <LayoutTemplate />,
