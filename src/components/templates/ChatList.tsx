@@ -11,7 +11,11 @@ type PointAlertType = {
   typoStyle?: string;
 };
 
-function PointAlert({ content, containerStyle, typoStyle }: PointAlertType) {
+export function PointAlert({
+  content,
+  containerStyle,
+  typoStyle,
+}: PointAlertType) {
   return (
     <Container.FlexRow
       className={cn(
@@ -36,8 +40,7 @@ PointAlert.defaultProps = {
 const chats = [
   {
     chatId: '1',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -46,8 +49,7 @@ const chats = [
   },
   {
     chatId: '2',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -56,8 +58,7 @@ const chats = [
   },
   {
     chatId: '3',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -66,8 +67,7 @@ const chats = [
   },
   {
     chatId: '4',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -76,8 +76,7 @@ const chats = [
   },
   {
     chatId: '5',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -86,8 +85,7 @@ const chats = [
   },
   {
     chatId: '6',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -96,8 +94,7 @@ const chats = [
   },
   {
     chatId: '7',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -106,8 +103,7 @@ const chats = [
   },
   {
     chatId: '8',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -116,8 +112,7 @@ const chats = [
   },
   {
     chatId: '9',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -126,8 +121,7 @@ const chats = [
   },
   {
     chatId: '10',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -136,8 +130,7 @@ const chats = [
   },
   {
     chatId: '11',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',
@@ -146,8 +139,7 @@ const chats = [
   },
   {
     chatId: '12',
-    avatarUrl:
-      'https://lh3.googleusercontent.com/a/ACg8ocK7V1m2Nt7hS2fsu-YLZgNuq1Mw-Xuree9Gyfnr47mupV9pgA=s96-c',
+    avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
     content: '안녕하세요',

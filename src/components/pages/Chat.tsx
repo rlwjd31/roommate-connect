@@ -5,7 +5,7 @@ import Container from '@/components/atoms/Container';
 
 export default function Chat() {
   return (
-    <Container.FlexRow className="min-h-full w-full bg-green-100">
+    <Container.FlexRow className="min-h-full w-full">
       <ChatList />
       <Outlet />
     </Container.FlexRow>
