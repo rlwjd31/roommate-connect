@@ -27,7 +27,8 @@ import Visible from '@/assets/icons/visible.svg?react';
 import AlarmExist from '@/assets/icons/alarm-exist.svg?react';
 import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avartar from '@/assets/icons/avatar.svg?react';
-import PaperClip from '@/assets/icons/paper-clip.svg';
+import PaperClip from '@/assets/icons/paper-clip.svg?react';
+import Send from '@/assets/icons/send.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -59,6 +60,7 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'alarm-none': <AlarmNone />,
   avartar: <Avartar />,
   'paper-clip': <PaperClip />,
+  send: <Send />,
 };
 
 export default IconSVG;
