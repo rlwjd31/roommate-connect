@@ -174,8 +174,8 @@ export default function ChatList() {
               to={navigateUrl}
               className={({ isActive }) =>
                 cn(
-                  'flex items-start gap-4 rounded-xl p-3',
-                  isActive ? 'bg-brown6' : 'bg-bg',
+                  'flex items-start gap-4 rounded-xl p-3 hover:bg-brown6',
+                  isActive ? 'bg-brown7' : 'bg-bg',
                 )
               }
             >

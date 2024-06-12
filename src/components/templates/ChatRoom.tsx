@@ -14,6 +14,7 @@ export default function ChatRoom() {
 
   return (
     <Container.FlexCol className="size-full min-h-full">
+      {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-4 bg-brown6 p-6">
         <Img
           className="size-10 shrink-0 rounded-full"
@@ -35,7 +36,7 @@ export default function ChatRoom() {
       <Container.FlexCol className="h-full gap-8 overflow-y-auto p-6">
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 1일
           </Typography.Span1>
 
@@ -66,7 +67,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 2일
           </Typography.Span1>
 
@@ -96,7 +97,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 1일
           </Typography.Span1>
 
@@ -127,7 +128,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 2일
           </Typography.Span1>
 
@@ -157,7 +158,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 1일
           </Typography.Span1>
 
@@ -188,7 +189,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
         {/* date별로 묶을 UI */}
         <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="text-brown">
+          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
             2024년 1월 2일
           </Typography.Span1>
 
