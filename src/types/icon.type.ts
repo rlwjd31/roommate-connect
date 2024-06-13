@@ -24,10 +24,11 @@ export type IconType =
   | 'google-logo'
   | 'invisible'
   | 'kakaotalk-logo'
-  | 'visible';
+  | 'visible'
   | 'alarm-exist'
   | 'alarm-none'
   | 'avartar'
+  | 'camera'
   | 'back';
 
 export type CustomIconType = {
