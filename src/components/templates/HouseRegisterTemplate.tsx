@@ -22,10 +22,12 @@ import Button from '@/components/atoms/Button';
 import FormItem from '@/components/molecules/FormItem';
 import MultiImageForm from '@/components/molecules/MultiImageForm';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
+import { useSignInState } from '@/hooks/useSign';
 
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
   const Form = FormProvider;
+  const userInfo = useSignInState();
   const form = useForm<HouseType>({
     defaultValues: {
       house_img: [],
@@ -45,11 +47,11 @@ export default function HouseRegisterTemplate() {
       describe: '',
       bookmark: 0,
       visible: undefined,
-      user_id: 'da140999-9cb7-4adc-8dda-193bba8a474e',
+      user_id: userInfo?.user.id,
     },
   });
-  const [saving, setSaving] = useState(false);
-  const [images, setImages] = useState([]);
+  const [saving, setSaving] = useState<boolean>(false);
+  const [images, setImages] = useState<string[]>([]);
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
   const matesNumInfo = [
