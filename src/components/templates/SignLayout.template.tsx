@@ -15,6 +15,7 @@ export default function SignLayoutTemplate() {
       navigate('/');
     }
   }, [user]);
+  
   return (
     <>
       <Container
