@@ -56,7 +56,7 @@ export default function SignUpIntroTemplate1({
                 },
               }}
               placeholder="이름 입력"
-              inputStyle="mt-[1rem w-full"
+              inputStyle="mt-[1rem] w-full"
             />
             <Container.FlexRow className="items-center gap-[1rem]">
               <FormItem.TextField
@@ -102,7 +102,7 @@ export default function SignUpIntroTemplate1({
                     message: '숫자만 입력 가능합니다.',
                   },
                 }}
-                inputStyle="mt-[2rem] w-[2.5rem] "
+                inputStyle="mt-[2rem] w-[2.75rem] "
               />
               <p className="pt-3">* * * * * *</p>
             </Container.FlexRow>
