@@ -5,8 +5,13 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
-import { IconType } from '@/types/icon.type';
 import { SignUpType } from '@/types/signUp.type';
+import FormItem from '@/components/molecules/FormItem';
+import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import {
+  petDisplayData,
+  smokeDisplayData,
+} from '@/constants/signUpProfileData';
 
 export default function SignUpProfile2_1Template() {
   const [smoking, setSmoking] = useRecoilState(
@@ -14,48 +19,9 @@ export default function SignUpProfile2_1Template() {
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
 
-  const smokeInfos: {
-    displayValue: string;
-    stateValue: SignUpType['smoking'];
-    iconType: IconType;
-  }[] = [
-    {
-      displayValue: '흡연자',
-      stateValue: true,
-      iconType: 'smoke',
-    },
-    {
-      displayValue: '비흡연자',
-      stateValue: false,
-      iconType: 'none-smoke',
-    },
-  ];
-
-  const petInfos: {
-    displayValue: string;
-    stateValue: SignUpType['pet'];
-    iconType: IconType;
-  }[] = [
-    {
-      displayValue: '반려동물 키워요',
-      stateValue: 1,
-      iconType: 'pet-lover',
-    },
-    {
-      displayValue: '반려동물 NO',
-      stateValue: 2,
-      iconType: 'none-pet-lover',
-    },
-    {
-      displayValue: '상관없어요',
-      stateValue: 0,
-      iconType: 'dont-mind-pet',
-    },
-  ];
-
   const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
     setSmoking(stateValue);
-  const onClickPettype = (stateValue: SignUpType['pet']) => setPet(stateValue);
+  const onClickPetType = (stateValue: SignUpType['pet']) => setPet(stateValue);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -67,8 +33,11 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 w-full justify-start gap-x-6">
-          {smokeInfos.map(({ displayValue, stateValue, iconType }) => (
+        <Container.FlexRow
+          style={{ width: `${(smokeDisplayData.length / 4) * 100}%` }}
+          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
+        >
+          {smokeDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"
@@ -82,25 +51,46 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'smoking'>>
+            name="smoking"
+            options={{
+              required: '흡연 여부를 선택해주세요',
+            }}
+            defaultValue={
+              typeof smoking === 'boolean' ? `${smoking}` : undefined
+            }
+            valueProp={typeof smoking === 'boolean' ? `${smoking}` : undefined}
+          />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 gap-x-6">
-          {petInfos.map(({ displayValue, stateValue, iconType }) => (
+        <Container.FlexRow
+          style={{ width: `${(petDisplayData.length / 4) * 100}%` }}
+          className="mb-[4.25rem] mt-11 gap-x-6"
+        >
+          {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
               className="flex-1 gap-y-5 rounded-lg py-5"
               isActive={stateValue === pet}
               iconType={iconType}
               direction="top"
-              onClick={() => onClickPettype(stateValue)}
+              onClick={() => onClickPetType(stateValue)}
             >
               <Typography.P2 className="text-brown">
                 {displayValue}
               </Typography.P2>
             </IconButton.Outline>
           ))}
+          <FormItem.Hidden<Pick<ProfileFormValues, 'pet'>>
+            name="pet"
+            options={{
+              required: '반려 동물 여부를 선택해주세요',
+            }}
+            defaultValue={pet}
+            valueProp={pet}
+          />
         </Container.FlexRow>
       </Container.FlexCol>
     </Container.FlexCol>

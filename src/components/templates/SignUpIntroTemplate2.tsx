@@ -1,12 +1,7 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue} from 'recoil';
 
-import {
-  SignUpUserBirthAtom,
-  SignUpUserGenderAtom,
-  SignUpUserNameAtom,
-  ShowVerificationAtom,
-} from '@/stores/sign.store';
+import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
 import { EmailAuthType } from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
@@ -19,9 +14,8 @@ export default function SignUpIntroTemplate2() {
   // TODO: resolver를 나중에 만들어서 useForm에 추가
   const form = useForm<EmailAuthType>();
   const showVerification = useRecoilValue(ShowVerificationAtom);
-  const name = useRecoilValue(SignUpUserNameAtom);
-  const birth = useRecoilValue(SignUpUserBirthAtom);
-  const gender = useRecoilValue(SignUpUserGenderAtom);
+  const [signUpEmailUser, setSignUpEmailUser] =
+    useRecoilState(SignUpEmailUserAtom);
 
   const { signUpEmail, isSignUpEmail } = useSignUpEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
@@ -32,9 +26,14 @@ export default function SignUpIntroTemplate2() {
   const isPending = isSignUpEmail || isVerifyEmail;
 
   const onSubmitSignUp = async (formData: EmailAuthType) => {
-    if (birth && gender) {
-      const userData = { ...formData, birth, gender, name };
-      signUpEmail(userData);
+    console.log(formData);
+    if (signUpEmailUser.birth !== 0 && signUpEmailUser.gender !== 0) {
+      setSignUpEmailUser(prev => ({
+        ...prev,
+        email: formData.email,
+        password: formData.password,
+      }))
+	signUpEmail();
     }
   };
 

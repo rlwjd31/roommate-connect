@@ -1,3 +1,5 @@
+import { SelectorItemValueType } from '@/types/regionDistrict.type';
+
 export type SignUpType = {
   /**
    * ### 찾는 집 유형
@@ -27,7 +29,7 @@ export type SignUpType = {
    * ]
    * ```
    */
-  regions: string[];
+  regions: `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`[];
   /**
    * ### 유저가 살 기간
    * - tuple => [number, number]

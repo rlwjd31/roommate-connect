@@ -1,6 +1,9 @@
 import { Session } from '@supabase/supabase-js';
 
 export type EmailAuthType = {
+  name: string;
+  birth: number;
+  gender: number;
   email: string;
   password: string;
   token?: string;
