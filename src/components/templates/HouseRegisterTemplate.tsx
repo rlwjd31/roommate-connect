@@ -320,7 +320,7 @@ export default function HouseRegisterTemplate() {
                 value={appeal}
                 onChange={onChangeAppeal}
                 onKeyDown={pressEnterCreateBadge}
-                className="mb-[20px] h-14 w-[487px] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[16px] focus:outline-none focus:ring-1 focus:ring-brown2"
+                className="mb-[20px] h-14 w-[487px] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[16px] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
                 placeholder="EX) 역 도보 5분, 정류장 3분, 햇빛 잘 들어요"
               />
               {form.watch('house_appeal').length === 0 ? (
