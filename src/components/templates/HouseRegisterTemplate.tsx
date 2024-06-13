@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
 import { HouseType } from '@/types/house.type';
-import {
-  houseTypeInfos,
-  rentalTypeInfos,
-} from '@/components/templates/SignUpProfile1_1.template';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
 import { errorToast, successToast } from '@/libs/toast';
 import Container from '@/components/atoms/Container';
@@ -23,6 +19,11 @@ import FormItem from '@/components/molecules/FormItem';
 import MultiImageForm from '@/components/molecules/MultiImageForm';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { useSignInState } from '@/hooks/useSign';
+import {
+  houseTypeInfos,
+  matesNumInfo,
+  rentalTypeInfos,
+} from '@/constants/selectTypeInfos';
 
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
@@ -53,25 +54,6 @@ export default function HouseRegisterTemplate() {
   const [saving, setSaving] = useState<boolean>(false);
   const [images, setImages] = useState<string[]>([]);
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
-
-  const matesNumInfo = [
-    {
-      displayValue: '1명',
-      stateValue: 1,
-    },
-    {
-      displayValue: '2명',
-      stateValue: 2,
-    },
-    {
-      displayValue: '3명 이상',
-      stateValue: 3,
-    },
-    {
-      displayValue: '상관없어요',
-      stateValue: 0,
-    },
-  ];
 
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
   const [district, setDistrict] = useRecoilState(
@@ -128,7 +110,6 @@ export default function HouseRegisterTemplate() {
   };
 
   const onSaveHouse = async (formData: HouseType, visible: number) => {
-    console.log(formData.district);
     setSaving(true);
     try {
       const { error } = await supabase.from('house').insert({
@@ -147,14 +128,12 @@ export default function HouseRegisterTemplate() {
 
       if (error) {
         errorToast('createHouse', '💧supabase 저장에 실패했습니다.');
-        console.error(error);
       } else {
         successToast('createHouse', '👍🏻 성공적으로 저장되었습니다.');
         navigate('/');
       }
     } catch (error) {
       errorToast('createHouse', '💧submit에 실패했습니다.');
-      console.error(error);
     } finally {
       setSaving(false);
     }
@@ -216,7 +195,7 @@ export default function HouseRegisterTemplate() {
                 {houseTypeInfos.map(house => (
                   <BadgeButton.Outline
                     key={house.displayValue}
-                    className="rounded-[30px] px-[20px] py-[10px] text-brown"
+                    className="rounded-[30px] px-[20px] py-[10px]"
                     onClick={() => onClickHouseType(house.stateValue)}
                     badgeActive={house.stateValue === form.watch('house_type')}
                   >
@@ -228,7 +207,7 @@ export default function HouseRegisterTemplate() {
                 {rentalTypeInfos.map(({ displayValue, stateValue }) => (
                   <BadgeButton.Outline
                     key={displayValue}
-                    className="rounded-[30px] px-[20px] py-[10px] text-brown"
+                    className="rounded-[30px] px-[20px] py-[10px]"
                     onClick={() => onClickRentalType(stateValue)}
                     badgeActive={stateValue === form.watch('rental_type')}
                   >
@@ -370,7 +349,7 @@ export default function HouseRegisterTemplate() {
                   key={displayValue}
                   badgeActive={stateValue === form.watch('mates_num')}
                   onClick={() => onClickMatesNum(stateValue)}
-                  className="rounded-[30px] px-[20px] py-[10px] text-brown"
+                  className="rounded-[30px] px-[20px] py-[10px]"
                 >
                   <Typography.P2>{displayValue}</Typography.P2>
                 </BadgeButton.Outline>
@@ -408,7 +387,6 @@ export default function HouseRegisterTemplate() {
             />
           </Container.FlexRow>
         </Container.FlexCol>
-        {/* ------------------------------------------------- */}
         <hr style={{ marginTop: '5rem', marginBottom: '2.75rem' }} />
         <Container.FlexRow className="justify-between">
           <div>

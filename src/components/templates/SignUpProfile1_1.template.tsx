@@ -7,56 +7,7 @@ import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
-import { IconType } from '@/types/icon.type';
-
-export const houseTypeInfos: {
-  displayValue: string;
-  stateValue: SignUpType['type'];
-  iconType: IconType;
-}[] = [
-  {
-    displayValue: '원룸/오피스텔',
-    stateValue: 0,
-    iconType: 'studio-officetel',
-  },
-  {
-    displayValue: '빌라/연립',
-    stateValue: 1,
-    iconType: 'villa-townhouse',
-  },
-  {
-    displayValue: '아파트',
-    stateValue: 2,
-    iconType: 'apartment',
-  },
-  {
-    displayValue: '단독주택',
-    stateValue: 3,
-    iconType: 'single-family-house',
-  },
-];
-
-export const rentalTypeInfos: {
-  displayValue: string;
-  stateValue: SignUpType['rental_type'];
-}[] = [
-  {
-    displayValue: '월세',
-    stateValue: 1,
-  },
-  {
-    displayValue: '반전세',
-    stateValue: 2,
-  },
-  {
-    displayValue: '전세',
-    stateValue: 3,
-  },
-  {
-    displayValue: '상관없음',
-    stateValue: 0,
-  },
-];
+import { houseTypeInfos, rentalTypeInfos } from '@/constants/selectTypeInfos';
 
 export default function SignUpProfile1_1Template() {
   const [houseType, setHouseType] = useRecoilState(
