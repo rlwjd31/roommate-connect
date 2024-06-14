@@ -1,9 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  FieldErrors,
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
 import { KeyboardEvent, useEffect } from 'react';
 import { DevTool } from '@hookform/devtools';
 import { useRecoilValue } from 'recoil';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ToastContainer } from 'react-toastify';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -15,9 +22,12 @@ import SignUpProfile3_1Template from '@/components/templates/SignUpProfile3_1.te
 import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.template';
 import { SignUpProfileForm, SignUpProfileFormType } from '@/types/signUp.type';
 import { SignUpProfileState } from '@/stores/sign.store';
+import { createToast } from '@/libs/toast';
+import useSignUpProfile from '@/hooks/useSignUpProfile';
 
 export default function SignUpProfile() {
   const signUpProfileState = useRecoilValue(SignUpProfileState);
+  const { mutate, isPending } = useSignUpProfile();
   const formMethods = useForm<SignUpProfileFormType>({
     mode: 'onSubmit',
     defaultValues: {
@@ -32,7 +42,7 @@ export default function SignUpProfile() {
       mate_appeals: [],
       term: [],
       deposit_price: [],
-      monthly_price: [],
+      monthly_rental_price: [],
       appealsInputValue: '',
       mateAppealsInputValue: '',
     },
@@ -40,19 +50,33 @@ export default function SignUpProfile() {
   });
 
   useEffect(() => {
-    Object.entries(signUpProfileState).forEach(([key, value]) => {
+    Object.entries(signUpProfileState).forEach(async ([key, value]) => {
       formMethods.setValue(key as keyof SignUpProfileFormType, value);
       if (key !== 'appealsInputValue' && key !== 'mateAppealsInputValue')
-        formMethods.trigger(key as keyof SignUpProfileFormType);
+        await formMethods.trigger(key as keyof SignUpProfileFormType);
     });
-  }, []);
+  }, [formMethods, signUpProfileState]);
+
+  const onError: SubmitErrorHandler<SignUpProfileFormType> = data => {
+    Object.entries(data as FieldErrors<SignUpProfileFormType>).forEach(
+      ([key, value]) => {
+        if (value.message) {
+          createToast(`${key}ValidationError`, value.message, {
+            containerId: 'signUpProfileToastContainer',
+            autoClose: 1000,
+            isLoading: false,
+            type: 'error',
+          });
+        }
+      },
+    );
+  };
 
   // * profile에 필요한 recoil state들 전체 update
   const testOnSubmit: SubmitHandler<SignUpProfileFormType> = (
     formData: SignUpProfileFormType,
   ) => {
-    console.log('signupProfilestate when onSubmit', formData);
-    // TODO: send api call to update user profile meta data
+    mutate(formData);
   };
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
@@ -62,11 +86,24 @@ export default function SignUpProfile() {
 
   return (
     <FormProvider {...formMethods}>
+      <ToastContainer
+        containerId="signUpProfileToastContainer"
+        position="top-center"
+        stacked={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="light"
+        pauseOnFocusLoss={false}
+      />
       <form
-        onSubmit={formMethods.handleSubmit(testOnSubmit)}
+        onSubmit={formMethods.handleSubmit(testOnSubmit, onError)}
         onKeyDown={preventFormTakeSubmitEvent}
       >
-        <SignUpProfileLayoutTemplate>
+        <SignUpProfileLayoutTemplate isSubmitted={isPending}>
           <SignUpProfile1_1Template />
           <SignUpProfile1_2Template />
           <SignUpProfile1_3Template />

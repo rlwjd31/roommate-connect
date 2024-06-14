@@ -2,7 +2,6 @@
 import { Children, ReactNode, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
-import { ToastContainer } from 'react-toastify';
 
 import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
@@ -11,13 +10,13 @@ import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
-import { createToast } from '@/libs/toast';
 import {
   signUpProfileValidationConfig,
   stepDisplayData,
   ValidationStep,
 } from '@/constants/signUpProfileData';
 import { SignUpProfileFormType } from '@/types/signUp.type';
+import { createToast } from '@/libs/toast';
 
 type StepTitleType = {
   num: string | number;
@@ -53,12 +52,13 @@ StepTitle.defaultProps = {
 
 type SignProfileLayoutTemplateProps = {
   children: ReactNode;
+  isSubmitted: boolean;
 };
 
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
-  const { children } = props;
+  const { children, isSubmitted } = props;
   const [currentStep, setCurrentStep] = useState(0);
   const navigate = useNavigate();
   const numsOfCarouselChildren = Children.count(children);
@@ -110,17 +110,6 @@ export default function SignUpProfileLayoutTemplate(
     if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
   };
 
-  const onClickSubmit = async () => {
-    if (isLastOfCarousel) {
-      const isFinalStepValid = await validationStep(
-        currentStep as ValidationStep,
-      );
-
-      // ! TODO: fetch user profile data to supabase
-      if (isFinalStepValid) navigate('/signup-outro');
-    }
-  };
-
   // * persist carousel state(currentStep) with session Storage
   useEffect(() => {
     const carouselStepKey = 'carouselStep';
@@ -139,19 +128,6 @@ export default function SignUpProfileLayoutTemplate(
 
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
-      <ToastContainer
-        containerId="signUpProfileToastContainer"
-        position="top-center"
-        stacked={false}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        draggable
-        pauseOnHover
-        theme="light"
-        pauseOnFocusLoss={false}
-      />
       <Container.FlexCol className="w-full min-w-48">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
@@ -181,6 +157,7 @@ export default function SignUpProfileLayoutTemplate(
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
             iconType="left-arrow"
+            disabled={isSubmitted}
             onClick={onClickPrevButton}
           >
             <Typography.P1 className="text-brown">이전</Typography.P1>
@@ -189,7 +166,7 @@ export default function SignUpProfileLayoutTemplate(
             <Button.Fill
               className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
               type="submit"
-              onClick={onClickSubmit}
+              disabled={isSubmitted}
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
             </Button.Fill>

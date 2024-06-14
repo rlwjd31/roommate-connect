@@ -31,7 +31,7 @@ const persistSignUpProfile: AtomEffect<SignUpProfileType> = ({
  * @property { string[] } regions - 사용자가 찾는 지역 (도시 + 구 형태의 배열)
  * @property { [number, number] } deposit_price - 보증금 범위 [최소 금액, 최대 금액] (단위: 만원)
  * @property { [number, number] } term - 유저가 살 기간 [최소기간, 최대 기간] (단위: 개월)
- * @property { [number, number] } monthly_price - 월세 [최소 금액, 최대 금액] (단위: 만원)
+ * @property { [number, number] } monthly_rental_price - 월세 [최소 금액, 최대 금액] (단위: 만원)
  * @property { boolean | undefined } smoking - 흡연 여부
  * @property { 0 | 1 | 2 | undefined } pet - 펫 여부 (0: 상관없음, 1: 좋음, 2: 싫음)
  * @property { string[] } appeals - 유저의 어필할 매력 (배열 형태)
@@ -51,7 +51,7 @@ export const SignUpProfileState: RecoilState<SignUpProfileType> =
       regions: [],
       deposit_price: [0, 10000],
       term: [0, 24],
-      monthly_price: [0, 500],
+      monthly_rental_price: [0, 500],
       smoking: undefined,
       pet: undefined,
       appeals: [],

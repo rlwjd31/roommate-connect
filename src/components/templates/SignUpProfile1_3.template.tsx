@@ -13,7 +13,7 @@ export default function SignUpProfile1_3Template() {
     SignupProfileStateSelector('deposit_price'),
   );
   const [monthlyPrice, setMonthlyPrice] = useRecoilState(
-    SignupProfileStateSelector('monthly_price'),
+    SignupProfileStateSelector('monthly_rental_price'),
   );
 
   return (
@@ -48,8 +48,8 @@ export default function SignUpProfile1_3Template() {
             rangeValue={monthlyPrice}
             category="price"
           />
-          <FormItem.Hidden<Pick<SignUpProfileFormType, 'monthly_price'>>
-            name="monthly_price"
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'monthly_rental_price'>>
+            name="monthly_rental_price"
             valueProp={monthlyPrice}
           />
         </Container.FlexCol>

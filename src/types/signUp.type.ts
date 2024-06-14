@@ -127,7 +127,7 @@ const SignUpProfileFormOriginal = z.object({
    * ]
    * ```
    */
-  monthly_price: z
+  monthly_rental_price: z
     .tuple(
       [
         z
@@ -169,7 +169,10 @@ const SignUpProfileFormOriginal = z.object({
     .refine(data => data !== undefined, {
       message: '반려동물 여부를 선택해주세요.',
     }),
-  appealsInputValue: z.string().min(3, { message: '3글자 이상이어야 합니다.' }),
+  appealsInputValue: z.union([
+    z.string().min(3, { message: '3글자 이상이어야 합니다.' }),
+    z.literal(''),
+  ]),
   /**
    * ### 유저가 상대방에게 어필하고 싶은 내용
    * ```
@@ -214,9 +217,10 @@ const SignUpProfileFormOriginal = z.object({
    * ### 상대방에게 원하는 조건의 입력 폼
    * string 3글자 이상
    */
-  mateAppealsInputValue: z
-    .string()
-    .min(3, { message: '3글자 이상이어야 합니다.' }),
+  mateAppealsInputValue: z.union([
+    z.string().min(3, { message: '3글자 이상이어야 합니다.' }),
+    z.literal(''),
+  ]),
   /**
    * ### 유저가 상대방에게 원하는 조건 내용
    * 최소 3개
