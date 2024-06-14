@@ -127,7 +127,7 @@ const SignUpProfileFormOriginal = z.object({
    * ]
    * ```
    */
-  monthly_price: z
+  monthly_rental_price: z
     .tuple(
       [
         z

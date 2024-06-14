@@ -32,7 +32,7 @@ export default function SignUpProfile() {
       mate_appeals: [],
       term: [],
       deposit_price: [],
-      monthly_price: [],
+      monthly_rental_price: [],
       appealsInputValue: '',
       mateAppealsInputValue: '',
     },
