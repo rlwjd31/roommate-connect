@@ -5,7 +5,7 @@ import { supabase } from '@/libs/supabaseClient';
 import { SignUpProfileType } from '@/types/signUp.type';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 
-export const useSignUpProfile = () => {
+const useSignUpProfile = () => {
   const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: SignUpProfileType) => {
@@ -64,3 +64,5 @@ export const useSignUpProfile = () => {
   });
   return { mutate, isPending };
 };
+
+export default useSignUpProfile;

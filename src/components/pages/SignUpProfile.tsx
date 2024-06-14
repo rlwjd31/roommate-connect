@@ -23,7 +23,7 @@ import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.te
 import { SignUpProfileForm, SignUpProfileFormType } from '@/types/signUp.type';
 import { SignUpProfileState } from '@/stores/sign.store';
 import { createToast } from '@/libs/toast';
-import { useSignUpProfile } from '@/hooks/useSignUpProfile';
+import useSignUpProfile from '@/hooks/useSignUpProfile';
 
 export default function SignUpProfile() {
   const signUpProfileState = useRecoilValue(SignUpProfileState);
