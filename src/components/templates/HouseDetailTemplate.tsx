@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
@@ -7,44 +10,118 @@ import Img from '@/components/atoms/Img';
 import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
+import { supabase } from '@/libs/supabaseClient';
+
+interface HouseData {
+  id: string;
+  post_title: string;
+  created_at: string;
+  updated_at: string;
+  house_img: string[];
+  deposit_price: number;
+  monthly_price: number;
+  manage_price: number;
+  district: string;
+  house_type: number;
+  house_size: number;
+  room_num: number;
+  house_appeal: string[];
+  mates_num: number;
+  term: number[];
+  user_id: string;
+  describe: string;
+  visible: number;
+  region: string;
+  rental_type: number;
+}
 
 export default function HouseDetailTemplate() {
-  const houseImages = [
-    'https://source.unsplash.com/random/300×300?1',
-    'https://source.unsplash.com/random/300×300?2',
-    'https://source.unsplash.com/random/300×300?3',
-    'https://source.unsplash.com/random/300×300?4',
-    'https://source.unsplash.com/random/300×300?5',
-    'https://source.unsplash.com/random/300×300?5',
-    'https://source.unsplash.com/random/300×300?5',
-    'https://source.unsplash.com/random/300×300?5',
-  ];
+  const { houseId } = useParams();
+  const [houseData, setHouseData] = useState<HouseData[] | null>(null);
+
+  const fetchData = async () => {
+    const { data: house, error } = await supabase
+      .from('house')
+      .select('*')
+      .eq('id', houseId);
+    if (error) {
+      console.log(error.message);
+    }
+    return house;
+  };
+
+  useEffect(() => {
+    (async () => {
+      const houseData = await fetchData();
+      console.log('houseData =>', houseData);
+      setHouseData(houseData);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  if (!houseData) {
+    return <h1 className="text-4xl">Loading...</h1>;
+  }
+
+  const formDate = (dateString: string) => {
+    const date = new Date(dateString);
+    // console.log(date);
+    return date.toLocaleDateString();
+  };
+  const rentalTypeText = (rentalType: number) => {
+    switch (rentalType) {
+      case 0:
+        return '월세';
+      case 1:
+        return '전세';
+      case 2:
+        return '반전세';
+      default:
+        return '알 수 없음';
+    }
+  };
+  const createAt = houseData[0].created_at;
+  const updatedAt = houseData[0].updated_at;
+
+  const termArray = houseData[0].term.map(value => {
+    const years = Math.floor(value / 12);
+    const months = value % 12;
+    if (years === 0) {
+      return `최소 ${months}개월에서 `;
+    }
+    if (months === 0) {
+      return `${years}년 이상`;
+    }
+    return `${years}년 ${months}개월 이상`;
+  });
 
   return (
     <Container.FlexCol className="gap-8 ">
       <Container.Grid className="max-h-[590px] grid-cols-4 grid-rows-2 gap-5">
-        {houseImages.slice(0, 5).map((src, index) => (
-          <Img
-            key={src}
-            src={src}
-            alt={`house image ${index + 1}`}
-            className={index === 0 ? 'col-span-2 row-span-2' : ''}
-          />
-        ))}
+        {houseData &&
+          houseData[0].house_img
+            .slice(0, 5)
+            .map((src, index) => (
+              <Img
+                key={src}
+                src={src}
+                alt={`house image ${index + 1}`}
+                className={index === 0 ? 'col-span-2 row-span-2' : ''}
+              />
+            ))}
       </Container.Grid>
       <Container.FlexCol>
         <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
           <Container.FlexCol className="gap-4">
             <Typography.Head2 className="text-brown">
-              반포동 근처 룸메이트 구합니다
+              {houseData && houseData[0].post_title}
             </Typography.Head2>
             <Container.FlexRow className="gap-3">
               <Typography.Span1 className="text-brown1">
-                최근 등록일 2024.05.01
+                최근 등록일 {formDate(createAt)}
               </Typography.Span1>
               <Divider.Row />
               <Typography.Span1 className="text-brown1">
-                최근 수정일 2024.05.02
+                최근 수정일 {formDate(updatedAt)}
               </Typography.Span1>
             </Container.FlexRow>
           </Container.FlexCol>
@@ -112,13 +189,18 @@ export default function HouseDetailTemplate() {
           <Container.FlexCol className="gap-12 rounded-lg bg-brown6 p-8 text-brown">
             <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
-                <Typography.Head3>월세 500/70</Typography.Head3>
+                <Typography.Head3>
+                  {rentalTypeText(houseData[0].rental_type)}{' '}
+                  {houseData[0].deposit_price}/{houseData[0].monthly_price}
+                </Typography.Head3>
                 <Divider.Col />
                 <Typography.P1 className="leading-6">
-                  관리비 20만원
+                  관리비 {houseData[0].manage_price}만원
                 </Typography.P1>
               </Container.FlexRow>
-              <Typography.P2>서울시 서초구 반포동</Typography.P2>
+              <Typography.P2>
+                {houseData[0].region}시 {houseData[0].district}
+              </Typography.P2>
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>하우스 소개</Typography.SubTitle1>
@@ -128,9 +210,9 @@ export default function HouseDetailTemplate() {
                   원룸/오피스텔
                 </Badge.Fill>
                 <Container.FlexRow className="gap-3 ">
-                  <Typography.P2>12평</Typography.P2>
+                  <Typography.P2>{houseData[0].house_size}평</Typography.P2>
                   <Divider.Col />
-                  <Typography.P2>방 1개</Typography.P2>
+                  <Typography.P2>방 {houseData[0].room_num}개</Typography.P2>
                   <Divider.Col />
                   <Typography.P2>2층</Typography.P2>
                 </Container.FlexRow>
@@ -139,25 +221,24 @@ export default function HouseDetailTemplate() {
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>이런 특징이 있어요</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
-                  역 도보 5분
-                </Badge.Fill>
-                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
-                  정류장 3분
-                </Badge.Fill>
-                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
-                  햇빛 잘 들어요
-                </Badge.Fill>
+                {houseData[0].house_appeal.map(value => (
+                  <Badge.Fill
+                    className="rounded-3xl px-5 py-2 text-white"
+                    key={value}
+                  >
+                    {value}
+                  </Badge.Fill>
+                ))}
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
                 <Badge.Outline className="rounded-3xl px-5 py-2">
-                  1명
+                  {houseData[0].mates_num} 명
                 </Badge.Outline>
                 <Badge.Outline className="rounded-3xl px-5 py-2">
-                  최소 1년 6개월 이상
+                  {termArray}
                 </Badge.Outline>
                 <Badge.Outline className="rounded-3xl px-5 py-2">
                   반려동물 NO
@@ -170,16 +251,9 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-7 pb-16 text-brown ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-8">
-            <p className="leading-6">
-              안녕하세요 반포동 원룸에서 룸메이트를 구하고 있습니다. <br />
-              <br />
-              🌟 이 집의 특징 🌟 <br />- 주방 분리형 원룸으로 공간 활용이
-              좋습니다. <br />- 싱크대, 에어컨, 냉장고, 세탁기 등의 옵션이
-              구비되어 있습니다. <br /> - 깔끔하고 깨끗한 상태로 관리되어
-              있어요. <br />
-              - 채광이 좋아 밝고 편안한 분위기를 자랑합니다. <br /> - 즉시
-              입주가 가능하여 빠르게 이사를 원하시는 분들에게 좋습니다.
-            </p>
+            <Typography.P1 className="leading-6">
+              {houseData[0].describe}
+            </Typography.P1>
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
