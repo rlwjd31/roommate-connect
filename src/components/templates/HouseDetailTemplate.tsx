@@ -251,9 +251,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-7 pb-16 text-brown ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-8">
-            <Typography.P1 className="leading-6">
-              {houseData[0].describe}
-            </Typography.P1>
+            <pre className="text-lg font-normal">{houseData[0].describe}</pre>
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
