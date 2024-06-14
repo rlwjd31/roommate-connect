@@ -48,7 +48,6 @@ export default function MultiImageForm({
         .upload(`house/${userInfo?.user.id}/${newFileName}`, file);
       if (error) {
         createErrorToast('supabase 업로드에 실패했습니다.');
-        console.error(error);
         return;
       }
       // 업로드 하면서 생긴 url을 다시 받아와서 images 배열에 넣어주기
@@ -57,7 +56,6 @@ export default function MultiImageForm({
       setImages(prev => [...prev, res.data.publicUrl]);
     } catch (error) {
       createErrorToast('이미지 저장에 실패했습니다.');
-      console.error(error);
     }
   };
 
@@ -101,11 +99,9 @@ export default function MultiImageForm({
 
       if (error) {
         createErrorToast('supabase에서 이미지를 삭제하는 데 실패했습니다.');
-        console.error(error);
       }
     } catch (error) {
       createErrorToast('이미지 삭제에 실패했습니다.');
-      console.error(error);
     }
   };
 
