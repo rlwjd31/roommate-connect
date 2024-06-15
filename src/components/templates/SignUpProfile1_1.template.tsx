@@ -7,6 +7,7 @@ import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpType } from '@/types/signUp.type';
+
 import FormItem from '@/components/molecules/FormItem';
 import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import {

@@ -66,11 +66,12 @@ export default function SignUpProfile2_2Template() {
             상대방에게 어필하고 싶은 3개를 작성해주세요
           </Typography.SubTitle1>
           <FormItem.TextField<Pick<ProfileFormValues, 'appealsInputValue'>>
+            inputStyle="w-full"
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
             name="appealsInputValue"
             onKeyDown={pressEnterCreateBadge}
-            containerStyle="mb-10"
+            containerStyle="mb-10 mt-5"
             options={{
               minLength: {
                 value: 3,

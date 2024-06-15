@@ -28,6 +28,9 @@ export type IconType =
   | 'alarm-exist'
   | 'alarm-none'
   | 'avartar'
+  | 'camera'
+  | 'prev'
+  | 'next'
   | 'back';
 
 export type CustomIconType = {

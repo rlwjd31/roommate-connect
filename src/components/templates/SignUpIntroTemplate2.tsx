@@ -62,6 +62,7 @@ export default function SignUpIntroTemplate2() {
                 },
               }}
               placeholder="이메일 입력"
+              inputStyle="w-full mt-[1rem]"
             />
             <FormItem.TextField
               labelName="비밀번호"
@@ -81,6 +82,7 @@ export default function SignUpIntroTemplate2() {
                 },
               }}
               placeholder="비밀번호 입력"
+              inputStyle="w-full mt-[1rem]"
             />
             <FormItem.TextField
               labelName="비밀번호 재입력"
@@ -98,6 +100,7 @@ export default function SignUpIntroTemplate2() {
                 },
               }}
               placeholder="비밀번호 입력"
+              inputStyle="w-full mt-[1rem]"
             />
           </Container.FlexCol>
           {showVerification ? (
@@ -108,6 +111,7 @@ export default function SignUpIntroTemplate2() {
                 name="token"
                 options={{ required: '인증번호를 입력해주세요.' }}
                 placeholder="인증번호 입력"
+                inputStyle="w-full mt-[1rem]"
                 containerStyle="mt-[1.625rem]"
               />
               <Button.Fill
