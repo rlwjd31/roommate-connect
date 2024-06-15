@@ -29,32 +29,74 @@ interface HouseData {
   mates_num: number;
   term: number[];
   user_id: string;
+  user: User;
+  user_lifestyle: LifeStyle;
   describe: string;
   visible: number;
   region: string;
   rental_type: number;
 }
 
+interface User {
+  id: string;
+  name: string;
+  avatar: string;
+  gender: number;
+}
+
+interface LifeStyle {
+  smoking: boolean;
+  pet: number;
+  appeals: string[];
+}
+
 export default function HouseDetailTemplate() {
   const { houseId } = useParams();
-  const [houseData, setHouseData] = useState<HouseData[] | null>(null);
+  const [houseData, setHouseData] = useState<HouseData | null>(null);
 
   const fetchData = async () => {
     const { data: house, error } = await supabase
       .from('house')
-      .select('*')
-      .eq('id', houseId);
+      .select(
+        `*, user(id, name, avatar, gender), user_lifestyle(smoking, pet, appeals)`,
+      )
+      .eq('id', houseId)
+      .single();
+    // const { data: house, error } = await supabase
+    //   .from('house')
+    //   .select(`*`)
+    //   .eq('id', houseId)
+    //   .single();
     if (error) {
       console.log(error.message);
     }
     return house;
   };
 
+  // const fetchUserData = async (userId: string) => {
+  //   const { data: user, error } = await supabase
+  //     .from('user')
+  //     .select(`*`)
+  //     .eq('id', userId)
+  //     .single();
+  //   if (error) {
+  //     console.log(error.message);
+  //   }
+  //   return user;
+  // };
+
   useEffect(() => {
     (async () => {
       const houseData = await fetchData();
       console.log('houseData =>', houseData);
+      const { user, user_lifestyle } = houseData;
+      console.log('user_id =>', user);
+      console.log('user_lifestyle =>', user_lifestyle);
+      // const userData = await fetchUserData(user_id);
+      // console.log('user data =>', userData);
+
       setHouseData(houseData);
+      // setUserData(userData);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -79,10 +121,10 @@ export default function HouseDetailTemplate() {
         return '알 수 없음';
     }
   };
-  const createAt = houseData[0].created_at;
-  const updatedAt = houseData[0].updated_at;
+  const createAt = houseData.created_at;
+  const updatedAt = houseData.updated_at;
 
-  const termArray = houseData[0].term.map(value => {
+  const termArray = houseData.term.map(value => {
     const years = Math.floor(value / 12);
     const months = value % 12;
     if (years === 0) {
@@ -93,12 +135,35 @@ export default function HouseDetailTemplate() {
     }
     return `${years}년 ${months}개월 이상`;
   });
+  // userData
+  const genderType = (gender: number) => {
+    if (gender === 1) {
+      return '남성';
+    }
+    return '여성';
+  };
+  const smokingType = (smoking: boolean) =>
+    // if (smoking) {
+    //   return '흡연자';
+    // }
+    // return '비흡연자';
+    smoking ? '흡연자' : '비흡연자';
+  const petType = (pet: number) => {
+    switch (pet) {
+      case 1:
+        return '반려동물 키워요';
+      case 2:
+        return '반려동물 No';
+      default:
+        return '반려동물 상관없어요';
+    }
+  };
 
   return (
     <Container.FlexCol className="gap-8 ">
       <Container.Grid className="max-h-[590px] grid-cols-4 grid-rows-2 gap-5">
         {houseData &&
-          houseData[0].house_img
+          houseData.house_img
             .slice(0, 5)
             .map((src, index) => (
               <Img
@@ -113,7 +178,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
           <Container.FlexCol className="gap-4">
             <Typography.Head2 className="text-brown">
-              {houseData && houseData[0].post_title}
+              {houseData && houseData.post_title}
             </Typography.Head2>
             <Container.FlexRow className="gap-3">
               <Typography.Span1 className="text-brown1">
@@ -151,38 +216,38 @@ export default function HouseDetailTemplate() {
         <Container.FlexRow className="mt-14 justify-between gap-7">
           <Container.FlexCol className="gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
-              <Icon className="[&>svg]:size-16 " type="avatar" />
-              <Typography.Head3>user123</Typography.Head3>
+              {/* <Icon className="[&>svg]:size-16 " type="avatar" /> */}
+              <Img
+                className="size-16 min-h-0 rounded-full"
+                src={houseData.user.avatar}
+              />
+              <Typography.Head3>{houseData.user.name}</Typography.Head3>
             </Container.FlexRow>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>자기소개</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
                 <Badge.Outline className="rounded-3xl px-5 py-1">
                   <Icon type="mini-male" className="pr-2" />
-                  남성
+                  {genderType(houseData.user.gender)}
                 </Badge.Outline>
                 <Badge.Outline className="rounded-3xl px-5 py-1">
                   <Icon type="mini-smoke" className="pr-2" />
-                  흡연자
+                  {smokingType(houseData.user_lifestyle.smoking)}
                 </Badge.Outline>
                 <Badge.Outline className="rounded-3xl px-5 py-1">
                   <Icon type="mini-none-pet-lover" className="pr-2" />
-                  반려동물 NO
+                  {petType(houseData.user_lifestyle.pet)}
                 </Badge.Outline>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>라이프 스타일</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  <Typography.P2>늦게 자요</Typography.P2>
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  <Typography.P2>청소 자주해요</Typography.P2>
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  <Typography.P2>코골이 해요</Typography.P2>
-                </Badge.Outline>
+                {houseData.user_lifestyle.appeals.map(value => (
+                  <Badge.Outline key={value} className="rounded-3xl px-5 py-1">
+                    {value}
+                  </Badge.Outline>
+                ))}
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
@@ -190,16 +255,16 @@ export default function HouseDetailTemplate() {
             <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
                 <Typography.Head3>
-                  {rentalTypeText(houseData[0].rental_type)}{' '}
-                  {houseData[0].deposit_price}/{houseData[0].monthly_price}
+                  {rentalTypeText(houseData.rental_type)}
+                  {houseData.deposit_price}/{houseData.monthly_price}
                 </Typography.Head3>
                 <Divider.Col />
                 <Typography.P1 className="leading-6">
-                  관리비 {houseData[0].manage_price}만원
+                  관리비 {houseData.manage_price}만원
                 </Typography.P1>
               </Container.FlexRow>
               <Typography.P2>
-                {houseData[0].region}시 {houseData[0].district}
+                {houseData.region}시 {houseData.district}
               </Typography.P2>
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
@@ -210,9 +275,9 @@ export default function HouseDetailTemplate() {
                   원룸/오피스텔
                 </Badge.Fill>
                 <Container.FlexRow className="gap-3 ">
-                  <Typography.P2>{houseData[0].house_size}평</Typography.P2>
+                  <Typography.P2>{houseData.house_size}평</Typography.P2>
                   <Divider.Col />
-                  <Typography.P2>방 {houseData[0].room_num}개</Typography.P2>
+                  <Typography.P2>방 {houseData.room_num}개</Typography.P2>
                   <Divider.Col />
                   <Typography.P2>2층</Typography.P2>
                 </Container.FlexRow>
@@ -221,7 +286,7 @@ export default function HouseDetailTemplate() {
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>이런 특징이 있어요</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                {houseData[0].house_appeal.map(value => (
+                {houseData.house_appeal.map(value => (
                   <Badge.Fill
                     className="rounded-3xl px-5 py-2 text-white"
                     key={value}
@@ -235,7 +300,7 @@ export default function HouseDetailTemplate() {
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
                 <Badge.Outline className="rounded-3xl px-5 py-2">
-                  {houseData[0].mates_num} 명
+                  {houseData.mates_num} 명
                 </Badge.Outline>
                 <Badge.Outline className="rounded-3xl px-5 py-2">
                   {termArray}
@@ -251,7 +316,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexCol className="gap-7 pb-16 text-brown ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-8">
-            <pre className="text-lg font-normal">{houseData[0].describe}</pre>
+            <pre className="text-lg font-normal">{houseData.describe}</pre>
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
