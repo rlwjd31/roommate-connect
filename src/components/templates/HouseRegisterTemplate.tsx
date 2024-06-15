@@ -24,6 +24,11 @@ import {
   matesNumInfo,
   rentalTypeInfos,
 } from '@/constants/selectTypeInfos';
+import {
+  houseTypeDisplayData,
+  mateNumberDisplayData,
+  rentalTypeDisplayData,
+} from '@/constants/signUpProfileData';
 
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
@@ -192,7 +197,7 @@ export default function HouseRegisterTemplate() {
             </Typography.SubTitle1>
             <Container.FlexCol>
               <Container.FlexRow className="mb-4 gap-2">
-                {houseTypeInfos.map(house => (
+                {houseTypeDisplayData.map(house => (
                   <BadgeButton.Outline
                     key={house.displayValue}
                     className="rounded-[30px] px-[20px] py-[10px]"
@@ -204,7 +209,7 @@ export default function HouseRegisterTemplate() {
                 ))}
               </Container.FlexRow>
               <Container.FlexRow className="gap-2">
-                {rentalTypeInfos.map(({ displayValue, stateValue }) => (
+                {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
                   <BadgeButton.Outline
                     key={displayValue}
                     className="rounded-[30px] px-[20px] py-[10px]"
@@ -329,11 +334,11 @@ export default function HouseRegisterTemplate() {
                 <BadgeButtons
                   contents={form.watch('house_appeal')}
                   className="gap-2"
-                  badgeClassName="rounded-[30px] px-[20px] py-[10px]"
-                  iconClassName="ml-2"
+                  badgeStyle="rounded-[30px] px-[20px] py-[10px]"
+                  iconStyle="ml-2"
                   stroke="bg"
                   iconType="close"
-                  typoClassName="text-bg"
+                  typoStyle="text-bg"
                   onClick={onDeleteAppealBadge}
                 />
               )}
@@ -344,7 +349,7 @@ export default function HouseRegisterTemplate() {
               원하는 인원 수
             </Typography.SubTitle1>
             <Container.FlexRow className="gap-2">
-              {matesNumInfo.map(({ displayValue, stateValue }) => (
+              {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
                 <BadgeButton.Outline
                   key={displayValue}
                   badgeActive={stateValue === form.watch('mates_num')}
