@@ -55,7 +55,8 @@ export const useSignUpEmail = () => {
         password: signUpEmailValue.password,
         options: {
           data: {
-            avatar: 'default',
+            avatar: '',
+            email: signUpEmailValue.email,
             name: signUpEmailValue.name,
             birth: signUpEmailValue.birth,
             gender: signUpEmailValue.gender,
