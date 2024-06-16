@@ -42,9 +42,9 @@ export default function SignUpIntroTemplate1({
               type="text"
               name="name"
               placeholder="이름 입력"
-              inputStyle="mt-[1rem]"
+              inputStyle="mt-[1rem] w-full"
             />
-            <Container.FlexRow className="gap-[1rem]">
+            <Container.FlexRow className="items-center gap-[1rem]">
               <FormItem.TextField
                 labelName="주민등록번호"
                 type="text"
@@ -52,14 +52,14 @@ export default function SignUpIntroTemplate1({
                 placeholder="990101"
                 inputStyle="mt-[1rem]"
               />
-              <p className="mt-[3.5rem]">-</p>
+              <p className="pt-3">-</p>
               <FormItem.TextField
                 type="text"
                 name="gender"
                 inputStyle="mt-[2rem] "
                 containerStyle="w-[2.5rem]"
               />
-              <p className="mt-[3.5rem]">* * * * * *</p>
+              <p className="pt-3">* * * * * *</p>
             </Container.FlexRow>
           </Container.FlexCol>
           <Button.Fill

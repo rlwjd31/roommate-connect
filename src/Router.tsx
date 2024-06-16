@@ -9,6 +9,7 @@ import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
+import HouseRegister from '@/components/pages/HouseRegister';
 
 const router = createBrowserRouter([
   {
@@ -26,7 +27,17 @@ const router = createBrowserRouter([
   },
   {
     element: <LayoutTemplate />,
-    children: [{ path: 'house', element: <span>house page</span> }],
+    children: [
+      {
+        path: 'house',
+        children: [
+          {
+            path: 'regist',
+            element: <HouseRegister />,
+          },
+        ],
+      },
+    ],
   },
   {
     element: <LayoutTemplate />,
