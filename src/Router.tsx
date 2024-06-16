@@ -27,7 +27,15 @@ const router = createBrowserRouter([
   },
   {
     element: <LayoutTemplate />,
-    children: [{ path: 'house', element: <span>house page</span> }],
+    children: [
+      {
+        path: 'house',
+        element: <span>house page</span>,
+        // children: [
+        //   { path: 'house-detail/:houseId', element: <HouseDetailTemplate /> },
+        // ],
+      },
+    ],
   },
   {
     element: <LayoutTemplate />,
@@ -64,7 +72,7 @@ const router = createBrowserRouter([
         path: 'signup-outro',
         element: <SignUpProfileOutro />,
       },
-      { path: 'house-detail', element: <HouseDetailTemplate /> },
+      { path: 'house-detail/:houseId', element: <HouseDetailTemplate /> },
     ],
   },
 ]);
