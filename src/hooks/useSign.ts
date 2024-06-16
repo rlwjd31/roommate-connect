@@ -6,7 +6,8 @@ import {
   AuthTokenResponsePassword,
   Session,
 } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
@@ -14,7 +15,6 @@ import {
   EmailAuthType,
   GoogleOAuthType,
   KakaoOAuthType,
-  SignUpUserType,
   SocialType,
   UserAdditionalType,
   UserType,
@@ -43,6 +43,24 @@ const preProcessingUserData = (
     };
   }
   throw new Error(data.error?.message);
+};
+
+const parseUserFromSession = (session: Session | null): UserType | null => {
+  if (!session) return null;
+  const {
+    user: { user_metadata: userSession },
+  } = session;
+
+  return {
+    id: userSession.id,
+    name: userSession.name,
+    nickname: userSession.nickname,
+    gender: userSession.gender,
+    email: userSession.email,
+    avatar: userSession.avatar,
+    birth: userSession.birth,
+    status: userSession.status,
+  };
 };
 
 export const useSignUpEmail = () => {
@@ -155,22 +173,59 @@ export const useSignInSocial = () => {
   return { signInSocial, isSignInSocial };
 };
 
-export const useSignInState = () => {
-  const [sessionValue, setSessionValue] = useState<Session>();
+export const useAuthState = () => {
+  const [sessionValue, setSessionValue] = useState<Session | null>(null);
+  const setUser = useSetRecoilState(UserAtom);
+  const navigate = useNavigate();
 
-  //   // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
-  //   // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
+  const setAuthState = useCallback(
+    (session: Session | null) => {
+      setSessionValue(session);
+      setUser(parseUserFromSession(session));
+    },
+    [setUser],
+  );
+
+  // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
+  // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
   useEffect(() => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session) setSessionValue(session);
+      (event, session) => {
+        switch (event) {
+          case 'INITIAL_SESSION':
+            setAuthState(session);
+            break;
+          case 'SIGNED_IN':
+            setAuthState(session);
+            navigate('/');
+            break;
+          case 'SIGNED_OUT':
+            setAuthState(session);
+            navigate('/sign/in');
+            break;
+          case 'PASSWORD_RECOVERY':
+            // TODO: 추후 비밀번호 재설정 로직 구현하기 @유하
+            break;
+          case 'TOKEN_REFRESHED':
+            setAuthState(session);
+            break;
+          case 'USER_UPDATED':
+            // TODO: user update
+            // * db update => trigger로 구현되어 잇음
+            // * user update fetch할 때 supabase auth api를 이용하여 update하고 이 event를 발생
+            // * global state에 대한 user는 여기서 update
+            setAuthState(session);
+            break;
+          default:
+            console.error('unknown auth event listener 👉🏻', event);
+        }
       },
     );
 
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [setUser, navigate, setAuthState]);
 
   return sessionValue;
 };
@@ -209,6 +264,8 @@ export const userAdditionalInfo = (session: Session) => ({
     return user;
   },
 });
+
+// ! TODO: useUserAdditionalUpdate로 renmae하는게 logic을 더 잘 나타내는 듯 보임.
 export const useUpdateUser = () => {
   // * Social 로그인에서 Gender, Birth 데이터를 DB와 연동하기 위한 훅
   const setUser = useSetRecoilState(UserAtom);
