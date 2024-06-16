@@ -62,51 +62,27 @@ export default function HouseDetailTemplate() {
       )
       .eq('id', houseId)
       .single();
-    // const { data: house, error } = await supabase
-    //   .from('house')
-    //   .select(`*`)
-    //   .eq('id', houseId)
-    //   .single();
     if (error) {
       console.log(error.message);
     }
     return house;
   };
 
-  // const fetchUserData = async (userId: string) => {
-  //   const { data: user, error } = await supabase
-  //     .from('user')
-  //     .select(`*`)
-  //     .eq('id', userId)
-  //     .single();
-  //   if (error) {
-  //     console.log(error.message);
-  //   }
-  //   return user;
-  // };
-
   useEffect(() => {
     (async () => {
       const houseData = await fetchData();
       console.log('houseData =>', houseData);
-      const { user, user_lifestyle } = houseData;
-      console.log('user_id =>', user);
-      console.log('user_lifestyle =>', user_lifestyle);
-      // const userData = await fetchUserData(user_id);
-      // console.log('user data =>', userData);
 
       setHouseData(houseData);
-      // setUserData(userData);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (!houseData) {
     return <h1 className="text-4xl">Loading...</h1>;
   }
-
+  // houseData
   const formDate = (dateString: string) => {
     const date = new Date(dateString);
-    // console.log(date);
     return date.toLocaleDateString();
   };
   const rentalTypeText = (rentalType: number) => {
@@ -142,12 +118,12 @@ export default function HouseDetailTemplate() {
     }
     return '여성';
   };
-  const smokingType = (smoking: boolean) =>
-    // if (smoking) {
-    //   return '흡연자';
-    // }
-    // return '비흡연자';
-    smoking ? '흡연자' : '비흡연자';
+  const smokingType = (smoking: boolean) => {
+    if (smoking) {
+      return '흡연자';
+    }
+    return '비흡연자';
+  };
   const petType = (pet: number) => {
     switch (pet) {
       case 1:
@@ -216,7 +192,7 @@ export default function HouseDetailTemplate() {
         <Container.FlexRow className="mt-14 justify-between gap-7">
           <Container.FlexCol className="gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
-              {/* <Icon className="[&>svg]:size-16 " type="avatar" /> */}
+              {/* TODO: Avatar component 생성 */}
               <Img
                 className="size-16 min-h-0 rounded-full"
                 src={houseData.user.avatar}
@@ -244,7 +220,10 @@ export default function HouseDetailTemplate() {
               <Typography.SubTitle1>라이프 스타일</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
                 {houseData.user_lifestyle.appeals.map(value => (
-                  <Badge.Outline key={value} className="rounded-3xl px-5 py-1">
+                  <Badge.Outline
+                    key={value}
+                    className="rounded-3xl px-5 pb-[9px] pt-[10px]"
+                  >
                     {value}
                   </Badge.Outline>
                 ))}
