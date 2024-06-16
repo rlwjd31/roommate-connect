@@ -1,36 +1,13 @@
-import { atom, AtomEffect } from 'recoil';
+import { atom } from 'recoil';
 
-import { UserLocalStorageType, UserType } from '@/types/auth.type';
+import { UserType } from '@/types/auth.type';
 
 export const IsNotVerifiedAtom = atom({
   key: 'isNotVerifiedAtom',
   default: false,
 });
 
-const UserAtomEffect =
-  (key: string): AtomEffect<UserType | null> =>
-  ({ setSelf }) => {
-    const storageUser = localStorage.getItem(key);
-    if (storageUser !== null) {
-      const userObject = JSON.parse(storageUser) as UserLocalStorageType;
-      const { id } = userObject.user;
-      const { name, nickname, gender, email, avatar, birth, status } =
-        userObject.user.user_metadata;
-      setSelf({
-        id,
-        name,
-        nickname,
-        gender,
-        email,
-        avatar,
-        birth,
-        status,
-      });
-    }
-  };
-
 export const UserAtom = atom<UserType | null>({
   key: 'userAtom',
   default: null,
-  effects: [UserAtomEffect('sb-vkgzfgadnhdgapepgjlp-auth-token')],
 });
