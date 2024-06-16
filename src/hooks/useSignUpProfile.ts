@@ -9,6 +9,7 @@ const useSignUpProfile = () => {
   const navigate = useNavigate();
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: SignUpProfileType) => {
+      // ! TODO useAuthState 추후 적용
       const {
         data: { user },
       } = await supabase.auth.getUser();
