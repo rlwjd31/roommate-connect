@@ -14,7 +14,6 @@ import {
   EmailAuthType,
   GoogleOAuthType,
   KakaoOAuthType,
-  SignUpUserType,
   SocialType,
   UserAdditionalType,
   UserType,
