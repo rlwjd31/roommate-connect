@@ -13,6 +13,7 @@ import {
   userAdditionalInfo,
   useUpdateUser,
 } from '@/hooks/useSign';
+import Link from '@/components/atoms/Link';
 
 export default function About() {
   const isInitial = useRef(0);
@@ -64,6 +65,38 @@ export default function About() {
           로그아웃
         </Typography.P2>
       </Button.Fill>
+      <Container.FlexCol className="space-y-2">
+        <Link to="/chats" className="size-20 bg-brown text-xl text-white">
+          chats
+        </Link>
+        <Link to="/chats/1" className="size-20 bg-brown text-xl text-white">
+          chatRoom
+        </Link>
+        <Link to="/lounge" className="size-20 bg-brown text-xl text-white">
+          lounge
+        </Link>
+        <Link to="/house" className="size-20 bg-brown text-xl text-white">
+          house
+        </Link>
+        <Link
+          to="/signup-intro"
+          className="size-20 bg-brown text-xl text-white"
+        >
+          signup-intro
+        </Link>
+        <Link
+          to="/signup-profile"
+          className="size-20 bg-brown text-xl text-white"
+        >
+          signup-profile
+        </Link>
+        <Link
+          to="/signup-outro"
+          className="size-20 bg-brown text-xl text-white"
+        >
+          signup-outro
+        </Link>
+      </Container.FlexCol>
     </Container.FlexCol>
   );
 }
