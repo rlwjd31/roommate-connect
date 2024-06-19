@@ -1,12 +1,15 @@
 import { KeyboardEvent, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
-import { HouseType } from '@/types/house.type';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
 import { errorToast, successToast } from '@/libs/toast';
+import { HouseForm, HouseFormType } from '@/types/house.type';
+import { useSignInState } from '@/hooks/useSign';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
 import Container from '@/components/atoms/Container';
 import Input from '@/components/atoms/Input';
 import Typography from '@/components/atoms/Typography';
@@ -17,13 +20,6 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Button from '@/components/atoms/Button';
 import FormItem from '@/components/molecules/FormItem';
 import MultiImageForm from '@/components/molecules/MultiImageForm';
-import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { useSignInState } from '@/hooks/useSign';
-import {
-  houseTypeInfos,
-  matesNumInfo,
-  rentalTypeInfos,
-} from '@/constants/selectTypeInfos';
 import {
   houseTypeDisplayData,
   mateNumberDisplayData,
@@ -34,7 +30,8 @@ export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
   const Form = FormProvider;
   const userInfo = useSignInState();
-  const form = useForm<HouseType>({
+  const form = useForm<HouseFormType>({
+    resolver: zodResolver(HouseForm),
     defaultValues: {
       house_img: [],
       post_title: '',
@@ -50,9 +47,9 @@ export default function HouseRegisterTemplate() {
       house_appeal: [],
       mates_num: 1,
       term: [0, 24],
-      describe: '',
+      describe: undefined,
       bookmark: 0,
-      visible: undefined,
+      visible: 0,
       user_id: userInfo?.user.id,
     },
   });
@@ -74,13 +71,13 @@ export default function HouseRegisterTemplate() {
     setDistrict({ value: '시, 구', isOpen: false });
   };
 
-  const onClickHouseType = (stateValue: HouseType['house_type']) => {
+  const onClickHouseType = (stateValue: HouseFormType['house_type']) => {
     form.setValue('house_type', stateValue);
   };
-  const onClickRentalType = (stateValue: HouseType['rental_type']) => {
+  const onClickRentalType = (stateValue: HouseFormType['rental_type']) => {
     form.setValue('rental_type', stateValue);
   };
-  const onClickMatesNum = (stateValue: HouseType['mates_num']) => {
+  const onClickMatesNum = (stateValue: HouseFormType['mates_num']) => {
     form.setValue('mates_num', stateValue);
   };
 
@@ -114,7 +111,7 @@ export default function HouseRegisterTemplate() {
     form.setValue('house_appeal', appeals);
   };
 
-  const onSaveHouse = async (formData: HouseType, visible: number) => {
+  const onSaveHouse = async (formData: HouseFormType, visible: number) => {
     setSaving(true);
     try {
       const { error } = await supabase.from('house').insert({
@@ -144,7 +141,7 @@ export default function HouseRegisterTemplate() {
     }
   };
 
-  const onSubmitHouse = (formData: HouseType) => {
+  const onSubmitHouse = (formData: HouseFormType) => {
     onSaveHouse(formData, 1);
   };
 
@@ -166,7 +163,7 @@ export default function HouseRegisterTemplate() {
             </Typography.SubTitle1>
             <Input
               className="max-w-[690px] flex-1"
-              {...form.register('post_title', { required: true })}
+              {...form.register('post_title')}
               placeholder="제목을 작성해주세요"
             />
           </Container.FlexRow>
@@ -229,11 +226,8 @@ export default function HouseRegisterTemplate() {
             <Container.FlexRow className="items-center gap-[24px] text-brown">
               <FormItem.TextField
                 type="text"
-                name="house_size"
                 inputStyle="w-[78px] p-2"
-                options={{
-                  required: '필수 입력 사항입니다.',
-                }}
+                {...form.register('house_size', { valueAsNumber: true })}
               />
               <div className="flex gap-[18px]">
                 <Typography.P2>평</Typography.P2>
@@ -242,11 +236,8 @@ export default function HouseRegisterTemplate() {
               </div>
               <FormItem.TextField
                 type="text"
-                name="room_num"
                 inputStyle="w-[78px] p-2"
-                options={{
-                  required: '필수 입력 사항입니다.',
-                }}
+                {...form.register('room_num', { valueAsNumber: true })}
               />
               <span>개</span>
             </Container.FlexRow>
@@ -263,11 +254,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="deposit_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('deposit_price', { valueAsNumber: true })}
                     placeholder="500"
                   />
                   <Typography.P2 className="whitespace-nowrap">
@@ -282,11 +270,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="monthly_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('monthly_price', { valueAsNumber: true })}
                     placeholder="50"
                   />
                   <Typography.P2 className="whitespace-nowrap">
@@ -301,11 +286,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="manage_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('manage_price', { valueAsNumber: true })}
                     placeholder="30"
                   />
                   <Typography.P2 className="whitespace-nowrap">
