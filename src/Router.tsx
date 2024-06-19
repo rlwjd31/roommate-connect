@@ -1,8 +1,8 @@
 import {
   createBrowserRouter,
   Navigate,
+  RouteObject,
   RouterProvider,
-  useLocation,
 } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import {
@@ -28,20 +28,94 @@ import { UserAtom } from '@/stores/auth.store';
 import { useAuthState } from '@/hooks/useSign';
 import { createToast } from '@/libs/toast';
 
-const nonProtectedRoutes = ['/sign/in', '/sign/up', '/component-test'];
+// ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
+// ! 따라서, element, layout을 ReactElement로 지정함
+type RouteType = RouteObject & {
+  shouldProtected?: boolean;
+  element: ReactElement;
+  children?: RouteType[];
+};
 
 type ProtectedRouterType = {
-  children: ReactElement<{ isLogin: boolean }>;
+  children: ReactElement<{ isLogin?: boolean }>;
 };
+
+const routes: RouteType[] = [
+  {
+    path: '/',
+    element: <LayoutTemplate />,
+    children: [
+      {
+        index: true,
+        element: <About />,
+      },
+      {
+        path: 'chats',
+        element: <Chat />,
+        shouldProtected: true,
+        children: [
+          {
+            path: ':chatId',
+            element: <ChatRoom />,
+          },
+        ],
+      },
+      {
+        path: 'lounge',
+        shouldProtected: true,
+        element: <span>lounge page</span>,
+      },
+      {
+        path: 'house',
+        shouldProtected: true,
+        element: <span>house page</span>,
+      },
+      {
+        path: 'sign',
+        element: <SignLayoutTemplate />,
+        children: [
+          {
+            path: 'in',
+            element: <SignIn />,
+          },
+          {
+            path: 'up',
+            element: <SignUp />,
+          },
+        ],
+      },
+      {
+        path: 'signup-intro',
+        shouldProtected: true,
+        element: <SignUpProfileIntro />,
+      },
+      {
+        path: 'signup-profile',
+        shouldProtected: true,
+        element: <SignUpProfile />,
+      },
+      {
+        path: 'component-test',
+        element: <ComponentTest />,
+      },
+      {
+        path: 'signup-outro',
+        shouldProtected: true,
+        element: <SignUpProfileOutro />,
+      },
+    ],
+  },
+];
 
 function ProtectedRouter({ children }: ProtectedRouterType) {
   // * register supabase auth listener on initial rendering
   const session = useAuthState();
-  const location = useLocation();
   const [showComponent, setShowComponent] = useState(false);
   const user = useRecoilValue(UserAtom);
-  const shouldBeProtected =
-    !user && !nonProtectedRoutes.includes(location.pathname);
+  const shouldBeProtected = !user;
+  console.log('user =>', user);
+  console.log('shouldBeProtected', shouldBeProtected);
+  console.log('session in protected Router', session);
 
   useEffect(() => {
     let sleep: number | undefined;
@@ -51,7 +125,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
         setShowComponent(true);
       }, 2000);
     } else {
-      setShowComponent(false);
+      setShowComponent(true);
     }
 
     return () => {
@@ -82,78 +156,29 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
     : null;
 }
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    index: true,
-    element: <About />,
-  },
-  {
-    element: <LayoutTemplate />,
-    children: [
-      {
-        path: 'chats',
-        element: <Chat />,
-        children: [
-          {
-            path: ':chatId',
-            element: <ChatRoom />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    element: <LayoutTemplate />,
-    children: [
-      {
-        path: 'lounge',
-        element: <span>lounge page</span>,
-      },
-    ],
-  },
-  {
-    element: <LayoutTemplate />,
-    children: [{ path: 'house', element: <span>house page</span> }],
-  },
-  {
-    element: <LayoutTemplate />,
-    children: [
-      {
-        // ! Sign 레이아웃 적용
-        path: 'sign',
-        element: <SignLayoutTemplate />,
-        children: [
-          {
-            path: 'in',
-            element: <SignIn />,
-          },
-          {
-            path: 'up',
-            element: <SignUp />,
-          },
-        ],
-      },
-      // ! 기본 레이아웃 적용
-      {
-        path: 'signup-intro',
-        element: <SignUpProfileIntro />,
-      },
-      {
-        path: 'signup-profile',
-        element: <SignUpProfile />,
-      },
-      {
-        path: 'component-test',
-        element: <ComponentTest />,
-      },
-      {
-        path: 'signup-outro',
-        element: <SignUpProfileOutro />,
-      },
-    ],
-  },
-]);
+const createRoutes = (routes: RouteType[]): RouteObject[] =>
+  routes.map(route => {
+    const { path, element, children, shouldProtected } = route;
+
+    const routeObject = {
+      ...route,
+      path,
+      element: shouldProtected ? (
+        <ProtectedRouter>{element}</ProtectedRouter>
+      ) : (
+        element
+      ),
+      children: children ? createRoutes(children) : undefined,
+    } as RouteType;
+
+    // ! delete useless property of RouterObject from react-router-dom
+    const { shouldProtected: _, ...parsedToRouterObject } = routeObject;
+
+    return parsedToRouterObject;
+  });
+
+const router = createBrowserRouter(createRoutes(routes));
+
 export default function Router() {
   return <RouterProvider router={router} />;
 }
