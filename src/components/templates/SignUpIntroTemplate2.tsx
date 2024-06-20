@@ -1,6 +1,7 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useState } from 'react';
 
 import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
 import {
@@ -20,6 +21,7 @@ export default function SignUpIntroTemplate2() {
   const form = useForm<SignUpFormData2Type>({
     resolver: zodResolver(SignUpFormData2),
   });
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const showVerification = useRecoilValue(ShowVerificationAtom);
   const [signUpEmailUser, setSignUpEmailUser] =
     useRecoilState(SignUpEmailUserAtom);
@@ -29,6 +31,8 @@ export default function SignUpIntroTemplate2() {
     mutateMessage: '인증 중입니다.',
     successMessage: '🎉인증성공! 회원가입 되셨습니다!',
   });
+
+  const onClickVisible = () => setPasswordVisible(prev => !prev);
 
   const isPending = isSignUpEmail || isVerifyEmail;
 
@@ -64,19 +68,23 @@ export default function SignUpIntroTemplate2() {
               placeholder="이메일 입력"
               inputStyle="w-full mt-[1rem]"
             />
-            <FormItem.TextField
+            <FormItem.Password
               labelName="비밀번호"
               type="password"
               name="password"
               placeholder="비밀번호 입력"
               inputStyle="w-full mt-[1rem]"
+              isVisible={passwordVisible}
+              onClickVisible={onClickVisible}
             />
-            <FormItem.TextField
+            <FormItem.Password
               labelName="비밀번호 재입력"
               type="password"
               name="confirmPassword"
               placeholder="비밀번호 입력"
               inputStyle="w-full mt-[1rem]"
+              isVisible={passwordVisible}
+              onClickVisible={onClickVisible}
             />
           </Container.FlexCol>
           {showVerification ? (

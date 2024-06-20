@@ -33,6 +33,7 @@ export default function SignInTemplate() {
     resolver: isNotVerified ? zodResolver(VerifyEmail) : zodResolver(EmailAuth),
   });
   const [isReSendVerifyEmail, setIsReSendVerifyEmail] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { signInEmail, isSignInEmail } = useSignInEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
     mutateMessage: '인증 후 로그인 시도 중...',
@@ -83,6 +84,8 @@ export default function SignInTemplate() {
     signInEmail(data as EmailAuthType);
   };
 
+  const onClickVisible = () => setPasswordVisible(prev => !prev);
+
   return (
     <Container.FlexCol className="gap-[3.75rem]">
       <Container.FlexCol className="w-full">
@@ -99,13 +102,15 @@ export default function SignInTemplate() {
                 placeholder="이메일 입력"
                 inputStyle="w-full bg-transparent mt-[1rem]"
               />
-              <FormItem.TextField
+              <FormItem.Password
                 labelName="비밀번호"
                 type="password"
                 name="password"
                 placeholder="비밀번호 입력"
                 inputStyle="w-full bg-transparent mt-[1rem]"
                 containerStyle="mt-7"
+                isVisible={passwordVisible}
+                onClickVisible={onClickVisible}
               />
               {isNotVerified && (
                 <Container.FlexRow className="mt-7 gap-x-2">
