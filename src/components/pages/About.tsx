@@ -66,34 +66,31 @@ export default function About() {
         </Typography.P2>
       </Button.Fill>
       <Container.FlexCol className="space-y-2">
-        <Link to="/chats" className="size-20 bg-brown text-xl text-white">
+        <Link to="/chats" className="w-40 bg-brown text-xl text-white">
           chats
         </Link>
-        <Link to="/chats/1" className="size-20 bg-brown text-xl text-white">
+        <Link to="/chats/1" className="w-40 bg-brown text-xl text-white">
           chatRoom
         </Link>
-        <Link to="/lounge" className="size-20 bg-brown text-xl text-white">
+        <Link to="/lounge" className="w-40 bg-brown text-xl text-white">
           lounge
         </Link>
-        <Link to="/house" className="size-20 bg-brown text-xl text-white">
+        <Link to="/house" className="w-40 bg-brown text-xl text-white">
           house
         </Link>
-        <Link
-          to="/signup-intro"
-          className="size-20 bg-brown text-xl text-white"
-        >
+        <Link to="/house/register" className="w-40 bg-brown text-xl text-white">
+          house register
+        </Link>
+        <Link to="/house/1" className="w-40 bg-brown text-xl text-white">
+          house detail
+        </Link>
+        <Link to="/signup-intro" className="w-40 bg-brown text-xl text-white">
           signup-intro
         </Link>
-        <Link
-          to="/signup-profile"
-          className="size-20 bg-brown text-xl text-white"
-        >
+        <Link to="/signup-profile" className="w-40 bg-brown text-xl text-white">
           signup-profile
         </Link>
-        <Link
-          to="/signup-outro"
-          className="size-20 bg-brown text-xl text-white"
-        >
+        <Link to="/signup-outro" className="w-40 bg-brown text-xl text-white">
           signup-outro
         </Link>
       </Container.FlexCol>

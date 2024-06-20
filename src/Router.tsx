@@ -1,6 +1,7 @@
 import {
   createBrowserRouter,
   Navigate,
+  Outlet,
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
@@ -67,8 +68,23 @@ const routes: RouteType[] = [
       },
       {
         path: 'house',
-        shouldProtected: true,
-        element: <span>house page</span>,
+        element: (
+          <span>
+            house page
+            <Outlet />
+          </span>
+        ),
+        children: [
+          {
+            path: 'register',
+            element: <h1>Register Page</h1>,
+            shouldProtected: true,
+          },
+          {
+            path: ':houseId',
+            element: <h1>House Detail Page</h1>,
+          },
+        ],
       },
       {
         path: 'sign',
@@ -138,7 +154,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
       position: 'top-right',
     });
 
-    return showComponent ? (
+    return isForceDelayFinished ? (
       <Navigate to="/sign/in" />
     ) : (
       // ! TOOD: Loading Page 나오면 대체
