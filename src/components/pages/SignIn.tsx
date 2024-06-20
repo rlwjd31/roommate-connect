@@ -11,7 +11,7 @@ import {
 export default function SignIn() {
   const { updateUser } = useUpdateUser();
   const queryClient = useQueryClient();
-  const session = useAuthState();
+  const [session, _] = useAuthState();
 
   useEffect(() => {
     if (session && session.user.app_metadata.provider !== 'email') {

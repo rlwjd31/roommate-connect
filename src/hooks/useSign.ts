@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   AuthError,
   AuthResponse,
@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
-import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
+import { IsNotVerifiedAtom, sessionAtom, UserAtom } from '@/stores/auth.store';
 import {
   EmailAuthType,
   GoogleOAuthType,
@@ -174,7 +174,9 @@ export const useSignInSocial = () => {
 };
 
 export const useAuthState = () => {
-  const [sessionValue, setSessionValue] = useState<Session | null>(null);
+  const [sessionValue, setSessionValue] = useRecoilState(sessionAtom);
+  // const [sessionValue, setSessionValue] = useState<Session | null>(null);
+  const [isInitializingSession, setIsInitializingSession] = useState(true);
   const setUser = useSetRecoilState(UserAtom);
   const navigate = useNavigate();
 
@@ -182,9 +184,12 @@ export const useAuthState = () => {
     (session: Session | null) => {
       setSessionValue(session);
       setUser(parseUserFromSession(session));
+      setIsInitializingSession(false);
     },
-    [setUser],
+    [setUser, setSessionValue],
   );
+
+  console.log('useAuthState hook is invoked');
 
   // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
   // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
@@ -227,7 +232,7 @@ export const useAuthState = () => {
     };
   }, [setUser, navigate, setAuthState]);
 
-  return sessionValue;
+  return [sessionValue, isInitializingSession] as const;
 };
 
 // * User 의 생년월일, 성별을 얻기 위해 추가적으로 진행하는 요청

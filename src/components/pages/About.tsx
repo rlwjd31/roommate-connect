@@ -30,7 +30,7 @@ export default function About() {
 
   const { updateUser } = useUpdateUser();
   const queryClient = useQueryClient();
-  const session = useAuthState();
+  const [session, _] = useAuthState();
 
   // ! TODO: 무한 로딩으로 인해 임시방편 error 처리
   useEffect(() => {

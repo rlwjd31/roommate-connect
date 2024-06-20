@@ -109,27 +109,24 @@ const routes: RouteType[] = [
 
 function ProtectedRouter({ children }: ProtectedRouterType) {
   // * register supabase auth listener on initial rendering
-  const session = useAuthState();
-  const [showComponent, setShowComponent] = useState(false);
+  const [session, isInitializingSession] = useAuthState();
+  const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
   const user = useRecoilValue(UserAtom);
-  const shouldBeProtected = !user;
-  console.log('user =>', user);
-  console.log('shouldBeProtected', shouldBeProtected);
-  console.log('session in protected Router', session);
-
+  const shouldBeProtected = !session;
+  
   useEffect(() => {
     let sleep: number | undefined;
 
     if (shouldBeProtected) {
       sleep = window.setTimeout(() => {
-        setShowComponent(true);
+        setIsForceDelayFinished(true);
       }, 2000);
     } else {
-      setShowComponent(true);
+      setIsForceDelayFinished(true);
     }
 
     return () => {
-      if (!sleep) clearTimeout(sleep);
+      if (sleep) clearTimeout(sleep);
     };
   }, [shouldBeProtected]);
 
