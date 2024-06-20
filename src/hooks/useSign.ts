@@ -10,7 +10,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
-import { IsNotVerifiedAtom, sessionAtom, UserAtom } from '@/stores/auth.store';
+import {
+  IsInitializingSession,
+  IsNotVerifiedAtom,
+  sessionAtom,
+  UserAtom,
+} from '@/stores/auth.store';
 import {
   EmailAuthType,
   GoogleOAuthType,
@@ -175,8 +180,9 @@ export const useSignInSocial = () => {
 
 export const useAuthState = () => {
   const [sessionValue, setSessionValue] = useRecoilState(sessionAtom);
-  // const [sessionValue, setSessionValue] = useState<Session | null>(null);
-  const [isInitializingSession, setIsInitializingSession] = useState(true);
+  const [isInitializingSession, setIsInitializingSession] = useRecoilState(
+    IsInitializingSession,
+  );
   const setUser = useSetRecoilState(UserAtom);
   const navigate = useNavigate();
 
@@ -184,45 +190,59 @@ export const useAuthState = () => {
     (session: Session | null) => {
       setSessionValue(session);
       setUser(parseUserFromSession(session));
-      setIsInitializingSession(false);
     },
     [setUser, setSessionValue],
   );
 
-  console.log('useAuthState hook is invoked');
-
-  // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
-  // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
   useEffect(() => {
+    const loadSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        setAuthState(session);
+      }
+
+      setIsInitializingSession(false);
+    };
+
+    loadSession();
+
+    // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
+    // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        switch (event) {
-          case 'INITIAL_SESSION':
-            setAuthState(session);
-            break;
-          case 'SIGNED_IN':
-            setAuthState(session);
-            navigate('/');
-            break;
-          case 'SIGNED_OUT':
-            setAuthState(session);
-            navigate('/sign/in');
-            break;
-          case 'PASSWORD_RECOVERY':
-            // TODO: 추후 비밀번호 재설정 로직 구현하기 @유하
-            break;
-          case 'TOKEN_REFRESHED':
-            setAuthState(session);
-            break;
-          case 'USER_UPDATED':
-            // TODO: user update
-            // * db update => trigger로 구현되어 잇음
-            // * user update fetch할 때 supabase auth api를 이용하여 update하고 이 event를 발생
-            // * global state에 대한 user는 여기서 update
-            setAuthState(session);
-            break;
-          default:
-            console.error('unknown auth event listener 👉🏻', event);
+        if (!isInitializingSession) {
+          switch (event) {
+            case 'INITIAL_SESSION':
+              setAuthState(session);
+              break;
+            case 'SIGNED_IN':
+              setAuthState(session);
+              navigate('/');
+              console.log('SIGNED_IN');
+              break;
+            case 'SIGNED_OUT':
+              setAuthState(session);
+              navigate('/sign/in');
+              break;
+            case 'PASSWORD_RECOVERY':
+              // TODO: 추후 비밀번호 재설정 로직 구현하기 @유하
+              break;
+            case 'TOKEN_REFRESHED':
+              setAuthState(session);
+              break;
+            case 'USER_UPDATED':
+              // TODO: user update
+              // * db update => trigger로 구현되어 잇음
+              // * user update fetch할 때 supabase auth api를 이용하여 update하고 이 event를 발생
+              // * global state에 대한 user는 여기서 update
+              setAuthState(session);
+              break;
+            default:
+              console.error('unknown auth event listener 👉🏻', event);
+          }
         }
       },
     );
@@ -230,7 +250,7 @@ export const useAuthState = () => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [setUser, navigate, setAuthState]);
+  }, []);
 
   return [sessionValue, isInitializingSession] as const;
 };

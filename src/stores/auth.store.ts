@@ -17,3 +17,8 @@ export const sessionAtom = atom<Session | null>({
   key: 'sessionAtom',
   default: null,
 });
+
+export const IsInitializingSession = atom<boolean>({
+  key: 'isInitializingSession',
+  default: true,
+});

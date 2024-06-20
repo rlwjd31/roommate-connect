@@ -5,7 +5,6 @@ import {
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import {
   cloneElement,
   isValidElement,
@@ -25,7 +24,6 @@ import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
-import { UserAtom } from '@/stores/auth.store';
 import { useAuthState } from '@/hooks/useSign';
 import { createToast } from '@/libs/toast';
 
@@ -127,26 +125,23 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
   // * register supabase auth listener on initial rendering
   const [session, isInitializingSession] = useAuthState();
   const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
-  const user = useRecoilValue(UserAtom);
-  const shouldBeProtected = !session;
-  
+
   useEffect(() => {
     let sleep: number | undefined;
 
-    if (shouldBeProtected) {
+    // * session이 초기화 되었는데 session이 없다면
+    if (!isInitializingSession && !session) {
       sleep = window.setTimeout(() => {
         setIsForceDelayFinished(true);
       }, 2000);
-    } else {
-      setIsForceDelayFinished(true);
     }
 
     return () => {
       if (sleep) clearTimeout(sleep);
     };
-  }, [shouldBeProtected]);
+  }, [session, isInitializingSession, isForceDelayFinished]);
 
-  if (shouldBeProtected) {
+  if (!isInitializingSession && !session) {
     createToast('redirectToLoginPage', '💡 로그인이 필요한 페이지입니다', {
       autoClose: 2000,
       type: 'error',
@@ -158,7 +153,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
       <Navigate to="/sign/in" />
     ) : (
       // ! TOOD: Loading Page 나오면 대체
-      <div className="flex h-screen items-center justify-center bg-green-500">
+      <div className="flex h-screen items-center justify-center bg-green-500 text-2xl text-white">
         Redirect to Login Page...
       </div>
     );

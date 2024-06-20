@@ -1,5 +1,4 @@
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
 
 import cn from '@/libs/cn';
 import Header from '@/components/organisms/Header';
