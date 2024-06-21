@@ -9,6 +9,7 @@ import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { SignUpdatePassword, SignUpdatePasswordType } from '@/types/auth.type';
 import IconButton from '@/components/molecules/IconButton';
+import { useSignUpdatePassword } from '@/hooks/useSignPasswordReset';
 
 export default function SignUpdatePasswordTemplate() {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,8 +18,9 @@ export default function SignUpdatePasswordTemplate() {
     resolver: zodResolver(SignUpdatePassword),
   });
   const onClickShowPassword = () => setShowPassword(prev => !prev);
+  const { updatePassword, isPending } = useSignUpdatePassword();
   const onSubmit = (data: SignUpdatePasswordType) => {
-    console.log(data);
+    updatePassword(data);
   };
   return (
     <Container.FlexCol className="w-full gap-[2.5rem]">
@@ -37,6 +39,7 @@ export default function SignUpdatePasswordTemplate() {
                     name="password"
                     placeholder="비밀번호 입력"
                     inputStyle="w-full mt-[1rem]"
+                    disabled={isPending}
                   />
                   <IconButton.Ghost
                     className="absolute bottom-[44px] right-[13px] top-[53px]"
@@ -51,6 +54,7 @@ export default function SignUpdatePasswordTemplate() {
                     name="confirmPassword"
                     placeholder="비밀번호 입력"
                     inputStyle="w-full mt-[1rem]"
+                    disabled={isPending}
                   />
                   <IconButton.Ghost
                     className="absolute bottom-[44px] right-[13px] top-[53px]"
@@ -62,13 +66,17 @@ export default function SignUpdatePasswordTemplate() {
               <Button.Fill
                 type="submit"
                 className="mt-[3.25rem] w-full rounded-[10px]"
+                disabled={isPending}
               >
                 <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
                   확인
                 </Typography.P3>
               </Button.Fill>
               <Link to="/sign/in" className="w-full">
-                <Button.Outline className="mx-auto my-[1rem] w-full rounded-[10px]">
+                <Button.Outline
+                  className="mx-auto my-[1rem] w-full rounded-[10px]"
+                  disabled={isPending}
+                >
                   <Typography.P3 className="mx-auto my-[1rem] text-brown">
                     로그인 페이지로 이동
                   </Typography.P3>
