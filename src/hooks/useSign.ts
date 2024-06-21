@@ -5,8 +5,9 @@ import {
   AuthResponse,
   AuthTokenResponsePassword,
   Session,
+  Subscription,
 } from '@supabase/supabase-js';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
@@ -195,33 +196,33 @@ export const useAuthState = () => {
   );
 
   useEffect(() => {
-    const loadSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session) {
-        setAuthState(session);
-      }
-
-      setIsInitializingSession(false);
+    let beforeInitialSessionAuthListener: null | {
+      data: { subscription: Subscription };
     };
-
-    loadSession();
+    let afterInitialSessionAuthListener: null | {
+      data: { subscription: Subscription };
+    };
 
     // ! onAuthStateChange 를 사용하는 이유는 React-Query에서 onSuccess 로 처리를 하면 API Fetching 에 필요한 토큰 값을 받을 수 없기 때문
     // ! 토큰을 취득하려면 localStorage 에서 저장된 값을 불러와 하거나 onAuthStateChange 를 사용
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (!isInitializingSession) {
+    if (isInitializingSession) {
+      beforeInitialSessionAuthListener = supabase.auth.onAuthStateChange(
+        (event, session) => {
+          setAuthState(session);
+          setIsInitializingSession(false);
+        },
+      );
+    } else {
+      afterInitialSessionAuthListener = supabase.auth.onAuthStateChange(
+        (event, session) => {
           switch (event) {
             case 'INITIAL_SESSION':
               setAuthState(session);
+              setIsInitializingSession(false);
               break;
             case 'SIGNED_IN':
               setAuthState(session);
               navigate('/');
-              console.log('SIGNED_IN');
               break;
             case 'SIGNED_OUT':
               setAuthState(session);
@@ -243,14 +244,17 @@ export const useAuthState = () => {
             default:
               console.error('unknown auth event listener 👉🏻', event);
           }
-        }
-      },
-    );
+        },
+      );
+    }
 
     return () => {
-      authListener.subscription.unsubscribe();
+      if (beforeInitialSessionAuthListener)
+        beforeInitialSessionAuthListener.data.subscription.unsubscribe();
+      if (afterInitialSessionAuthListener)
+        afterInitialSessionAuthListener.data.subscription.unsubscribe();
     };
-  }, []);
+  }, [isInitializingSession, navigate]);
 
   return [sessionValue, isInitializingSession] as const;
 };

@@ -159,6 +159,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
     );
   }
 
+  // * session이 초기화되었을 때만 도달하는 영역
   return isValidElement(children)
     ? cloneElement(children, { isLogin: !!session })
     : null;
