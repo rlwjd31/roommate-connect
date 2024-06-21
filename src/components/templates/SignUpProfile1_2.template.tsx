@@ -1,4 +1,5 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useFormContext } from 'react-hook-form';
 
 import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
@@ -9,9 +10,19 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import { SelectorItemValueType } from '@/types/regionDistrict.type';
 import FormItem from '@/components/molecules/FormItem';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
+import { SignUpProfileFormType } from '@/types/signUp.type';
+import {
+  MoleculeSelectorState,
+  SelectorStateType,
+} from '@/components/organisms/districtSelector/selector.store';
+import { createToast } from '@/libs/toast';
 
 export default function SignUpProfile1_2Template() {
+  const { trigger } = useFormContext<SignUpProfileFormType>();
+  const setDistrictState = useSetRecoilState<SelectorStateType<'시, 구'>>(
+    MoleculeSelectorState('시, 구'),
+  );
+
   const [regions, setRegions] = useRecoilState(
     SignupProfileStateSelector('regions'),
   );
@@ -20,13 +31,23 @@ export default function SignUpProfile1_2Template() {
   const onClickSelectFinish = (
     region: SelectorItemValueType<'지역'>,
     district: SelectorItemValueType<'시, 구'>,
-  ) =>
-    setRegions(
-      prev =>
-        [
-          ...new Set([...prev, `${region} ${district}`]),
-        ] as `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`[],
-    );
+  ) => {
+    setRegions(prev => {
+      if (prev.includes(`${region} ${district}`)) {
+        createToast('duplicatedRegion', '중복된 지역을 선택하셨습니다.', {
+          type: 'error',
+          isLoading: false,
+          containerId: 'signUpProfileToastContainer',
+          autoClose: 1000,
+        });
+        return prev;
+      }
+      return [...prev, `${region} ${district}`];
+    });
+
+    setDistrictState({ value: '시, 구', isOpen: false });
+    trigger('regions');
+  };
 
   const onClickDeleteRegionBadge = (
     value: `${SelectorItemValueType<'지역'>} ${SelectorItemValueType<'시, 구'>}`,
@@ -52,21 +73,9 @@ export default function SignUpProfile1_2Template() {
             ))}
           </Container.FlexRow>
           <DistrictSelector onSelectRegion={onClickSelectFinish} />
-          <FormItem.Hidden<Pick<ProfileFormValues, 'regions'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'regions'>>
             name="regions"
-            options={{
-              validate: {
-                isLengthExceeding: (regionArr: string) => {
-                  const parsedArr = JSON.parse(regionArr) as string[];
-                  if (parsedArr.length === 0) return '위치를 선택해주세요';
-                  if (parsedArr.length > 3)
-                    return '위치는 최대 3개까지 선택 가능합니다.';
-                  return true;
-                },
-              },
-            }}
-            defaultValue=""
-            valueProp={JSON.stringify(regions)}
+            valueProp={regions}
           />
         </Container.FlexCol>
         <Container.FlexCol>
@@ -81,6 +90,10 @@ export default function SignUpProfile1_2Template() {
             setRangeValue={setTerm}
             rangeValue={term}
             category="term"
+          />
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'term'>>
+            name="term"
+            valueProp={term}
           />
         </Container.FlexCol>
       </Container.FlexCol>
