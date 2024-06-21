@@ -11,6 +11,9 @@ import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { supabase } from '@/libs/supabaseClient';
+import { useSignInState } from '@/hooks/useSign';
+import { createToast } from '@/libs/toast';
+import copyUrl from '@/libs/copyUrl';
 
 interface HouseData {
   id: string;
@@ -53,6 +56,8 @@ interface LifeStyle {
 export default function HouseDetailTemplate() {
   const { houseId } = useParams();
   const [houseData, setHouseData] = useState<HouseData | null>(null);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const user = useSignInState();
 
   const fetchData = async () => {
     const { data: house, error } = await supabase
@@ -68,18 +73,76 @@ export default function HouseDetailTemplate() {
     return house;
   };
 
+  const fetchBookmark = async () => {
+    const { data: user_bookmark, error } = await supabase
+      .from('user_bookmark')
+      .select('*')
+      .eq('id', user?.user.id)
+      .eq('house_id', houseId)
+      .single();
+    if (error) {
+      console.log('d', error.message);
+    }
+    return user_bookmark;
+  };
+
   useEffect(() => {
     (async () => {
       const houseData = await fetchData();
-      console.log('houseData =>', houseData);
+      // console.log('houseData =>', houseData);
 
       setHouseData(houseData);
+      if (user) {
+        const bookmarks = await fetchBookmark();
+        console.log('bookmarks=>', bookmarks);
+
+        if (bookmarks) {
+          setIsBookmarked(true);
+        }
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
   if (!houseData) {
     return <h1 className="text-4xl">Loading...</h1>;
   }
+  // eslint-disable-next-line consistent-return
+  // TODO: try catch로 리펙토링
+  const onClickBookMark = async () => {
+    if (isBookmarked) {
+      const { error } = await supabase
+        .from('user_bookmark')
+        .delete()
+        .eq('id', user?.user.id)
+        .eq('house_id', houseId);
+      if (error) {
+        console.log(error.message);
+      } else {
+        setIsBookmarked(false);
+        createToast('cancel_bookmark', '북마크 해제 되었습니다.', {
+          isLoading: false,
+          type: 'info',
+          autoClose: 1000,
+        });
+      }
+    } else {
+      const { error } = await supabase
+        .from('user_bookmark')
+        .insert([{ id: user?.user.id, house_id: houseId }])
+        .select('*');
+      if (error) {
+        console.log(error.message);
+      } else {
+        setIsBookmarked(true);
+        createToast('add_bookmark', '북마크에 추가 되었습니다!', {
+          isLoading: false,
+          type: 'success',
+          autoClose: 1000,
+        });
+      }
+    }
+  };
+
   // houseData
   const formDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -151,7 +214,7 @@ export default function HouseDetailTemplate() {
             ))}
       </Container.Grid>
       <Container.FlexCol>
-        <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
+        <Container.FlexCol className="gap-14 border-b border-brown pb-8">
           <Container.FlexCol className="gap-4">
             <Typography.Head2 className="text-brown">
               {houseData && houseData.post_title}
@@ -166,7 +229,7 @@ export default function HouseDetailTemplate() {
               </Typography.Span1>
             </Container.FlexRow>
           </Container.FlexCol>
-          <Container.FlexRow className="justify-between	">
+          <Container.FlexRow className="justify-between ">
             <Container.FlexRow className="gap-5">
               <Button.Fill className="rounded-lg px-7 py-5 text-white">
                 <Typography.P1>룸메이트 신청</Typography.P1>
@@ -177,11 +240,14 @@ export default function HouseDetailTemplate() {
             </Container.FlexRow>
             <Container.FlexRow className="gap-10">
               <Container.FlexCol className="items-center justify-center gap-3">
-                <IconButton.Ghost iconType="heart" />
+                <IconButton.Ghost
+                  iconType={isBookmarked ? 'fill-heart' : 'heart'}
+                  onClick={onClickBookMark}
+                />
                 <Typography.Span1 className="text-brown1">43</Typography.Span1>
               </Container.FlexCol>
               <Container.FlexCol className="items-center justify-center gap-3">
-                <IconButton.Ghost iconType="share" />
+                <IconButton.Ghost iconType="share" onClick={copyUrl} />
                 <Typography.Span1 className="text-brown1">
                   공유
                 </Typography.Span1>
@@ -303,14 +369,14 @@ export default function HouseDetailTemplate() {
           <Typography.SubTitle1 className="text-brown">
             댓글 2개
           </Typography.SubTitle1>
-          <Container.FlexCol className="items-end gap-8	">
+          <Container.FlexCol className="items-end gap-8 ">
             <TextArea
               type="text"
               name="comment"
               placeholder="댓글을 남겨보세요."
               rows={5}
             />
-            <Button.Fill className="h-12 w-16 items-center justify-center rounded-lg text-white	">
+            <Button.Fill className="h-12 w-16 items-center justify-center rounded-lg text-white ">
               등록
             </Button.Fill>
           </Container.FlexCol>
