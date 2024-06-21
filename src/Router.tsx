@@ -10,6 +10,8 @@ import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import HouseRegister from '@/components/pages/HouseRegister';
+import SignPasswordReset from '@/components/pages/SignPasswordReset';
+import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
           {
             path: 'up',
             element: <SignUp />,
+          },
+          {
+            path: 'password',
+            element: <SignPasswordReset />,
+          },
+          {
+            path: 'update-password',
+            element: <SignUpdatePassword />,
           },
         ],
       },
