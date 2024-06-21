@@ -27,6 +27,7 @@ import Visible from '@/assets/icons/visible.svg?react';
 import AlarmExist from '@/assets/icons/alarm-exist.svg?react';
 import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avatar from '@/assets/icons/avatar.svg?react';
+import Back from '@/assets/icons/back.svg?react';
 import Heart from '@/assets/icons/heart.svg?react';
 import Share from '@/assets/icons/share.svg?react';
 import MiniSmoke from '@/assets/icons/mini-smoke.svg?react';
@@ -37,12 +38,12 @@ import GenderIntersex from '@/assets/icons/ph_gender-intersex.svg?react';
 import MiniPetLover from '@/assets/icons/mini-pet-lover.svg?react';
 import MiniNonePetLover from '@/assets/icons/mini-none-pet-lover.svg?react';
 import MiniDontMindPet from '@/assets/icons/mini-dont-mind-pet.svg?react';
+import FillHeart from '@/assets/icons/fill-heart.svg?react';
 import PaperClip from '@/assets/icons/paper-clip.svg?react';
 import Send from '@/assets/icons/send.svg?react';
 import Camera from '@/assets/icons/camera.svg?react';
 import Next from '@/assets/icons/next.svg?react';
 import Prev from '@/assets/icons/prev.svg?react';
-import Back from '@/assets/icons/back.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -89,6 +90,7 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'mini-pet-lover': <MiniPetLover />,
   'mini-none-pet-lover': <MiniNonePetLover />,
   'mini-dont-mind-pet': <MiniDontMindPet />,
+  'fill-heart': <FillHeart />,
 };
 
 export default IconSVG;

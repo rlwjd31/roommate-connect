@@ -43,7 +43,8 @@ export type IconType =
   | 'mini-gender-intersex'
   | 'mini-pet-lover'
   | 'mini-none-pet-lover'
-  | 'mini-dont-mind-pet';
+  | 'mini-dont-mind-pet'
+  | 'fill-heart';
 
 export type CustomIconType = {
   fill?: ColorType;
