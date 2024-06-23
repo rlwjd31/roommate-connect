@@ -13,7 +13,7 @@ export const UserAtom = atom<UserType | null>({
   default: null,
 });
 
-export const sessionAtom = atom<Session | null>({
+export const SessionAtom = atom<Session | null>({
   key: 'sessionAtom',
   default: null,
 });

@@ -14,7 +14,7 @@ import { supabase } from '@/libs/supabaseClient';
 import {
   IsInitializingSession,
   IsNotVerifiedAtom,
-  sessionAtom,
+  SessionAtom,
   UserAtom,
 } from '@/stores/auth.store';
 import {
@@ -260,7 +260,7 @@ export const useUpdateUserAdditionalInfo = () => {
 };
 
 export const useAuthState = () => {
-  const [sessionValue, setSessionValue] = useRecoilState(sessionAtom);
+  const [sessionValue, setSessionValue] = useRecoilState(SessionAtom);
   const [isInitializingSession, setIsInitializingSession] = useRecoilState(
     IsInitializingSession,
   );

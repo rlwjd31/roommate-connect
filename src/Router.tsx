@@ -12,6 +12,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
 import ComponentTest from '@/components/pages/ComponentTest';
@@ -25,6 +26,7 @@ import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { useAuthState } from '@/hooks/useSign';
+import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
 // ! 따라서, element, layout을 ReactElement로 지정함
@@ -37,9 +39,12 @@ type RouteType = RouteObject & {
 type ProtectedRouterType = {
   children: ReactElement<{ isLogin?: boolean }>;
 };
+
 function ProtectedRouter({ children }: ProtectedRouterType) {
   // * register supabase auth listener on initial rendering
-  const [session, isInitializingSession] = useAuthState();
+  // const [session, isInitializingSession] = useAuthState();
+  const session = useRecoilValue(SessionAtom);
+  const isInitializingSession = useRecoilValue(IsInitializingSession);
   const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
 
   useEffect(() => {
@@ -73,6 +78,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
     ? cloneElement(children, { isLogin: !!session })
     : null;
 }
+
 const routes: RouteType[] = [
   {
     path: '/',
@@ -80,11 +86,7 @@ const routes: RouteType[] = [
     children: [
       {
         index: true,
-        element: (
-          <ProtectedRouter>
-            <About />
-          </ProtectedRouter>
-        ),
+        element: <About />,
       },
       {
         path: 'chats',
