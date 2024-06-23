@@ -5,9 +5,8 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 import FormItem from '@/components/molecules/FormItem';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import {
   petDisplayData,
   smokeDisplayData,
@@ -19,9 +18,10 @@ export default function SignUpProfile2_1Template() {
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
 
-  const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
+  const onClickSmokingType = (stateValue: SignUpProfileFormType['smoking']) =>
     setSmoking(stateValue);
-  const onClickPetType = (stateValue: SignUpType['pet']) => setPet(stateValue);
+  const onClickPetType = (stateValue: SignUpProfileFormType['pet']) =>
+    setPet(stateValue);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -51,15 +51,9 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'smoking'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'smoking'>>
             name="smoking"
-            options={{
-              required: '흡연 여부를 선택해주세요',
-            }}
-            defaultValue={
-              typeof smoking === 'boolean' ? `${smoking}` : undefined
-            }
-            valueProp={typeof smoking === 'boolean' ? `${smoking}` : undefined}
+            valueProp={smoking}
           />
         </Container.FlexRow>
         <Typography.SubTitle1 className="text-brown">
@@ -83,12 +77,8 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'pet'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'pet'>>
             name="pet"
-            options={{
-              required: '반려 동물 여부를 선택해주세요',
-            }}
-            defaultValue={pet}
             valueProp={pet}
           />
         </Container.FlexRow>

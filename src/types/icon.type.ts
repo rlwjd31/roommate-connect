@@ -30,7 +30,11 @@ export type IconType =
   | 'avartar'
   | 'back'
   | 'paper-clip'
-  | 'send';
+  | 'send'
+  | 'camera'
+  | 'prev'
+  | 'next'
+  | 'back';
 
 export type CustomIconType = {
   fill?: ColorType;

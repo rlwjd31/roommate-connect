@@ -29,6 +29,6 @@ export default function useModal<T extends ModalType>(modalType: T) {
     closeModal,
     getModalState,
     setModalState,
-    isModalOpen: modalState.isOpen === true,
+    isModalOpen: modalState.isOpen,
   };
 }

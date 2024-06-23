@@ -21,6 +21,8 @@ import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 import Loading from '@/components/pages/Loading';
+import HouseRegister from '@/components/pages/HouseRegister';
+
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
 // ! 따라서, element, layout을 ReactElement로 지정함

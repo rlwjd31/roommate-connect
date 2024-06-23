@@ -29,6 +29,9 @@ import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avartar from '@/assets/icons/avatar.svg?react';
 import PaperClip from '@/assets/icons/paper-clip.svg?react';
 import Send from '@/assets/icons/send.svg?react';
+import Camera from '@/assets/icons/camera.svg?react';
+import Next from '@/assets/icons/next.svg?react';
+import Prev from '@/assets/icons/prev.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -61,6 +64,9 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   avartar: <Avartar />,
   'paper-clip': <PaperClip />,
   send: <Send />,
+  camera: <Camera />,
+  prev: <Prev />,
+  next: <Next />,
 };
 
 export default IconSVG;

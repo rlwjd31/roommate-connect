@@ -6,9 +6,8 @@ import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 import FormItem from '@/components/molecules/FormItem';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import {
   houseTypeDisplayData,
   rentalTypeDisplayData,
@@ -21,12 +20,12 @@ export default function SignUpProfile1_1Template() {
   const [rentalType, setRentalType] = useRecoilState(
     SignupProfileStateSelector('rental_type'),
   );
-  // const { setValue } = useFormContext<Pick<ProfileFormValues, 'houseType' | 'rentalType'>>();
 
-  const onClickHouseType = (stateValue: SignUpType['type']) =>
+  const onClickHouseType = (stateValue: SignUpProfileFormType['type']) =>
     setHouseType(stateValue);
-  const onClickRentalType = (stateValue: SignUpType['rental_type']) =>
-    setRentalType(stateValue);
+  const onClickRentalType = (
+    stateValue: SignUpProfileFormType['rental_type'],
+  ) => setRentalType(stateValue);
 
   return (
     <Container.FlexCol className="min-w-full px-2">
@@ -55,12 +54,8 @@ export default function SignUpProfile1_1Template() {
               </IconButton.Outline>
             ),
           )}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'houseType'>>
-            name="houseType"
-            options={{
-              required: '집 유형을 선택해주세요',
-            }}
-            defaultValue={houseType}
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'type'>>
+            name="type"
             valueProp={houseType}
           />
         </Container.FlexRow>
@@ -83,13 +78,9 @@ export default function SignUpProfile1_1Template() {
               </Typography.P2>
             </Button.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'rentalType'>>
-            name="rentalType"
-            options={{
-              required: '매물 종류를 선택해주세요',
-            }}
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'rental_type'>>
+            name="rental_type"
             valueProp={rentalType}
-            defaultValue={rentalType}
           />
         </Container.FlexRow>
       </Container.FlexCol>
