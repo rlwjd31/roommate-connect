@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
 import {
   EmailAuthType,
-  SignUpFormData2,
-  SignUpFormData2Type,
+  SignUpEmail,
+  SignUpEmailType,
   VerifyEmailType,
 } from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
@@ -16,10 +16,10 @@ import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
 
-export default function SignUpIntroTemplate2() {
+export default function SignUpEmailTemplate() {
   const Form = FormProvider;
-  const form = useForm<SignUpFormData2Type>({
-    resolver: zodResolver(SignUpFormData2),
+  const form = useForm<SignUpEmailType>({
+    resolver: zodResolver(SignUpEmail),
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const showVerification = useRecoilValue(ShowVerificationAtom);
@@ -51,7 +51,7 @@ export default function SignUpIntroTemplate2() {
     verifyEmail(formData);
   };
 
-  const onSubmit: SubmitHandler<SignUpFormData2Type> = data =>
+  const onSubmit: SubmitHandler<SignUpEmailType> = data =>
     !showVerification
       ? onSubmitSignUp(data as EmailAuthType)
       : onSubmitVerify(data as VerifyEmailType);
@@ -115,7 +115,7 @@ export default function SignUpIntroTemplate2() {
               disabled={isPending}
             >
               <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                확인
+                다음
               </Typography.P3>
             </Button.Fill>
           )}

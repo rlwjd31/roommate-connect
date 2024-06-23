@@ -1,5 +1,4 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import { Dispatch, SetStateAction } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -8,28 +7,22 @@ import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
 import { SignUpEmailUserAtom } from '@/stores/sign.store';
 import FormItem from '@/components/molecules/FormItem';
-import { SignUpFormData1, SignUpFormData1Type } from '@/types/auth.type';
+import { SignUpInfo, SignUpInfoType } from '@/types/auth.type';
 
-export default function SignUpIntroTemplate1({
-  step,
-}: {
-  step: Dispatch<SetStateAction<number>>;
-}) {
+export default function SignUpInfoTemplate() {
   const Form = FormProvider;
-  const form = useForm<SignUpFormData1Type>({
-    resolver: zodResolver(SignUpFormData1),
+  const form = useForm<SignUpInfoType>({
+    resolver: zodResolver(SignUpInfo),
   });
   const setSignUpEmailUser = useSetRecoilState(SignUpEmailUserAtom);
 
-  const onSubmit = (data: SignUpFormData1Type) => {
+  const onSubmit = (data: SignUpInfoType) => {
     setSignUpEmailUser(prev => ({
       ...prev,
       name: data.name,
       birth: Number(data.birth),
       gender: data.gender === 1 || data.gender === 3 ? 1 : 2,
     }));
-
-    step(1);
   };
 
   return (
