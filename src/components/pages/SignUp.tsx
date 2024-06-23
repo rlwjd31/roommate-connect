@@ -35,7 +35,7 @@ export default function SignUp() {
         className="size-[2.75rem] rounded-full"
       />
       <Container.FlexCol className="gap-[3.5rem]">
-        <Typography.Head2>회원가입</Typography.Head2>
+        <Typography.Head2 className="text-brown">회원가입</Typography.Head2>
         <Container className="w-full">
           <Carousel order={currentStep}>
             <SignUpIntroTemplate1 step={setCurrentStep} />
