@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import {
   AuthError,
   AuthResponse,
@@ -14,6 +14,7 @@ import {
   EmailAuthType,
   GoogleOAuthType,
   KakaoOAuthType,
+  SignUpEmailType,
   SocialType,
   UserAdditionalType,
   UserType,
@@ -21,7 +22,7 @@ import {
 } from '@/types/auth.type';
 import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
-import { ShowVerificationAtom, SignUpEmailUserAtom } from '@/stores/sign.store';
+import { ShowVerificationAtom } from '@/stores/sign.store';
 
 const preProcessingUserData = (
   data: AuthTokenResponsePassword | AuthResponse,
@@ -45,21 +46,17 @@ const preProcessingUserData = (
 };
 
 export const useSignUpEmail = () => {
-  const signUpEmailValue = useRecoilValue(SignUpEmailUserAtom);
+  // const signUpEmailValue = useRecoilValue(SignUpEmailUserAtom);
   const setShowVerification = useSetRecoilState(ShowVerificationAtom);
   const { mutate: signUpEmail, isPending: isSignUpEmail } = useMutation({
-    mutationFn: async () =>
+    mutationFn: async (payload: SignUpEmailType) =>
       supabase.auth.signUp({
-        email: signUpEmailValue.email,
-        password: signUpEmailValue.password,
+        email: payload.email,
+        password: payload.password,
         options: {
           data: {
             avatar: '',
-            email: signUpEmailValue.email,
-            name: signUpEmailValue.name,
-            birth: signUpEmailValue.birth,
-            gender: signUpEmailValue.gender,
-            nickName: signUpEmailValue.name,
+            email: payload.email,
             status: 0,
           },
         },

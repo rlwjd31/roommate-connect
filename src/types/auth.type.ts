@@ -92,14 +92,6 @@ export const SignUpEmail = z
   });
 export type SignUpEmailType = z.infer<typeof SignUpEmail>;
 
-// * SignUp 1 페이지 타입 + SignUp 2 페이지 타입
-// * SignUp 2 confirmPassword는 불필요
-// * 회원가입 시 사용되는 타입
-export const SignUpUser = SignUpInfo.merge(
-  SignUpEmail.innerType().omit({ confirmPassword: true }),
-);
-export type SignUpUserType = z.infer<typeof SignUpUser>;
-
 // * 상태로 관리할 User 의 타입
 export type UserType = UserAdditionalType & {
   avatar: string;
