@@ -5,13 +5,7 @@ import {
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
-import {
-  cloneElement,
-  isValidElement,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
@@ -26,6 +20,7 @@ import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
+import Loading from '@/components/pages/Loading';
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
 // ! 따라서, element, layout을 ReactElement로 지정함
@@ -44,38 +39,18 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
   // const [session, isInitializingSession] = useAuthState();
   const session = useRecoilValue(SessionAtom);
   const isInitializingSession = useRecoilValue(IsInitializingSession);
-  const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
-
-  useEffect(() => {
-    let sleep: number | undefined;
-
-    // * session이 초기화 되었는데 session이 없다면
-    if (!isInitializingSession && !session) {
-      sleep = window.setTimeout(() => {
-        setIsForceDelayFinished(true);
-      }, 2000);
-    }
-
-    return () => {
-      if (sleep) clearTimeout(sleep);
-    };
-  }, [session, isInitializingSession, isForceDelayFinished]);
+  const [isDelaying, setIsDelaying] = useState(true);
 
   if (!isInitializingSession && !session) {
-    return isForceDelayFinished ? (
-      <Navigate to="/sign/in" />
+    return isDelaying ? (
+      <Loading delayTime={2000} setIsDelaying={setIsDelaying} />
     ) : (
-      // ! TOOD: Loading Page 나오면 대체
-      <div className="flex h-screen items-center justify-center bg-green-500 text-2xl text-white">
-        Redirect to Login Page...
-      </div>
+      <Navigate to="/sign/in" />
     );
   }
 
   // * session이 초기화되었을 때만 도달하는 영역
-  return isValidElement(children)
-    ? cloneElement(children, { isLogin: !!session })
-    : null;
+  return children;
 }
 
 const routes: RouteType[] = [
@@ -123,7 +98,7 @@ const routes: RouteType[] = [
         // TODO: @수현 -> 미인증은 blur를 통해 일부 정보만을 보여주는 페이지 등록
         path: 'house-detail/:houseId',
         element: <h1>House Detail Page</h1>,
-        shouldProtected: true
+        shouldProtected: true,
       },
       {
         path: 'sign',

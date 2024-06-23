@@ -4,13 +4,7 @@ import cn from '@/libs/cn';
 import Header from '@/components/organisms/Header';
 import { useAuthState } from '@/hooks/useSign';
 
-// ! TODO: Protected Router를 component로 만들고 HOC로 감싸서 내보내기
-
-type LayoutTemplateType = {
-  isLogin?: boolean | null;
-};
-
-export default function LayoutTemplate({ isLogin }: LayoutTemplateType) {
+export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
   const [session] = useAuthState();
 
