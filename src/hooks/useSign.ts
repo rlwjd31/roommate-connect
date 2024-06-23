@@ -57,9 +57,6 @@ const parseUserFromSession = (session: Session | null): UserType | null => {
   const { gender, avatar, avatar_url, birth, name, nickname, status } =
     session.user.user_metadata;
 
-  console.log('userSession', session.user);
-  console.log('user', session.user.user_metadata);
-
   return {
     id,
     name,
@@ -288,8 +285,6 @@ export const useAuthState = () => {
     if (isInitializingSession) {
       beforeInitialSessionAuthListener = supabase.auth.onAuthStateChange(
         (event, session) => {
-          console.log('before에서 발생??', event);
-          console.log('session =>', session);
           setAuthState(session);
           setIsInitializingSession(false);
         },
@@ -297,9 +292,6 @@ export const useAuthState = () => {
     } else {
       afterInitialSessionAuthListener = supabase.auth.onAuthStateChange(
         (event, session) => {
-          console.log('after에서 발생??', event);
-          console.log('session =>', session);
-
           switch (event) {
             case 'INITIAL_SESSION':
               setAuthState(session);
