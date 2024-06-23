@@ -1,7 +1,5 @@
+import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
 
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
@@ -11,12 +9,7 @@ import { UserAtom } from '@/stores/auth.store';
 import Link from '@/components/atoms/Link';
 
 export default function About() {
-  const isInitial = useRef(0);
-  // ! TODO 추후 수정 로그인 기능 테스트를 위한 로그아웃
-  // ! Layout.template.tsx 의 onAuthStateChange 에서 navigate 동작
-  // ! 현재 About 컴포넌트는 Layout.template.tsx 외부에 위치한 컴포넌트로 임시로 작성
-  // ! TODO 제거
-  const [user, setUser] = useRecoilState(UserAtom);
+  const user = useRecoilValue(UserAtom);
   const navigate = useNavigate();
   const onClickSignOut = async () => {
     const { error } = await supabase.auth.signOut();
@@ -38,11 +31,19 @@ export default function About() {
           alt="avatar"
         />
       )}
-      <Button.Fill className="w-[100px] rounded-xl p-4">
-        <Typography.P2 className="text-white" onClick={onClickSignOut}>
+      {user && (
+        <Button.Fill className="w-fit p-8 text-white" onClick={onClickSignOut}>
           로그아웃
-        </Typography.P2>
-      </Button.Fill>
+        </Button.Fill>
+      )}
+      {!user && (
+        <Button.Fill
+          className="w-fit p-8 text-white"
+          onClick={() => navigate('sign/in')}
+        >
+          로그인
+        </Button.Fill>
+      )}
       <Container.FlexCol className="space-y-2">
         <Link to="/chats" className="w-40 bg-brown text-xl text-white">
           chats
@@ -56,10 +57,10 @@ export default function About() {
         <Link to="/house" className="w-40 bg-brown text-xl text-white">
           house
         </Link>
-        <Link to="/house/register" className="w-40 bg-brown text-xl text-white">
+        <Link to="/house/regist" className="w-40 bg-brown text-xl text-white">
           house register
         </Link>
-        <Link to="/house/1" className="w-40 bg-brown text-xl text-white">
+        <Link to="/house-detail/1" className="w-40 bg-brown text-xl text-white">
           house detail
         </Link>
         <Link to="/signup-intro" className="w-40 bg-brown text-xl text-white">
