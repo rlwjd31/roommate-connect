@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import {
   AuthError,
   AuthResponse,
@@ -7,6 +7,8 @@ import {
   Session,
 } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
 import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
@@ -14,6 +16,8 @@ import {
   EmailAuthType,
   GoogleOAuthType,
   KakaoOAuthType,
+  SignUpEmailType,
+  SignUpInfoType,
   SocialType,
   UserAdditionalType,
   UserType,
@@ -21,7 +25,7 @@ import {
 } from '@/types/auth.type';
 import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
-import { ShowVerificationAtom, SignUpEmailUserAtom } from '@/stores/sign.store';
+import { ShowVerificationAtom } from '@/stores/sign.store';
 
 const preProcessingUserData = (
   data: AuthTokenResponsePassword | AuthResponse,
@@ -45,21 +49,18 @@ const preProcessingUserData = (
 };
 
 export const useSignUpEmail = () => {
-  const signUpEmailValue = useRecoilValue(SignUpEmailUserAtom);
+  // const signUpEmailValue = useRecoilValue(SignUpEmailUserAtom);
   const setShowVerification = useSetRecoilState(ShowVerificationAtom);
   const { mutate: signUpEmail, isPending: isSignUpEmail } = useMutation({
-    mutationFn: async () =>
+    mutationFn: async (payload: SignUpEmailType) =>
       supabase.auth.signUp({
-        email: signUpEmailValue.email,
-        password: signUpEmailValue.password,
+        email: payload.email,
+        password: payload.password,
         options: {
           data: {
+            name: uuid(),
             avatar: '',
-            email: signUpEmailValue.email,
-            name: signUpEmailValue.name,
-            birth: signUpEmailValue.birth,
-            gender: signUpEmailValue.gender,
-            nickName: signUpEmailValue.name,
+            email: payload.email,
             status: 0,
           },
         },
@@ -105,6 +106,7 @@ export const useVerifyEmail = ({
 }: {
   [key: string]: string;
 }) => {
+  const navigate = useNavigate();
   const setUser = useSetRecoilState(UserAtom);
   const { mutate: verifyEmail, isPending: isVerifyEmail } = useMutation({
     mutationFn: async (payload: VerifyEmailType) => {
@@ -120,6 +122,7 @@ export const useVerifyEmail = ({
       // * Recoil 상태로 유저정보 등록
       if (payload) setUser(payload);
       successToast('signin', successMessage);
+      navigate('/sign/up/info');
     },
     onError: (error: AuthError) => {
       errorToast('signin', error.message);
@@ -209,6 +212,26 @@ export const userAdditionalInfo = (session: Session) => ({
     return user;
   },
 });
+
+export const useUpdateUserInfo = () => {
+  const navigate = useNavigate();
+  const { mutate: updateUserInfo, isPending } = useMutation({
+    mutationFn: async (payload: SignUpInfoType) => {
+      const { error } = await supabase.auth.updateUser({
+        data: { ...payload, nickname: payload.name },
+      });
+      if (error) throw new Error(error.message);
+    },
+    onMutate: () =>
+      createToast('update-user-info', '기본 정보를 수정중입니다...'),
+    onSuccess: () => {
+      successToast('update-user-info', '✅기본 정보 수정을 완료했습니다.');
+      navigate('/about');
+    },
+    onError: error => errorToast('update-user-info', error.message),
+  });
+  return { updateUserInfo, isPending };
+};
 export const useUpdateUser = () => {
   // * Social 로그인에서 Gender, Birth 데이터를 DB와 연동하기 위한 훅
   const setUser = useSetRecoilState(UserAtom);

@@ -27,9 +27,9 @@ const UserAdditional = z.object({
 });
 export type UserAdditionalType = z.infer<typeof UserAdditional>;
 
-// * SignUp 1 페이지 타입
+// * SignUp Info 페이지 타입
 // * birth, gender는 자체 제작 SignUp 페이지에서는 필수 필드
-export const SignUpFormData1 = z.object({
+export const SignUpInfo = z.object({
   name: z
     .string({ required_error: '필수 입력 사항입니다.' })
     .min(2, { message: '최소 2글자 이상 입력해주세요.' }),
@@ -63,9 +63,9 @@ export const SignUpFormData1 = z.object({
     })
     .transform(data => Number(data)),
 });
-export type SignUpFormData1Type = z.infer<typeof SignUpFormData1>;
+export type SignUpInfoType = z.infer<typeof SignUpInfo>;
 
-// * SignUp 2 페이지 타입
+// * SignUp Email 페이지 타입
 const PasswordValidate = z
   .string({ required_error: '비밀번호를 입력해주세요.' })
   .min(8, {
@@ -74,7 +74,7 @@ const PasswordValidate = z
   .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
     message: '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
   });
-export const SignUpFormData2 = z
+export const SignUpEmail = z
   .object({
     email: z
       .string({ required_error: '필수 입력 사항입니다.' })
@@ -90,15 +90,7 @@ export const SignUpFormData2 = z
     message: '비밀번호가 일치하지 않습니다.',
     path: ['confirmPassword'],
   });
-export type SignUpFormData2Type = z.infer<typeof SignUpFormData2>;
-
-// * SignUp 1 페이지 타입 + SignUp 2 페이지 타입
-// * SignUp 2 confirmPassword는 불필요
-// * 회원가입 시 사용되는 타입
-export const SignUpUser = SignUpFormData1.merge(
-  SignUpFormData2.innerType().omit({ confirmPassword: true }),
-);
-export type SignUpUserType = z.infer<typeof SignUpUser>;
+export type SignUpEmailType = z.infer<typeof SignUpEmail>;
 
 // * 상태로 관리할 User 의 타입
 export type UserType = UserAdditionalType & {

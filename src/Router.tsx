@@ -10,6 +10,8 @@ import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import HouseRegister from '@/components/pages/HouseRegister';
+import SignUpEmail from '@/components/pages/SignUpEmail';
+import SignUpInfo from '@/components/pages/SignUpInfo';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
           {
             path: 'up',
             element: <SignUp />,
+            children: [
+              { index: true, element: <SignUpEmail /> },
+              { path: 'info', element: <SignUpInfo /> },
+            ],
           },
         ],
       },
