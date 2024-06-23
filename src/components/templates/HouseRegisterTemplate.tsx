@@ -3,10 +3,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { TypeOptions } from 'react-toastify';
 
 import { supabase } from '@/libs/supabaseClient';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
-import { errorToast, successToast } from '@/libs/toast';
+import { createToast } from '@/libs/toast';
 import { HouseForm, HouseFormType } from '@/types/house.type';
 import { useSignInState } from '@/hooks/useSign';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
@@ -49,7 +50,7 @@ export default function HouseRegisterTemplate() {
       term: [0, 24],
       describe: undefined,
       bookmark: 0,
-      visible: 0,
+      temporary: 0,
       user_id: userInfo?.user.id,
     },
   });
@@ -116,9 +117,9 @@ export default function HouseRegisterTemplate() {
     try {
       const { error } = await supabase.from('house').insert({
         ...formData,
-        visible,
-        region: region.value,
-        district: district.value,
+        temporary,
+        region: region.value as string,
+        district: district.value as string,
         house_size: Number(formData.house_size),
         deposit_price: Number(formData.deposit_price),
         monthly_price: Number(formData.monthly_price),
@@ -129,13 +130,13 @@ export default function HouseRegisterTemplate() {
       });
 
       if (error) {
-        errorToast('createHouse', '💧supabase 저장에 실패했습니다.');
+        createHouseToast('error', '💧supabase 저장에 실패했습니다.');
       } else {
-        successToast('createHouse', '👍🏻 성공적으로 저장되었습니다.');
+        createHouseToast('success', '👍🏻 성공적으로 저장되었습니다.');
         navigate('/');
       }
     } catch (error) {
-      errorToast('createHouse', '💧submit에 실패했습니다.');
+      createHouseToast('error', '💧submit에 실패했습니다.');
     } finally {
       setSaving(false);
     }
@@ -186,6 +187,14 @@ export default function HouseRegisterTemplate() {
                 )}
               </Container.FlexRow>
               <DistrictSelector />
+              <FormItem.Hidden<Pick<HouseFormType, 'region'>>
+                name="region"
+                valueProp={region.value}
+              />
+              <FormItem.Hidden<Pick<HouseFormType, 'district'>>
+                name="district"
+                valueProp={district.value}
+              />
             </Container.FlexCol>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -204,6 +213,10 @@ export default function HouseRegisterTemplate() {
                     <Typography.P2>{house.displayValue}</Typography.P2>
                   </BadgeButton.Outline>
                 ))}
+                <FormItem.Hidden<Pick<HouseFormType, 'house_type'>>
+                  name="house_type"
+                  valueProp={hiddenState.house_type}
+                />
               </Container.FlexRow>
               <Container.FlexRow className="gap-2">
                 {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
@@ -216,6 +229,10 @@ export default function HouseRegisterTemplate() {
                     <Typography.P2>{displayValue}</Typography.P2>
                   </BadgeButton.Outline>
                 ))}
+                <FormItem.Hidden<Pick<HouseFormType, 'rental_type'>>
+                  name="rental_type"
+                  valueProp={hiddenState.rental_type}
+                />
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
@@ -324,6 +341,10 @@ export default function HouseRegisterTemplate() {
                   onClick={onDeleteAppealBadge}
                 />
               )}
+              <FormItem.Hidden<Pick<HouseFormType, 'house_appeal'>>
+                name="house_appeal"
+                valueProp={hiddenState.house_appeal}
+              />
             </Container.FlexCol>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -341,6 +362,10 @@ export default function HouseRegisterTemplate() {
                   <Typography.P2>{displayValue}</Typography.P2>
                 </BadgeButton.Outline>
               ))}
+              <FormItem.Hidden<Pick<HouseFormType, 'mates_num'>>
+                name="mates_num"
+                valueProp={hiddenState.mates_num}
+              />
             </Container.FlexRow>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -357,6 +382,10 @@ export default function HouseRegisterTemplate() {
                 setRangeValue={setTerm}
                 rangeValue={term}
                 category="term"
+              />
+              <FormItem.Hidden<Pick<HouseFormType, 'term'>>
+                name="term"
+                valueProp={term}
               />
             </Container.FlexCol>
           </Container.FlexRow>
