@@ -104,6 +104,7 @@ export const useVerifyEmail = ({
 }: {
   [key: string]: string;
 }) => {
+  const navigate = useNavigate();
   const setUser = useSetRecoilState(UserAtom);
   const { mutate: verifyEmail, isPending: isVerifyEmail } = useMutation({
     mutationFn: async (payload: VerifyEmailType) => {
@@ -119,6 +120,7 @@ export const useVerifyEmail = ({
       // * Recoil 상태로 유저정보 등록
       if (payload) setUser(payload);
       successToast('signin', successMessage);
+      navigate('/sign/up/info');
     },
     onError: (error: AuthError) => {
       errorToast('signin', error.message);
