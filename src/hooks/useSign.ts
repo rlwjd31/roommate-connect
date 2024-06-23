@@ -14,16 +14,12 @@ import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
 import {
   EmailAuthType,
-  GoogleOAuthType,
-  KakaoOAuthType,
   SignUpEmailType,
   SignUpInfoType,
   SocialType,
-  UserAdditionalType,
   UserType,
   VerifyEmailType,
 } from '@/types/auth.type';
-import { fetchGet } from '@/libs/fetch';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 import { ShowVerificationAtom } from '@/stores/sign.store';
 
@@ -178,41 +174,7 @@ export const useSignInState = () => {
   return sessionValue;
 };
 
-// * User 의 생년월일, 성별을 얻기 위해 추가적으로 진행하는 요청
-export const userAdditionalInfo = (session: Session) => ({
-  queryKey: ['user-additional-info'],
-  queryFn: async () => {
-    const user: UserAdditionalType = {};
-    if (session.user.app_metadata.providers.includes('kakao')) {
-      const response = await fetchGet<KakaoOAuthType>(
-        'https://kapi.kakao.com/v2/user/me?property_keys=["kakao_account.gender", "kakao_account.birthday", "kakao_account.birthyear"]',
-        session.provider_token ?? undefined,
-      );
-      user.gender = response.kakao_account?.gender === 'male' ? 1 : 2;
-      user.birth = Number(
-        `${response.kakao_account?.birthyear.slice(2)}${response.kakao_account?.birthday}`,
-      );
-    } else if (session.user.app_metadata.providers.includes('google')) {
-      /*
-       * Google 은 이메일로 우리가 생성한 이메일 회원가입과 같은 이메일을 사용하게 되면
-       * session.user.app_metadata.provider 가 먼저 생성한 것으로 처리됨
-       * 그래서 session.user.app_metadata.providers 라는 객체 값에서
-       * ["email", "google"] 이런 형태로 저장이 되어 있어 google 이 있을 경우 하위 로직을 실행
-       * */
-      const response = await fetchGet<GoogleOAuthType>(
-        'https://people.googleapis.com/v1/people/me?personFields=genders,birthdays',
-        session.provider_token ?? '',
-      );
-      user.gender = response.genders[0].value === 'male' ? 1 : 2;
-      const { year, month, day } = response.birthdays[0].date;
-      user.birth = Number(
-        `${String(year).slice(2)}${String(month).padStart(2, '0')}${String(day).padStart(2, '0')}`,
-      );
-    }
-    return user;
-  },
-});
-
+// * User 의 생년월일, 성별을 저장
 export const useUpdateUserInfo = () => {
   const navigate = useNavigate();
   const { mutate: updateUserInfo, isPending } = useMutation({
@@ -231,44 +193,4 @@ export const useUpdateUserInfo = () => {
     onError: error => errorToast('update-user-info', error.message),
   });
   return { updateUserInfo, isPending };
-};
-export const useUpdateUser = () => {
-  // * Social 로그인에서 Gender, Birth 데이터를 DB와 연동하기 위한 훅
-  const setUser = useSetRecoilState(UserAtom);
-  const { mutate: updateUser, isPending: isUpdateUser } = useMutation({
-    mutationFn: async (payload: UserAdditionalType) =>
-      supabase.auth.updateUser({ data: { ...payload } }),
-    onSuccess: async data => {
-      // * 성별과 생년월일을 업데이트 후 신규 가입 시에만 닉네임 및 status(정지 여부)에 대한 값이 없어 수동으로 추가
-      const { user } = data.data;
-      if (user) {
-        const { id } = user;
-        const {
-          gender,
-          avatar_url: avatar,
-          birth,
-          name,
-          email,
-        } = user.user_metadata;
-        const payload = { id, gender, avatar, birth, name, email };
-        if (!user.user_metadata.nickname) {
-          const updatePayload = { status: 0, nickname: name };
-          await supabase.auth.updateUser({ data: { ...updatePayload } });
-          Object.assign(payload, updatePayload);
-        } else {
-          Object.assign(payload, {
-            status: user.user_metadata.status,
-            nickname: user.user_metadata.nickname,
-          });
-        }
-        successToast('signin', `${name}님 환영합니다!`);
-        // * Recoil 상태로 유저정보 등록
-        setUser(payload as UserType);
-      } else {
-        throw new Error('오류가 발생했습니다. 잠시 후 다시 시도해 주세요');
-      }
-    },
-    onError: error => errorToast('signin', error.message),
-  });
-  return { updateUser, isUpdateUser };
 };
