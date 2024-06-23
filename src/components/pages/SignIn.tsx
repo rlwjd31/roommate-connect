@@ -5,11 +5,11 @@ import SignInTemplate from '@/components/templates/SignInTemplate';
 import {
   useAuthState,
   userAdditionalInfo,
-  useUpdateUser,
+  useUpdateUserAdditionalInfo,
 } from '@/hooks/useSign';
 
 export default function SignIn() {
-  const { updateUser } = useUpdateUser();
+  const { updateUser } = useUpdateUserAdditionalInfo();
   const queryClient = useQueryClient();
   const [session, _] = useAuthState();
 

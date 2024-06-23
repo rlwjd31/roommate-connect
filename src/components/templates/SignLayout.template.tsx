@@ -10,12 +10,13 @@ import { UserAtom } from '@/stores/auth.store';
 export default function SignLayoutTemplate() {
   const navigate = useNavigate();
   const user = useRecoilValue(UserAtom);
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user]);
-  
+  console.log('user in  SignLayoutTemplate', user);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate('/');
+  //   }
+  // }, [user]);
+
   return (
     <>
       <Container

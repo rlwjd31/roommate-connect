@@ -8,11 +8,6 @@ import Container from '@/components/atoms/Container';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { UserAtom } from '@/stores/auth.store';
-import {
-  useAuthState,
-  userAdditionalInfo,
-  useUpdateUser,
-} from '@/hooks/useSign';
 import Link from '@/components/atoms/Link';
 
 export default function About() {
@@ -27,23 +22,6 @@ export default function About() {
     const { error } = await supabase.auth.signOut();
     if (error) console.error(error.message);
   };
-
-  const { updateUser } = useUpdateUser();
-  const queryClient = useQueryClient();
-  const [session, _] = useAuthState();
-
-  // ! TODO: 무한 로딩으로 인해 임시방편 error 처리
-  useEffect(() => {
-    if (isInitial.current < 3) {
-      if (session && session.user.app_metadata.provider !== 'email') {
-        const queryUserAdditionalInfo = userAdditionalInfo(session);
-        queryClient.fetchQuery(queryUserAdditionalInfo).then(data => {
-          updateUser(data);
-        });
-      }
-      isInitial.current += 1;
-    }
-  }, [session]);
 
   return (
     <Container.FlexCol className="gap-4">

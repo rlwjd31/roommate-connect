@@ -25,7 +25,6 @@ import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { useAuthState } from '@/hooks/useSign';
-import { createToast } from '@/libs/toast';
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
 // ! 따라서, element, layout을 ReactElement로 지정함
@@ -38,7 +37,42 @@ type RouteType = RouteObject & {
 type ProtectedRouterType = {
   children: ReactElement<{ isLogin?: boolean }>;
 };
+function ProtectedRouter({ children }: ProtectedRouterType) {
+  // * register supabase auth listener on initial rendering
+  const [session, isInitializingSession] = useAuthState();
+  const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
 
+  useEffect(() => {
+    let sleep: number | undefined;
+
+    // * session이 초기화 되었는데 session이 없다면
+    if (!isInitializingSession && !session) {
+      sleep = window.setTimeout(() => {
+        setIsForceDelayFinished(true);
+      }, 2000);
+    }
+
+    return () => {
+      if (sleep) clearTimeout(sleep);
+    };
+  }, [session, isInitializingSession, isForceDelayFinished]);
+
+  if (!isInitializingSession && !session) {
+    return isForceDelayFinished ? (
+      <Navigate to="/sign/in" />
+    ) : (
+      // ! TOOD: Loading Page 나오면 대체
+      <div className="flex h-screen items-center justify-center bg-green-500 text-2xl text-white">
+        Redirect to Login Page...
+      </div>
+    );
+  }
+
+  // * session이 초기화되었을 때만 도달하는 영역
+  return isValidElement(children)
+    ? cloneElement(children, { isLogin: !!session })
+    : null;
+}
 const routes: RouteType[] = [
   {
     path: '/',
@@ -46,7 +80,11 @@ const routes: RouteType[] = [
     children: [
       {
         index: true,
-        element: <About />,
+        element: (
+          <ProtectedRouter>
+            <About />
+          </ProtectedRouter>
+        ),
       },
       {
         path: 'chats',
@@ -120,50 +158,6 @@ const routes: RouteType[] = [
     ],
   },
 ];
-
-function ProtectedRouter({ children }: ProtectedRouterType) {
-  // * register supabase auth listener on initial rendering
-  const [session, isInitializingSession] = useAuthState();
-  const [isForceDelayFinished, setIsForceDelayFinished] = useState(false);
-
-  useEffect(() => {
-    let sleep: number | undefined;
-
-    // * session이 초기화 되었는데 session이 없다면
-    if (!isInitializingSession && !session) {
-      sleep = window.setTimeout(() => {
-        setIsForceDelayFinished(true);
-      }, 2000);
-    }
-
-    return () => {
-      if (sleep) clearTimeout(sleep);
-    };
-  }, [session, isInitializingSession, isForceDelayFinished]);
-
-  if (!isInitializingSession && !session) {
-    createToast('redirectToLoginPage', '💡 로그인이 필요한 페이지입니다', {
-      autoClose: 2000,
-      type: 'error',
-      isLoading: false,
-      position: 'top-right',
-    });
-
-    return isForceDelayFinished ? (
-      <Navigate to="/sign/in" />
-    ) : (
-      // ! TOOD: Loading Page 나오면 대체
-      <div className="flex h-screen items-center justify-center bg-green-500 text-2xl text-white">
-        Redirect to Login Page...
-      </div>
-    );
-  }
-
-  // * session이 초기화되었을 때만 도달하는 영역
-  return isValidElement(children)
-    ? cloneElement(children, { isLogin: !!session })
-    : null;
-}
 
 const createRoutes = (routes: RouteType[]): RouteObject[] =>
   routes.map(route => {
