@@ -25,7 +25,6 @@ import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
 import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
-import { useAuthState } from '@/hooks/useSign';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
@@ -114,15 +113,17 @@ const routes: RouteType[] = [
         ),
         children: [
           {
-            path: 'register',
-            element: <h1>Register Page</h1>,
+            path: 'regist',
+            element: <h1>Regist Page</h1>,
             shouldProtected: true,
           },
-          {
-            path: ':houseId',
-            element: <h1>House Detail Page</h1>,
-          },
         ],
+      },
+      {
+        // TODO: @수현 -> 미인증은 blur를 통해 일부 정보만을 보여주는 페이지 등록
+        path: 'house-detail/:houseId',
+        element: <h1>House Detail Page</h1>,
+        shouldProtected: true
       },
       {
         path: 'sign',
