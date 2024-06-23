@@ -7,6 +7,7 @@ import {
   Session,
 } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
@@ -15,6 +16,7 @@ import {
   GoogleOAuthType,
   KakaoOAuthType,
   SignUpEmailType,
+  SignUpInfoType,
   SocialType,
   UserAdditionalType,
   UserType,
@@ -206,6 +208,26 @@ export const userAdditionalInfo = (session: Session) => ({
     return user;
   },
 });
+
+export const useUpdateUserInfo = () => {
+  const navigate = useNavigate();
+  const { mutate: updateUserInfo, isPending } = useMutation({
+    mutationFn: async (payload: SignUpInfoType) => {
+      const { error } = await supabase.auth.updateUser({
+        data: { ...payload, nickname: payload.name },
+      });
+      if (error) throw new Error(error.message);
+    },
+    onMutate: () =>
+      createToast('update-user-info', '기본 정보를 수정중입니다...'),
+    onSuccess: () => {
+      successToast('update-user-info', '✅기본 정보 수정을 완료했습니다.');
+      navigate('/about');
+    },
+    onError: error => errorToast('update-user-info', error.message),
+  });
+  return { updateUserInfo, isPending };
+};
 export const useUpdateUser = () => {
   // * Social 로그인에서 Gender, Birth 데이터를 DB와 연동하기 위한 훅
   const setUser = useSetRecoilState(UserAtom);
