@@ -1,25 +1,21 @@
+import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { UserAtom } from '@/stores/auth.store';
+import Link from '@/components/atoms/Link';
 
 export default function About() {
-  // ! TODO 추후 수정 로그인 기능 테스트를 위한 로그아웃
-  // ! Layout.template.tsx 의 onAuthStateChange 에서 navigate 동작
-  // ! 현재 About 컴포넌트는 Layout.template.tsx 외부에 위치한 컴포넌트로 임시로 작성
-  // ! TODO 제거
-  const [user, setUser] = useRecoilState(UserAtom);
+  const user = useRecoilValue(UserAtom);
   const navigate = useNavigate();
   const onClickSignOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error === null) setUser(null);
-    // ! TODO 제거
-    navigate('/sign/in');
+    if (error) console.error(error.message);
   };
+
   return (
     <Container.FlexCol className="gap-4">
       <Typography.Head1>서비스 소개 및 사용방법</Typography.Head1>
@@ -35,11 +31,48 @@ export default function About() {
           alt="avatar"
         />
       )}
-      <Button.Fill className="w-[100px] rounded-xl p-4">
-        <Typography.P2 className="text-white" onClick={onClickSignOut}>
+      {user && (
+        <Button.Fill className="w-fit p-8 text-white" onClick={onClickSignOut}>
           로그아웃
-        </Typography.P2>
-      </Button.Fill>
+        </Button.Fill>
+      )}
+      {!user && (
+        <Button.Fill
+          className="w-fit p-8 text-white"
+          onClick={() => navigate('sign/in')}
+        >
+          로그인
+        </Button.Fill>
+      )}
+      <Container.FlexCol className="space-y-2">
+        <Link to="/chats" className="w-40 bg-brown text-xl text-white">
+          chats
+        </Link>
+        <Link to="/chats/1" className="w-40 bg-brown text-xl text-white">
+          chatRoom
+        </Link>
+        <Link to="/lounge" className="w-40 bg-brown text-xl text-white">
+          lounge
+        </Link>
+        <Link to="/house" className="w-40 bg-brown text-xl text-white">
+          house
+        </Link>
+        <Link to="/house/regist" className="w-40 bg-brown text-xl text-white">
+          house register
+        </Link>
+        <Link to="/house-detail/1" className="w-40 bg-brown text-xl text-white">
+          house detail
+        </Link>
+        <Link to="/signup-intro" className="w-40 bg-brown text-xl text-white">
+          signup-intro
+        </Link>
+        <Link to="/signup-profile" className="w-40 bg-brown text-xl text-white">
+          signup-profile
+        </Link>
+        <Link to="/signup-outro" className="w-40 bg-brown text-xl text-white">
+          signup-outro
+        </Link>
+      </Container.FlexCol>
     </Container.FlexCol>
   );
 }
