@@ -8,6 +8,7 @@ import {
 } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 
 import { supabase } from '@/libs/supabaseClient';
 import { IsNotVerifiedAtom, UserAtom } from '@/stores/auth.store';
@@ -57,6 +58,7 @@ export const useSignUpEmail = () => {
         password: payload.password,
         options: {
           data: {
+            name: uuid(),
             avatar: '',
             email: payload.email,
             status: 0,
