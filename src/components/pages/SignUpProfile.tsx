@@ -1,9 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable react/jsx-pascal-case */
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { KeyboardEvent } from 'react';
-import { useRecoilState } from 'recoil';
+import {
+  FieldErrors,
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from 'react-hook-form';
+import { KeyboardEvent, useEffect } from 'react';
 import { DevTool } from '@hookform/devtools';
+import { useRecoilValue } from 'recoil';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ToastContainer } from 'react-toastify';
 
 import SignUpProfileLayoutTemplate from '@/components/templates/SignUpProfileLayout.template';
 import SignUpProfile1_1Template from '@/components/templates/SignUpProfile1_1.template';
@@ -13,80 +20,100 @@ import SignUpProfile2_1Template from '@/components/templates/SignUpProfile2_1.te
 import SignUpProfile2_2Template from '@/components/templates/SignUpProfile2_2.template';
 import SignUpProfile3_1Template from '@/components/templates/SignUpProfile3_1.template';
 import SignUpProfile3_2Template from '@/components/templates/SignUpProfile3_2.template';
-import { SignUpType } from '@/types/signUp.type';
-import Button from '@/components/atoms/Button';
-import { SignUpProfileSelector } from '@/stores/sign.store';
-
-const testData: SignUpType = {
-  type: 0,
-  rental_type: 1,
-  regions: ['서울시 강동구'],
-  deposit_price: [100, 3000],
-  term: [2, 6],
-  monthly_price: [30, 40],
-  smoking: true,
-  pet: 0,
-  appeals: ['난 꿀꿀이'],
-  gender: 1,
-  mates_number: 1,
-  mate_appeals: ['너도 꿀꿀이'],
-};
-
-export type ProfileFormValues = {
-  appealsInputValue: string;
-  mateAppealsInputValute: string;
-};
+import { SignUpProfileForm, SignUpProfileFormType } from '@/types/signUp.type';
+import { SignUpProfileState } from '@/stores/sign.store';
+import { createToast } from '@/libs/toast';
+import useSignUpProfile from '@/hooks/useSignUpProfile';
 
 export default function SignUpProfile() {
-  // ! react-hook-form의 register의 options property는
-  // ! input field의 값이 update될 때 마다 invoke된다. - by docs
-  const formMethods = useForm<ProfileFormValues>({
+  const signUpProfileState = useRecoilValue(SignUpProfileState);
+  const { mutate, isPending } = useSignUpProfile();
+  const formMethods = useForm<SignUpProfileFormType>({
     mode: 'onSubmit',
     defaultValues: {
+      type: undefined,
+      rental_type: undefined,
+      regions: [],
+      smoking: undefined,
+      pet: undefined,
+      gender: undefined,
+      mates_number: undefined,
+      appeals: [],
+      mate_appeals: [],
+      term: [],
+      deposit_price: [],
+      monthly_rental_price: [],
       appealsInputValue: '',
-      mateAppealsInputValute: '',
+      mateAppealsInputValue: '',
     },
+    resolver: zodResolver(SignUpProfileForm),
   });
 
-  // ! TODO: refactoring 후 전체를 가져오는 Get과 set에 대한 logic구현
-  // const [allSignUpProfileState, setAllSignUpProfileState] = useRecoilState(
-  //   SignUpProfileSelector,
-  // );
+  useEffect(() => {
+    Object.entries(signUpProfileState).forEach(async ([key, value]) => {
+      formMethods.setValue(key as keyof SignUpProfileFormType, value);
+      if (key !== 'appealsInputValue' && key !== 'mateAppealsInputValue')
+        await formMethods.trigger(key as keyof SignUpProfileFormType);
+    });
+  }, [formMethods, signUpProfileState]);
+
+  const onError: SubmitErrorHandler<SignUpProfileFormType> = data => {
+    Object.entries(data as FieldErrors<SignUpProfileFormType>).forEach(
+      ([key, value]) => {
+        if (value.message) {
+          createToast(`${key}ValidationError`, value.message, {
+            containerId: 'signUpProfileToastContainer',
+            autoClose: 1000,
+            isLoading: false,
+            type: 'error',
+          });
+        }
+      },
+    );
+  };
+
+  // * profile에 필요한 recoil state들 전체 update
+  const testOnSubmit: SubmitHandler<SignUpProfileFormType> = (
+    formData: SignUpProfileFormType,
+  ) => {
+    mutate(formData);
+  };
 
   const preventFormTakeSubmitEvent = (e: KeyboardEvent<HTMLFormElement>) => {
     if (e.key === 'Enter' && e.target instanceof HTMLInputElement)
       e.preventDefault();
   };
 
-  // * profile에 필요한 recoil state들 전체 update
-  const testOnSubmit: SubmitHandler<ProfileFormValues> = (data, event) => {
-    // setAllSignUpProfileState(testData);
-  };
-
   return (
-    <>
-      <FormProvider {...formMethods}>
-        <form
-          onSubmit={formMethods.handleSubmit(testOnSubmit)}
-          onKeyDown={preventFormTakeSubmitEvent}
-        >
-          <SignUpProfileLayoutTemplate>
-            <SignUpProfile1_1Template />
-            <SignUpProfile1_2Template />
-            <SignUpProfile1_3Template />
-            <SignUpProfile2_1Template />
-            <SignUpProfile2_2Template />
-            <SignUpProfile3_1Template />
-            <SignUpProfile3_2Template />
-          </SignUpProfileLayoutTemplate>
-          {/* TODO: 아래 button은 test용으로 지워야 됨 */}
-          {/* test below element occur submit event and input element doesn't occur subit event */}
-          <Button.Fill type="submit" className="p-10">
-            Submit
-          </Button.Fill>
-        </form>
-      </FormProvider>
+    <FormProvider {...formMethods}>
+      <ToastContainer
+        containerId="signUpProfileToastContainer"
+        position="top-center"
+        stacked={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        theme="light"
+        pauseOnFocusLoss={false}
+      />
+      <form
+        onSubmit={formMethods.handleSubmit(testOnSubmit, onError)}
+        onKeyDown={preventFormTakeSubmitEvent}
+      >
+        <SignUpProfileLayoutTemplate isSubmitted={isPending}>
+          <SignUpProfile1_1Template />
+          <SignUpProfile1_2Template />
+          <SignUpProfile1_3Template />
+          <SignUpProfile2_1Template />
+          <SignUpProfile2_2Template />
+          <SignUpProfile3_1Template />
+          <SignUpProfile3_2Template />
+        </SignUpProfileLayoutTemplate>
+      </form>
       <DevTool control={formMethods.control} />
-    </>
+    </FormProvider>
   );
 }

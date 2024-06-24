@@ -15,6 +15,8 @@ export default {
         brown3: '#DDCFC4',
         brown4: '#FFF7F1',
         brown5: '#FFFEFB',
+        brown6: '#F5EDE6',
+        brown7: '#EEE2D8',
         point: '#FF7759',
         'hover-outline': '#FFFBF8',
         'active-fill': '#4C2A1C',
@@ -38,6 +40,19 @@ export default {
       },
       fontFamily: {
         'Noto-Sans-KR': ['Noto Sans KR'],
+      },
+      lineHeight: {
+        150: '1.5',
+      },
+      borderWidth: {
+        DEFAULT: '1px',
+        '0': '0',
+        '0.5': '0.5px',
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+        '6': '6px',
+        '8': '8px',
       },
     },
   },
