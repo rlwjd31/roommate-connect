@@ -177,7 +177,7 @@ export const useUpdateUserInfo = () => {
       createToast('update-user-info', '기본 정보를 수정중입니다...'),
     onSuccess: () => {
       successToast('update-user-info', '기본 정보 수정을 완료했습니다.');
-      navigate('/about');
+      navigate('/');
     },
     onError: error => errorToast('update-user-info', error.message),
   });
