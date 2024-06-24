@@ -152,23 +152,10 @@ export const useVerifyEmail = ({
 
 export const useSignInSocial = () => {
   const { mutate: signInSocial, isPending: isSignInSocial } = useMutation({
-    mutationFn: async (payload: SocialType) => {
-      const options = {
-        kakao: {
-          scopes: 'gender, birthday, birthyear',
-        },
-        google: {
-          scopes:
-            'https://www.googleapis.com/auth/user.gender.read, https://www.googleapis.com/auth/user.birthday.read',
-        },
-      };
-      // * 강제로 에러를 발생 시킬 수 없음
-      // * signInWithOAuth 내부 과정에서 에러가 발생하지 않으면 바로 SIGNED_IN 으로 이벤트 발생
-      return supabase.auth.signInWithOAuth({
+    mutationFn: async (payload: SocialType) =>
+      supabase.auth.signInWithOAuth({
         provider: payload,
-        options: options[payload],
-      });
-    },
+      }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
       errorToast('signin', error.message);
