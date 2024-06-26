@@ -1,10 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import cn from '@/libs/cn';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
+import { useAuthState } from '@/hooks/useSign';
 
 export default function SignLayoutTemplate() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [session, _] = useAuthState();
+  useEffect(() => {
+    if (session && location.pathname !== '/sign/up/info') navigate('/');
+  }, [session]);
   return (
     <>
       <Container

@@ -174,3 +174,23 @@ export type GoogleOAuthType = {
     },
   ];
 };
+
+export const SignPasswordReset = z.object({
+  email: z
+    .string({ required_error: '이메일을 입력해주세요.' })
+    .email({ message: '이메일 형식으로 입력해주세요.' }),
+});
+
+export type SignPasswordResetType = z.infer<typeof SignPasswordReset>;
+
+export const SignUpdatePassword = z
+  .object({
+    password: PasswordValidate,
+    confirmPassword: PasswordValidate,
+  })
+  .refine(data => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });
+
+export type SignUpdatePasswordType = z.infer<typeof SignUpdatePassword>;

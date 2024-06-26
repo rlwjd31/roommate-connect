@@ -136,7 +136,7 @@ export default function SignInTemplate() {
               <div className="mt-4 flex flex-row-reverse gap-2">
                 <Link to="/sign/up">회원가입</Link>
                 <Divider.Row />
-                <Link to="/sign/up">비밀번호 찾기</Link>
+                <Link to="/sign/password">비밀번호 찾기</Link>
               </div>
               <Button.Fill
                 type="submit"
