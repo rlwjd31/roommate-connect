@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
@@ -7,13 +8,16 @@ import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
 import IconButton from '@/components/molecules/IconButton';
+import { UserAtom } from '@/stores/auth.store';
+import Img from '@/components/atoms/Img';
+import { supabase } from '@/libs/supabaseClient';
 
 type Props = ComponentProps<'header'> & {
   className?: string;
   isLogin: boolean;
 };
-
 export default function Header({ className, isLogin, ...others }: Props) {
+  const user = useRecoilValue(UserAtom);
   const navItems = [
     { name: 'chats', path: '/chats' },
     { name: 'lounge', path: '/lounge' },
@@ -29,6 +33,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
         </Link>
         {isLogin && (
           <>
+            {/* nav Items(chats, lounge, house) */}
             <Container.FlexRow className="gap-9">
               {navItems.map(({ name, path }) => (
                 <Link key={name} to={path}>
@@ -43,11 +48,29 @@ export default function Header({ className, isLogin, ...others }: Props) {
                 </Link>
               ))}
             </Container.FlexRow>
+            {/* about user account(realtime alert & user avatar) */}
             <Container.FlexRow className="items-center justify-between gap-7">
+              {/* Alert */}
               <IconButton button="Ghost" iconType="alarm-exist" />
-              <IconButton button="Ghost" iconType="avartar" />
+              {/* Avatar depending on is user login now */}
+
+              <Img
+                className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
+                src={user?.avatar}
+              />
             </Container.FlexRow>
           </>
+        )}
+        {/* TODO: 로그인 한 상태가 아닐 시 sign/in page로 navigate할 수단을 강구해야 됨.(아래는 임시 대안책) */}
+        {!isLogin && (
+          <IconButton
+            button="Ghost"
+            iconType="avatar"
+            onClick={async () => {
+              const { error } = await supabase.auth.signOut();
+              if (error) console.error(error.message);
+            }}
+          />
         )}
       </Container.FlexRow>
     </header>
@@ -57,3 +80,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
 Header.defaultProps = {
   className: '',
 };
+
+// - 하우스 등록
+// - 내 북마크
+// - 마이 페이지 -> account
