@@ -13,6 +13,7 @@ export default function SignLayoutTemplate() {
   useEffect(() => {
     if (session && location.pathname !== '/sign/up/info') navigate('/');
   }, [session]);
+
   return (
     <>
       <Container

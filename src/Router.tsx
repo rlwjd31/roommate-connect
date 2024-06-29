@@ -128,6 +128,14 @@ const routes: RouteType[] = [
             path: 'update-password',
             element: <SignUpdatePassword />,
           },
+          {
+            path: 'password',
+            element: <SignPasswordReset />,
+          },
+          {
+            path: 'update-password',
+            element: <SignUpdatePassword />,
+          },
         ],
       },
       {
