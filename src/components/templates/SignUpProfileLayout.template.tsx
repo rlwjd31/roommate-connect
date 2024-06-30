@@ -60,6 +60,7 @@ export default function SignUpProfileLayoutTemplate(
 ) {
   const { children, isSubmitted } = props;
   const [currentStep, setCurrentStep] = useState(0);
+  const [passedPage, setPassedPage] = useState<number[]>([]);
   const navigate = useNavigate();
   const numsOfCarouselChildren = Children.count(children);
   const [isFirstOfCarousel, isLastOfCarousel] = [
@@ -112,7 +113,10 @@ export default function SignUpProfileLayoutTemplate(
       currentStep as ValidationStep,
     );
 
-    if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
+    if (canGoNextCarousel) {
+      setCurrentStep(prev => prev + 1);
+      setPassedPage(prev => [...new Set([...prev, currentStep])]);
+    }
   };
 
   // * persist carousel state(currentStep) with session Storage
@@ -124,12 +128,18 @@ export default function SignUpProfileLayoutTemplate(
       isInitialRendered.current = false;
 
       if (carouselStep) {
-        setCurrentStep(JSON.parse(carouselStep));
+        const stepNumber = JSON.parse(carouselStep);
+        setCurrentStep(stepNumber);
+        setPassedPage(
+          Array.from({ length: stepNumber + 1 }, (_, i) => stepNumber - i),
+        );
       }
     } else {
       sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
     }
   }, [currentStep]);
+  const onClickstepNavLinkValidate = async (step: ValidationStep) =>
+    passedPage.includes(step) ? setCurrentStep(step) : null;
 
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
@@ -148,7 +158,10 @@ export default function SignUpProfileLayoutTemplate(
               contents={stepContents.map(stepContent => ({
                 ...stepContent,
                 isActive: currentStep === stepContent.carouselCurrentStep,
-                onClick: () => setCurrentStep(stepContent.carouselCurrentStep),
+                onClick: () =>
+                  onClickstepNavLinkValidate(
+                    stepContent.carouselCurrentStep as ValidationStep,
+                  ),
               }))}
             />
           </Container.FlexCol>
