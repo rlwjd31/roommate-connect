@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
+import { useRecoilState } from 'recoil';
 
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
@@ -10,23 +11,29 @@ import Img from '@/components/atoms/Img';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import { useSignInState } from '@/hooks/useSign';
+import { SessionAtom } from '@/stores/auth.store';
+
+export type ImageInfo = {
+  imgUrl: string;
+  isRepresentative: boolean;
+};
 
 type MultiImageFormProps = {
-  images: string[];
-  setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  images: ImageInfo[];
+  setImages: React.Dispatch<React.SetStateAction<ImageInfo[]>>;
+  setImageNames: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function MultiImageForm({
   images,
   setImages,
+  setImageNames,
 }: MultiImageFormProps) {
   const IMAGE_PER_PAGE = 3;
   const MAX_IMAGES = 10;
-  const [_files, setFiles] = useState<File[]>([]);
+  const userInfo = useRecoilState(SessionAtom)[0];
   const [currentPage, setCurrentPage] = useState(0);
-  const len = images.length;
-  const userInfo = useSignInState();
+  const imageLen = images.length;
 
   const createErrorToast = (message: string) =>
     createToast('uploadImage', `${message}`, {
@@ -38,22 +45,27 @@ export default function MultiImageForm({
   // file을 받아서 supabase storage에 이미지를 넣는 함수
   const handleAddImages = async (file: File) => {
     try {
-      if (!userInfo?.user.id) {
-        createErrorToast('로그인 후에 이용 가능합니다.');
-        return;
-      }
       const newFileName = uuid();
       const { data, error } = await supabase.storage
-        .from('images')
-        .upload(`house/${userInfo?.user.id}/${newFileName}`, file);
+        .from(`images/house/${userInfo?.user.id}`)
+        .upload(`temporary/${newFileName}`, file);
+
       if (error) {
         createErrorToast('supabase 업로드에 실패했습니다.');
         return;
       }
       // 업로드 하면서 생긴 url을 다시 받아와서 images 배열에 넣어주기
-      const res = supabase.storage.from('images').getPublicUrl(data.path);
-      setFiles(prevFiles => [...prevFiles, file]);
-      setImages(prev => [...prev, res.data.publicUrl]);
+      const res = supabase.storage
+        .from('images')
+        .getPublicUrl(data.fullPath.split('/').slice(1).join('/'));
+      setImages(prev => [
+        ...prev,
+        {
+          imgUrl: res.data.publicUrl,
+          isRepresentative: prev.length === 0,
+        },
+      ]);
+      setImageNames(prev => [...prev, newFileName]);
     } catch (error) {
       createErrorToast('이미지 저장에 실패했습니다.');
     }
@@ -67,7 +79,7 @@ export default function MultiImageForm({
       // 받아온 list는 객체이므로 배열로 바꾸어준다.
       const filesArray = Array.from(fileList);
       // 이미지 갯수 체크 (limit: 10)
-      if (len + filesArray.length > MAX_IMAGES) {
+      if (imageLen + filesArray.length > MAX_IMAGES) {
         createErrorToast('이미지는 최대 10개까지만 업로드 할 수 있습니다.');
         return;
       }
@@ -76,6 +88,16 @@ export default function MultiImageForm({
         handleAddImages(file);
       });
     }
+  };
+
+  // 라디오버튼 선택시 대표사진으로 설정하는 함수
+  const handleRepresentativeChange = (imgUrl: string) => {
+    setImages(prevImages =>
+      prevImages.map(img => ({
+        ...img,
+        isRepresentative: img.imgUrl === imgUrl,
+      })),
+    );
   };
 
   // 이미지 삭제 버튼 이벤트
@@ -89,13 +111,14 @@ export default function MultiImageForm({
 
       // images 배열에서도 삭제 -> 화면에서도 없어지게함
       setImages(prev => {
-        const newImages = prev.filter(img => img !== imgSrc);
+        const newImages = prev.filter(img => img.imgUrl !== imgSrc);
         // 이때 삭제하고 난 이미지 갯수가 3의 배수이면 페이지를 앞으로 이동시킴
         if (newImages.length % 3 === 0 && currentPage > 0) {
           setCurrentPage(currentPage - 1);
         }
         return newImages;
       });
+      setImageNames(prev => prev.filter(imgName => imgName !== path[0]));
 
       if (error) {
         createErrorToast('supabase에서 이미지를 삭제하는 데 실패했습니다.');
@@ -145,7 +168,7 @@ export default function MultiImageForm({
               />
             </Label>
             <Typography.SubTitle1 className="absolute bottom-4 left-4 p-1 text-brown">
-              {`${len} / 10`}{' '}
+              {`${imageLen} / 10`}{' '}
             </Typography.SubTitle1>
           </div>
           {images
@@ -153,24 +176,34 @@ export default function MultiImageForm({
               currentPage * IMAGE_PER_PAGE,
               (currentPage + 1) * IMAGE_PER_PAGE,
             )
-            .map((img, idx) => (
+            .map((img, index) => (
               <div key={uuid()} className="relative">
                 <IconButton.Ghost
                   iconType="close"
                   stroke="brown"
                   iconClassName="absolute top-4 right-4"
-                  onClick={() => onClickDeleteImg(img)}
+                  onClick={() => onClickDeleteImg(img.imgUrl)}
                 />
-                <Img className="size-[17rem] object-cover" src={img} />
-                {currentPage === 0 && idx === 0 && (
-                  <Typography.SubTitle1 className="absolute bottom-4 left-4 p-1 text-brown">
-                    대표사진
-                  </Typography.SubTitle1>
-                )}
+                <Label htmlFor={`image_${index}`}>
+                  <Input
+                    type="radio"
+                    id={`image_${index}`}
+                    name="representativeImage"
+                    className="absolute bottom-2 right-3 size-6 p-1"
+                    checked={img.isRepresentative}
+                    onChange={() => handleRepresentativeChange(img.imgUrl)}
+                  />
+                  <Img className="size-[17rem] object-cover" src={img.imgUrl} />
+                  {img.isRepresentative && (
+                    <Typography.SubTitle2 className="absolute bottom-4 left-2 p-1 text-brown">
+                      대표사진
+                    </Typography.SubTitle2>
+                  )}
+                </Label>
               </div>
             ))}
-          {len < 3 &&
-            Array(3 - len)
+          {imageLen < 3 &&
+            Array(3 - imageLen)
               .fill(0)
               .map(_ => (
                 <Label
@@ -180,14 +213,15 @@ export default function MultiImageForm({
                 />
               ))}
         </Container.FlexRow>
-        {len > 3 && Math.ceil(len / IMAGE_PER_PAGE) - 1 !== currentPage && (
-          <IconButton.Ghost
-            iconType="next"
-            iconClassName="absolute right-3 z-10"
-            stroke="brown"
-            onClick={handleNextImage}
-          />
-        )}
+        {imageLen > 3 &&
+          Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 !== currentPage && (
+            <IconButton.Ghost
+              iconType="next"
+              iconClassName="absolute right-3 z-10"
+              stroke="brown"
+              onClick={handleNextImage}
+            />
+          )}
       </Container.FlexRow>
     </Container.FlexCol>
   );

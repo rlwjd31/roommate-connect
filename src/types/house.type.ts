@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
 export const HouseForm = z.object({
-  house_img: z
-    .array(z.string())
-    .min(1, { message: '1개 이상의 사진을 등록해주세요.' }),
+  house_img: z.array(z.string()),
   post_title: z
     .string({ required_error: '글 제목을 입력해주세요.' })
     .min(2, { message: '제목은 2글자 이상이어야 합니다.' }),

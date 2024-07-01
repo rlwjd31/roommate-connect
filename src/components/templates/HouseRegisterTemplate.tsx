@@ -27,10 +27,17 @@ import {
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
 
+type HiddenStateType = {
+  house_type: HouseFormType['house_type'];
+  rental_type: HouseFormType['rental_type'];
+  mates_num: HouseFormType['mates_num'];
+  house_appeal: HouseFormType['house_appeal'];
+};
+
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
+  const userInfo = useRecoilState(SessionAtom)[0];
   const Form = FormProvider;
-  const userInfo = useSignInState();
   const form = useForm<HouseFormType>({
     resolver: zodResolver(HouseForm),
     defaultValues: {
@@ -55,7 +62,16 @@ export default function HouseRegisterTemplate() {
     },
   });
   const [saving, setSaving] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<ImageInfo[]>([]);
+  const [imageNames, setImageNames] = useState<string[]>([]);
+
+  const [hiddenState, setHiddenState] = useState<HiddenStateType>({
+    house_type: 0,
+    rental_type: 1,
+    mates_num: 1,
+    house_appeal: [],
+  });
+
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
@@ -74,12 +90,24 @@ export default function HouseRegisterTemplate() {
 
   const onClickHouseType = (stateValue: HouseFormType['house_type']) => {
     form.setValue('house_type', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      house_type: stateValue,
+    }));
   };
   const onClickRentalType = (stateValue: HouseFormType['rental_type']) => {
     form.setValue('rental_type', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      rental_type: stateValue,
+    }));
   };
   const onClickMatesNum = (stateValue: HouseFormType['mates_num']) => {
     form.setValue('mates_num', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      mates_num: stateValue,
+    }));
   };
 
   const [appeal, setAppeal] = useState('');
@@ -162,9 +190,11 @@ export default function HouseRegisterTemplate() {
             <Typography.SubTitle1 className="w-[205px] text-brown">
               제목
             </Typography.SubTitle1>
-            <Input
-              className="max-w-[690px] flex-1"
-              {...form.register('post_title')}
+            <FormItem.TextField
+              containerStyle="max-w-[690px] flex-1"
+              inputStyle="w-full"
+              type="text"
+              name="post_title"
               placeholder="제목을 작성해주세요"
             />
           </Container.FlexRow>
