@@ -1,9 +1,4 @@
-import {
-  Controller,
-  FieldValues,
-  useFormContext,
-  UseFormSetValue,
-} from 'react-hook-form';
+import { Controller, FieldValues, useFormContext } from 'react-hook-form';
 import { useEffect } from 'react';
 
 import TextField, { TextFieldProps } from '@/components/molecules/TextField';
@@ -11,6 +6,8 @@ import Input from '@/components/atoms/Input';
 import TextAreaField, {
   TextAreaFieldProps,
 } from '@/components/molecules/TextAreaField';
+import Container from '@/components/atoms/Container';
+import IconButton from './IconButton';
 
 export default function FormItem() {}
 
@@ -29,7 +26,31 @@ FormItem.TextField = function FormItemTextField<T extends FieldValues>(
   );
 };
 
-FormItem.Hidden = function FormItemPassword<T extends FieldValues>(
+FormItem.Password = function FormItemPassword<T extends FieldValues>(
+  props: TextFieldProps<T> & {
+    isVisible: boolean;
+    onClickVisible: () => void;
+  },
+) {
+  const { type, labelName, name, isVisible, onClickVisible, ...others } = props;
+  return (
+    <Container className="relative">
+      <TextField
+        name={name}
+        labelName={labelName}
+        type={isVisible ? 'text' : 'password'}
+        {...others}
+      />
+      <IconButton.Ghost
+        className="absolute bottom-[44px] right-[13px] top-[53px]"
+        iconType={isVisible ? 'visible' : 'invisible'}
+        onClick={onClickVisible}
+      />
+    </Container>
+  );
+};
+
+FormItem.Hidden = function FormItemHidden<T extends FieldValues>(
   props: TextFieldProps<T> & { valueProp: T[keyof T] },
 ) {
   const { defaultValue, name, valueProp, options = {} } = props;

@@ -10,14 +10,13 @@ import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
 import Button from '@/components/atoms/Button';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
-import { createToast } from '@/libs/toast';
 import {
   signUpProfileValidationConfig,
   stepDisplayData,
   ValidationStep,
-  ValidationStepFieldName,
 } from '@/constants/signUpProfileData';
+import { SignUpProfileFormType } from '@/types/signUp.type';
+import { createToast } from '@/libs/toast';
 
 type StepTitleType = {
   num: string | number;
@@ -53,13 +52,15 @@ StepTitle.defaultProps = {
 
 type SignProfileLayoutTemplateProps = {
   children: ReactNode;
+  isSubmitted: boolean;
 };
 
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
-  const { children } = props;
+  const { children, isSubmitted } = props;
   const [currentStep, setCurrentStep] = useState(0);
+  const [passedPage, setPassedPage] = useState<number[]>([]);
   const navigate = useNavigate();
   const numsOfCarouselChildren = Children.count(children);
   const [isFirstOfCarousel, isLastOfCarousel] = [
@@ -70,30 +71,31 @@ export default function SignUpProfileLayoutTemplate(
   const {
     trigger,
     formState: { errors },
-  } = useFormContext<ProfileFormValues>();
+  } = useFormContext<SignUpProfileFormType>();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    trigger();
+  }, []);
 
   const validationStep = async (carouselStep: ValidationStep) => {
     const validationConfig = signUpProfileValidationConfig[carouselStep];
 
     if (!validationConfig) return true;
 
-    const { fields, messages } = validationConfig;
+    const { fields } = validationConfig;
     const isStepValid = await trigger(fields);
 
     if (!isStepValid) {
       fields.forEach(field => {
-        if (errors[field]) {
-          createToast(
-            `${field}ValidationError`,
-            errors[field]?.message ||
-              messages[field as ValidationStepFieldName],
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
+        const message = errors[field]?.message;
+        if (message) {
+          createToast(`${field}ValidationError`, message, {
+            containerId: 'signUpProfileToastContainer',
+            autoClose: 1000,
+            isLoading: false,
+            type: 'error',
+          });
         }
       });
       return false;
@@ -111,17 +113,9 @@ export default function SignUpProfileLayoutTemplate(
       currentStep as ValidationStep,
     );
 
-    if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
-  };
-
-  const onClickSubmit = async () => {
-    if (isLastOfCarousel) {
-      const isFinalStepValid = await validationStep(
-        currentStep as ValidationStep,
-      );
-
-      // ! TODO: fetch user profile data to supabase
-      if (isFinalStepValid) navigate('/signup-outro');
+    if (canGoNextCarousel) {
+      setCurrentStep(prev => prev + 1);
+      setPassedPage(prev => [...new Set([...prev, currentStep])]);
     }
   };
 
@@ -134,12 +128,18 @@ export default function SignUpProfileLayoutTemplate(
       isInitialRendered.current = false;
 
       if (carouselStep) {
-        setCurrentStep(JSON.parse(carouselStep));
+        const stepNumber = JSON.parse(carouselStep);
+        setCurrentStep(stepNumber);
+        setPassedPage(
+          Array.from({ length: stepNumber + 1 }, (_, i) => stepNumber - i),
+        );
       }
     } else {
       sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
     }
   }, [currentStep]);
+  const onClickstepNavLinkValidate = async (step: ValidationStep) =>
+    passedPage.includes(step) ? setCurrentStep(step) : null;
 
   return (
     <Container.FlexRow className="max-h-[816px] grow justify-between">
@@ -158,7 +158,10 @@ export default function SignUpProfileLayoutTemplate(
               contents={stepContents.map(stepContent => ({
                 ...stepContent,
                 isActive: currentStep === stepContent.carouselCurrentStep,
-                onClick: () => setCurrentStep(stepContent.carouselCurrentStep),
+                onClick: () =>
+                  onClickstepNavLinkValidate(
+                    stepContent.carouselCurrentStep as ValidationStep,
+                  ),
               }))}
             />
           </Container.FlexCol>
@@ -172,6 +175,7 @@ export default function SignUpProfileLayoutTemplate(
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
             iconType="left-arrow"
+            disabled={isSubmitted}
             onClick={onClickPrevButton}
           >
             <Typography.P1 className="text-brown">이전</Typography.P1>
@@ -180,7 +184,7 @@ export default function SignUpProfileLayoutTemplate(
             <Button.Fill
               className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
               type="submit"
-              onClick={onClickSubmit}
+              disabled={isSubmitted}
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
             </Button.Fill>

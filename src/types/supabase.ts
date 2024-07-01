@@ -34,6 +34,294 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_room: {
+        Row: {
+          created_at: string
+          id: string
+          last_message: string
+          last_message_date: string
+          users: string[] | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_message: string
+          last_message_date: string
+          users?: string[] | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_message?: string
+          last_message_date?: string
+          users?: string[] | null
+        }
+        Relationships: []
+      }
+      house: {
+        Row: {
+          bookmark: number
+          created_at: string
+          deposit_price: number
+          describe: string
+          district: string
+          house_appeal: string[]
+          house_img: string[]
+          house_size: number
+          house_type: number
+          id: string
+          manage_price: number
+          mates_num: number
+          monthly_price: number
+          post_title: string
+          region: string
+          rental_type: number
+          room_num: number
+          temporary: number
+          term: number[]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          bookmark: number
+          created_at?: string
+          deposit_price: number
+          describe: string
+          district: string
+          house_appeal: string[]
+          house_img: string[]
+          house_size: number
+          house_type: number
+          id?: string
+          manage_price: number
+          mates_num: number
+          monthly_price: number
+          post_title: string
+          region: string
+          rental_type: number
+          room_num: number
+          temporary: number
+          term: number[]
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          bookmark?: number
+          created_at?: string
+          deposit_price?: number
+          describe?: string
+          district?: string
+          house_appeal?: string[]
+          house_img?: string[]
+          house_size?: number
+          house_type?: number
+          id?: string
+          manage_price?: number
+          mates_num?: number
+          monthly_price?: number
+          post_title?: string
+          region?: string
+          rental_type?: number
+          room_num?: number
+          temporary?: number
+          term?: number[]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "house_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "house_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "house_user_id_fkey2"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user_lifestyle"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      house_comment: {
+        Row: {
+          content: string
+          created_at: string
+          house_id: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          house_id: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          house_id?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "house_commet_house_id_fkey"
+            columns: ["house_id"]
+            isOneToOne: false
+            referencedRelation: "house"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "house_commet_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      house_reply: {
+        Row: {
+          comment_id: string
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          comment_id: string
+          content: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          comment_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "house_reply_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "house_comment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "house_reply_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      messages: {
+        Row: {
+          chat_room_id: string
+          created_at: string
+          from_user: string
+          id: string
+          message: string
+        }
+        Insert: {
+          chat_room_id?: string
+          created_at?: string
+          from_user?: string
+          id?: string
+          message: string
+        }
+        Update: {
+          chat_room_id?: string
+          created_at?: string
+          from_user?: string
+          id?: string
+          message?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: false
+            referencedRelation: "chat_room"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_from_user_fkey"
+            columns: ["from_user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user: {
+        Row: {
+          avatar: string | null
+          birth: number | null
+          created_at: string
+          email: string | null
+          gender: number
+          id: string
+          name: string
+          nickname: string | null
+          status: number
+          updated_at: string
+        }
+        Insert: {
+          avatar?: string | null
+          birth?: number | null
+          created_at?: string
+          email?: string | null
+          gender?: number
+          id: string
+          name: string
+          nickname?: string | null
+          status?: number
+          updated_at?: string
+        }
+        Update: {
+          avatar?: string | null
+          birth?: number | null
+          created_at?: string
+          email?: string | null
+          gender?: number
+          id?: string
+          name?: string
+          nickname?: string | null
+          status?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_activity: {
         Row: {
           category: number
@@ -189,6 +477,75 @@ export type Database = {
           },
         ]
       }
+      user_bookmark: {
+        Row: {
+          created_at: string
+          house_id: string
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          house_id: string
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          house_id?: string
+          id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_bookmark_house_id_fkey"
+            columns: ["house_id"]
+            isOneToOne: false
+            referencedRelation: "house"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_bookmark_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_chat: {
+        Row: {
+          chat_id: string
+          id: string
+          last_read: string
+        }
+        Insert: {
+          chat_id: string
+          id?: string
+          last_read?: string
+        }
+        Update: {
+          chat_id?: string
+          id?: string
+          last_read?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_chat_chat_id_fkey"
+            columns: ["chat_id"]
+            isOneToOne: false
+            referencedRelation: "chat_room"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_chat_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_friend: {
         Row: {
           created_at: string
@@ -262,7 +619,7 @@ export type Database = {
       }
       user_lifestyle: {
         Row: {
-          appeals: string[]
+          appeals: string[] | null
           created_at: string
           id: string
           pet: number
@@ -270,7 +627,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
-          appeals: string[]
+          appeals?: string[] | null
           created_at?: string
           id: string
           pet: number
@@ -278,7 +635,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
-          appeals?: string[]
+          appeals?: string[] | null
           created_at?: string
           id?: string
           pet?: number
@@ -298,10 +655,10 @@ export type Database = {
       user_looking_house: {
         Row: {
           created_at: string
-          deposit_price: number
+          deposit_price: number[]
           id: string
-          monthly_rental_price: number
-          regions: string[]
+          monthly_rental_price: number[]
+          regions: string[] | null
           rental_type: number
           term: number[]
           type: number
@@ -309,10 +666,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          deposit_price: number
+          deposit_price: number[]
           id: string
-          monthly_rental_price: number
-          regions: string[]
+          monthly_rental_price: number[]
+          regions?: string[] | null
           rental_type: number
           term: number[]
           type: number
@@ -320,10 +677,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          deposit_price?: number
+          deposit_price?: number[]
           id?: string
-          monthly_rental_price?: number
-          regions?: string[]
+          monthly_rental_price?: number[]
+          regions?: string[] | null
           rental_type?: number
           term?: number[]
           type?: number
@@ -738,6 +1095,10 @@ export type Database = {
           metadata: Json
           updated_at: string
         }[]
+      }
+      operation: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       search: {
         Args: {

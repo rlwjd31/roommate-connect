@@ -6,10 +6,10 @@ import Container from '@/components/atoms/Container';
 import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfileStepTitle.template';
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import FormItem from '@/components/molecules/FormItem';
 import { signUpProfileBadgeExamples } from '@/constants/signUpProfileData';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 
 export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
@@ -17,15 +17,9 @@ export default function SignUpProfile3_2Template() {
   );
 
   const { trigger, setValue, watch } =
-    useFormContext<Pick<ProfileFormValues, 'mateAppealsInputValue'>>();
+    useFormContext<Pick<SignUpProfileFormType, 'mateAppealsInputValue'>>();
 
   const createBadge = async (badgeContent: string) => {
-    // **************** badge content검증****************
-    const isBadgeContentValid = await trigger('mateAppealsInputValue');
-
-    if (!isBadgeContentValid) return;
-    // **************************************************
-
     if (!mateAppeals.includes(badgeContent) && badgeContent !== '') {
       setValue('mateAppealsInputValue', '');
       setMateAppeals(prev => [...prev, badgeContent]);
@@ -37,9 +31,12 @@ export default function SignUpProfile3_2Template() {
       prev.filter(mateAppeal => mateAppeal !== badgeContent),
     );
 
-  const pressEnterCreateBadge = (e: KeyboardEvent<HTMLInputElement>) => {
+  const pressEnterCreateBadge = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
-      createBadge(watch('mateAppealsInputValue'));
+      const isBadgeContentValid = await trigger('mateAppealsInputValue');
+
+      if (isBadgeContentValid)
+        await createBadge(watch('mateAppealsInputValue'));
     }
   };
 
@@ -49,7 +46,7 @@ export default function SignUpProfile3_2Template() {
         <SignUpProfileStepTitleTemplate
           step="3-2"
           title="나의 원하는 룸메이트는..."
-        />{' '}
+        />
         <Container.FlexCol className="mb-[4.25rem]">
           <Typography.SubTitle1 className="mb-11 text-brown">
             떠오르는 것이 없다면 선택해주세요
@@ -67,18 +64,14 @@ export default function SignUpProfile3_2Template() {
           <Typography.SubTitle1 className="mb-11 text-brown">
             내가 상대방에게 원하는 어필 3개를 작성해주세요
           </Typography.SubTitle1>
-          <FormItem.TextField<Pick<ProfileFormValues, 'mateAppealsInputValue'>>
+          <FormItem.TextField<
+            Pick<SignUpProfileFormType, 'mateAppealsInputValue'>
+          >
             placeholder="ex) 늦게 자요, 청소 자주해요, 코골이 해요"
             type="text"
             name="mateAppealsInputValue"
             onKeyDown={pressEnterCreateBadge}
             containerStyle="mb-10"
-            options={{
-              minLength: {
-                value: 3,
-                message: '3글자 이상이어야 합니다.',
-              },
-            }}
           />
           <BadgeButtons
             contents={mateAppeals}
@@ -89,21 +82,9 @@ export default function SignUpProfile3_2Template() {
             typoStyle="text-bg"
             onClick={deleteBadge}
           />
-          <FormItem.Hidden<Pick<ProfileFormValues, 'mateAppeals'>>
-            name="mateAppeals"
-            options={{
-              validate: {
-                isLengthExceeding: (mateAppealsArr: string) => {
-                  const parsedArr = JSON.parse(mateAppealsArr) as string[];
-                  if (parsedArr.length === 0) return '어필을 생성해주세요';
-                  if (parsedArr.length < 3)
-                    return '최소 3개 어필을 작성해주세요.';
-                  return true;
-                },
-              },
-            }}
-            defaultValue=""
-            valueProp={JSON.stringify(mateAppeals)}
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_appeals'>>
+            name="mate_appeals"
+            valueProp={mateAppeals}
           />
         </Container.FlexCol>
       </Container.FlexCol>

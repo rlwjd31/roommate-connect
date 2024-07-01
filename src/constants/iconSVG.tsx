@@ -37,6 +37,12 @@ import GenderIntersex from '@/assets/icons/ph_gender-intersex.svg?react';
 import MiniPetLover from '@/assets/icons/mini-pet-lover.svg?react';
 import MiniNonePetLover from '@/assets/icons/mini-none-pet-lover.svg?react';
 import MiniDontMindPet from '@/assets/icons/mini-dont-mind-pet.svg?react';
+import PaperClip from '@/assets/icons/paper-clip.svg?react';
+import Send from '@/assets/icons/send.svg?react';
+import Camera from '@/assets/icons/camera.svg?react';
+import Next from '@/assets/icons/next.svg?react';
+import Prev from '@/assets/icons/prev.svg?react';
+import Back from '@/assets/icons/back.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -67,6 +73,12 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'alarm-exist': <AlarmExist />,
   'alarm-none': <AlarmNone />,
   avatar: <Avatar />,
+  'paper-clip': <PaperClip />,
+  send: <Send />,
+  camera: <Camera />,
+  prev: <Prev />,
+  next: <Next />,
+  back: <Back />,
   heart: <Heart />,
   share: <Share />,
   'mini-smoke': <MiniSmoke />,
