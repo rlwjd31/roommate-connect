@@ -27,7 +27,7 @@ export default function SignUp() {
         onClick={onClickPrevButton}
         iconType="back"
         iconClassName="mx-auto"
-        className="size-[2.75rem] rounded-full"
+        className="size-[2.75rem] cursor-pointer rounded-full"
       />
       <Container.FlexCol className="gap-[3.5rem]">
         <Typography.Head2 className="text-brown">회원가입</Typography.Head2>
