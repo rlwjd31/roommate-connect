@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const HouseForm = z.object({
   house_img: z.array(z.string()),
+  representative_img: z.string({ required_error: '대표사진을 선택해주세요.' }),
   post_title: z
     .string({ required_error: '글 제목을 입력해주세요.' })
     .min(2, { message: '제목은 2글자 이상이어야 합니다.' }),
@@ -56,8 +57,11 @@ export const HouseForm = z.object({
       message: '최소 기간이 최대 기간보다 클 수 없습니다.',
     }),
   describe: z.string(),
-  bookmark: z.union([z.literal(0), z.literal(1)]),
+  prefer_age: z.tuple([z.number(), z.number()], {
+    required_error: '원하시는 룸메이트의 연력을 선택해주세요.',
+  }),
   temporary: z.union([z.literal(0), z.literal(1)]),
+  bookmark: z.number(),
   user_id: z.string(),
 });
 

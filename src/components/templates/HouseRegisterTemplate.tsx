@@ -12,7 +12,6 @@ import { HouseForm, HouseFormType } from '@/types/house.type';
 import { useSignInState } from '@/hooks/useSign';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import Container from '@/components/atoms/Container';
-import Input from '@/components/atoms/Input';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
@@ -42,6 +41,7 @@ export default function HouseRegisterTemplate() {
     resolver: zodResolver(HouseForm),
     defaultValues: {
       house_img: [],
+      representative_img: '',
       post_title: '',
       region: '',
       district: '',
@@ -57,13 +57,14 @@ export default function HouseRegisterTemplate() {
       term: [0, 24],
       describe: undefined,
       bookmark: 0,
-      temporary: 0,
+      prefer_age: [20, 60],
+      bookmark: 0,
       user_id: userInfo?.user.id,
     },
   });
   const [saving, setSaving] = useState<boolean>(false);
-  const [images, setImages] = useState<ImageInfo[]>([]);
-  const [imageNames, setImageNames] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
+  const [representativeImg, setRepresentativeImg] = useState('');
 
   const [hiddenState, setHiddenState] = useState<HiddenStateType>({
     house_type: 0,
@@ -73,7 +74,6 @@ export default function HouseRegisterTemplate() {
   });
 
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
-
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
   const [district, setDistrict] = useRecoilState(
     MoleculeSelectorState('시, 구'),
@@ -95,6 +95,7 @@ export default function HouseRegisterTemplate() {
       house_type: stateValue,
     }));
   };
+
   const onClickRentalType = (stateValue: HouseFormType['rental_type']) => {
     form.setValue('rental_type', stateValue);
     setHiddenState(prev => ({
@@ -155,7 +156,8 @@ export default function HouseRegisterTemplate() {
         house_img: images,
         room_num: Number(formData.room_num),
         term,
-      });
+        })
+        .select('id');
 
       if (error) {
         createHouseToast('error', '💧supabase 저장에 실패했습니다.');
@@ -184,7 +186,12 @@ export default function HouseRegisterTemplate() {
       <form onSubmit={form.handleSubmit(onSubmitHouse)}>
         <Container.FlexCol className="gap-[5rem]">
           <Container.FlexRow className="mb-[1.75rem] gap-6">
-            <MultiImageForm images={images} setImages={setImages} />
+            <MultiImageForm
+              images={images}
+              setImages={setImages}
+              representativeImg={representativeImg}
+              setRepresentativeImg={setRepresentativeImg}
+            />
           </Container.FlexRow>
           <Container.FlexRow>
             <Typography.SubTitle1 className="w-[205px] text-brown">
