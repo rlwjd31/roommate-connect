@@ -13,21 +13,18 @@ import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { SessionAtom } from '@/stores/auth.store';
 
-export type ImageInfo = {
-  imgUrl: string;
-  isRepresentative: boolean;
-};
-
 type MultiImageFormProps = {
-  images: ImageInfo[];
-  setImages: React.Dispatch<React.SetStateAction<ImageInfo[]>>;
-  setImageNames: React.Dispatch<React.SetStateAction<string[]>>;
+  images: string[];
+  setImages: React.Dispatch<React.SetStateAction<string[]>>;
+  representative: string;
+  setRepresentative: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function MultiImageForm({
   images,
   setImages,
-  setImageNames,
+  representative,
+  setRepresentative,
 }: MultiImageFormProps) {
   const IMAGE_PER_PAGE = 3;
   const MAX_IMAGES = 10;
@@ -58,14 +55,7 @@ export default function MultiImageForm({
       const res = supabase.storage
         .from('images')
         .getPublicUrl(data.fullPath.split('/').slice(1).join('/'));
-      setImages(prev => [
-        ...prev,
-        {
-          imgUrl: res.data.publicUrl,
-          isRepresentative: prev.length === 0,
-        },
-      ]);
-      setImageNames(prev => [...prev, newFileName]);
+      setImages(prev => [...prev, res.data.publicUrl]);
     } catch (error) {
       createErrorToast('이미지 저장에 실패했습니다.');
     }
@@ -92,12 +82,7 @@ export default function MultiImageForm({
 
   // 라디오버튼 선택시 대표사진으로 설정하는 함수
   const handleRepresentativeChange = (imgUrl: string) => {
-    setImages(prevImages =>
-      prevImages.map(img => ({
-        ...img,
-        isRepresentative: img.imgUrl === imgUrl,
-      })),
-    );
+    setRepresentative(imgUrl);
   };
 
   // 이미지 삭제 버튼 이벤트
@@ -111,14 +96,13 @@ export default function MultiImageForm({
 
       // images 배열에서도 삭제 -> 화면에서도 없어지게함
       setImages(prev => {
-        const newImages = prev.filter(img => img.imgUrl !== imgSrc);
+        const newImages = prev.filter(img => img !== imgSrc);
         // 이때 삭제하고 난 이미지 갯수가 3의 배수이면 페이지를 앞으로 이동시킴
         if (newImages.length % 3 === 0 && currentPage > 0) {
           setCurrentPage(currentPage - 1);
         }
         return newImages;
       });
-      setImageNames(prev => prev.filter(imgName => imgName !== path[0]));
 
       if (error) {
         createErrorToast('supabase에서 이미지를 삭제하는 데 실패했습니다.');
@@ -182,7 +166,7 @@ export default function MultiImageForm({
                   iconType="close"
                   stroke="brown"
                   iconClassName="absolute top-4 right-4"
-                  onClick={() => onClickDeleteImg(img.imgUrl)}
+                  onClick={() => onClickDeleteImg(img)}
                 />
                 <Label htmlFor={`image_${index}`}>
                   <Input
@@ -190,12 +174,12 @@ export default function MultiImageForm({
                     id={`image_${index}`}
                     name="representativeImage"
                     className="absolute bottom-2 right-3 size-6 p-1"
-                    checked={img.isRepresentative}
-                    onChange={() => handleRepresentativeChange(img.imgUrl)}
+                    checked={img === representative}
+                    onChange={() => handleRepresentativeChange(img)}
                   />
-                  <Img className="size-[17rem] object-cover" src={img.imgUrl} />
-                  {img.isRepresentative && (
-                    <Typography.SubTitle2 className="absolute bottom-4 left-2 p-1 text-brown">
+                  <Img className="size-[17rem] object-cover" src={img} />
+                  {img === representative && (
+                    <Typography.SubTitle2 className="absolute bottom-2 w-full rounded-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>
                   )}
