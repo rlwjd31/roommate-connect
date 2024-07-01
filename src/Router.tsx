@@ -5,7 +5,7 @@ import {
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
@@ -21,10 +21,10 @@ import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 import Loading from '@/components/pages/Loading';
-import HouseRegister from '@/components/pages/HouseRegister';
 import SignPasswordReset from '@/components/pages/SignPasswordReset';
 import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
-
+import SignUpEmail from '@/components/pages/SignUpEmail';
+import SignUpInfo from '@/components/pages/SignUpInfo';
 
 // ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
 // ! 따라서, element, layout을 ReactElement로 지정함
@@ -115,6 +115,18 @@ const routes: RouteType[] = [
           {
             path: 'up',
             element: <SignUp />,
+            children: [
+              { index: true, element: <SignUpEmail /> },
+              { path: 'info', element: <SignUpInfo /> },
+            ],
+          },
+          {
+            path: 'password',
+            element: <SignPasswordReset />,
+          },
+          {
+            path: 'update-password',
+            element: <SignUpdatePassword />,
           },
           {
             path: 'password',
