@@ -43,12 +43,12 @@ export default function DualInputRange({
   const maxGradientStopPoint = getGradientStop(rangeValue[1], min, max + step);
 
   const minDuplicateStyle =
-    rangeValue[0] === rangeValue[1] && rangeValue[0] === min
+    rangeValue[0] === rangeValue[1] && rangeValue[0] === min + step
       ? '[&_#min]:invisible'
       : '';
 
   const maxDuplicateStyle =
-    rangeValue[0] === rangeValue[1] && rangeValue[0] === max
+    rangeValue[0] === rangeValue[1] && rangeValue[0] === max + step
       ? '[&_#max]:invisible'
       : '';
   return (
