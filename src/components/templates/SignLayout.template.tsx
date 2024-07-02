@@ -17,19 +17,23 @@ export default function SignLayoutTemplate() {
     let timeoutId: number;
     const { data } = supabase.auth.onAuthStateChange(async _event => {
       if (session) {
-        const { birth, gender, nickname } = session.user.user_metadata;
+        timeoutId = window.setTimeout(() => {
+          const { birth, gender, nickname } = session.user.user_metadata;
 
-        if (!birth || !gender || !nickname) {
-          createToast('signup-info', '추가 정보를 입력해주세요.', {
-            isLoading: false,
-            type: 'warning',
-            autoClose: 3000,
-          });
+          if (!birth || !gender || !nickname) {
+            createToast('signup-info', '추가 정보를 입력해주세요.', {
+              isLoading: false,
+              type: 'warning',
+              autoClose: 3000,
+            });
 
-          navigate('/sign/up/info');
-        } else {
-          navigate('/signup-intro');
-        }
+            navigate('/sign/up/info');
+          } 
+          // 성공적으로 user추가정보(birth, gender, nickname)를 update했을 때 
+          else {
+            navigate('/signup-intro');
+          }
+        }, 0);
       }
     });
 
