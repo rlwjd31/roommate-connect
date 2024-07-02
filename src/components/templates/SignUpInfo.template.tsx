@@ -14,7 +14,6 @@ export default function SignUpInfoTemplate() {
     resolver: zodResolver(SignUpInfo),
   });
   const { updateUserInfo, isPending } = useUpdateUserInfo();
-
   const onSubmit = (data: SignUpInfoType) => {
     const { gender, ...others } = data;
     updateUserInfo({ ...others, gender: gender === 1 || gender === 3 ? 1 : 2 });

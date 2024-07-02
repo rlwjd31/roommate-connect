@@ -26,8 +26,6 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 
-// ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
-// ! 따라서, element, layout을 ReactElement로 지정함
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
   element: ReactElement;
@@ -39,8 +37,6 @@ type ProtectedRouterType = {
 };
 
 function ProtectedRouter({ children }: ProtectedRouterType) {
-  // * register supabase auth listener on initial rendering
-  // const [session, isInitializingSession] = useAuthState();
   const session = useRecoilValue(SessionAtom);
   const isInitializingSession = useRecoilValue(IsInitializingSession);
   const [isDelaying, setIsDelaying] = useState(true);
@@ -99,7 +95,6 @@ const routes: RouteType[] = [
         ],
       },
       {
-        // TODO: @수현 -> 미인증은 blur를 통해 일부 정보만을 보여주는 페이지 등록
         path: 'house-detail/:houseId',
         element: <h1>House Detail Page</h1>,
         shouldProtected: true,
@@ -119,14 +114,6 @@ const routes: RouteType[] = [
               { index: true, element: <SignUpEmail /> },
               { path: 'info', element: <SignUpInfo /> },
             ],
-          },
-          {
-            path: 'password',
-            element: <SignPasswordReset />,
-          },
-          {
-            path: 'update-password',
-            element: <SignUpdatePassword />,
           },
           {
             path: 'password',

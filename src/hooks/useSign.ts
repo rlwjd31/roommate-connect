@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   AuthError,
   AuthResponse,
@@ -155,6 +155,8 @@ export const useSignInSocial = () => {
     mutationFn: async (payload: SocialType) =>
       supabase.auth.signInWithOAuth({
         provider: payload,
+        // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
+        options: { redirectTo: 'http://localhost:5173/sign' },
       }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
@@ -176,8 +178,8 @@ export const useUpdateUserInfo = () => {
     onMutate: () =>
       createToast('update-user-info', '기본 정보를 수정중입니다...'),
     onSuccess: () => {
-      successToast('update-user-info', '기본 정보 수정을 완료했습니다.');
-      navigate('/');
+      successToast('update-user-info', '프로필 정보를 설정해주세요');
+      navigate('/signup-intro');
     },
     onError: error => errorToast('update-user-info', error.message),
   });
@@ -226,7 +228,6 @@ export const useAuthState = () => {
               break;
             case 'SIGNED_IN':
               setAuthState(session);
-              navigate('/');
               break;
             case 'SIGNED_OUT':
               setAuthState(session);
