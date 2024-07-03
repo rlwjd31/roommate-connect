@@ -11,6 +11,7 @@ import IconButton from '@/components/molecules/IconButton';
 import { UserAtom } from '@/stores/auth.store';
 import Img from '@/components/atoms/Img';
 import { supabase } from '@/libs/supabaseClient';
+import { UserType } from '@/types/auth.type';
 
 type Props = ComponentProps<'header'> & {
   className?: string;
@@ -19,6 +20,11 @@ type Props = ComponentProps<'header'> & {
 
 type GNBProps = ComponentProps<'div'> & {
   navItems: { name: string; path: string }[];
+};
+
+type UserMenuProps = ComponentProps<'div'> & {
+  user: UserType | null;
+  isLogin: boolean;
 };
 
 function GNB({ navItems, className }: GNBProps) {
@@ -44,6 +50,26 @@ function GNB({ navItems, className }: GNBProps) {
     </Container.FlexRow>
   );
 }
+
+function UserMenu({ user, className, isLogin }: UserMenuProps) {
+  return (
+    <Container.FlexRow
+      className={cn('items-center justify-between gap-7', className)}
+    >
+      {/* Alert */}
+      <IconButton button="Ghost" iconType="alarm-exist" />
+      {/* Avatar depending on is user login now */}
+      {user?.avatar ? (
+        <Img
+          className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
+          src={user.avatar}
+        />
+      ) : (
+        <IconButton button="Ghost" iconType="avatar" />
+      )}
+    </Container.FlexRow>
+  );
+}
 export default function Header({ className, isLogin, ...others }: Props) {
   const user = useRecoilValue(UserAtom);
   const navItems = [
@@ -63,28 +89,8 @@ export default function Header({ className, isLogin, ...others }: Props) {
             {/* nav Items(chats, lounge, house) */}
             <GNB navItems={navItems} />
             {/* about user account(realtime alert & user avatar) */}
-            <Container.FlexRow className="items-center justify-between gap-7">
-              {/* Alert */}
-              <IconButton button="Ghost" iconType="alarm-exist" />
-              {/* Avatar depending on is user login now */}
-
-              <Img
-                className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
-                src={user?.avatar}
-              />
-            </Container.FlexRow>
+            <UserMenu user={user} isLogin={isLogin} />
           </>
-        )}
-        {/* TODO: 로그인 한 상태가 아닐 시 sign/in page로 navigate할 수단을 강구해야 됨.(아래는 임시 대안책) */}
-        {!isLogin && (
-          <IconButton
-            button="Ghost"
-            iconType="avatar"
-            onClick={async () => {
-              const { error } = await supabase.auth.signOut();
-              if (error) console.error(error.message);
-            }}
-          />
         )}
       </Container.FlexRow>
     </header>
@@ -94,7 +100,3 @@ export default function Header({ className, isLogin, ...others }: Props) {
 Header.defaultProps = {
   className: '',
 };
-
-// - 하우스 등록
-// - 내 북마크
-// - 마이 페이지 -> account
