@@ -57,9 +57,8 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
         <>
           <IconButton button="Ghost" iconType="alarm-exist" />
           {user?.avatar ? (
-            // ! shadow에서 rgba(0, 0, 0, 0.35)와 같이 띄어쓰기가 있으면 안 먹음
             <Img
-              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent shadow-[0_0_4px_0_rgba(0,0,0,0.25)]"
+              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent shadow-avatar"
               src={user.avatar}
             />
           ) : (
