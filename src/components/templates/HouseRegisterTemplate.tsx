@@ -7,10 +7,10 @@ import { TypeOptions } from 'react-toastify';
 
 import { supabase } from '@/libs/supabaseClient';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
-import { createToast } from '@/libs/toast';
 import { HouseForm, HouseFormType } from '@/types/house.type';
-import { useSignInState } from '@/hooks/useSign';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
+import { createToast } from '@/libs/toast';
+import { SessionAtom } from '@/stores/auth.store';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
@@ -35,7 +35,7 @@ type HiddenStateType = {
 
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
-  const userInfo = useRecoilState(SessionAtom)[0];
+  const userId = useRecoilState(SessionAtom)[0]?.user.id;
   const Form = FormProvider;
   const form = useForm<HouseFormType>({
     resolver: zodResolver(HouseForm),
@@ -57,9 +57,9 @@ export default function HouseRegisterTemplate() {
       term: [0, 24],
       describe: undefined,
       bookmark: 0,
+      temporary: 0,
       prefer_age: [20, 60],
-      bookmark: 0,
-      user_id: userInfo?.user.id,
+      user_id: userId,
     },
   });
   const [saving, setSaving] = useState<boolean>(false);
@@ -141,30 +141,88 @@ export default function HouseRegisterTemplate() {
     form.setValue('house_appeal', appeals);
   };
 
-  const onSaveHouse = async (formData: HouseFormType, visible: number) => {
-    setSaving(true);
+  const createHouseToast = (type: TypeOptions, message: string) =>
+    createToast('houseUpload', `${message}`, {
+      type: `${type}`,
+      autoClose: 3000,
+      isLoading: false,
+    });
+
+  const moveImageStorage = async (postId: string) => {
     try {
-      const { error } = await supabase.from('house').insert({
-        ...formData,
-        temporary,
-        region: region.value as string,
-        district: district.value as string,
-        house_size: Number(formData.house_size),
-        deposit_price: Number(formData.deposit_price),
-        monthly_price: Number(formData.monthly_price),
-        manage_price: Number(formData.manage_price),
-        house_img: images,
-        room_num: Number(formData.room_num),
-        term,
+      const fullImage = images
+        .concat(representativeImg)
+        .map(imgUrl => imgUrl.split('/').slice(-1)[0]);
+
+      // 업로드된 이미지를 postId 폴더로 이동
+      fullImage.forEach(async imgName => {
+        const { error } = await supabase.storage
+          .from('images')
+          .move(
+            `house/${userId}/temporary/${imgName}`,
+            `house/${userId}/${postId}/${imgName}`,
+          );
+
+        if (error) throw new Error(error.message);
+      });
+
+      // 이동후 남아있는 temporary 폴더에 있는 이미지를 가져옴
+      const { data: temporaryImg, error: pullError } = await supabase.storage
+        .from('images')
+        .list(`house/${userId}/temporary`, {
+          limit: 100,
+          offset: 0,
+        });
+      if (pullError) throw new Error(pullError.message);
+
+      // 가져왔다면 이미지들을 삭제
+      if (temporaryImg) {
+        temporaryImg.forEach(async imgObj => {
+          const imgName = imgObj.name;
+          const { error: removeError } = await supabase.storage
+            .from('images')
+            .remove([`house/${userId}/temporary/${imgName}`]);
+
+          if (removeError) throw new Error(removeError.message);
+        });
+      }
+    } catch (error) {
+      createHouseToast('error', '💧이미지 이동 또는 삭제에 실패했습니다.');
+    }
+  };
+
+  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
+    setSaving(true);
+
+    try {
+      const { data, error } = await supabase
+        .from('house')
+        .insert({
+          ...formData,
+          temporary,
+          region: region.value,
+          district: district.value,
+          house_size: Number(formData.house_size),
+          deposit_price: Number(formData.deposit_price),
+          monthly_price: Number(formData.monthly_price),
+          manage_price: Number(formData.manage_price),
+          house_img: images,
+          representative_img: representativeImg,
+          room_num: Number(formData.room_num),
+          term,
         })
         .select('id');
 
       if (error) {
-        createHouseToast('error', '💧supabase 저장에 실패했습니다.');
-      } else {
-        createHouseToast('success', '👍🏻 성공적으로 저장되었습니다.');
-        navigate('/');
+        throw new Error(error.message);
       }
+
+      // Supabase에서 생성된 postId 가져와서 폴더를 만들어 이미지 이동하고 temporary 폴더내 이미지 삭제하는 함수 호출
+      const postId = data[0].id;
+      await moveImageStorage(postId);
+
+      createHouseToast('success', '👍🏻 성공적으로 저장되었습니다.');
+      navigate('/');
     } catch (error) {
       createHouseToast('error', '💧submit에 실패했습니다.');
     } finally {
@@ -181,9 +239,13 @@ export default function HouseRegisterTemplate() {
     onSaveHouse(formData, 0);
   };
 
+  const onError = error => {
+    console.log(error);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmitHouse)}>
+      <form onSubmit={form.handleSubmit(onSubmitHouse, onError)}>
         <Container.FlexCol className="gap-[5rem]">
           <Container.FlexRow className="mb-[1.75rem] gap-6">
             <MultiImageForm

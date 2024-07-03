@@ -16,15 +16,15 @@ import { SessionAtom } from '@/stores/auth.store';
 type MultiImageFormProps = {
   images: string[];
   setImages: React.Dispatch<React.SetStateAction<string[]>>;
-  representative: string;
-  setRepresentative: React.Dispatch<React.SetStateAction<string>>;
+  representativeImg: string;
+  setRepresentativeImg: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export default function MultiImageForm({
   images,
   setImages,
-  representative,
-  setRepresentative,
+  representativeImg,
+  setRepresentativeImg,
 }: MultiImageFormProps) {
   const IMAGE_PER_PAGE = 3;
   const MAX_IMAGES = 10;
@@ -82,7 +82,7 @@ export default function MultiImageForm({
 
   // 라디오버튼 선택시 대표사진으로 설정하는 함수
   const handleRepresentativeChange = (imgUrl: string) => {
-    setRepresentative(imgUrl);
+    setRepresentativeImg(imgUrl);
   };
 
   // 이미지 삭제 버튼 이벤트
@@ -174,11 +174,11 @@ export default function MultiImageForm({
                     id={`image_${index}`}
                     name="representativeImage"
                     className="absolute bottom-2 right-3 size-6 p-1"
-                    checked={img === representative}
+                    checked={img === representativeImg}
                     onChange={() => handleRepresentativeChange(img)}
                   />
                   <Img className="size-[17rem] object-cover" src={img} />
-                  {img === representative && (
+                  {img === representativeImg && (
                     <Typography.SubTitle2 className="absolute bottom-2 w-full rounded-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>

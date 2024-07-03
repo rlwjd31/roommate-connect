@@ -60,7 +60,7 @@ export const HouseForm = z.object({
   prefer_age: z.tuple([z.number(), z.number()], {
     required_error: '원하시는 룸메이트의 연력을 선택해주세요.',
   }),
-  temporary: z.union([z.literal(0), z.literal(1)]),
+  temporary: z.union([z.literal(0), z.literal(1)]).default(0),
   bookmark: z.number(),
   user_id: z.string(),
 });
