@@ -74,12 +74,6 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
               login
             </Typography.SpanMid1>
           </Link>
-          <Divider.Col className="self-stretch border-[0.75px] border-brown2" />
-          <Link to="/sign/up">
-            <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
-              SIGN UP
-            </Typography.SpanMid1>
-          </Link>
         </Container.FlexRow>
       )}
     </Container.FlexRow>
