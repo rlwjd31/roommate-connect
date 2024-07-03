@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -36,7 +36,7 @@ function GNB({ navItems, className }: GNBProps) {
           key={name}
           to={path}
           className={({ isActive }) =>
-            !isActive ? 'text-brown2' : 'text-brown'
+            isActive ? 'text-brown' : 'text-brown2'
           }
         >
           <Typography.SpanMid1 className="text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1">
@@ -88,11 +88,14 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
 export default function Header({ className, isLogin, ...others }: Props) {
   const location = useLocation();
   const user = useRecoilValue(UserAtom);
-  const navItems = [
-    { name: 'chats', path: '/chats' },
-    { name: 'lounge', path: '/lounge' },
-    { name: 'house', path: '/house' },
-  ];
+  const navItems = useMemo(
+    () => [
+      { name: 'chats', path: '/chats' },
+      { name: 'lounge', path: '/lounge' },
+      { name: 'house', path: '/house' },
+    ],
+    [],
+  );
   const isNotSignPath = !location.pathname.startsWith('/sign');
 
   return (
