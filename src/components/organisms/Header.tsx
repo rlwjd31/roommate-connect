@@ -10,8 +10,8 @@ import cn from '@/libs/cn';
 import IconButton from '@/components/molecules/IconButton';
 import { UserAtom } from '@/stores/auth.store';
 import Img from '@/components/atoms/Img';
-import { supabase } from '@/libs/supabaseClient';
 import { UserType } from '@/types/auth.type';
+import Divider from '@/components/atoms/Divider';
 
 type Props = ComponentProps<'header'> & {
   className?: string;
@@ -38,11 +38,7 @@ function GNB({ navItems, className }: GNBProps) {
             !isActive ? 'text-brown2' : 'text-brown'
           }
         >
-          <Typography.SpanMid1
-            className={cn(
-              'text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1',
-            )}
-          >
+          <Typography.SpanMid1 className="text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1">
             {name}
           </Typography.SpanMid1>
         </NavLink>
@@ -56,16 +52,29 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
     <Container.FlexRow
       className={cn('items-center justify-between gap-7', className)}
     >
-      {/* Alert */}
-      <IconButton button="Ghost" iconType="alarm-exist" />
-      {/* Avatar depending on is user login now */}
-      {user?.avatar ? (
-        <Img
-          className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
-          src={user.avatar}
-        />
-      ) : (
-        <IconButton button="Ghost" iconType="avatar" />
+      {isLogin && (
+        <>
+          <IconButton button="Ghost" iconType="alarm-exist" />
+          {user?.avatar ? (
+            <Img
+              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
+              src={user.avatar}
+            />
+          ) : (
+            <IconButton button="Ghost" iconType="avatar" />
+          )}
+        </>
+      )}
+      {!isLogin && (
+        <Container.FlexRow className="items-center gap-4">
+          <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
+            login
+          </Typography.SpanMid1>
+          <Divider.Col className="self-stretch border-[0.75px] border-brown2" />
+          <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
+            SIGN UP
+          </Typography.SpanMid1>
+        </Container.FlexRow>
       )}
     </Container.FlexRow>
   );
@@ -84,14 +93,10 @@ export default function Header({ className, isLogin, ...others }: Props) {
         <Link to="/">
           <Icon type="logo" />
         </Link>
-        {isLogin && (
-          <>
-            {/* nav Items(chats, lounge, house) */}
-            <GNB navItems={navItems} />
-            {/* about user account(realtime alert & user avatar) */}
-            <UserMenu user={user} isLogin={isLogin} />
-          </>
-        )}
+        {/* nav Items(chats, lounge, house) */}
+        <GNB navItems={navItems} />
+        {/* about user account(realtime alert & user avatar) */}
+        <UserMenu user={user} isLogin={isLogin} />
       </Container.FlexRow>
     </header>
   );
