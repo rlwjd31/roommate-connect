@@ -1,8 +1,10 @@
-import SignUpProfileIntroTemplate from '@/components/templates/SignUpProfileIntro.template';
+import { useRecoilValue } from 'recoil';
 
-/**
- * TODO  Recoil 상태를 사용하여 사용자의 이름을 가져오도록 변경
- *  */
+import SignUpProfileIntroTemplate from '@/components/templates/SignUpProfileIntro.template';
+import { UserAtom } from '@/stores/auth.store';
+
 export default function SignUpProfileIntro() {
-  return <SignUpProfileIntroTemplate name="홍길동" />;
+  const user = useRecoilValue(UserAtom);
+
+  return <SignUpProfileIntroTemplate name={user?.name ?? ''} />;
 }
