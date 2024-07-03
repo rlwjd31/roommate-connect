@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -16,6 +16,8 @@ type Props = ComponentProps<'header'> & {
   className?: string;
   isLogin: boolean;
 };
+
+function GNB() {}
 export default function Header({ className, isLogin, ...others }: Props) {
   const user = useRecoilValue(UserAtom);
   const navItems = [
@@ -36,16 +38,21 @@ export default function Header({ className, isLogin, ...others }: Props) {
             {/* nav Items(chats, lounge, house) */}
             <Container.FlexRow className="gap-9">
               {navItems.map(({ name, path }) => (
-                <Link key={name} to={path}>
+                <NavLink
+                  key={name}
+                  to={path}
+                  className={({ isActive }) =>
+                    !isActive ? 'text-brown2' : 'text-brown'
+                  }
+                >
                   <Typography.SpanMid1
                     className={cn(
                       'text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1',
-                      location.pathname !== path && 'text-brown2',
                     )}
                   >
                     {name}
                   </Typography.SpanMid1>
-                </Link>
+                </NavLink>
               ))}
             </Container.FlexRow>
             {/* about user account(realtime alert & user avatar) */}
