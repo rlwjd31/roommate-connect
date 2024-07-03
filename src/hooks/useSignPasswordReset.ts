@@ -14,6 +14,7 @@ export const useSignPasswordReset = () => {
       const { error } = await supabase.auth.resetPasswordForEmail(
         payload.email,
         {
+          // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
           redirectTo: 'http://localhost:5173/sign/update-password',
         },
       );

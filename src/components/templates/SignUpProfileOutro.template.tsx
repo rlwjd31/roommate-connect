@@ -10,7 +10,7 @@ export default function SignUpProfileOutroTemplate() {
       <Container.FlexCol className="items-center gap-y-[30px]">
         <Container.FlexCol className="items-center gap-y-7">
           <Typography.Head2 className="text-brown">
-            회원가입이 완료되었어요
+            프로필 설정이 완료되었어요
           </Typography.Head2>
           <Typography.P1 className="text-brown">
             나만의 룸메이트를 찾으러 가볼까요?
@@ -20,13 +20,8 @@ export default function SignUpProfileOutroTemplate() {
       <Icon type="seeking-house" />
       <Container.FlexRow className="items-center justify-center gap-3">
         <Link to="/house">
-          <Button.Outline className="rounded-full px-11 py-4 text-brown">
-            <Typography.P1>홈으로</Typography.P1>
-          </Button.Outline>
-        </Link>
-        <Link to="/sign/in">
           <Button.Fill className="rounded-full px-11 py-4 text-bg">
-            <Typography.P1>로그인</Typography.P1>
+            <Typography.P1>홈으로</Typography.P1>
           </Button.Fill>
         </Link>
       </Container.FlexRow>

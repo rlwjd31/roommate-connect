@@ -32,7 +32,7 @@ module.exports = {
 
   rules: {
     'no-unused-vars': 'warn',
-    'no-console': 'warn',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
 
     // * react
     'react/jsx-props-no-spreading': 0,
