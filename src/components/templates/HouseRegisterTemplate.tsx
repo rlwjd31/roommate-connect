@@ -148,44 +148,46 @@ export default function HouseRegisterTemplate() {
       isLoading: false,
     });
 
+  // 이미지 이동 후 남아있는 temporary 폴더에 있는 이미지를 가져와 삭제
+  const emptyTemporary = async () => {
+    const { data, error } = await supabase.storage
+      .from('images')
+      .list(`house/${userId}/temporary`, {
+        limit: 100,
+        offset: 0,
+      });
+
+    if (error) throw new Error(error.message);
+
+    if (data) {
+      data.forEach(async imgObj => {
+        const imgName = imgObj.name;
+        const { error: removeError } = await supabase.storage
+          .from('images')
+          .remove([`house/${userId}/temporary/${imgName}`]);
+
+        if (removeError) throw new Error(removeError.message);
+      });
+    }
+  };
+
+  // 업로드된 이미지를 postId 폴더로 이동
   const moveImageStorage = async (postId: string) => {
     try {
-      const fullImage = images
-        .concat(representativeImg)
-        .map(imgUrl => imgUrl.split('/').slice(-1)[0]);
-
-      // 업로드된 이미지를 postId 폴더로 이동
-      fullImage.forEach(async imgName => {
-        const { error } = await supabase.storage
+      images.forEach(async imgName => {
+        const { error: moveError } = await supabase.storage
           .from('images')
           .move(
             `house/${userId}/temporary/${imgName}`,
             `house/${userId}/${postId}/${imgName}`,
           );
 
-        if (error) throw new Error(error.message);
+        if (moveError) {
+          throw new Error(moveError.message);
+        }
+
+        emptyTemporary();
       });
-
-      // 이동후 남아있는 temporary 폴더에 있는 이미지를 가져옴
-      const { data: temporaryImg, error: pullError } = await supabase.storage
-        .from('images')
-        .list(`house/${userId}/temporary`, {
-          limit: 100,
-          offset: 0,
-        });
-      if (pullError) throw new Error(pullError.message);
-
-      // 가져왔다면 이미지들을 삭제
-      if (temporaryImg) {
-        temporaryImg.forEach(async imgObj => {
-          const imgName = imgObj.name;
-          const { error: removeError } = await supabase.storage
-            .from('images')
-            .remove([`house/${userId}/temporary/${imgName}`]);
-
-          if (removeError) throw new Error(removeError.message);
-        });
-      }
     } catch (error) {
       createHouseToast('error', '💧이미지 이동 또는 삭제에 실패했습니다.');
     }
@@ -206,7 +208,7 @@ export default function HouseRegisterTemplate() {
           deposit_price: Number(formData.deposit_price),
           monthly_price: Number(formData.monthly_price),
           manage_price: Number(formData.manage_price),
-          house_img: images,
+          house_img: images.filter(imgName => imgName !== representativeImg),
           representative_img: representativeImg,
           room_num: Number(formData.room_num),
           term,
