@@ -11,7 +11,6 @@ import IconButton from '@/components/molecules/IconButton';
 import { UserAtom } from '@/stores/auth.store';
 import Img from '@/components/atoms/Img';
 import { UserType } from '@/types/auth.type';
-import Divider from '@/components/atoms/Divider';
 
 type Props = ComponentProps<'header'> & {
   className?: string;
@@ -58,8 +57,9 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
         <>
           <IconButton button="Ghost" iconType="alarm-exist" />
           {user?.avatar ? (
+            // ! shadow에서 rgba(0, 0, 0, 0.35)와 같이 띄어쓰기가 있으면 안 먹음
             <Img
-              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent"
+              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent shadow-[0_0_4px_0_rgba(0,0,0,0.25)]"
               src={user.avatar}
             />
           ) : (
