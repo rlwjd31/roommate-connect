@@ -144,6 +144,23 @@ const routes: RouteType[] = [
         shouldProtected: true,
         element: <SignUpProfileOutro />,
       },
+      {
+        path: 'account',
+        shouldProtected: true,
+        element: (
+          <div>
+            My Account page(myPage할 때 sidebar UI먼저 작업 필요해 보임)
+            <Outlet />
+          </div>
+        ),
+        // ! TODO: 아래는 my-page의 알림 설정 mock page -> 추후 재조정
+        children: [
+          {
+            path: 'alert-settings',
+            element: <h1>알림 설정</h1>,
+          },
+        ],
+      },
     ],
   },
 ];

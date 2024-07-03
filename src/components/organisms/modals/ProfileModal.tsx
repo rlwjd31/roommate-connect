@@ -37,7 +37,7 @@ export default function ProfileModal() {
           {profileImage ? (
             <Img src={profileImage} alt="Profile Image" />
           ) : (
-            <Icon className="cursor-pointer [&>svg]:size-52" type="avartar" />
+            <Icon className="cursor-pointer [&>svg]:size-52" type="avatar" />
           )}
         </Container.FlexRow>
         <Container.FlexCol className="items-center bg-bg">

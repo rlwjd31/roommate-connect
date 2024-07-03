@@ -27,7 +27,7 @@ export type IconType =
   | 'visible'
   | 'alarm-exist'
   | 'alarm-none'
-  | 'avartar'
+  | 'avatar'
   | 'back'
   | 'paper-clip'
   | 'send'

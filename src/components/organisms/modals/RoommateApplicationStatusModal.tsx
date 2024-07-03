@@ -49,7 +49,7 @@ export default function RoomMateApplicationStatus() {
               {profileImage ? (
                 <Img src={profileImage} alt="Profile Image" />
               ) : (
-                <Icon className="[&>svg]:size-16 " type="avartar" />
+                <Icon className="[&>svg]:size-16 " type="avatar" />
               )}
               <Container.FlexCol className="gap-7">
                 <Typography.Head3>{userName}</Typography.Head3>
