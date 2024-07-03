@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -17,7 +17,33 @@ type Props = ComponentProps<'header'> & {
   isLogin: boolean;
 };
 
-function GNB() {}
+type GNBProps = ComponentProps<'div'> & {
+  navItems: { name: string; path: string }[];
+};
+
+function GNB({ navItems, className }: GNBProps) {
+  return (
+    <Container.FlexRow className={cn('gap-9', className)}>
+      {navItems.map(({ name, path }) => (
+        <NavLink
+          key={name}
+          to={path}
+          className={({ isActive }) =>
+            !isActive ? 'text-brown2' : 'text-brown'
+          }
+        >
+          <Typography.SpanMid1
+            className={cn(
+              'text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1',
+            )}
+          >
+            {name}
+          </Typography.SpanMid1>
+        </NavLink>
+      ))}
+    </Container.FlexRow>
+  );
+}
 export default function Header({ className, isLogin, ...others }: Props) {
   const user = useRecoilValue(UserAtom);
   const navItems = [
@@ -25,7 +51,6 @@ export default function Header({ className, isLogin, ...others }: Props) {
     { name: 'lounge', path: '/lounge' },
     { name: 'house', path: '/house' },
   ];
-  const location = useLocation();
 
   return (
     <header className="fixed left-0 top-0 z-50 w-screen bg-bg" {...others}>
@@ -36,25 +61,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
         {isLogin && (
           <>
             {/* nav Items(chats, lounge, house) */}
-            <Container.FlexRow className="gap-9">
-              {navItems.map(({ name, path }) => (
-                <NavLink
-                  key={name}
-                  to={path}
-                  className={({ isActive }) =>
-                    !isActive ? 'text-brown2' : 'text-brown'
-                  }
-                >
-                  <Typography.SpanMid1
-                    className={cn(
-                      'text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1',
-                    )}
-                  >
-                    {name}
-                  </Typography.SpanMid1>
-                </NavLink>
-              ))}
-            </Container.FlexRow>
+            <GNB navItems={navItems} />
             {/* about user account(realtime alert & user avatar) */}
             <Container.FlexRow className="items-center justify-between gap-7">
               {/* Alert */}
