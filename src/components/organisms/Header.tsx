@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -27,6 +27,7 @@ type UserMenuProps = ComponentProps<'div'> & {
   isLogin: boolean;
 };
 
+// chats, lounge, house와 같은 NavLink를 관장하는 component
 function GNB({ navItems, className }: GNBProps) {
   return (
     <Container.FlexRow className={cn('gap-9', className)}>
@@ -47,6 +48,7 @@ function GNB({ navItems, className }: GNBProps) {
   );
 }
 
+// header에서 Logo, GNB를 제외한 user에 대한 정보(e.g avatar alarm)
 function UserMenu({ user, className, isLogin }: UserMenuProps) {
   return (
     <Container.FlexRow
@@ -67,36 +69,50 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
       )}
       {!isLogin && (
         <Container.FlexRow className="items-center gap-4">
-          <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
-            login
-          </Typography.SpanMid1>
+          <Link to="/sign/in">
+            <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
+              login
+            </Typography.SpanMid1>
+          </Link>
           <Divider.Col className="self-stretch border-[0.75px] border-brown2" />
-          <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
-            SIGN UP
-          </Typography.SpanMid1>
+          <Link to="/sign/up">
+            <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
+              SIGN UP
+            </Typography.SpanMid1>
+          </Link>
         </Container.FlexRow>
       )}
     </Container.FlexRow>
   );
 }
 export default function Header({ className, isLogin, ...others }: Props) {
+  const location = useLocation();
   const user = useRecoilValue(UserAtom);
   const navItems = [
     { name: 'chats', path: '/chats' },
     { name: 'lounge', path: '/lounge' },
     { name: 'house', path: '/house' },
   ];
+  const isNotSignPath = !location.pathname.startsWith('/sign');
 
   return (
-    <header className="fixed left-0 top-0 z-50 w-screen bg-bg" {...others}>
+    <header
+      className={cn(
+        'fixed left-0 top-0 z-50 w-screen bg-transparent',
+        isNotSignPath && 'bg-bg',
+      )}
+      {...others}
+    >
       <Container.FlexRow className="mx-auto w-full max-w-[1200px] items-center justify-between px-8">
         <Link to="/">
           <Icon type="logo" />
         </Link>
-        {/* nav Items(chats, lounge, house) */}
-        <GNB navItems={navItems} />
-        {/* about user account(realtime alert & user avatar) */}
-        <UserMenu user={user} isLogin={isLogin} />
+        {isNotSignPath && (
+          <>
+            <GNB navItems={navItems} />
+            <UserMenu user={user} isLogin={isLogin} />
+          </>
+        )}
       </Container.FlexRow>
     </header>
   );
