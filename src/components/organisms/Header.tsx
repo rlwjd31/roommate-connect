@@ -1,4 +1,4 @@
-import { ComponentProps, useMemo } from 'react';
+import { ComponentProps, useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
@@ -24,6 +24,7 @@ type GNBProps = ComponentProps<'div'> & {
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
   isLogin: boolean;
+  hasNewAlarm: boolean;
 };
 
 // chats, lounge, house와 같은 NavLink를 관장하는 component
@@ -48,14 +49,17 @@ function GNB({ navItems, className }: GNBProps) {
 }
 
 // header에서 Logo, GNB를 제외한 user에 대한 정보(e.g avatar alarm)
-function UserMenu({ user, className, isLogin }: UserMenuProps) {
+function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
   return (
     <Container.FlexRow
       className={cn('items-center justify-between gap-7', className)}
     >
       {isLogin && (
         <>
-          <IconButton button="Ghost" iconType="alarm-exist" />
+          <IconButton
+            button="Ghost"
+            iconType={hasNewAlarm ? 'alarm-exist' : 'alarm-none'}
+          />
           {user?.avatar ? (
             <Img
               className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent shadow-avatar"
@@ -79,6 +83,8 @@ function UserMenu({ user, className, isLogin }: UserMenuProps) {
   );
 }
 export default function Header({ className, isLogin, ...others }: Props) {
+  // ! TODO: 알람기능 추가시 바꿔야 함
+  const [hasNewAlarm] = useState(false);
   const location = useLocation();
   const user = useRecoilValue(UserAtom);
   const navItems = useMemo(
@@ -106,7 +112,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
         {isNotSignPath && (
           <>
             <GNB navItems={navItems} />
-            <UserMenu user={user} isLogin={isLogin} />
+            <UserMenu user={user} isLogin={isLogin} hasNewAlarm={hasNewAlarm} />
           </>
         )}
       </Container.FlexRow>
