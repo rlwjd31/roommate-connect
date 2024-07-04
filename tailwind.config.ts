@@ -39,7 +39,8 @@ export default {
         SpanMid2: ['0.75rem', { fontWeight: 500 }],
       },
       fontFamily: {
-        'Noto-Sans-KR': ['Noto Sans KR'],
+        'Noto-Sans-KR': ['Noto Sans KR', 'sans-serif'],
+        'Myanmar-Khyay': ['Myanmar Khyay', 'sans-serif'],
       },
       lineHeight: {
         150: '1.5',
