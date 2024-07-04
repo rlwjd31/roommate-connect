@@ -39,7 +39,10 @@ function GNB({ navItems, className }: GNBProps) {
             isActive ? 'text-brown' : 'text-brown2'
           }
         >
-          <Typography.SpanMid1 className="text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1">
+          <Typography.SpanMid1
+            lang="en"
+            className="text-[0.9375rem] font-semibold uppercase tracking-widest hover:text-brown1"
+          >
             {name}
           </Typography.SpanMid1>
         </NavLink>
@@ -73,7 +76,10 @@ function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
       {!isLogin && (
         <Container.FlexRow className="items-center gap-4">
           <Link to="/sign/in">
-            <Typography.SpanMid1 className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1">
+            <Typography.SpanMid1
+              lang="en"
+              className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1"
+            >
               login
             </Typography.SpanMid1>
           </Link>
