@@ -21,7 +21,10 @@ export default function ChatRoom() {
           src="https://picsum.photos/200?1"
         />
         <Container.FlexCol>
-          <Typography.SubTitle1 className="font-bold leading-150 text-brown">
+          <Typography.SubTitle1
+            lang="en"
+            className="font-bold leading-150 text-brown"
+          >
             User1234
           </Typography.SubTitle1>
           <Container.FlexRow className="items-center gap-1">

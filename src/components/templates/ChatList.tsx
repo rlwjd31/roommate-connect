@@ -4,6 +4,7 @@ import Container from '@/components/atoms/Container';
 import Img from '@/components/atoms/Img';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
+import { isEnglish } from '@/libs/checkLanguage';
 
 type PointAlertType = {
   content: string | number;
@@ -97,7 +98,7 @@ const chats = [
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
-    content: '안녕하세요',
+    content: 'hi',
     newChatCount: 2,
     navigateUrl: '7',
   },
@@ -115,7 +116,7 @@ const chats = [
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
-    content: '안녕하세요',
+    content: 'hello',
     newChatCount: 2,
     navigateUrl: '9',
   },
@@ -183,7 +184,10 @@ export default function ChatList() {
               <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} />
               <Container.FlexCol className="w-full">
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span1 className="font-bold leading-150 text-brown">
+                  <Typography.Span1
+                    lang={isEnglish(nickname) ? 'en' : 'ko'}
+                    className="font-bold leading-150 text-brown"
+                  >
                     {nickname}
                   </Typography.Span1>
                   <Typography.Span2 className="font-semibold leading-150 text-brown2">
@@ -191,7 +195,10 @@ export default function ChatList() {
                   </Typography.Span2>
                 </Container.FlexRow>
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span2 className="font-semibold leading-150 text-brown2">
+                  <Typography.Span2
+                    lang={isEnglish(content) ? 'en' : 'ko'}
+                    className="font-semibold leading-150 text-brown2"
+                  >
                     {content}
                   </Typography.Span2>
                   <PointAlert content={newChatCount} />
