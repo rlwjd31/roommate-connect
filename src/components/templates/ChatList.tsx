@@ -20,7 +20,7 @@ export function PointAlert({
   return (
     <Container.FlexRow
       className={cn(
-        'w-fit items-center justify-center rounded-full bg-point px-2 pt-[6px] pb-[4px]',
+        'w-fit items-center justify-center rounded-full bg-point pl-2 pr-[7px] pt-[4px] pb-[5px]',
         containerStyle,
       )}
     >
