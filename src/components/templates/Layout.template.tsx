@@ -13,7 +13,7 @@ export default function LayoutTemplate() {
       <Header isLogin={!!session} />
       <main
         className={cn(
-          'flex flex-col relative max-w-[75rem] mx-auto h-screen pt-[148px]',
+          'flex flex-col relative max-w-[79rem] px-8 mx-auto h-screen pt-[148px]',
         )}
       >
         <Outlet />

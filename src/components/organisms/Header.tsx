@@ -111,7 +111,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
       )}
       {...others}
     >
-      <Container.FlexRow className="mx-auto w-full max-w-[75rem] items-center justify-between">
+      <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
         <Link to="/">
           <Icon type="logo" />
         </Link>
