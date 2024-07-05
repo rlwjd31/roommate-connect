@@ -79,7 +79,7 @@ export default function SignUpProfile1_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="mb-11 text-brown">
+          <Typography.SubTitle1 className="text-brown">
             기간
           </Typography.SubTitle1>
           <LabelDualInputRange
