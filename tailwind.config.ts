@@ -57,6 +57,7 @@ export default {
       },
       boxShadow: {
         avatar: 'rgba(0, 0, 0, 0.25) 0px 0px 4px 0px',
+        'avatar-active': 'rgba(0, 0, 0, 0.3) 0px 0px 4px 3px',
       },
     },
   },
