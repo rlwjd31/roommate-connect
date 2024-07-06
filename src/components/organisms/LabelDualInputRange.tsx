@@ -4,13 +4,24 @@ import DualInputRange, {
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import unitConverters from '@/libs/generateUnit';
+import cn from '@/libs/cn';
 
 type LabelDualInputRangeProps = DualInputRangeType & {
   label?: string;
   category: 'price' | 'term';
+  labelContainerStyle?: string;
 };
 export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
-  const { label, category, rangeValue, min, max, className, ...others } = props;
+  const {
+    label,
+    category,
+    rangeValue,
+    labelContainerStyle,
+    min,
+    max,
+    className,
+    ...others
+  } = props;
   const [rangeMinValue, rangeMaxValue] = [
     unitConverters[category](rangeValue[0], max),
     unitConverters[category](rangeValue[1], max),
@@ -23,7 +34,9 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
 
   return (
     <Container.FlexCol className={className}>
-      <Container.FlexRow className="mb-7 justify-between">
+      <Container.FlexRow
+        className={cn('mb-7 justify-between', labelContainerStyle)}
+      >
         {label && (
           <Typography.SubTitle2 className="text-brown">
             {label}
@@ -42,19 +55,25 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
         rangeValue={rangeValue}
         {...others}
       />
-      <Container className="relative bg-red-300">
-        <Typography.Span1 className="absolute left-0 top-0">
+      <Container.FlexRow className="relative justify-between">
+        <Typography.Span1 className="">{rangeMinRulerValue}</Typography.Span1>
+        <Typography.Span1 className="">{rangeMidRulerValue}</Typography.Span1>
+        <Typography.Span1 className="">
+          {`${rangeMaxRulerValue} 이상`}
+        </Typography.Span1>
+        {/* <Typography.Span1 className="absolute left-0 top-0">
           {rangeMinRulerValue}
         </Typography.Span1>
-        <Typography.Span1 className="absolute left-1/2 top-0 -translate-x-1/2">
+        <Typography.Span1 className="absolute left-1/2 top-0 -translate-x-2/3">
           {rangeMidRulerValue}
         </Typography.Span1>
-        <Typography.Span1 className="absolute right-0 top-0 translate-x-1/4">{`${rangeMaxRulerValue} 이상`}</Typography.Span1>
-      </Container>
+        <Typography.Span1 className="absolute right-[0.75rem] top-0 translate-x-1/4">{`${rangeMaxRulerValue} 이상`}</Typography.Span1> */}
+      </Container.FlexRow>
     </Container.FlexCol>
   );
 }
 
 LabelDualInputRange.defaultProps = {
   label: null,
+  labelContainerStyle: '',
 };
