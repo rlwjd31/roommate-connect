@@ -26,7 +26,7 @@ export default function SignUpProfile1_3Template() {
           </Typography.SubTitle1>
           <LabelDualInputRange
             label="보증금"
-            className="mt-[52px] w-[480px]"
+            className="mt-[3.25rem] max-w-[30rem]"
             min={0}
             max={10000}
             step={100}
@@ -40,7 +40,7 @@ export default function SignUpProfile1_3Template() {
           />
           <LabelDualInputRange
             label="월세"
-            className="mt-[68px] w-[480px]"
+            className="mt-[4.25rem] max-w-[30rem]"
             min={0}
             max={500}
             step={10}

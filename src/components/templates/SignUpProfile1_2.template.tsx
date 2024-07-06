@@ -63,7 +63,7 @@ export default function SignUpProfile1_2Template() {
             {regions?.map(location => (
               <BadgeButton.Fill
                 key={location}
-                className="gap-x-5 rounded-[30px] px-4 pb-[11px] pt-[13px] text-bg"
+                className="gap-x-5 rounded-[1.875rem] px-4 py-[0.75rem] text-bg"
                 iconType="close"
                 stroke="bg"
                 onClick={() => onClickDeleteRegionBadge(location)}
@@ -78,7 +78,7 @@ export default function SignUpProfile1_2Template() {
             valueProp={regions}
           />
         </Container.FlexCol>
-        <Container.FlexCol className="bg-red-300">
+        <Container.FlexCol>
           <Typography.SubTitle1 className="mb-11 text-brown">
             기간
           </Typography.SubTitle1>
