@@ -10,6 +10,7 @@ type LabelDualInputRangeProps = DualInputRangeType & {
   label?: string;
   category: 'price' | 'term';
   labelContainerStyle?: string;
+  rulerStyle?: string;
 };
 export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
   const {
@@ -20,6 +21,7 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
     min,
     max,
     className,
+    rulerStyle,
     ...others
   } = props;
   const [rangeMinValue, rangeMaxValue] = [
@@ -55,7 +57,9 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
         rangeValue={rangeValue}
         {...others}
       />
-      <Container.FlexRow className="relative justify-between">
+      <Container.FlexRow
+        className={cn('relative justify-between text-brown', rulerStyle)}
+      >
         <Typography.Span1 className="">{rangeMinRulerValue}</Typography.Span1>
         <Typography.Span1 className="">{rangeMidRulerValue}</Typography.Span1>
         <Typography.Span1 className="">
@@ -76,4 +80,5 @@ export default function LabelDualInputRange(props: LabelDualInputRangeProps) {
 LabelDualInputRange.defaultProps = {
   label: null,
   labelContainerStyle: '',
+  rulerStyle: '',
 };
