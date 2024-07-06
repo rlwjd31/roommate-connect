@@ -78,16 +78,17 @@ export default function SignUpProfile1_2Template() {
             valueProp={regions}
           />
         </Container.FlexCol>
-        <Container.FlexCol>
-          <Typography.SubTitle1 className="text-brown">
+        <Container.FlexCol className="bg-red-300">
+          <Typography.SubTitle1 className="mb-11 text-brown">
             기간
           </Typography.SubTitle1>
           <LabelDualInputRange
-            className="w-[480px]"
+            className="max-w-[30rem]"
             min={0}
             max={24}
             step={1}
             setRangeValue={setTerm}
+            labelContainerStyle="mb-9"
             rangeValue={term}
             category="term"
           />

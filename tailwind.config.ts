@@ -5,6 +5,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        screen1000: { max: '1000px' },
+      },
       colors: {
         bg: '#FFFAF5',
         subColor1: '#FFDBA5',

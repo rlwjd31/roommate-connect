@@ -142,8 +142,8 @@ export default function SignUpProfileLayoutTemplate(
     passedPage.includes(step) ? setCurrentStep(step) : null;
 
   return (
-    <Container.FlexRow className="min-h-[816px] w-full justify-between">
-      <Container.FlexCol className="min-w-[12.5rem]">
+    <Container.FlexRow className="min-h-[51rem] w-full justify-between gap-[3.75rem]">
+      <Container.FlexCol className="min-w-[13rem] screen1000:hidden">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
             <StepTitle
