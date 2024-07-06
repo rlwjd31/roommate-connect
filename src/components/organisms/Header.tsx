@@ -102,12 +102,14 @@ export default function Header({ className, isLogin, ...others }: Props) {
     [],
   );
   const isNotSignPath = !location.pathname.startsWith('/sign');
+  const isSignUpProfilePath = location.pathname.startsWith('/signup');
 
   return (
     <header
       className={cn(
         'fixed left-0 top-0 z-50 w-screen bg-transparent',
         isNotSignPath && 'bg-bg',
+        isSignUpProfilePath && 'bg-bg',
       )}
       {...others}
     >
