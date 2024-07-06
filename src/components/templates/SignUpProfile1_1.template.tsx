@@ -28,7 +28,7 @@ export default function SignUpProfile1_1Template() {
   ) => setRentalType(stateValue);
 
   return (
-    <Container.FlexCol className="min-w-full p-2 ">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate step="1-1" title="내가 찾는 집은..." />
         <Typography.SubTitle1 className="text-brown">

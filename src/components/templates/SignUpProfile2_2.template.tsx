@@ -37,7 +37,7 @@ export default function SignUpProfile2_2Template() {
   };
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="2-2"

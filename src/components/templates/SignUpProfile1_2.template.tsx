@@ -54,7 +54,7 @@ export default function SignUpProfile1_2Template() {
   ) => setRegions(prev => prev.filter(location => location !== value));
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate step="1-2" title="내가 찾는 집은..." />
         <Typography.SubTitle1 className="text-brown">위치</Typography.SubTitle1>

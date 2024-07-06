@@ -24,7 +24,6 @@ import { SignUpProfileForm, SignUpProfileFormType } from '@/types/signUp.type';
 import { SignUpProfileState } from '@/stores/sign.store';
 import { createToast } from '@/libs/toast';
 import useSignUpProfile from '@/hooks/useSignUpProfile';
-import Container from '@/components/atoms/Container';
 
 export default function SignUpProfile() {
   const signUpProfileState = useRecoilValue(SignUpProfileState);
@@ -111,7 +110,7 @@ export default function SignUpProfile() {
           <SignUpProfile2_1Template />
           <SignUpProfile2_2Template />
           <SignUpProfile3_1Template />
-          <SignUpProfile3_2Template />
+          {/* <SignUpProfile3_2Template /> */}
         </SignUpProfileLayoutTemplate>
       </form>
       <DevTool control={formMethods.control} />

@@ -17,7 +17,7 @@ export default function SignUpProfile1_3Template() {
   );
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate step="1-3" title="내가 찾는 집은..." />
         <Container.FlexCol>
