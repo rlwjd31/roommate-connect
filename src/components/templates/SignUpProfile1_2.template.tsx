@@ -68,7 +68,7 @@ export default function SignUpProfile1_2Template() {
                 stroke="bg"
                 onClick={() => onClickDeleteRegionBadge(location)}
               >
-                <Typography.P1>{location}</Typography.P1>
+                <Typography.P2>{location}</Typography.P2>
               </BadgeButton.Fill>
             ))}
           </Container.FlexRow>

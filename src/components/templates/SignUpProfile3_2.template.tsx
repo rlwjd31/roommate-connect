@@ -57,6 +57,7 @@ export default function SignUpProfile3_2Template() {
             badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             typoStyle="text-bg"
+            typoType="P2"
             onClick={createBadge}
           />
         </Container.FlexCol>
@@ -81,6 +82,7 @@ export default function SignUpProfile3_2Template() {
             stroke="bg"
             iconType="close"
             typoStyle="text-bg"
+            typoType="P2"
             onClick={deleteBadge}
           />
           <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_appeals'>>
