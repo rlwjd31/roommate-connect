@@ -227,7 +227,7 @@ export default function ChatRoom() {
           <IconButton iconType="paper-clip" button="Ghost" />
         </Container.FlexRow>
         <div className="relative w-full">
-          <Input placeholder="메세지를 입력해주세요" />
+          <Input className="w-full" placeholder="메세지를 입력해주세요" />
           <IconButton
             iconType="send"
             button="Ghost"
