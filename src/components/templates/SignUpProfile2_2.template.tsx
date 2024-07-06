@@ -50,13 +50,13 @@ export default function SignUpProfile2_2Template() {
           <BadgeButtons
             contents={signUpProfileBadgeExamples}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
+            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             typoStyle="text-bg"
             onClick={createBadge}
           />
         </Container.FlexCol>
-        <Container.FlexCol className="mb-[68px]">
+        <Container.FlexCol>
           <Typography.SubTitle1 className="mb-11 text-brown">
             상대방에게 어필하고 싶은 3개를 작성해주세요
           </Typography.SubTitle1>
@@ -65,12 +65,13 @@ export default function SignUpProfile2_2Template() {
             type="text"
             name="appealsInputValue"
             onKeyDown={pressEnterCreateBadge}
-            containerStyle="mb-10"
+            inputStyle="w-full"
+            containerStyle="mb-5 max-w-[30.375rem]"
           />
           <BadgeButtons
             contents={appeals}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
+            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             iconType="close"
             typoStyle="text-bg"
