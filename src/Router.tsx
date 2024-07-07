@@ -25,6 +25,7 @@ import SignPasswordReset from '@/components/pages/SignPasswordReset';
 import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
+import HouseRegister from '@/components/pages/HouseRegister';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -89,7 +90,7 @@ const routes: RouteType[] = [
         children: [
           {
             path: 'regist',
-            element: <h1>Regist Page</h1>,
+            element: <HouseRegister />,
             shouldProtected: true,
           },
         ],

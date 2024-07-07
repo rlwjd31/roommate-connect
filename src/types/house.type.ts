@@ -8,15 +8,12 @@ export const HouseForm = z.object({
     .min(2, { message: '제목은 2글자 이상이어야 합니다.' }),
   region: z.string({ required_error: '주거지의 지역을 입력해주세요.' }),
   district: z.string({ required_error: '주거지의 시,구를 입력해주세요.' }),
-  house_type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
-  // .optional(),
-  rental_type: z.union([
-    z.literal(0),
-    z.literal(1),
-    z.literal(2),
-    z.literal(3),
-  ]),
-  // .optional(),
+  house_type: z
+    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
+    .optional(),
+  rental_type: z
+    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
+    .optional(),
   house_size: z.number({
     required_error: '공유 주거의 넓이를 평 단위로 입력해주세요.',
   }),
@@ -35,7 +32,7 @@ export const HouseForm = z.object({
     .min(1, { message: '1개 이상의 특징을 작성해주세요.' }),
   mates_num: z
     .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    // .optional()
+    .optional()
     .refine(data => data !== undefined, {
       message: '인원 수를 선택해주세요.',
     }),
