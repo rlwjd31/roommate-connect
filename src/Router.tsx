@@ -5,7 +5,7 @@ import {
   RouteObject,
   RouterProvider,
 } from 'react-router-dom';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import LayoutTemplate from '@/components/templates/Layout.template';
@@ -21,13 +21,11 @@ import Chat from '@/components/pages/Chat';
 import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 import Loading from '@/components/pages/Loading';
-import HouseRegister from '@/components/pages/HouseRegister';
 import SignPasswordReset from '@/components/pages/SignPasswordReset';
 import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
+import SignUpEmail from '@/components/pages/SignUpEmail';
+import SignUpInfo from '@/components/pages/SignUpInfo';
 
-
-// ! React.cloneElement는 ReactNode가 아닌 props또한 정의할 수 있는 ReactElement만 받는다
-// ! 따라서, element, layout을 ReactElement로 지정함
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
   element: ReactElement;
@@ -39,8 +37,6 @@ type ProtectedRouterType = {
 };
 
 function ProtectedRouter({ children }: ProtectedRouterType) {
-  // * register supabase auth listener on initial rendering
-  // const [session, isInitializingSession] = useAuthState();
   const session = useRecoilValue(SessionAtom);
   const isInitializingSession = useRecoilValue(IsInitializingSession);
   const [isDelaying, setIsDelaying] = useState(true);
@@ -99,7 +95,6 @@ const routes: RouteType[] = [
         ],
       },
       {
-        // TODO: @수현 -> 미인증은 blur를 통해 일부 정보만을 보여주는 페이지 등록
         path: 'house-detail/:houseId',
         element: <h1>House Detail Page</h1>,
         shouldProtected: true,
@@ -115,6 +110,10 @@ const routes: RouteType[] = [
           {
             path: 'up',
             element: <SignUp />,
+            children: [
+              { index: true, element: <SignUpEmail /> },
+              { path: 'info', element: <SignUpInfo /> },
+            ],
           },
           {
             path: 'password',
@@ -144,6 +143,23 @@ const routes: RouteType[] = [
         path: 'signup-outro',
         shouldProtected: true,
         element: <SignUpProfileOutro />,
+      },
+      {
+        path: 'account',
+        shouldProtected: true,
+        element: (
+          <div>
+            My Account page(myPage할 때 sidebar UI먼저 작업 필요해 보임)
+            <Outlet />
+          </div>
+        ),
+        // ! TODO: 아래는 my-page의 알림 설정 mock page -> 추후 재조정
+        children: [
+          {
+            path: 'alert-settings',
+            element: <h1>알림 설정</h1>,
+          },
+        ],
       },
     ],
   },

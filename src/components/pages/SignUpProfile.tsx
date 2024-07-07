@@ -110,7 +110,7 @@ export default function SignUpProfile() {
           <SignUpProfile2_1Template />
           <SignUpProfile2_2Template />
           <SignUpProfile3_1Template />
-          <SignUpProfile3_2Template />
+          {/* <SignUpProfile3_2Template /> */}
         </SignUpProfileLayoutTemplate>
       </form>
       <DevTool control={formMethods.control} />

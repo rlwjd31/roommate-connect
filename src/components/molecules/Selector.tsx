@@ -24,7 +24,7 @@ type SelectorProps<Label extends SelectorLabelType> = Omit<
 };
 
 const selectorContainerStyle =
-  'relative w-full items-center justify-between text-brown';
+  'relative w-full items-center justify-between text-[1.125rem] text-brown';
 export default function Selector<Label extends SelectorLabelType>({
   label,
   contents,
@@ -53,7 +53,10 @@ export default function Selector<Label extends SelectorLabelType>({
   );
 
   // ! props를 중 한개라도 값이 있으면서 나머지는 undefined일 때 => occur error
-  if (takenPropsFromParentCount > 0 && takenPropsFromParentCount < propsFromParent.length)
+  if (
+    takenPropsFromParentCount > 0 &&
+    takenPropsFromParentCount < propsFromParent.length
+  )
     throw new Error(
       `All props(state, setState, onClick) must be provided by the parent component, or none at all.`,
     );

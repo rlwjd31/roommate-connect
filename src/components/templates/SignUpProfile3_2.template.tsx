@@ -41,7 +41,7 @@ export default function SignUpProfile3_2Template() {
   };
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="3-2"
@@ -54,9 +54,10 @@ export default function SignUpProfile3_2Template() {
           <BadgeButtons
             contents={signUpProfileBadgeExamples}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
+            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             typoStyle="text-bg"
+            typoType="P2"
             onClick={createBadge}
           />
         </Container.FlexCol>
@@ -71,15 +72,17 @@ export default function SignUpProfile3_2Template() {
             type="text"
             name="mateAppealsInputValue"
             onKeyDown={pressEnterCreateBadge}
-            containerStyle="mb-10"
+            inputStyle="w-full"
+            containerStyle="mb-5 max-w-[30.375rem]"
           />
           <BadgeButtons
             contents={mateAppeals}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[30px] pt-[13px] pb-[11px] px-4 min-w-max"
+            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             iconType="close"
             typoStyle="text-bg"
+            typoType="P2"
             onClick={deleteBadge}
           />
           <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_appeals'>>

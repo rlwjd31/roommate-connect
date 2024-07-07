@@ -29,21 +29,18 @@ export default function SignUpProfile3_1Template() {
   ) => setMatesNumber(stateValue);
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="3-1"
           title="내가 원하는 룸메이트는..."
         />
         <Typography.SubTitle1 className="text-brown">성별</Typography.SubTitle1>
-        <Container.FlexRow
-          style={{ width: `${(genderDisplayData.length / 4) * 100}%` }}
-          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
-        >
+        <Container.FlexRow className="mb-[4.25rem] mt-11 flex-wrap gap-6">
           {genderDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="basis-[11.25rem] gap-y-5 rounded-lg py-5"
               isActive={stateValue === gender}
               iconType={iconType}
               direction="top"
@@ -62,18 +59,15 @@ export default function SignUpProfile3_1Template() {
         <Typography.SubTitle1 className="text-brown">
           인원 수
         </Typography.SubTitle1>
-        <Container.FlexRow
-          className="mb-[4.25rem] mt-11 gap-x-6"
-          style={{ width: `${(mateNumberDisplayData.length / 4) * 100}%` }}
-        >
+        <Container.FlexRow className="mt-11 flex-wrap gap-6">
           {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="basis-[11.25rem] gap-y-5 rounded-lg py-5"
               isActive={stateValue === matesNumber}
               onClick={() => onClickMateNumberType(stateValue)}
             >
-              <Typography.P2 className="flex-1 text-brown">
+              <Typography.P2 className="w-full text-brown">
                 {displayValue}
               </Typography.P2>
             </Button.Outline>

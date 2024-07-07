@@ -1,13 +1,12 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 
-import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
+import { ShowVerificationAtom } from '@/stores/sign.store';
 import {
-  EmailAuthType,
-  SignUpFormData2,
-  SignUpFormData2Type,
+  SignUpEmail,
+  SignUpEmailType,
   VerifyEmailType,
 } from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
@@ -16,15 +15,13 @@ import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
 
-export default function SignUpIntroTemplate2() {
+export default function SignUpEmailTemplate() {
   const Form = FormProvider;
-  const form = useForm<SignUpFormData2Type>({
-    resolver: zodResolver(SignUpFormData2),
+  const form = useForm<SignUpEmailType>({
+    resolver: zodResolver(SignUpEmail),
   });
   const [passwordVisible, setPasswordVisible] = useState(false);
   const showVerification = useRecoilValue(ShowVerificationAtom);
-  const [signUpEmailUser, setSignUpEmailUser] =
-    useRecoilState(SignUpEmailUserAtom);
 
   const { signUpEmail, isSignUpEmail } = useSignUpEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
@@ -36,24 +33,17 @@ export default function SignUpIntroTemplate2() {
 
   const isPending = isSignUpEmail || isVerifyEmail;
 
-  const onSubmitSignUp = async (formData: EmailAuthType) => {
-    if (signUpEmailUser.birth !== 0 && signUpEmailUser.gender !== 0) {
-      setSignUpEmailUser(prev => ({
-        ...prev,
-        email: formData.email,
-        password: formData.password,
-      }));
-      signUpEmail();
-    }
+  const onSubmitSignUp = async (formData: SignUpEmailType) => {
+    signUpEmail(formData);
   };
 
   const onSubmitVerify = async (formData: VerifyEmailType) => {
     verifyEmail(formData);
   };
 
-  const onSubmit: SubmitHandler<SignUpFormData2Type> = data =>
+  const onSubmit: SubmitHandler<SignUpEmailType> = data =>
     !showVerification
-      ? onSubmitSignUp(data as EmailAuthType)
+      ? onSubmitSignUp(data as SignUpEmailType)
       : onSubmitVerify(data as VerifyEmailType);
 
   return (
@@ -115,7 +105,7 @@ export default function SignUpIntroTemplate2() {
               disabled={isPending}
             >
               <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                확인
+                다음
               </Typography.P3>
             </Button.Fill>
           )}

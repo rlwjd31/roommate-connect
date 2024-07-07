@@ -8,6 +8,7 @@ import Icon from '@/components/atoms/Icon';
 import Img from '@/components/atoms/Img';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
+import { isEnglish } from '@/libs/checkLanguage';
 
 export default function ProfileModal() {
   const {
@@ -37,12 +38,15 @@ export default function ProfileModal() {
           {profileImage ? (
             <Img src={profileImage} alt="Profile Image" />
           ) : (
-            <Icon className="cursor-pointer [&>svg]:size-52" type="avartar" />
+            <Icon className="cursor-pointer [&>svg]:size-52" type="avatar" />
           )}
         </Container.FlexRow>
         <Container.FlexCol className="items-center bg-bg">
           <Container.FlexCol className="w-full items-center border border-b-brown1/50 pb-9 pt-8">
-            <Typography.SubTitle1 className="text-brown">
+            <Typography.SubTitle1
+              lang={isEnglish(userName) ? 'en' : 'ko'}
+              className="text-brown"
+            >
               {userName}
             </Typography.SubTitle1>
             <Typography.P2 className="mt-8 text-brown">
