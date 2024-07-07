@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 import { useRecoilState } from 'recoil';
 
@@ -32,7 +32,7 @@ export default function MultiImageForm({
   const userId = useRecoilState(SessionAtom)[0]?.user.id;
   const [currentPage, setCurrentPage] = useState(0);
   const [renderImg, setRenderImg] = useState<string[]>([]);
-  const imageLen = images.length;
+  const imageLen = renderImg.length;
 
   const createErrorToast = (message: string) =>
     createToast('uploadImage', `${message}`, {
@@ -79,8 +79,7 @@ export default function MultiImageForm({
 
   // 라디오버튼 선택시 대표사진으로 설정하는 함수
   const handleRepresentativeChange = (imgUrl: string) => {
-    const imgName = imgUrl.split('/').slice(-1)[0];
-    setRepresentativeImg(imgName);
+    setRepresentativeImg(imgUrl);
   };
 
   // 이미지 삭제 버튼 이벤트
@@ -89,16 +88,20 @@ export default function MultiImageForm({
     try {
       const { error } = await supabase.storage
         .from('images')
-        .remove([`house/${userId}/${imgName}`]);
+        .remove([`house/${userId}/temporary/${imgName}`]);
 
-      setImages(prev => {
-        const newImages = prev.filter(img => img !== imgSrc);
+      if (imgName === representativeImg.split('/').slice(-1)[0]) {
+        setRepresentativeImg('');
+      } else {
+        setImages(prev => {
+          const newImages = prev.filter(img => img !== imgSrc);
 
-        if (newImages.length % 3 === 0 && currentPage > 0) {
-          setCurrentPage(currentPage - 1);
-        }
-        return newImages;
-      });
+          if (newImages.length % 3 === 0 && currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+          }
+          return newImages;
+        });
+      }
 
       setRenderImg(prev => prev.filter(imgUrl => !imgUrl.includes(imgName)));
 
@@ -121,6 +124,16 @@ export default function MultiImageForm({
       setCurrentPage(currentPage - 1);
     }
   };
+
+  // 처음 이미지 업로드시 첫번째 사진을 대표사진으로 지정
+  useEffect(() => {
+    if (
+      renderImg &&
+      (representativeImg === undefined || representativeImg === '')
+    ) {
+      setRepresentativeImg(renderImg[0]);
+    }
+  }, [renderImg, setRepresentativeImg]);
 
   return (
     <Container.FlexCol>
@@ -172,11 +185,11 @@ export default function MultiImageForm({
                     id={`image_${index}`}
                     name="representativeImage"
                     className="absolute bottom-2 right-3 size-6 p-1"
-                    checked={img.split('/').slice(-1)[0] === representativeImg}
+                    checked={img === representativeImg}
                     onChange={() => handleRepresentativeChange(img)}
                   />
                   <Img className="size-[17rem] object-cover" src={img} />
-                  {img.split('/').slice(-1)[0] === representativeImg && (
+                  {img === representativeImg && (
                     <Typography.SubTitle2 className="absolute bottom-2 w-full rounded-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>
