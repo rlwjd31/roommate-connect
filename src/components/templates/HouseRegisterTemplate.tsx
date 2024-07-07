@@ -1,15 +1,12 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { TypeOptions } from 'react-toastify';
 
-import { supabase } from '@/libs/supabaseClient';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
 import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { createToast } from '@/libs/toast';
 import { SessionAtom } from '@/stores/auth.store';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -25,6 +22,7 @@ import {
   mateNumberDisplayData,
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
+import { useHouseRegist } from '@/hooks/useHouse';
 
 type HiddenStateType = {
   house_type: HouseFormType['house_type'];
@@ -62,16 +60,15 @@ export default function HouseRegisterTemplate() {
       user_id: userId,
     },
   });
-  const [saving, setSaving] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
-  const [representativeImg, setRepresentativeImg] = useState('');
 
   const [hiddenState, setHiddenState] = useState<HiddenStateType>({
     house_type: 0,
     rental_type: 1,
-    mates_num: 1,
     house_appeal: [],
+    mates_num: 1,
   });
+  const [images, setImages] = useState<string[]>([]);
+  const [representativeImg, setRepresentativeImg] = useState('');
 
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
@@ -141,95 +138,27 @@ export default function HouseRegisterTemplate() {
     form.setValue('house_appeal', appeals);
   };
 
-  const createHouseToast = (type: TypeOptions, message: string) =>
-    createToast('houseUpload', `${message}`, {
-      type: `${type}`,
-      autoClose: 3000,
-      isLoading: false,
-    });
-
-  // 이미지 이동 후 남아있는 temporary 폴더에 있는 이미지를 가져와 삭제
-  const emptyTemporary = async () => {
-    const { data, error } = await supabase.storage
-      .from('images')
-      .list(`house/${userId}/temporary`, {
-        limit: 100,
-        offset: 0,
-      });
-
-    if (error) throw new Error(error.message);
-
-    if (data) {
-      data.forEach(async imgObj => {
-        const imgName = imgObj.name;
-        const { error: removeError } = await supabase.storage
-          .from('images')
-          .remove([`house/${userId}/temporary/${imgName}`]);
-
-        if (removeError) throw new Error(removeError.message);
-      });
-    }
-  };
-
-  // 업로드된 이미지를 postId 폴더로 이동
-  const moveImageStorage = async (postId: string) => {
-    try {
-      images.forEach(async imgName => {
-        const { error: moveError } = await supabase.storage
-          .from('images')
-          .move(
-            `house/${userId}/temporary/${imgName}`,
-            `house/${userId}/${postId}/${imgName}`,
-          );
-
-        if (moveError) {
-          throw new Error(moveError.message);
-        }
-
-        emptyTemporary();
-      });
-    } catch (error) {
-      createHouseToast('error', '💧이미지 이동 또는 삭제에 실패했습니다.');
-    }
-  };
-
+  const { registHouse, isRegistHouse } = useHouseRegist();
   const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
-    setSaving(true);
+    const representativeImgName = representativeImg.split('/').slice(-1)[0];
+    const houseImgExcludeRep = images.filter(
+      imgName => imgName !== representativeImgName,
+    );
 
-    try {
-      const { data, error } = await supabase
-        .from('house')
-        .insert({
-          ...formData,
-          temporary,
-          region: region.value,
-          district: district.value,
-          house_size: Number(formData.house_size),
-          deposit_price: Number(formData.deposit_price),
-          monthly_price: Number(formData.monthly_price),
-          manage_price: Number(formData.manage_price),
-          house_img: images.filter(imgName => imgName !== representativeImg),
-          representative_img: representativeImg,
-          room_num: Number(formData.room_num),
-          term,
-        })
-        .select('id');
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      // Supabase에서 생성된 postId 가져와서 폴더를 만들어 이미지 이동하고 temporary 폴더내 이미지 삭제하는 함수 호출
-      const postId = data[0].id;
-      await moveImageStorage(postId);
-
-      createHouseToast('success', '👍🏻 성공적으로 저장되었습니다.');
-      navigate('/');
-    } catch (error) {
-      createHouseToast('error', '💧submit에 실패했습니다.');
-    } finally {
-      setSaving(false);
-    }
+    registHouse({
+      ...formData,
+      temporary,
+      region: region.value,
+      district: district.value,
+      house_size: Number(formData.house_size),
+      deposit_price: Number(formData.deposit_price),
+      monthly_price: Number(formData.monthly_price),
+      manage_price: Number(formData.manage_price),
+      house_img: houseImgExcludeRep,
+      representative_img: representativeImgName,
+      room_num: Number(formData.room_num),
+      term,
+    });
   };
 
   const onSubmitHouse = (formData: HouseFormType) => {
@@ -241,13 +170,15 @@ export default function HouseRegisterTemplate() {
     onSaveHouse(formData, 0);
   };
 
-  const onError = error => {
-    console.log(error);
-  };
+  useEffect(() => {
+    setRegion({ value: '지역', isOpen: false });
+    setDistrict({ value: '시, 구', isOpen: false });
+    setTerm([0, 25]);
+  }, []);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmitHouse, onError)}>
+      <form onSubmit={form.handleSubmit(onSubmitHouse)}>
         <Container.FlexCol className="gap-[5rem]">
           <Container.FlexRow className="mb-[1.75rem] gap-6">
             <MultiImageForm
@@ -518,14 +449,14 @@ export default function HouseRegisterTemplate() {
             <Button.Outline
               className="flex h-[59px] w-[9.25rem] justify-center rounded-[2rem]"
               onClick={onSaveTemporary}
-              disabled={saving}
+              disabled={isRegistHouse}
             >
               <Typography.P1 className="text-brown">임시저장</Typography.P1>
             </Button.Outline>
             <Button.Fill
               className="flex h-[59px] w-[9.5rem] justify-center rounded-[2rem]"
               type="submit"
-              disabled={saving}
+              disabled={isRegistHouse}
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
             </Button.Fill>
