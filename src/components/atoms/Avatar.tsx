@@ -2,21 +2,13 @@ import React, { ComponentProps, ReactNode } from 'react';
 
 import cn from '@/libs/cn';
 /*
-- xs; 40px
-- s; 44px:
-    - new notice dropdown
-- m; 48px:
-    - chatList Avatar
-- l; 60px:
-    - house detail page 댓글
-- xl; 72px
-    - RoomMate Application Status Modal
-    - user dropdown
-    - house detail page(69px로 되어있는데 72px은 Test해보고 괜찮으면 여기에 넣기)
-- 2xl; 96px:
-    - mypage 내활동
-- 3xl; 128px:
-    - mypage 내활동 → 계정설정 Avatar
+- xs; 40px (2.5rem)
+- s; 44px (2.75rem)
+- m; 48px (3rem)
+- l; 60px (3.75rem)
+- xl; 72px (4.5rem)
+- 2xl; 96px (6rem)
+- 3xl; 128px (8rem)
 */
 export type AvatarProps = ComponentProps<'img'> & { isActive?: boolean };
 export type AvatarSizeType = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
@@ -58,14 +50,14 @@ const AvatarSize: { size: AvatarSizeType; defaultClassName: string }[] = [
 
 const Avatar = {} as AvatarComponentProps;
 AvatarSize.forEach(({ size, defaultClassName }) => {
-  Avatar[size] = ({
-    children,
-    className,
-    isActive = false,
-    ...others
-  }: AvatarProps) =>
+  Avatar[size] = ({ className, isActive = false, ...others }: AvatarProps) =>
     React.createElement('img', {
-      className: `${defaultClassName} ${cn('shadow-avatar shrink-0 cursor-pointer rounded-full', className, isActive && 'shadow-avatar-active')}`,
+      className: cn(
+        'shadow-avatar shrink-0 cursor-pointer rounded-full',
+        className,
+        defaultClassName,
+        isActive && 'shadow-avatar-active',
+      ),
       ...others,
     });
 });
