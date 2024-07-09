@@ -28,7 +28,7 @@ export type IconType =
   | 'alarm-exist'
   | 'alarm-none'
   | 'avatar'
-  | 'back'
+  | 'front'
   | 'paper-clip'
   | 'send'
   | 'camera'

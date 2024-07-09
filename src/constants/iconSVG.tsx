@@ -33,6 +33,7 @@ import Camera from '@/assets/icons/camera.svg?react';
 import Next from '@/assets/icons/next.svg?react';
 import Prev from '@/assets/icons/prev.svg?react';
 import Back from '@/assets/icons/back.svg?react';
+import Front from '@/assets/icons/front.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -69,6 +70,7 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   prev: <Prev />,
   next: <Next />,
   back: <Back />,
+  front: <Front />,
 };
 
 export default IconSVG;
