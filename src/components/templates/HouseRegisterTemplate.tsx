@@ -1,14 +1,14 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
-import { supabase } from '@/libs/supabaseClient';
-import { HouseType } from '@/types/house.type';
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
-import { errorToast, successToast } from '@/libs/toast';
+import { HouseForm, HouseFormType } from '@/types/house.type';
+import { SignupProfileStateSelector } from '@/stores/sign.store';
+import { SessionAtom } from '@/stores/auth.store';
 import Container from '@/components/atoms/Container';
-import Input from '@/components/atoms/Input';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
 import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
@@ -17,21 +17,29 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import Button from '@/components/atoms/Button';
 import FormItem from '@/components/molecules/FormItem';
 import MultiImageForm from '@/components/molecules/MultiImageForm';
-import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { useSignInState } from '@/hooks/useSign';
 import {
-  houseTypeInfos,
-  matesNumInfo,
-  rentalTypeInfos,
-} from '@/constants/selectTypeInfos';
+  houseTypeDisplayData,
+  mateNumberDisplayData,
+  rentalTypeDisplayData,
+} from '@/constants/signUpProfileData';
+import { useHouseRegist } from '@/hooks/useHouse';
+
+type HiddenStateType = {
+  house_type: HouseFormType['house_type'];
+  rental_type: HouseFormType['rental_type'];
+  mates_num: HouseFormType['mates_num'];
+  house_appeal: HouseFormType['house_appeal'];
+};
 
 export default function HouseRegisterTemplate() {
   const navigate = useNavigate();
+  const userId = useRecoilState(SessionAtom)[0]?.user.id;
   const Form = FormProvider;
-  const userInfo = useSignInState();
-  const form = useForm<HouseType>({
+  const form = useForm<HouseFormType>({
+    resolver: zodResolver(HouseForm),
     defaultValues: {
       house_img: [],
+      representative_img: '',
       post_title: '',
       region: '',
       district: '',
@@ -45,16 +53,24 @@ export default function HouseRegisterTemplate() {
       house_appeal: [],
       mates_num: 1,
       term: [0, 24],
-      describe: '',
+      describe: undefined,
       bookmark: 0,
-      visible: undefined,
-      user_id: userInfo?.user.id,
+      temporary: 0,
+      prefer_age: [20, 60],
+      user_id: userId,
     },
   });
-  const [saving, setSaving] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
-  const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
 
+  const [hiddenState, setHiddenState] = useState<HiddenStateType>({
+    house_type: 0,
+    rental_type: 1,
+    house_appeal: [],
+    mates_num: 1,
+  });
+  const [images, setImages] = useState<string[]>([]);
+  const [representativeImg, setRepresentativeImg] = useState('');
+
+  const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
   const [district, setDistrict] = useRecoilState(
     MoleculeSelectorState('시, 구'),
@@ -69,14 +85,27 @@ export default function HouseRegisterTemplate() {
     setDistrict({ value: '시, 구', isOpen: false });
   };
 
-  const onClickHouseType = (stateValue: HouseType['house_type']) => {
+  const onClickHouseType = (stateValue: HouseFormType['house_type']) => {
     form.setValue('house_type', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      house_type: stateValue,
+    }));
   };
-  const onClickRentalType = (stateValue: HouseType['rental_type']) => {
+
+  const onClickRentalType = (stateValue: HouseFormType['rental_type']) => {
     form.setValue('rental_type', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      rental_type: stateValue,
+    }));
   };
-  const onClickMatesNum = (stateValue: HouseType['mates_num']) => {
+  const onClickMatesNum = (stateValue: HouseFormType['mates_num']) => {
     form.setValue('mates_num', stateValue);
+    setHiddenState(prev => ({
+      ...prev,
+      mates_num: stateValue,
+    }));
   };
 
   const [appeal, setAppeal] = useState('');
@@ -109,37 +138,30 @@ export default function HouseRegisterTemplate() {
     form.setValue('house_appeal', appeals);
   };
 
-  const onSaveHouse = async (formData: HouseType, visible: number) => {
-    setSaving(true);
-    try {
-      const { error } = await supabase.from('house').insert({
-        ...formData,
-        visible,
-        region: region.value,
-        district: district.value,
-        house_size: Number(formData.house_size),
-        deposit_price: Number(formData.deposit_price),
-        monthly_price: Number(formData.monthly_price),
-        manage_price: Number(formData.manage_price),
-        house_img: images,
-        room_num: Number(formData.room_num),
-        term,
-      });
+  const { registHouse, isRegistHouse } = useHouseRegist();
+  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
+    const representativeImgName = representativeImg.split('/').slice(-1)[0];
+    const houseImgExcludeRep = images.filter(
+      imgName => imgName !== representativeImgName,
+    );
 
-      if (error) {
-        errorToast('createHouse', '💧supabase 저장에 실패했습니다.');
-      } else {
-        successToast('createHouse', '👍🏻 성공적으로 저장되었습니다.');
-        navigate('/');
-      }
-    } catch (error) {
-      errorToast('createHouse', '💧submit에 실패했습니다.');
-    } finally {
-      setSaving(false);
-    }
+    registHouse({
+      ...formData,
+      temporary,
+      region: region.value,
+      district: district.value,
+      house_size: Number(formData.house_size),
+      deposit_price: Number(formData.deposit_price),
+      monthly_price: Number(formData.monthly_price),
+      manage_price: Number(formData.manage_price),
+      house_img: houseImgExcludeRep,
+      representative_img: representativeImgName,
+      room_num: Number(formData.room_num),
+      term,
+    });
   };
 
-  const onSubmitHouse = (formData: HouseType) => {
+  const onSubmitHouse = (formData: HouseFormType) => {
     onSaveHouse(formData, 1);
   };
 
@@ -148,20 +170,33 @@ export default function HouseRegisterTemplate() {
     onSaveHouse(formData, 0);
   };
 
+  useEffect(() => {
+    setRegion({ value: '지역', isOpen: false });
+    setDistrict({ value: '시, 구', isOpen: false });
+    setTerm([0, 25]);
+  }, []);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmitHouse)}>
         <Container.FlexCol className="gap-[5rem]">
           <Container.FlexRow className="mb-[1.75rem] gap-6">
-            <MultiImageForm images={images} setImages={setImages} />
+            <MultiImageForm
+              images={images}
+              setImages={setImages}
+              representativeImg={representativeImg}
+              setRepresentativeImg={setRepresentativeImg}
+            />
           </Container.FlexRow>
           <Container.FlexRow>
             <Typography.SubTitle1 className="w-[205px] text-brown">
               제목
             </Typography.SubTitle1>
-            <Input
-              className="max-w-[690px] flex-1"
-              {...form.register('post_title', { required: true })}
+            <FormItem.TextField
+              containerStyle="max-w-[690px] flex-1"
+              inputStyle="w-full"
+              type="text"
+              name="post_title"
               placeholder="제목을 작성해주세요"
             />
           </Container.FlexRow>
@@ -184,6 +219,14 @@ export default function HouseRegisterTemplate() {
                 )}
               </Container.FlexRow>
               <DistrictSelector />
+              <FormItem.Hidden<Pick<HouseFormType, 'region'>>
+                name="region"
+                valueProp={region.value}
+              />
+              <FormItem.Hidden<Pick<HouseFormType, 'district'>>
+                name="district"
+                valueProp={district.value}
+              />
             </Container.FlexCol>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -192,7 +235,7 @@ export default function HouseRegisterTemplate() {
             </Typography.SubTitle1>
             <Container.FlexCol>
               <Container.FlexRow className="mb-4 gap-2">
-                {houseTypeInfos.map(house => (
+                {houseTypeDisplayData.map(house => (
                   <BadgeButton.Outline
                     key={house.displayValue}
                     className="rounded-[30px] px-[20px] py-[10px]"
@@ -202,9 +245,13 @@ export default function HouseRegisterTemplate() {
                     <Typography.P2>{house.displayValue}</Typography.P2>
                   </BadgeButton.Outline>
                 ))}
+                <FormItem.Hidden<Pick<HouseFormType, 'house_type'>>
+                  name="house_type"
+                  valueProp={hiddenState.house_type}
+                />
               </Container.FlexRow>
               <Container.FlexRow className="gap-2">
-                {rentalTypeInfos.map(({ displayValue, stateValue }) => (
+                {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
                   <BadgeButton.Outline
                     key={displayValue}
                     className="rounded-[30px] px-[20px] py-[10px]"
@@ -214,6 +261,10 @@ export default function HouseRegisterTemplate() {
                     <Typography.P2>{displayValue}</Typography.P2>
                   </BadgeButton.Outline>
                 ))}
+                <FormItem.Hidden<Pick<HouseFormType, 'rental_type'>>
+                  name="rental_type"
+                  valueProp={hiddenState.rental_type}
+                />
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
@@ -224,11 +275,8 @@ export default function HouseRegisterTemplate() {
             <Container.FlexRow className="items-center gap-[24px] text-brown">
               <FormItem.TextField
                 type="text"
-                name="house_size"
                 inputStyle="w-[78px] p-2"
-                options={{
-                  required: '필수 입력 사항입니다.',
-                }}
+                {...form.register('house_size', { valueAsNumber: true })}
               />
               <div className="flex gap-[18px]">
                 <Typography.P2>평</Typography.P2>
@@ -237,11 +285,8 @@ export default function HouseRegisterTemplate() {
               </div>
               <FormItem.TextField
                 type="text"
-                name="room_num"
                 inputStyle="w-[78px] p-2"
-                options={{
-                  required: '필수 입력 사항입니다.',
-                }}
+                {...form.register('room_num', { valueAsNumber: true })}
               />
               <span>개</span>
             </Container.FlexRow>
@@ -258,11 +303,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="deposit_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('deposit_price', { valueAsNumber: true })}
                     placeholder="500"
                   />
                   <Typography.P2 className="whitespace-nowrap">
@@ -277,11 +319,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="monthly_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('monthly_price', { valueAsNumber: true })}
                     placeholder="50"
                   />
                   <Typography.P2 className="whitespace-nowrap">
@@ -296,11 +335,8 @@ export default function HouseRegisterTemplate() {
                 <Container.FlexRow className="items-center gap-[1.5rem]">
                   <FormItem.TextField
                     type="text"
-                    name="manage_price"
                     inputStyle="w-[11.25rem]"
-                    options={{
-                      required: '필수 입력 사항입니다.',
-                    }}
+                    {...form.register('manage_price', { valueAsNumber: true })}
                     placeholder="30"
                   />
                   <Typography.P2 className="whitespace-nowrap">
@@ -329,14 +365,18 @@ export default function HouseRegisterTemplate() {
                 <BadgeButtons
                   contents={form.watch('house_appeal')}
                   className="gap-2"
-                  badgeClassName="rounded-[30px] px-[20px] py-[10px]"
-                  iconClassName="ml-2"
+                  badgeStyle="rounded-[30px] px-[20px] py-[10px]"
+                  iconStyle="ml-2"
                   stroke="bg"
                   iconType="close"
-                  typoClassName="text-bg"
+                  typoStyle="text-bg"
                   onClick={onDeleteAppealBadge}
                 />
               )}
+              <FormItem.Hidden<Pick<HouseFormType, 'house_appeal'>>
+                name="house_appeal"
+                valueProp={hiddenState.house_appeal}
+              />
             </Container.FlexCol>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -344,7 +384,7 @@ export default function HouseRegisterTemplate() {
               원하는 인원 수
             </Typography.SubTitle1>
             <Container.FlexRow className="gap-2">
-              {matesNumInfo.map(({ displayValue, stateValue }) => (
+              {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
                 <BadgeButton.Outline
                   key={displayValue}
                   badgeActive={stateValue === form.watch('mates_num')}
@@ -354,6 +394,10 @@ export default function HouseRegisterTemplate() {
                   <Typography.P2>{displayValue}</Typography.P2>
                 </BadgeButton.Outline>
               ))}
+              <FormItem.Hidden<Pick<HouseFormType, 'mates_num'>>
+                name="mates_num"
+                valueProp={hiddenState.mates_num}
+              />
             </Container.FlexRow>
           </Container.FlexRow>
           <Container.FlexRow>
@@ -370,6 +414,10 @@ export default function HouseRegisterTemplate() {
                 setRangeValue={setTerm}
                 rangeValue={term}
                 category="term"
+              />
+              <FormItem.Hidden<Pick<HouseFormType, 'term'>>
+                name="term"
+                valueProp={term}
               />
             </Container.FlexCol>
           </Container.FlexRow>
@@ -401,14 +449,14 @@ export default function HouseRegisterTemplate() {
             <Button.Outline
               className="flex h-[59px] w-[9.25rem] justify-center rounded-[2rem]"
               onClick={onSaveTemporary}
-              disabled={saving}
+              disabled={isRegistHouse}
             >
               <Typography.P1 className="text-brown">임시저장</Typography.P1>
             </Button.Outline>
             <Button.Fill
               className="flex h-[59px] w-[9.5rem] justify-center rounded-[2rem]"
               type="submit"
-              disabled={saving}
+              disabled={isRegistHouse}
             >
               <Typography.P1 className="text-bg">완료</Typography.P1>
             </Button.Fill>

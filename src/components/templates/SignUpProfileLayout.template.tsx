@@ -29,11 +29,11 @@ function StepTitle({ num, title, isActive }: StepTitleType) {
     <Container.FlexRow className="mb-3 items-center gap-3">
       <div
         className={cn(
-          'size-9 rounded-full flex justify-center items-center ',
+          'size-9 rounded-full flex justify-center items-center',
           isActive ? 'bg-brown' : 'bg-brown2',
         )}
       >
-        <span className="translate-y-[1.5px] text-xl font-semibold text-bg">
+        <span className="translate-x-[1px] translate-y-[-1px] text-lg font-semibold text-bg">
           {num}
         </span>
       </div>
@@ -142,8 +142,8 @@ export default function SignUpProfileLayoutTemplate(
     passedPage.includes(step) ? setCurrentStep(step) : null;
 
   return (
-    <Container.FlexRow className="max-h-[816px] grow justify-between">
-      <Container.FlexCol className="w-full min-w-48">
+    <Container.FlexRow className="min-h-[51rem] w-full justify-between gap-[3.75rem]">
+      <Container.FlexCol className="min-w-[13rem] screen1000:hidden">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
             <StepTitle
@@ -167,11 +167,9 @@ export default function SignUpProfileLayoutTemplate(
           </Container.FlexCol>
         ))}
       </Container.FlexCol>
-      <Container.FlexCol className="justify-between">
-        <Container className="w-[894px]">
-          <Carousel order={currentStep}>{children}</Carousel>
-        </Container>
-        <Container.FlexRow className="justify-end gap-x-3 pb-[76px]">
+      <Container.FlexCol className="w-full max-w-[55.875rem]">
+        <Carousel order={currentStep}>{children}</Carousel>
+        <Container.FlexRow className="mt-[6.25rem] justify-end gap-x-3 pb-[76px]">
           <IconButton.Outline
             className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
             iconType="left-arrow"
