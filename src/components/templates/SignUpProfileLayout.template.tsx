@@ -138,6 +138,7 @@ export default function SignUpProfileLayoutTemplate(
       sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
     }
   }, [currentStep]);
+  
   const onClickstepNavLinkValidate = async (step: ValidationStep) =>
     passedPage.includes(step) ? setCurrentStep(step) : null;
 
@@ -193,6 +194,7 @@ export default function SignUpProfileLayoutTemplate(
               stroke="bg"
               onClick={onClickNextButton}
               type="button"
+              iconClassName="w-[1.125rem] h-[1rem]"
             >
               <Typography.P1 className="text-bg">다음</Typography.P1>
             </IconButton.Fill>
