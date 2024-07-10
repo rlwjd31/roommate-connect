@@ -5,6 +5,7 @@ import Img from '@/components/atoms/Img';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
 import { isEnglish } from '@/libs/checkLanguage';
+import Avatar from '@/components/atoms/Avatar';
 
 type PointAlertType = {
   content: string | number;
@@ -181,7 +182,8 @@ export default function ChatList() {
               }
             >
               {/* shrink를 0으로 설정하지 않으면 이미지가 깨짐 */}
-              <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} />
+              <Avatar.M src={avatarUrl} />
+              {/* <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} /> */}
               <Container.FlexCol className="w-full">
                 <Container.FlexRow className="items-center justify-between">
                   <Typography.Span1
