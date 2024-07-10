@@ -213,6 +213,7 @@ export default function HouseRegisterTemplate() {
                     stroke="bg"
                     id="location"
                     onClick={onDeleteLocationBadge}
+                    iconClassName="w-[0.6875rem] h-[0.75rem]"
                   >
                     <Typography.P2>{location}</Typography.P2>
                   </BadgeButton.Fill>
@@ -366,7 +367,7 @@ export default function HouseRegisterTemplate() {
                   contents={form.watch('house_appeal')}
                   className="gap-2"
                   badgeStyle="rounded-[30px] px-[20px] py-[10px]"
-                  iconStyle="ml-2"
+                  iconStyle="ml-2 w-[0.6875rem] h-[0.75rem]"
                   stroke="bg"
                   iconType="close"
                   typoStyle="text-bg"

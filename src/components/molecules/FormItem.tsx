@@ -46,6 +46,7 @@ FormItem.Password = function FormItemPassword<T extends FieldValues>(
         className="absolute bottom-[44px] right-[13px] top-[53px]"
         iconType={isVisible ? 'visible' : 'invisible'}
         onClick={onClickVisible}
+        iconClassName="w-[1.25rem] h-[1.25rem]"
       />
     </Container>
   );
