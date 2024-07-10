@@ -176,6 +176,7 @@ export default function SignUpProfileLayoutTemplate(
             iconType="left-arrow"
             disabled={isSubmitted}
             onClick={onClickPrevButton}
+            iconClassName="w-[1.125rem] h-[1rem]"
           >
             <Typography.P1 className="text-brown">이전</Typography.P1>
           </IconButton.Outline>

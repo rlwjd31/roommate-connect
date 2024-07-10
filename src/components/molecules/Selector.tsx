@@ -79,6 +79,7 @@ export default function Selector<Label extends SelectorLabelType>({
           setSelectorState(prev => ({ ...prev, isOpen: !prev.isOpen }))
         }
         className="flex w-full items-center justify-between border border-brown bg-bg p-5 text-brown"
+        iconClassName="w-[0.75rem] h-[0.375rem]"
       >
         {value}
       </IconButton>

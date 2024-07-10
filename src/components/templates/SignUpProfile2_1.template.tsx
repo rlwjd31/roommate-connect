@@ -42,6 +42,7 @@ export default function SignUpProfile2_1Template() {
               iconType={iconType}
               direction="top"
               onClick={() => onClickSmokingType(stateValue)}
+              iconClassName="w-[4.75rem] h-[4.25rem]"
             >
               <Typography.P2 className="text-brown">
                 {displayValue}
@@ -65,6 +66,7 @@ export default function SignUpProfile2_1Template() {
               iconType={iconType}
               direction="top"
               onClick={() => onClickPetType(stateValue)}
+              iconClassName="w-[6.25rem] h-[4.5rem]"
             >
               <Typography.P2 className="text-brown">
                 {displayValue}

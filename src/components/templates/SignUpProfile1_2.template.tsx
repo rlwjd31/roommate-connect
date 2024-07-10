@@ -67,6 +67,7 @@ export default function SignUpProfile1_2Template() {
                 iconType="close"
                 stroke="bg"
                 onClick={() => onClickDeleteRegionBadge(location)}
+                iconClassName="w-[0.6875rem] h-[0.75rem]"
               >
                 <Typography.P2>{location}</Typography.P2>
               </BadgeButton.Fill>

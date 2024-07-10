@@ -17,7 +17,7 @@ export default function SignUpProfileOutroTemplate() {
           </Typography.P1>
         </Container.FlexCol>
       </Container.FlexCol>
-      <Icon type="seeking-house" />
+      <Icon type="seeking-house" className="h-[17.25rem] w-[24rem]" />
       <Container.FlexRow className="items-center justify-center gap-3">
         <Link to="/house">
           <Button.Fill className="rounded-full px-11 py-4 text-bg">
