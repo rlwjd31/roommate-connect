@@ -141,7 +141,7 @@ export default function MultiImageForm({
         {currentPage !== 0 && (
           <IconButton.Ghost
             iconType="prev"
-            iconClassName="absolute left-3 z-10"
+            iconClassName="absolute left-3 z-10 w-[0.6875rem] h-[1.25rem]"
             stroke="brown"
             onClick={handlePrevImage}
           />
@@ -152,7 +152,7 @@ export default function MultiImageForm({
               htmlFor="house_img"
               className="mb-0 flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
             >
-              <Icon type="camera" />
+              <Icon type="camera" className="h-[4.375rem] w-[4.875rem]" />
               <Input
                 type="file"
                 id="house_img"
@@ -176,7 +176,7 @@ export default function MultiImageForm({
                 <IconButton.Ghost
                   iconType="close"
                   stroke="brown"
-                  iconClassName="absolute top-4 right-4"
+                  iconClassName="absolute top-4 right-4 w-[0.6875rem] h-[0.75rem]"
                   onClick={() => onClickDeleteImg(img)}
                 />
                 <Label htmlFor={`image_${index}`}>
@@ -212,7 +212,7 @@ export default function MultiImageForm({
           Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 !== currentPage && (
             <IconButton.Ghost
               iconType="next"
-              iconClassName="absolute right-3 z-10"
+              iconClassName="absolute right-3 z-10 w-[0.6875rem] h-[1.25rem]"
               stroke="brown"
               onClick={handleNextImage}
             />

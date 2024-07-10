@@ -33,10 +33,10 @@ export default function RoomMateApplicationStatus() {
         <Container.FlexRow className="justify-between border-b-[0.5px] border-brown pb-7">
           <Typography.Head3 className="">신청 현황</Typography.Head3>
           <IconButton
-            className="[&_svg]:size-6 [&_svg_path]:scale-[1.8]"
             iconType="close"
             button="Ghost"
             onClick={onClickCloseIcon}
+            iconClassName="size-6"
           />
         </Container.FlexRow>
         <Container.FlexCol className="pt-6">
