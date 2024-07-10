@@ -9,8 +9,8 @@ import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
 import IconButton from '@/components/molecules/IconButton';
 import { UserAtom } from '@/stores/auth.store';
-import Img from '@/components/atoms/Img';
 import { UserType } from '@/types/auth.type';
+import Avatar from '@/components/atoms/Avatar';
 
 type Props = ComponentProps<'header'> & {
   className?: string;
@@ -25,6 +25,7 @@ type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
   isLogin: boolean;
   hasNewAlarm: boolean;
+  isUserMenuActive: boolean;
 };
 
 // chats, lounge, house와 같은 NavLink를 관장하는 component
@@ -52,7 +53,13 @@ function GNB({ navItems, className }: GNBProps) {
 }
 
 // header에서 Logo, GNB를 제외한 user에 대한 정보(e.g avatar alarm)
-function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
+function UserMenu({
+  user,
+  className,
+  isLogin,
+  hasNewAlarm,
+  isUserMenuActive,
+}: UserMenuProps) {
   return (
     <Container.FlexRow
       className={cn('items-center justify-between gap-7', className)}
@@ -64,10 +71,7 @@ function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
             iconType={hasNewAlarm ? 'alarm-exist' : 'alarm-none'}
           />
           {user?.avatar ? (
-            <Img
-              className="size-10 shrink-0 cursor-pointer rounded-full bg-transparent shadow-avatar"
-              src={user.avatar}
-            />
+            <Avatar.XS src={user.avatar} isActive={isUserMenuActive} />
           ) : (
             <IconButton button="Ghost" iconType="avatar" />
           )}
@@ -91,6 +95,7 @@ function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
 export default function Header({ className, isLogin, ...others }: Props) {
   // ! TODO: 알람기능 추가시 바꿔야 함
   const [hasNewAlarm] = useState(false);
+  const [isUserMenuActive, setIsUserMenuActive] = useState(false);
   const location = useLocation();
   const user = useRecoilValue(UserAtom);
   const navItems = useMemo(
@@ -120,7 +125,12 @@ export default function Header({ className, isLogin, ...others }: Props) {
         {isNotSignPath && (
           <>
             <GNB navItems={navItems} />
-            <UserMenu user={user} isLogin={isLogin} hasNewAlarm={hasNewAlarm} />
+            <UserMenu
+              user={user}
+              isLogin={isLogin}
+              hasNewAlarm={hasNewAlarm}
+              isUserMenuActive={isUserMenuActive}
+            />
           </>
         )}
       </Container.FlexRow>

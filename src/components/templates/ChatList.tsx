@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
-import Img from '@/components/atoms/Img';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
 import { isEnglish } from '@/libs/checkLanguage';

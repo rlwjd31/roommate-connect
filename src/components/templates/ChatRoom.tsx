@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import Img from '@/components/atoms/Img';
 import Input from '@/components/atoms/Input';
 import IconButton from '@/components/molecules/IconButton';
 import Avatar from '@/components/atoms/Avatar';
