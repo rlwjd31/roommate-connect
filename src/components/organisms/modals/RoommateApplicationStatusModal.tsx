@@ -9,6 +9,7 @@ import Badge from '@/components/atoms/Badge';
 import Icon from '@/components/atoms/Icon';
 import { RoommateApplicationAtom } from '@/stores/globalModal.store';
 import Img from '@/components/atoms/Img';
+import Avatar from '@/components/atoms/Avatar';
 
 export default function RoomMateApplicationStatus() {
   //! Todo: 프로필 이미지, 유저네임, 배지스, 자기소개 문구, 1:1 대화, close 버튼
@@ -47,7 +48,7 @@ export default function RoomMateApplicationStatus() {
             <Container.FlexRow className="max-w-xl gap-7">
               {/* <Container.FlexRow className="size-[70px] rounded-full bg-brown" /> */}
               {profileImage ? (
-                <Img src={profileImage} alt="Profile Image" />
+                <Avatar.XL src={profileImage} alt="Profile Image" />
               ) : (
                 <Icon className="[&>svg]:size-16 " type="avatar" />
               )}
