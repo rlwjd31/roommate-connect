@@ -39,7 +39,7 @@ export default function ProfileModal() {
           {profileImage ? (
             <Img src={profileImage} alt="Profile Image" />
           ) : (
-            <Icon className="size-52 cursor-pointer" type="avatar" />
+            <Icon className="size-[7.5rem] cursor-pointer" type="avatar" />
           )}
         </Container.FlexRow>
         <Container.FlexCol className="items-center bg-bg">

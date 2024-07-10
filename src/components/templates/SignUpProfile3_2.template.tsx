@@ -84,7 +84,6 @@ export default function SignUpProfile3_2Template() {
             typoStyle="text-bg"
             typoType="P2"
             onClick={deleteBadge}
-            iconStyle="w-[0.6875rem] h-[0.75rem]"
           />
           <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_appeals'>>
             name="mate_appeals"

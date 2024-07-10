@@ -45,7 +45,6 @@ export default function SignUpProfile1_1Template() {
                 iconType={iconType}
                 direction="top"
                 onClick={() => onClickHouseType(stateValue)}
-                iconClassName="w-[4.75rem] h-[3.75rem]"
               >
                 <Typography.P2 className="text-brown">
                   {displayValue}

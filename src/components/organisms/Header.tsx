@@ -62,7 +62,6 @@ function UserMenu({ user, className, isLogin, hasNewAlarm }: UserMenuProps) {
           <IconButton
             button="Ghost"
             iconType={hasNewAlarm ? 'alarm-exist' : 'alarm-none'}
-            iconClassName="w-[1.375rem] h-[1.6875rem]"
           />
           {user?.avatar ? (
             <Img

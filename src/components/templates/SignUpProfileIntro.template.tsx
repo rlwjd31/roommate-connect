@@ -45,7 +45,7 @@ export default function SignUpProfileIntroTemplate(
           </Link>
         </Container.FlexCol>
       </Container.FlexCol>
-      <Icon type="welcome" className="h-[30.75rem] w-[35.5rem]" />
+      <Icon type="welcome" />
     </Container.FlexCol>
   );
 }
