@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC, SVGProps } from 'react';
 
 import Apartment from '@/assets/icons/apartment.svg?react';
 import Close from '@/assets/icons/close.svg?react';
@@ -34,41 +34,180 @@ import Next from '@/assets/icons/next.svg?react';
 import Prev from '@/assets/icons/prev.svg?react';
 import Back from '@/assets/icons/back.svg?react';
 import { IconType } from '@/types/icon.type';
+import cn from '@/libs/cn';
 
-const IconSVG: { [key in IconType]: ReactNode } = {
-  character: <HouseCharacter />,
-  logo: <Logo />,
-  welcome: <ImgWelcome />,
-  'seeking-house': <SeekingHouse />,
-  male: <Male />,
-  female: <Female />,
-  'dont-mind-sex': <DontMindSex />,
-  'dont-mind-pet': <DontMindPet />,
-  'pet-lover': <PetLover />,
-  'none-pet-lover': <NonePetLover />,
-  'studio-officetel': <StudioOfficetel />,
-  'villa-townhouse': <VillaTownhouse />,
-  apartment: <Apartment />,
-  'single-family-house': <SingleFamilyHouse />,
-  smoke: <Smoke />,
-  'none-smoke': <NoneSmoke />,
-  'left-arrow': <LeftArrowLogo />,
-  'right-arrow': <RightArrow />,
-  close: <Close />,
-  'expand-arrow': <ExpandArrow />,
-  'google-logo': <GoogleLogo />,
-  'kakaotalk-logo': <KakaotalkLogo />,
-  invisible: <Invisible />,
-  visible: <Visible />,
-  'alarm-exist': <AlarmExist />,
-  'alarm-none': <AlarmNone />,
-  avatar: <Avatar />,
-  'paper-clip': <PaperClip />,
-  send: <Send />,
-  camera: <Camera />,
-  prev: <Prev />,
-  next: <Next />,
-  back: <Back />,
+const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
+  character: ({ className, ...others }) => (
+    <HouseCharacter
+      className={cn('w-[20.25rem] h-[25.6875rem]', className)}
+      {...others}
+    />
+  ),
+  logo: ({ className, ...others }) => (
+    <Logo
+      className={cn('w-[6.5625rem] h-[9.1875rem]', className)}
+      {...others}
+    />
+  ),
+  welcome: ({ className, ...others }) => (
+    <ImgWelcome
+      className={cn('h-[30.75rem] w-[35.5rem]', className)}
+      {...others}
+    />
+  ),
+  'seeking-house': ({ className, ...others }) => (
+    <SeekingHouse
+      className={cn('h-[17.25rem] w-[24rem]', className)}
+      {...others}
+    />
+  ),
+  male: ({ className, ...others }) => (
+    <Male className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  female: ({ className, ...others }) => (
+    <Female className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  'dont-mind-sex': ({ className, ...others }) => (
+    <DontMindSex
+      className={cn('w-[4.75rem] h-[4.25rem]', className)}
+      {...others}
+    />
+  ),
+  'dont-mind-pet': ({ className, ...others }) => (
+    <DontMindPet
+      className={cn('w-[6.25rem] h-[4.5rem]', className)}
+      {...others}
+    />
+  ),
+  'pet-lover': ({ className, ...others }) => (
+    <PetLover className={cn('w-[6.25rem] h-[4.5rem]', className)} {...others} />
+  ),
+  'none-pet-lover': ({ className, ...others }) => (
+    <NonePetLover
+      className={cn('w-[6.25rem] h-[4.5rem]', className)}
+      {...others}
+    />
+  ),
+  'studio-officetel': ({ className, ...others }) => (
+    <StudioOfficetel
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  'villa-townhouse': ({ className, ...others }) => (
+    <VillaTownhouse
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  apartment: ({ className, ...others }) => (
+    <Apartment
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  'single-family-house': ({ className, ...others }) => (
+    <SingleFamilyHouse
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  smoke: ({ className, ...others }) => (
+    <Smoke className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  'none-smoke': ({ className, ...others }) => (
+    <NoneSmoke
+      className={cn('w-[4.75rem] h-[4.25rem]', className)}
+      {...others}
+    />
+  ),
+  'left-arrow': ({ className, ...others }) => (
+    <LeftArrowLogo
+      className={cn('w-[1.125rem] h-[1rem]', className)}
+      {...others}
+    />
+  ),
+  'right-arrow': ({ className, ...others }) => (
+    <RightArrow
+      className={cn('w-[1.125rem] h-[1rem]', className)}
+      {...others}
+    />
+  ),
+  close: ({ className, ...others }) => (
+    <Close className={cn('w-[0.6875rem] h-[0.75rem]', className)} {...others} />
+  ),
+  'expand-arrow': ({ className, ...others }) => (
+    <ExpandArrow
+      className={cn('w-[0.75rem] h-[0.375rem]', className)}
+      {...others}
+    />
+  ),
+  'google-logo': ({ className, ...others }) => (
+    <GoogleLogo
+      className={cn('w-[30.625rem] h-[3.5rem]', className)}
+      {...others}
+    />
+  ),
+  'kakaotalk-logo': ({ className, ...others }) => (
+    <KakaotalkLogo
+      className={cn('w-[30.625rem] h-[3.5rem]', className)}
+      {...others}
+    />
+  ),
+  invisible: ({ className, ...others }) => (
+    <Invisible
+      className={cn('w-[1.25rem] h-[1.25rem]', className)}
+      {...others}
+    />
+  ),
+  visible: ({ className, ...others }) => (
+    <Visible className={cn('w-[1.25rem] h-[1.25rem]', className)} {...others} />
+  ),
+  'alarm-exist': ({ className, ...others }) => (
+    <AlarmExist
+      className={cn('w-[1.375rem] h-[1.6875rem]', className)}
+      {...others}
+    />
+  ),
+  'alarm-none': ({ className, ...others }) => (
+    <AlarmNone
+      className={cn('w-[1.375rem] h-[1.6875rem]', className)}
+      {...others}
+    />
+  ),
+  avatar: ({ className, ...others }) => (
+    <Avatar
+      className={cn('w-[2.5625rem] h-[2.5625rem]', className)}
+      {...others}
+    />
+  ),
+  'paper-clip': ({ className, ...others }) => (
+    <PaperClip
+      className={cn('w-[1rem] h-[1.3125rem]', className)}
+      {...others}
+    />
+  ),
+  send: ({ className, ...others }) => (
+    <Send
+      className={cn('w-[1.1875rem] h-[1.1875rem]', className)}
+      {...others}
+    />
+  ),
+  camera: ({ className, ...others }) => (
+    <Camera
+      className={cn('h-[4.375rem] w-[4.875rem]', className)}
+      {...others}
+    />
+  ),
+  prev: ({ className, ...others }) => (
+    <Prev className={cn('w-[0.6875rem] h-[1.25rem]', className)} {...others} />
+  ),
+  next: ({ className, ...others }) => (
+    <Next className={cn('w-[0.6875rem] h-[1.25rem]', className)} {...others} />
+  ),
+  back: ({ className, ...others }) => (
+    <Back className={cn('w-[2.75rem] h-[2.75rem]', className)} {...others} />
+  ),
 };
 
 export default IconSVG;

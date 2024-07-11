@@ -1,4 +1,4 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -8,6 +8,7 @@ import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import Container from '@/components/atoms/Container';
 import { RoommateApplyAtom } from '@/stores/globalModal.store';
+import IconButton from '@/components/molecules/IconButton';
 
 export default function RoommateApplyModal() {
   const [
@@ -20,6 +21,9 @@ export default function RoommateApplyModal() {
     },
     setRoommateApplyState,
   ] = useRecoilState(RoommateApplyAtom);
+  const resetProfileModal = useResetRecoilState(RoommateApplyAtom);
+
+  const onClickCloseIcon = () => resetProfileModal();
 
   const onChangeIntroduceContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const newInroduceContent = e.currentTarget.value;
@@ -53,7 +57,16 @@ export default function RoommateApplyModal() {
     >
       (
       <ModalBackdrop modalType="RoommateApply">
-        <Container.FlexCol className="max-h-[808px] max-w-[678px] bg-bg p-8 text-brown">
+        <Container.FlexCol className="relative max-h-[808px] max-w-[678px] bg-bg p-8 text-brown">
+          <IconButton
+            type="button"
+            button="Ghost"
+            iconType="close"
+            fill="brown"
+            className="absolute right-8 top-8 z-20"
+            iconClassName="size-6"
+            onClick={onClickCloseIcon}
+          />
           <Typography.Head3 className="border-b-[0.5px] border-brown pb-7">
             룸메이트 신청
           </Typography.Head3>

@@ -35,7 +35,7 @@ export function Track({ stopPoints }: TrackType) {
 
   return (
     <div
-      className="relative h-[7px] w-full rounded-lg"
+      className="relative h-[0.4375rem] w-full rounded-lg"
       style={{
         backgroundImage: `linear-gradient(
       to right,

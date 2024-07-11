@@ -138,6 +138,7 @@ export default function SignUpProfileLayoutTemplate(
       sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
     }
   }, [currentStep]);
+
   const onClickstepNavLinkValidate = async (step: ValidationStep) =>
     passedPage.includes(step) ? setCurrentStep(step) : null;
 

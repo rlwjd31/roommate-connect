@@ -10,6 +10,7 @@ export const EmailAuth = z.object({
     .string({ required_error: '암호를 입력해주세요.' })
     .min(8, { message: '비밀번호는 8자 이상이어야 합니다.' }),
 });
+
 export type EmailAuthType = z.infer<typeof EmailAuth>;
 
 // * 미인증 유저가 로그인 할 경우 인증할 때 사용할 타입

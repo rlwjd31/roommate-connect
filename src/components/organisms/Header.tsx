@@ -120,7 +120,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
     >
       <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
         <Link to="/">
-          <Icon type="logo" />
+          <Icon type="logo" className="h-[9.1875rem] w-[6.5625rem]" />
         </Link>
         {isNotSignPath && (
           <>
