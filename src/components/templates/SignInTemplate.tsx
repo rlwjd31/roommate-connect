@@ -158,16 +158,28 @@ export default function SignInTemplate() {
         <Container.FlexCol className="gap-y-5">
           <IconButton.Ghost
             id="kakao"
+            className="justify-center gap-x-[0.75rem] rounded-[6px] !bg-[#FEE500] py-[0.96875rem]"
             iconType="kakaotalk-logo"
             disabled={isPending}
+            direction="left"
             onClick={onClickSocial}
-          />
+          >
+            <Typography.SubTitle3 className="pb-0.5 text-[0.9375rem] font-[500] leading-150">
+              카카오로 시작하기
+            </Typography.SubTitle3>
+          </IconButton.Ghost>
           <IconButton.Ghost
             id="google"
+            className="justify-center gap-x-[0.75rem] rounded-[6px] border-[1px] border-[#BCBCBC] py-[0.90625rem]"
             iconType="google-logo"
             disabled={isPending}
+            direction="left"
             onClick={onClickSocial}
-          />
+          >
+            <Typography.SubTitle3 className="pb-0.5 text-[0.9375rem] font-[500] leading-150 text-[#00000089]">
+              Google로 시작하기
+            </Typography.SubTitle3>
+          </IconButton.Ghost>
         </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>
