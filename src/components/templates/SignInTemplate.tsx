@@ -108,7 +108,7 @@ export default function SignInTemplate() {
                 name="password"
                 placeholder="비밀번호 입력"
                 inputStyle="w-full bg-transparent mt-[1rem]"
-                containerStyle="mt-7"
+                containerStyle="mt-[1.75rem]"
                 isVisible={passwordVisible}
                 onClickVisible={onClickVisible}
               />
@@ -133,17 +133,17 @@ export default function SignInTemplate() {
                   </Button.Outline>
                 </Container.FlexRow>
               )}
-              <div className="mt-4 flex flex-row-reverse gap-2">
+              <div className="mt-1.5 flex flex-row-reverse gap-2">
                 <Link to="/sign/up">회원가입</Link>
                 <Divider.Row />
                 <Link to="/sign/password">비밀번호 찾기</Link>
               </div>
               <Button.Fill
                 type="submit"
-                className="mt-[3.25rem] w-full rounded-[10px]"
+                className="mt-[2.5rem] w-full rounded-[10px]"
                 disabled={isPending}
               >
-                <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
+                <Typography.P3 className="mx-auto pb-[1.125rem] pt-4 leading-150 text-[#F4E7DB]">
                   {isNotVerified ? '인증 후 로그인' : '로그인'}
                 </Typography.P3>
               </Button.Fill>
@@ -164,7 +164,7 @@ export default function SignInTemplate() {
             direction="left"
             onClick={onClickSocial}
           >
-            <Typography.SubTitle3 className="pb-0.5 text-[0.9375rem] font-[500] leading-150">
+            <Typography.SubTitle3 className="pt-[0.0625rem] font-[500] leading-150">
               카카오로 시작하기
             </Typography.SubTitle3>
           </IconButton.Ghost>
@@ -176,7 +176,8 @@ export default function SignInTemplate() {
             direction="left"
             onClick={onClickSocial}
           >
-            <Typography.SubTitle3 className="pb-0.5 text-[0.9375rem] font-[500] leading-150 text-[#00000089]">
+            {/* eslint-disable-next-line tailwindcss/no-contradicting-classname */}
+            <Typography.SubTitle3 className="pt-[0.0625rem] font-Noto-Sans-KR font-[500] leading-150 text-[#00000089]">
               Google로 시작하기
             </Typography.SubTitle3>
           </IconButton.Ghost>

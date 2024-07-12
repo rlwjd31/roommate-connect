@@ -46,11 +46,16 @@ export default function SignUpEmailTemplate() {
       ? onSubmitSignUp(data as SignUpEmailType)
       : onSubmitVerify(data as VerifyEmailType);
 
+  const onClickResend = async () => {
+    const data = form.getValues() as SignUpEmailType;
+    await onSubmitSignUp(data);
+  };
+
   return (
     <Container.FlexCol className="min-w-full flex-1 gap-[3.25rem]">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <Container.FlexCol className="gap-[1.625rem]">
+          <Container.FlexCol className="gap-[1.75rem]">
             <FormItem.TextField
               labelName="이메일"
               type="text"
@@ -90,22 +95,22 @@ export default function SignUpEmailTemplate() {
               />
               <Button.Fill
                 type="submit"
-                className="mt-[3.25rem] w-full rounded-[10px]"
+                className="mt-[2.5rem] w-full rounded-[10px] py-[0.25rem]"
                 disabled={isPending}
               >
                 <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                  인증 요청
+                  다음
                 </Typography.P3>
               </Button.Fill>
             </>
           ) : (
             <Button.Fill
               type="submit"
-              className="mt-[3.25rem] w-full rounded-[10px]"
+              className="mt-[2.5rem] w-full rounded-[10px] py-[0.25rem]"
               disabled={isPending}
             >
               <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                다음
+                인증 요청
               </Typography.P3>
             </Button.Fill>
           )}
