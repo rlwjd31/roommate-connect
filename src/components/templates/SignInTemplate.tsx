@@ -10,6 +10,7 @@ import Divider from '@/components/atoms/Divider';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import {
+  useResendVerifyMail,
   useSignInEmail,
   useSignInSocial,
   useVerifyEmail,
@@ -23,8 +24,6 @@ import {
 } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
-import { supabase } from '@/libs/supabaseClient';
-import { createToast } from '@/libs/toast';
 
 export default function SignInTemplate() {
   const Form = FormProvider;
@@ -39,33 +38,16 @@ export default function SignInTemplate() {
     mutateMessage: '인증 후 로그인 시도 중...',
     successMessage: '로그인 성공!',
   });
+  const { resendVerifyMail, isResending } = useResendVerifyMail();
   const { signInSocial, isSignInSocial } = useSignInSocial();
 
-  const isPending = isSignInEmail || isSignInSocial || isVerifyEmail;
+  const isPending =
+    isSignInEmail || isSignInSocial || isVerifyEmail || isResending;
 
   // * 회원가입에서 Email 인증을 거치지 않고 로그인 시 다시 인증번호를 전송하는 기능
   const onReSendVerifyEmail = async () => {
     setIsReSendVerifyEmail(true);
-    const { error } = await supabase.auth.resend({
-      type: 'signup',
-      email: form.getValues('email'),
-    });
-    if (error)
-      createToast(
-        'verifyEmail',
-        '너무 많은 요청을 보냈습니다. 나중에 다시 시도하세요.',
-        {
-          autoClose: 1000,
-          type: 'error',
-          isLoading: false,
-        },
-      );
-    else
-      createToast(
-        'verifyEmail',
-        '인증번호를 전송했습니다. 이메일을 확인해주세요',
-        { autoClose: 1000, type: 'info', isLoading: false },
-      );
+    resendVerifyMail({ email: form.getValues('email') });
     setIsReSendVerifyEmail(false);
   };
 
