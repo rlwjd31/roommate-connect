@@ -6,7 +6,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        screen1000: { max: '1000px' },
+        screen1140: { max: '1140px' },
       },
       colors: {
         bg: '#FFFAF5',

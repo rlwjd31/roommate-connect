@@ -142,9 +142,12 @@ export default function SignUpProfileLayoutTemplate(
   const onClickstepNavLinkValidate = async (step: ValidationStep) =>
     passedPage.includes(step) ? setCurrentStep(step) : null;
 
+
   return (
-    <Container.FlexRow className="min-h-[51rem] w-full justify-between gap-[3.75rem]">
-      <Container.FlexCol className="min-w-[13rem] screen1000:hidden">
+    // eslint-disable-next-line tailwindcss/no-custom-classname
+    // ! 9.25rem은 prev, next button section의 높이 값
+    <Container.FlexRow className="w-full justify-between gap-[3.75rem]">
+      <Container.FlexCol className="min-w-[13rem] screen1140:hidden">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
             <StepTitle
