@@ -171,12 +171,12 @@ export default function SignUpProfileLayoutTemplate(
           </Container.FlexCol>
         ))}
       </Container.FlexCol>
-      <Container.FlexCol className="relative w-full max-w-[55.875rem]">
+      <Container.FlexCol className="relative size-full h-[calc(100vh-9.25rem)] max-w-[55.875rem] pb-[10rem]">
         <Carousel order={currentStep}>{children}</Carousel>
       </Container.FlexCol>
       <Container.FlexRow className="absolute bottom-0 right-0 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
         <IconButton.Outline
-          className="flex-row-reverse gap-x-[0.625rem] rounded-[2rem] px-[1.875rem] py-[0.9375rem]"
+          className="flex h-14 w-36 flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
           iconType="left-arrow"
           disabled={isSubmitted}
           onClick={onClickPrevButton}
@@ -185,7 +185,7 @@ export default function SignUpProfileLayoutTemplate(
         </IconButton.Outline>
         {isLastOfCarousel ? (
           <Button.Fill
-            className="gap-x-[0.625rem] rounded-[2rem] px-12 py-[0.9375rem]"
+            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
             type="submit"
             disabled={isSubmitted}
           >
@@ -193,7 +193,7 @@ export default function SignUpProfileLayoutTemplate(
           </Button.Fill>
         ) : (
           <IconButton.Fill
-            className="gap-x-[0.625rem] rounded-[2rem] px-[1.875rem] py-[0.9375rem]"
+            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
             iconType="right-arrow"
             stroke="bg"
             onClick={onClickNextButton}
