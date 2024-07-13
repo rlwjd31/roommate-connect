@@ -173,7 +173,7 @@ const mateNumberDisplayData: {
     stateValue: 2,
   },
   {
-    displayValue: '3명',
+    displayValue: '3명 이상',
     stateValue: 3,
   },
   {
