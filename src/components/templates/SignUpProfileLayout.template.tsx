@@ -33,7 +33,7 @@ function StepTitle({ num, title, isActive }: StepTitleType) {
           isActive ? 'bg-brown' : 'bg-brown2',
         )}
       >
-        <span className="translate-x-[1px] translate-y-[-1px] text-lg font-semibold text-bg">
+        <span className="translate-x-[0.0625rem] translate-y-[-0.0625rem] text-lg font-semibold text-bg">
           {num}
         </span>
       </div>
@@ -155,7 +155,7 @@ export default function SignUpProfileLayoutTemplate(
               title={stepTitle}
             />
             <StepNavLinks
-              className="pl-[14px]"
+              className="pl-[0.875rem]"
               contents={stepContents.map(stepContent => ({
                 ...stepContent,
                 isActive: currentStep === stepContent.carouselCurrentStep,
@@ -168,11 +168,11 @@ export default function SignUpProfileLayoutTemplate(
           </Container.FlexCol>
         ))}
       </Container.FlexCol>
-      <Container.FlexCol className="w-full max-w-[55.875rem]">
+      <Container.FlexCol className="relative w-full max-w-[55.875rem]">
         <Carousel order={currentStep}>{children}</Carousel>
-        <Container.FlexRow className="mt-[6.25rem] justify-end gap-x-3 pb-[76px]">
+        <Container.FlexRow className="absolute bottom-[4.5rem] right-0 justify-end gap-x-3">
           <IconButton.Outline
-            className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
+            className="flex-row-reverse gap-x-[0.625rem] rounded-[2rem] px-[1.875rem] py-[0.9375rem]"
             iconType="left-arrow"
             disabled={isSubmitted}
             onClick={onClickPrevButton}
@@ -181,7 +181,7 @@ export default function SignUpProfileLayoutTemplate(
           </IconButton.Outline>
           {isLastOfCarousel ? (
             <Button.Fill
-              className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
+              className="gap-x-[0.625rem] rounded-[2rem] px-12 py-[0.9375rem]"
               type="submit"
               disabled={isSubmitted}
             >
@@ -189,7 +189,7 @@ export default function SignUpProfileLayoutTemplate(
             </Button.Fill>
           ) : (
             <IconButton.Fill
-              className="gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
+              className="gap-x-[0.625rem] rounded-[2rem] px-[1.875rem] py-[0.9375rem]"
               iconType="right-arrow"
               stroke="bg"
               onClick={onClickNextButton}

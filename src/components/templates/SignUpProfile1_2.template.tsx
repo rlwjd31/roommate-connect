@@ -59,7 +59,7 @@ export default function SignUpProfile1_2Template() {
         <SignUpProfileStepTitleTemplate step="1-2" title="내가 찾는 집은..." />
         <Typography.SubTitle1 className="text-brown">위치</Typography.SubTitle1>
         <Container.FlexCol className="mb-[4.25rem] gap-y-9">
-          <Container.FlexRow className="mt-11 gap-x-2">
+          <Container.FlexRow className="mt-8 gap-x-2">
             {regions?.map(location => (
               <BadgeButton.Fill
                 key={location}
@@ -79,7 +79,7 @@ export default function SignUpProfile1_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="mb-11 text-brown">
+          <Typography.SubTitle1 className="mb-8 text-brown">
             기간
           </Typography.SubTitle1>
           <LabelDualInputRange

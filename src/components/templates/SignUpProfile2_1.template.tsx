@@ -33,7 +33,7 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.FlexRow className="mb-[4.25rem] mt-11 flex-wrap gap-6">
+        <Container.FlexRow className="mb-[4.25rem] mt-8 flex-wrap gap-6">
           {smokeDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
@@ -56,7 +56,7 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.FlexRow className="mt-11 flex-wrap gap-6">
+        <Container.FlexRow className="mt-8 flex-wrap gap-6">
           {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}

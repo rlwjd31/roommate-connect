@@ -44,7 +44,7 @@ export default function SignUpProfile2_2Template() {
           title="나의 라이프스타일은..."
         />
         <Container.FlexCol className="mb-[4.25rem]">
-          <Typography.SubTitle1 className="mb-11 text-brown">
+          <Typography.SubTitle1 className="mb-8 text-brown">
             떠오르는 것이 없다면 선택해주세요
           </Typography.SubTitle1>
           <BadgeButtons
@@ -58,7 +58,7 @@ export default function SignUpProfile2_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="mb-11 text-brown">
+          <Typography.SubTitle1 className="mb-8 text-brown">
             상대방에게 어필하고 싶은 3개를 작성해주세요
           </Typography.SubTitle1>
           <FormItem.TextField<Pick<SignUpProfileFormType, 'appealsInputValue'>>
