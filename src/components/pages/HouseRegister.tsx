@@ -74,8 +74,8 @@ export default function HouseRegister() {
         </Container.FlexCol>
         <Container.FlexCol className="w-full">
           <Carousel order={currentStep}>
-            <HouseRegisterTemplate1 />
-            <HouseRegisterTemplates2 />
+            <HouseRegisterTemplate1 form={form}/>
+            <HouseRegisterTemplates2 form={form}/>
           </Carousel>
         </Container.FlexCol>
         <hr style={{ marginTop: '5rem', marginBottom: '2.75rem' }} />
