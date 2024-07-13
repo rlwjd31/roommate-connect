@@ -34,7 +34,10 @@ export type IconType =
   | 'camera'
   | 'prev'
   | 'next'
-  | 'back';
+  | 'back'
+  | 'icon-male'
+  | 'icon-female'
+  | 'icon-gender-free';
 
 export type CustomIconType = {
   fill?: ColorType;

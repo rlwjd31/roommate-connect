@@ -34,6 +34,9 @@ import Next from '@/assets/icons/next.svg?react';
 import Prev from '@/assets/icons/prev.svg?react';
 import Back from '@/assets/icons/back.svg?react';
 import Front from '@/assets/icons/front.svg?react';
+import IconMale from '@/assets/icons/icon-male.svg?react';
+import IconFemale from '@/assets/icons/icon-female.svg?react';
+import GenderFree from '@/assets/icons/icon-gende-free.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -71,6 +74,9 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   next: <Next />,
   back: <Back />,
   front: <Front />,
+  'icon-male': <IconMale />,
+  'icon-female': <IconFemale />,
+  'icon-gender-free': <GenderFree />,
 };
 
 export default IconSVG;
