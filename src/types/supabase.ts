@@ -83,6 +83,7 @@ export type Database = {
           term: number[];
           updated_at: string;
           user_id: string;
+          floor: number;
         };
         Insert: {
           bookmark: number;
@@ -108,6 +109,7 @@ export type Database = {
           term: number[];
           updated_at?: string;
           user_id?: string;
+          floor?: number;
         };
         Update: {
           bookmark?: number;
@@ -133,6 +135,7 @@ export type Database = {
           term?: number[];
           updated_at?: string;
           user_id?: string;
+          floor?: number;
         };
         Relationships: [
           {
