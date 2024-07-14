@@ -42,4 +42,25 @@ const matesGenderDisplayData: {
   },
 ];
 
-export { floorDisplayData, matesGenderDisplayData };
+const registPetDisplayData: {
+  displayValue: string;
+  stateValue: SignUpProfileFormType['pet'];
+  iconType: IconType;
+}[] = [
+  {
+    displayValue: '반려동물 키워요',
+    stateValue: 1,
+    iconType: 'pet-hart',
+  },
+  {
+    displayValue: '반려동물 NO',
+    stateValue: 2,
+    iconType: 'pet-hate',
+  },
+  {
+    displayValue: '반려동물 상관없어요',
+    stateValue: 0,
+    iconType: 'pet-circle',
+  },
+];
+export { floorDisplayData, matesGenderDisplayData, registPetDisplayData };

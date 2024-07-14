@@ -30,13 +30,13 @@ export default function HouseRegister() {
       district: '',
       house_type: 0,
       rental_type: 1,
+      floor: 0,
       house_size: undefined,
       room_num: undefined,
       deposit_price: undefined,
       monthly_price: undefined,
       manage_price: undefined,
       house_appeal: [],
-      mates_num: 1,
       term: [0, 24],
       describe: undefined,
       bookmark: 0,
@@ -74,8 +74,8 @@ export default function HouseRegister() {
         </Container.FlexCol>
         <Container.FlexCol className="w-full">
           <Carousel order={currentStep}>
-            <HouseRegisterTemplate1 form={form}/>
-            <HouseRegisterTemplates2 form={form}/>
+            <HouseRegisterTemplate1 form={form} />
+            <HouseRegisterTemplates2 form={form} />
           </Carousel>
         </Container.FlexCol>
         <hr style={{ marginTop: '5rem', marginBottom: '2.75rem' }} />

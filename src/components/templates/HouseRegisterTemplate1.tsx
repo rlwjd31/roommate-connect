@@ -115,6 +115,10 @@ export default function HouseRegisterTemplate1({
     form.setValue('house_appeal', appeals);
   };
 
+  const onChangeDescribe = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    form.setValue('describe', e.currentTarget.value);
+  };
+
   const { registHouse, isRegistHouse } = useHouseRegist();
   const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
     const representativeImgName = representativeImg.split('/').slice(-1)[0];
@@ -343,7 +347,7 @@ export default function HouseRegisterTemplate1({
                     type="text"
                     className="w-[6rem]"
                     {...form.register('monthly_price', { valueAsNumber: true })}
-                    placeholder="500"
+                    placeholder="50"
                   />
                   <Typography.P2 className="whitespace-nowrap text-brown">
                     만원
@@ -364,7 +368,7 @@ export default function HouseRegisterTemplate1({
                     type="text"
                     className="w-[6rem]"
                     {...form.register('manage_price', { valueAsNumber: true })}
-                    placeholder="500"
+                    placeholder="30"
                   />
                   <Typography.P2 className="whitespace-nowrap text-brown">
                     만원
@@ -436,7 +440,9 @@ export default function HouseRegisterTemplate1({
               상세설명
             </Typography.SubTitle1>
             <TextAreaField
+              value={form.getValues('describe')}
               name="describe"
+              onChange={onChangeDescribe}
               placeholder="집에 대한 설명이나 내가 원하는 조건에 대해 더 소개할 것이 있다면 작성해주세요 (200자 이내)"
               className=" resize-none rounded-[8px] border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
               maxLength={200}
