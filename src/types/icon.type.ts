@@ -37,7 +37,9 @@ export type IconType =
   | 'back'
   | 'icon-male'
   | 'icon-female'
-  | 'icon-gender-free';
+  | 'icon-gender-free'
+  | 'open-triangle'
+  | 'close-triangle';
 
 export type CustomIconType = {
   fill?: ColorType;

@@ -36,7 +36,9 @@ import Back from '@/assets/icons/back.svg?react';
 import Front from '@/assets/icons/front.svg?react';
 import IconMale from '@/assets/icons/icon-male.svg?react';
 import IconFemale from '@/assets/icons/icon-female.svg?react';
-import GenderFree from '@/assets/icons/icon-gende-free.svg?react';
+import GenderFree from '@/assets/icons/icon-gender-free.svg?react';
+import OpenTriangle from '@/assets/icons/open-triangle.svg?react';
+import CloseTriangle from '@/assets/icons/close-triangle.svg?react';
 import { IconType } from '@/types/icon.type';
 
 const IconSVG: { [key in IconType]: ReactNode } = {
@@ -77,6 +79,8 @@ const IconSVG: { [key in IconType]: ReactNode } = {
   'icon-male': <IconMale />,
   'icon-female': <IconFemale />,
   'icon-gender-free': <GenderFree />,
+  'open-triangle': <OpenTriangle />,
+  'close-triangle': <CloseTriangle />,
 };
 
 export default IconSVG;
