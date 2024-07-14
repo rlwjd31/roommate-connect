@@ -176,7 +176,7 @@ export default function MultiImageForm({
                 <IconButton.Ghost
                   iconType="close"
                   stroke="brown"
-                  iconClassName="absolute top-4 right-4"
+                  iconClassName="absolute top-4 right-4 w-[0.6875rem] h-[0.75rem]"
                   onClick={() => onClickDeleteImg(img)}
                 />
                 <Label htmlFor={`image_${index}`}>

@@ -31,14 +31,15 @@ export default function ProfileModal() {
           button="Ghost"
           iconType="close"
           fill="bg"
-          className="absolute right-4 top-4 [&_svg]:size-6 [&_svg_path]:scale-[1.8]"
+          className="absolute right-4 top-4"
+          iconClassName="size-6"
           onClick={onClickCloseIcon}
         />
         <Container.FlexRow className="h-96 max-h-96 w-full items-center justify-center bg-brown">
           {profileImage ? (
             <Img src={profileImage} alt="Profile Image" />
           ) : (
-            <Icon className="cursor-pointer [&>svg]:size-52" type="avatar" />
+            <Icon className="size-[7.5rem] cursor-pointer" type="avatar" />
           )}
         </Container.FlexRow>
         <Container.FlexCol className="items-center bg-bg">
