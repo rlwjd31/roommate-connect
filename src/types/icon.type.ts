@@ -39,7 +39,10 @@ export type IconType =
   | 'icon-female'
   | 'icon-gender-free'
   | 'open-triangle'
-  | 'close-triangle';
+  | 'close-triangle'
+  | 'pet-hart'
+  | 'pet-circle'
+  | 'pet-hate';
 
 export type CustomIconType = {
   fill?: ColorType;

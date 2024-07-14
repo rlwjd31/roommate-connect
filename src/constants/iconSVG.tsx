@@ -39,6 +39,9 @@ import IconFemale from '@/assets/icons/icon-female.svg?react';
 import GenderFree from '@/assets/icons/icon-gender-free.svg?react';
 import OpenTriangle from '@/assets/icons/open-triangle.svg?react';
 import CloseTriangle from '@/assets/icons/close-triangle.svg?react';
+import PetHart from '@/assets/icons/pet_hart.svg?react';
+import PetCircle from '@/assets/icons/pet-circle.svg?react';
+import PetHate from '@/assets/icons/pet-hate.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -218,19 +221,43 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     <Front className={className} {...others} />
   ),
   'icon-male': ({ className, ...others }) => (
-    <IconMale className={className} {...others} />
+    <IconMale
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
   ),
   'icon-female': ({ className, ...others }) => (
-    <IconFemale className={className} {...others} />
+    <IconFemale
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
   ),
   'icon-gender-free': ({ className, ...others }) => (
-    <GenderFree className={className} {...others} />
+    <GenderFree
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
   ),
   'open-triangle': ({ className, ...others }) => (
-    <OpenTriangle className={className} {...others} />
+    <OpenTriangle className={(cn('w-[1.25rem]'), className)} {...others} />
   ),
   'close-triangle': ({ className, ...others }) => (
-    <CloseTriangle className={className} {...others} />
+    <CloseTriangle className={(cn('w-[1.25rem]'), className)} {...others} />
+  ),
+  'pet-hart': ({ className, ...others }) => (
+    <PetHart className={(cn('w-[1.125rem] h-auto'), className)} {...others} />
+  ),
+  'pet-circle': ({ className, ...others }) => (
+    <PetCircle
+      className={(cn('w-[1.125rem] h-[1.125rem]'), className)}
+      {...others}
+    />
+  ),
+  'pet-hate': ({ className, ...others }) => (
+    <PetHate
+      className={(cn('w-[1.125rem] h-[1.125rem'), className)}
+      {...others}
+    />
   ),
 };
 
