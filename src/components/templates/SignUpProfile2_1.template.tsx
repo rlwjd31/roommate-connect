@@ -24,7 +24,7 @@ export default function SignUpProfile2_1Template() {
     setPet(stateValue);
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="2-1"
@@ -33,14 +33,11 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.FlexRow
-          style={{ width: `${(smokeDisplayData.length / 4) * 100}%` }}
-          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
-        >
+        <Container.FlexRow className="mb-[4.25rem] mt-11 flex-wrap gap-6">
           {smokeDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="basis-[11.25rem] gap-y-5 rounded-lg py-5"
               isActive={stateValue === smoking}
               iconType={iconType}
               direction="top"
@@ -59,14 +56,11 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.FlexRow
-          style={{ width: `${(petDisplayData.length / 4) * 100}%` }}
-          className="mb-[4.25rem] mt-11 gap-x-6"
-        >
+        <Container.FlexRow className="mt-11 flex-wrap gap-6">
           {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="basis-[11.25rem] gap-y-5 rounded-lg py-5"
               isActive={stateValue === pet}
               iconType={iconType}
               direction="top"

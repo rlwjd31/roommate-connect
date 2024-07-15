@@ -1,7 +1,6 @@
 import { atom, AtomEffect, RecoilState, selectorFamily } from 'recoil';
 
 import { SignUpProfileType } from '@/types/signUp.type';
-import { SignUpUserType } from '@/types/auth.type';
 
 const signUpProfileKey = 'signUpProfile';
 
@@ -80,16 +79,4 @@ export const SignupProfileStateSelector = selectorFamily({
 export const ShowVerificationAtom = atom({
   key: 'showVerificationAtom',
   default: false,
-});
-
-export const SignUpEmailUserAtom = atom<SignUpUserType>({
-  key: 'signUpEmailUserAtom',
-  default: {
-    name: '',
-    birth: 0,
-    gender: 0,
-    email: '',
-    password: '',
-    token: undefined,
-  },
 });

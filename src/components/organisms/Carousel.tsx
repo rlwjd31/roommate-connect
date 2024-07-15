@@ -19,10 +19,13 @@ export default function Carousel(props: CarouselProps) {
 
   const translateX = `-translate-x-[${order * 100}%]`;
   return (
-    <Container className="w-full overflow-hidden">
-      <div className={`flex transition ${translateX}`} ref={containerRef}>
+    <Container.FlexRow className="w-full overflow-hidden">
+      <Container.FlexRow
+        className={`w-full transition ${translateX}`}
+        ref={containerRef}
+      >
         {children}
-      </div>
-    </Container>
+      </Container.FlexRow>
+    </Container.FlexRow>
   );
 }

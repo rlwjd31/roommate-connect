@@ -31,6 +31,7 @@ import {
   RoommateApplicationState,
   RoommateApplyState,
 } from '@/types/modal.type';
+import BadgeIcon from '@/components/molecules/BadgeIcon';
 
 export default function ComponentTest() {
   const [carouselStep, setCarouselStep] = useState<number>(0);
@@ -511,8 +512,61 @@ export default function ComponentTest() {
               None Button And Outline Without Icon
             </Typography.Span2>
           </Badge.Outline>
+          <br />
         </div>
       </div>
+      <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+      <h1 className="my-12 text-Head1">BadgeIcon Test</h1>
+      <Container.FlexRow className="gap-7">
+        <Container.FlexCol className="items-start gap-2">
+          <BadgeIcon.Outline className="text-brown" iconType="mini-smoke">
+            <Typography.P2 className="py-2.5">흡연자</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Outline className="text-brown" iconType="mini-none-smoke">
+            <Typography.P2 className="py-2.5">비흡연자</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Fill className="text-white" iconType="mini-smoke">
+            <Typography.P2 className="py-[0.6875rem]">흡연자</Typography.P2>
+          </BadgeIcon.Fill>
+          <BadgeIcon.Fill className="text-white" iconType="mini-none-smoke">
+            <Typography.P2 className="py-[0.6875rem]">비흡연자</Typography.P2>
+          </BadgeIcon.Fill>
+        </Container.FlexCol>
+        <Container.FlexCol className="items-start gap-2">
+          <BadgeIcon.Outline className="text-brown" iconType="mini-male">
+            <Typography.P2 className="py-2.5">남성</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Outline className="text-brown" iconType="mini-female">
+            <Typography.P2 className="py-2.5">여성</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Outline
+            className="text-brown"
+            iconType="mini-gender-intersex"
+          >
+            <Typography.P2 className="py-2.5">성별 상관없어요</Typography.P2>
+          </BadgeIcon.Outline>
+        </Container.FlexCol>
+        <Container.FlexCol className="items-start gap-2">
+          <BadgeIcon.Outline className="text-brown" iconType="mini-pet-lover">
+            <Typography.P2 className="py-2.5">반려동물 키워요</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Outline
+            className="text-brown"
+            iconType="mini-none-pet-lover"
+          >
+            <Typography.P2 className="py-2.5">반려동물 NO</Typography.P2>
+          </BadgeIcon.Outline>
+          <BadgeIcon.Outline
+            className="text-brown"
+            iconType="mini-dont-mind-pet"
+          >
+            <Typography.P2 className="py-2.5">
+              반려동물 상관없어요
+            </Typography.P2>
+          </BadgeIcon.Outline>
+        </Container.FlexCol>
+      </Container.FlexRow>
+
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* divider test */}
       <h1 className="my-12 text-Head1">Divider</h1>

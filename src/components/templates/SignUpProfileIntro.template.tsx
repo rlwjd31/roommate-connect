@@ -38,7 +38,7 @@ export default function SignUpProfileIntroTemplate(
           >
             <Typography.P1 className="text-bg">다음</Typography.P1>
           </IconButton.Fill>
-          <Link className="text-brown1 hover:underline" to="/house">
+          <Link className="text-brown1 hover:underline" to="/">
             <Typography.P1>다음에 할게요</Typography.P1>
           </Link>
         </Container.FlexCol>
