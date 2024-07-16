@@ -142,12 +142,11 @@ export default function SignUpProfileLayoutTemplate(
   const onClickstepNavLinkValidate = async (step: ValidationStep) =>
     passedPage.includes(step) ? setCurrentStep(step) : null;
 
-
   return (
     // eslint-disable-next-line tailwindcss/no-custom-classname
     // ! 9.25rem은 prev, next button section의 높이 값
     <Container.FlexRow className="w-full justify-between gap-[3.75rem]">
-      <Container.FlexCol className="min-w-[13rem] screen1140:hidden">
+      <Container.FlexCol className="hidden min-w-[13rem] lg:block">
         {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
           <Container.FlexCol key={stepTitle} className="mb-12">
             <StepTitle
@@ -171,7 +170,7 @@ export default function SignUpProfileLayoutTemplate(
           </Container.FlexCol>
         ))}
       </Container.FlexCol>
-      <Container.FlexCol className="relative size-full h-[calc(100vh-9.25rem)] max-w-[55.875rem] pb-[10rem]">
+      <Container.FlexCol className="size-full h-[calc(100vh-9.25rem)] pb-[10rem]">
         <Carousel order={currentStep}>{children}</Carousel>
       </Container.FlexCol>
       <Container.FlexRow className="absolute bottom-0 right-0 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">

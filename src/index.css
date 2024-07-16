@@ -7,6 +7,8 @@
     font-family: 'Myanmar Khyay';
     src: url('/src/assets/fonts/Khyay-Regular.ttf') format('ttf');
   }
+  @media screen {
+  }
   input[type='number']::-webkit-inner-spin-button,
   input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -25,6 +27,13 @@
 
 *[lang='ko'] {
   font-family: 'Noto Sans KR', sans-serif;
+}
+
+html {
+  font-size: 13px;
+  @screen tablet {
+    font-size: 16px;
+  }
 }
 
 body {

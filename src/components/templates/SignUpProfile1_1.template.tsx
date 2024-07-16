@@ -35,7 +35,29 @@ export default function SignUpProfile1_1Template() {
           집 유형
         </Typography.SubTitle1>
         {/* TODO: 나중에 반응형 나오는 거 보고 flex-wrap을 지우고 grid로 할 지 생각해야 함. */}
-        <Container.FlexRow className="mb-[4.25rem] mt-8 flex-wrap gap-6">
+        <Container.Grid className="mb-[4.25rem] mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
+          {houseTypeDisplayData.map(
+            ({ displayValue, stateValue, iconType }) => (
+              <IconButton.Outline
+                key={displayValue}
+                className="gap-y-5 rounded-lg py-5"
+                isActive={stateValue === houseType}
+                iconType={iconType}
+                direction="top"
+                onClick={() => onClickHouseType(stateValue)}
+              >
+                <Typography.P2 className="text-brown">
+                  {displayValue}
+                </Typography.P2>
+              </IconButton.Outline>
+            ),
+          )}
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'type'>>
+            name="type"
+            valueProp={houseType}
+          />
+        </Container.Grid>
+        {/* <Container.FlexRow className="mb-[4.25rem] mt-8 flex-wrap gap-6">
           {houseTypeDisplayData.map(
             ({ displayValue, stateValue, iconType }) => (
               <IconButton.Outline
@@ -56,11 +78,11 @@ export default function SignUpProfile1_1Template() {
             name="type"
             valueProp={houseType}
           />
-        </Container.FlexRow>
+        </Container.FlexRow> */}
         <Typography.SubTitle1 className="text-brown">
           매물 종류
         </Typography.SubTitle1>
-        <Container.FlexRow className="mt-8 flex-wrap gap-6">
+        <Container.Grid className="mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
           {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
@@ -77,7 +99,7 @@ export default function SignUpProfile1_1Template() {
             name="rental_type"
             valueProp={rentalType}
           />
-        </Container.FlexRow>
+        </Container.Grid>
       </Container.FlexCol>
     </Container.FlexCol>
   );
