@@ -58,21 +58,25 @@ export default function SignUpProfile1_1Template() {
           />
         </Container.Grid>
         <Typography.SubTitle1 className="text-brown">
-          매물 종류
+          임대 형태
         </Typography.SubTitle1>
         <Container.Grid className="mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
-          {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
-            <Button.Outline
-              key={displayValue}
-              className="rounded-lg py-5"
-              isActive={stateValue === rentalType}
-              onClick={() => onClickRentalType(stateValue)}
-            >
-              <Typography.P2 className="w-full text-brown">
-                {displayValue}
-              </Typography.P2>
-            </Button.Outline>
-          ))}
+          {rentalTypeDisplayData.map(
+            ({ displayValue, stateValue, iconType }) => (
+              <IconButton.Outline
+                key={displayValue}
+                className="gap-y-5 rounded-lg py-5"
+                isActive={stateValue === rentalType}
+                iconType={iconType}
+                direction="top"
+                onClick={() => onClickRentalType(stateValue)}
+              >
+                <Typography.P2 className="text-brown">
+                  {displayValue}
+                </Typography.P2>
+              </IconButton.Outline>
+            ),
+          )}
           <FormItem.Hidden<Pick<SignUpProfileFormType, 'rental_type'>>
             name="rental_type"
             valueProp={rentalType}

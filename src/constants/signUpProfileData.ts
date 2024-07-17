@@ -80,22 +80,27 @@ const houseTypeDisplayData: {
 const rentalTypeDisplayData: {
   displayValue: string;
   stateValue: SignUpProfileFormType['rental_type'];
+  iconType: IconType;
 }[] = [
   {
     displayValue: '월세',
     stateValue: 1,
+    iconType: 'monthly-rental-price'
   },
   {
     displayValue: '반전세',
     stateValue: 2,
+    iconType: 'semi-monthly-rental-price'
   },
   {
     displayValue: '전세',
     stateValue: 3,
+    iconType: 'year-rental-price'
   },
   {
     displayValue: '상관없음',
     stateValue: 0,
+    iconType: 'dont-mind-rental-price'
   },
 ];
 
