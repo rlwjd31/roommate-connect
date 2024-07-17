@@ -45,16 +45,19 @@ export default function SignUpProfile3_2Template() {
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="3-2"
-          title="나의 원하는 룸메이트는..."
+          title="내가 원하는 룸메이트는..."
         />
-        <Container.FlexCol className="mb-[4.25rem]">
-          <Typography.SubTitle1 className="mb-11 text-brown">
-            떠오르는 것이 없다면 선택해주세요
+        <Container.FlexCol className="mb-[3.75rem]">
+          <Typography.SubTitle1 className="mb-7 flex items-center gap-[0.375rem] text-brown">
+            원하는 룸메이트의 스타일을 선택해주세요
+            <Typography.P3 className="font-medium text-brown1">
+              (최대 5개)
+            </Typography.P3>
           </Typography.SubTitle1>
           <BadgeButtons
             contents={signUpProfileBadgeExamples}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
+            badgeStyle="gap-x-3 tablet:gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             typoStyle="text-bg"
             typoType="P2"
@@ -62,8 +65,8 @@ export default function SignUpProfile3_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="mb-11 text-brown">
-            내가 상대방에게 원하는 어필 3개를 작성해주세요
+          <Typography.SubTitle1 className="mb-5 text-brown">
+            원하는 스타일이 더 있다면 작성해주세요
           </Typography.SubTitle1>
           <FormItem.TextField<
             Pick<SignUpProfileFormType, 'mateAppealsInputValue'>
@@ -73,7 +76,7 @@ export default function SignUpProfile3_2Template() {
             name="mateAppealsInputValue"
             onKeyDown={pressEnterCreateBadge}
             inputStyle="w-full"
-            containerStyle="mb-5 max-w-[30.375rem]"
+            containerStyle="mb-3 max-w-[30.375rem]"
           />
           <BadgeButtons
             contents={mateAppeals}

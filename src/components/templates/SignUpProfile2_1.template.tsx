@@ -33,7 +33,7 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.Grid className="mb-[4.25rem] mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
+        <Container.Grid className="mb-[3.75rem] mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {smokeDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
@@ -56,7 +56,7 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.Grid className="mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
+        <Container.Grid className="mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}

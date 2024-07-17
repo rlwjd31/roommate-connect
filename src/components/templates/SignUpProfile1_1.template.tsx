@@ -35,7 +35,7 @@ export default function SignUpProfile1_1Template() {
           집 유형
         </Typography.SubTitle1>
         {/* TODO: 나중에 반응형 나오는 거 보고 flex-wrap을 지우고 grid로 할 지 생각해야 함. */}
-        <Container.Grid className="mb-[4.25rem] mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
+        <Container.Grid className="mb-[3.75rem] mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {houseTypeDisplayData.map(
             ({ displayValue, stateValue, iconType }) => (
               <IconButton.Outline
@@ -60,7 +60,7 @@ export default function SignUpProfile1_1Template() {
         <Typography.SubTitle1 className="text-brown">
           임대 형태
         </Typography.SubTitle1>
-        <Container.Grid className="mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
+        <Container.Grid className="mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {rentalTypeDisplayData.map(
             ({ displayValue, stateValue, iconType }) => (
               <IconButton.Outline

@@ -145,34 +145,36 @@ export default function SignUpProfileLayoutTemplate(
   return (
     // eslint-disable-next-line tailwindcss/no-custom-classname
     // ! 9.25rem은 prev, next button section의 높이 값
-    <Container.FlexRow className="w-full justify-between gap-[3.75rem]">
-      <Container.FlexCol className="hidden min-w-[13rem] lg:block">
-        {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
-          <Container.FlexCol key={stepTitle} className="mb-12">
-            <StepTitle
-              num={stepNum}
-              isActive={stepContents.some(
-                content => content.carouselCurrentStep === currentStep,
-              )}
-              title={stepTitle}
-            />
-            <StepNavLinks
-              className="pl-[0.875rem]"
-              contents={stepContents.map(stepContent => ({
-                ...stepContent,
-                isActive: currentStep === stepContent.carouselCurrentStep,
-                onClick: () =>
-                  onClickstepNavLinkValidate(
-                    stepContent.carouselCurrentStep as ValidationStep,
-                  ),
-              }))}
-            />
-          </Container.FlexCol>
-        ))}
-      </Container.FlexCol>
-      <Container.FlexCol className="size-full h-[calc(100vh-9.25rem)] pb-[10rem]">
-        <Carousel order={currentStep}>{children}</Carousel>
-      </Container.FlexCol>
+    <>
+      <Container.FlexRow className="w-full justify-between gap-[3.75rem]">
+        <Container.FlexCol className="hidden min-w-[13rem] lg:block">
+          {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
+            <Container.FlexCol key={stepTitle} className="mb-12">
+              <StepTitle
+                num={stepNum}
+                isActive={stepContents.some(
+                  content => content.carouselCurrentStep === currentStep,
+                )}
+                title={stepTitle}
+              />
+              <StepNavLinks
+                className="pl-[0.875rem]"
+                contents={stepContents.map(stepContent => ({
+                  ...stepContent,
+                  isActive: currentStep === stepContent.carouselCurrentStep,
+                  onClick: () =>
+                    onClickstepNavLinkValidate(
+                      stepContent.carouselCurrentStep as ValidationStep,
+                    ),
+                }))}
+              />
+            </Container.FlexCol>
+          ))}
+        </Container.FlexCol>
+        <Container.FlexCol className="size-full h-[calc(100vh-9.25rem)] pb-[10rem]">
+          <Carousel order={currentStep}>{children}</Carousel>
+        </Container.FlexCol>
+      </Container.FlexRow>
       <Container.FlexRow className="absolute bottom-0 right-0 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
         <IconButton.Outline
           className="flex size-[3rem] flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
@@ -208,6 +210,6 @@ export default function SignUpProfileLayoutTemplate(
           </IconButton.Fill>
         )}
       </Container.FlexRow>
-    </Container.FlexRow>
+    </>
   );
 }
