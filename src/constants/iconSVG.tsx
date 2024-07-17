@@ -41,6 +41,7 @@ import OnePerson from '@/assets/icons/one-person.svg?react';
 import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
+import Done from '@/assets/icons/done.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -104,13 +105,13 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   'villa-townhouse': ({ className, ...others }) => (
     <VillaTownhouse
-      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      className={cn('w-[2.75rem] h-[2.875rem]', className)}
       {...others}
     />
   ),
   apartment: ({ className, ...others }) => (
     <Apartment
-      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      className={cn('w-[3.125rem] h-[3.5rem]', className)}
       {...others}
     />
   ),
@@ -262,6 +263,12 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   'dont-mind-people': ({ className, ...others }) => (
     <DontMindPeople
       className={cn('w-[2.5rem] h-[1.4375rem]', className)}
+      {...others}
+    />
+  ),
+  done: ({ className, ...others }) => (
+    <Done
+      className={cn('w-[1.0625rem] h-[0.8125rem]', className)}
       {...others}
     />
   ),

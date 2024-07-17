@@ -187,15 +187,17 @@ export default function SignUpProfileLayoutTemplate(
           </Typography.P1>
         </IconButton.Outline>
         {isLastOfCarousel ? (
-          <Button.Fill
-            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem] "
+          <IconButton.Fill
+            className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
+            iconType="done"
+            fill='bg'
             type="submit"
             disabled={isSubmitted}
           >
             <Typography.P1 className="hidden text-bg tablet:block">
               완료
             </Typography.P1>
-          </Button.Fill>
+          </IconButton.Fill>
         ) : (
           <IconButton.Fill
             className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
