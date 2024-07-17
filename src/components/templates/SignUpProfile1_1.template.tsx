@@ -57,28 +57,6 @@ export default function SignUpProfile1_1Template() {
             valueProp={houseType}
           />
         </Container.Grid>
-        {/* <Container.FlexRow className="mb-[4.25rem] mt-8 flex-wrap gap-6">
-          {houseTypeDisplayData.map(
-            ({ displayValue, stateValue, iconType }) => (
-              <IconButton.Outline
-                key={displayValue}
-                className="basis-[11.25rem] gap-y-5 rounded-lg py-5"
-                isActive={stateValue === houseType}
-                iconType={iconType}
-                direction="top"
-                onClick={() => onClickHouseType(stateValue)}
-              >
-                <Typography.P2 className="text-brown">
-                  {displayValue}
-                </Typography.P2>
-              </IconButton.Outline>
-            ),
-          )}
-          <FormItem.Hidden<Pick<SignUpProfileFormType, 'type'>>
-            name="type"
-            valueProp={houseType}
-          />
-        </Container.FlexRow> */}
         <Typography.SubTitle1 className="text-brown">
           매물 종류
         </Typography.SubTitle1>
@@ -86,7 +64,7 @@ export default function SignUpProfile1_1Template() {
           {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
-              className="basis-[11.25rem] rounded-lg py-5"
+              className="rounded-lg py-5"
               isActive={stateValue === rentalType}
               onClick={() => onClickRentalType(stateValue)}
             >
