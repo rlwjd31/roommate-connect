@@ -42,6 +42,17 @@ export default function SignUpProfile1_2Template() {
         });
         return prev;
       }
+
+      if (prev.length >= 3) {
+        createToast('maxRegionLimit', '최대 3개의 지역까지 선택 가능합니다.', {
+          type: 'warning',
+          isLoading: false,
+          containerId: 'signUpProfileToastContainer',
+          autoClose: 1000,
+        });
+        return prev;
+      }
+
       return [...prev, `${region} ${district}`];
     });
 
@@ -59,11 +70,11 @@ export default function SignUpProfile1_2Template() {
         <SignUpProfileStepTitleTemplate step="1-2" title="내가 찾는 집은..." />
         <Typography.SubTitle1 className="text-brown">위치</Typography.SubTitle1>
         <Container.FlexCol className="mb-[4.25rem] gap-y-9">
-          <Container.FlexRow className="mt-8 gap-x-2">
+          <Container.FlexRow className="mt-8 flex-wrap gap-2">
             {regions?.map(location => (
               <BadgeButton.Fill
                 key={location}
-                className="gap-x-5 rounded-[1.875rem] px-4 py-[0.75rem] text-bg"
+                className="gap-x-3 rounded-[1.875rem] px-4 py-[0.75rem] text-bg tablet:gap-x-5"
                 iconType="close"
                 stroke="bg"
                 onClick={() => onClickDeleteRegionBadge(location)}
