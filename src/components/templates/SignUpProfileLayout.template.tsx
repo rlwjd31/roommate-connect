@@ -175,30 +175,36 @@ export default function SignUpProfileLayoutTemplate(
       </Container.FlexCol>
       <Container.FlexRow className="absolute bottom-0 right-0 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
         <IconButton.Outline
-          className="flex h-14 w-36 flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
+          className="flex size-[3rem] flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
           iconType="left-arrow"
           disabled={isSubmitted}
           onClick={onClickPrevButton}
         >
-          <Typography.P1 className="text-brown">이전</Typography.P1>
+          <Typography.P1 className="hidden text-brown tablet:block">
+            이전
+          </Typography.P1>
         </IconButton.Outline>
         {isLastOfCarousel ? (
           <Button.Fill
-            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
+            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem] "
             type="submit"
             disabled={isSubmitted}
           >
-            <Typography.P1 className="text-bg">완료</Typography.P1>
+            <Typography.P1 className="hidden text-bg tablet:block">
+              완료
+            </Typography.P1>
           </Button.Fill>
         ) : (
           <IconButton.Fill
-            className="flex h-14 w-36 items-center justify-center gap-x-[0.625rem] rounded-[2rem]"
+            className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
             iconType="right-arrow"
             stroke="bg"
             onClick={onClickNextButton}
             type="button"
           >
-            <Typography.P1 className="text-bg">다음</Typography.P1>
+            <Typography.P1 className="hidden text-bg tablet:block">
+              다음
+            </Typography.P1>
           </IconButton.Fill>
         )}
       </Container.FlexRow>
