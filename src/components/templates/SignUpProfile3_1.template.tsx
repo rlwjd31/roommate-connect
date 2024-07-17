@@ -60,7 +60,23 @@ export default function SignUpProfile3_1Template() {
           인원 수
         </Typography.SubTitle1>
         <Container.Grid className="mt-8 grid-cols-2 gap-6 screen640:grid-cols-4">
-          {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
+          {mateNumberDisplayData.map(
+            ({ displayValue, stateValue, iconType }) => (
+              <IconButton.Outline
+                key={displayValue}
+                className="gap-y-5 rounded-lg py-5"
+                isActive={stateValue === matesNumber}
+                iconType={iconType}
+                direction="top"
+                onClick={() => onClickMateNumberType(stateValue)}
+              >
+                <Typography.P2 className="text-brown">
+                  {displayValue}
+                </Typography.P2>
+              </IconButton.Outline>
+            ),
+          )}
+          {/* {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
             <Button.Outline
               key={displayValue}
               className="gap-y-5 rounded-lg py-5"
@@ -71,7 +87,7 @@ export default function SignUpProfile3_1Template() {
                 {displayValue}
               </Typography.P2>
             </Button.Outline>
-          ))}
+          ))} */}
           <FormItem.Hidden<Pick<SignUpProfileFormType, 'mates_number'>>
             name="mates_number"
             valueProp={matesNumber}
