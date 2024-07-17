@@ -74,7 +74,7 @@ export default function SignUpProfile1_2Template() {
             {regions?.map(location => (
               <BadgeButton.Fill
                 key={location}
-                className="gap-x-3 rounded-[1.875rem] px-4 py-[0.75rem] text-bg tablet:gap-x-5"
+                className="gap-x-3 rounded-[1.875rem] px-4 py-[0.75rem] text-bg tablet:gap-x-3 [&_p]:translate-y-[-0.0625rem]"
                 iconType="close"
                 stroke="bg"
                 onClick={() => onClickDeleteRegionBadge(location)}

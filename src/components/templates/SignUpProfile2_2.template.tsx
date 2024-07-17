@@ -53,7 +53,7 @@ export default function SignUpProfile2_2Template() {
           <BadgeButtons
             contents={signUpProfileBadgeExamples}
             className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
+            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4 [&_p]:translate-y-[-0.0625rem]"
             stroke="bg"
             typoStyle="text-bg"
             typoType="P2"
@@ -74,8 +74,8 @@ export default function SignUpProfile2_2Template() {
           />
           <BadgeButtons
             contents={appeals}
-            className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
+            className="flex flex-wrap gap-x-2 gap-y-3 [&_p]:translate-y-[-0.0625rem]"
+            badgeStyle="gap-x-3 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             iconType="close"
             typoStyle="text-bg"

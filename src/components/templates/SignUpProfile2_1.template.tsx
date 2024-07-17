@@ -56,7 +56,7 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.Grid className="mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
+        <Container.Grid className="mt-7 grid-cols-2 gap-6 pb-2 screen640:grid-cols-4">
           {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}

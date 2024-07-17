@@ -56,7 +56,7 @@ export default function SignUpProfile3_2Template() {
           </Typography.SubTitle1>
           <BadgeButtons
             contents={signUpProfileBadgeExamples}
-            className="flex flex-wrap gap-x-2 gap-y-3"
+            className="flex flex-wrap gap-x-2 gap-y-3 [&_p]:translate-y-[-0.0625rem]"
             badgeStyle="gap-x-3 tablet:gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             typoStyle="text-bg"
@@ -80,8 +80,8 @@ export default function SignUpProfile3_2Template() {
           />
           <BadgeButtons
             contents={mateAppeals}
-            className="flex flex-wrap gap-x-2 gap-y-3"
-            badgeStyle="gap-x-5 rounded-[1.875rem] py-[0.75rem] px-4"
+            className="flex flex-wrap gap-x-2 gap-y-3 [&_p]:translate-y-[-0.0625rem]"
+            badgeStyle="gap-x-3 rounded-[1.875rem] py-[0.75rem] px-4"
             stroke="bg"
             iconType="close"
             typoStyle="text-bg"
