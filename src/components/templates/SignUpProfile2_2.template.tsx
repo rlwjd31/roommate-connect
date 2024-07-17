@@ -44,7 +44,7 @@ export default function SignUpProfile2_2Template() {
           title="나의 라이프스타일은..."
         />
         <Container.FlexCol className="mb-[3.75rem]">
-          <Typography.SubTitle1 className="mb-7 flex items-center gap-[0.375rem] text-brown">
+          <Typography.SubTitle1 className="mb-7 flex items-center gap-[0.375rem] leading-150 text-brown">
             어필하고 싶은 스타일을 선택해주세요{' '}
             <Typography.P3 className="font-medium text-brown1">
               (최대 5개)
@@ -61,7 +61,7 @@ export default function SignUpProfile2_2Template() {
           />
         </Container.FlexCol>
         <Container.FlexCol>
-          <Typography.SubTitle1 className="mb-5 text-brown">
+          <Typography.SubTitle1 className="mb-5 leading-150 text-brown">
             어필하고 싶은 것이 더 있다면 작성해주세요
           </Typography.SubTitle1>
           <FormItem.TextField<Pick<SignUpProfileFormType, 'appealsInputValue'>>
