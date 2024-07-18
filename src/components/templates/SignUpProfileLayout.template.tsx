@@ -9,7 +9,6 @@ import Typography from '@/components/atoms/Typography';
 import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
-import Button from '@/components/atoms/Button';
 import {
   signUpProfileValidationConfig,
   stepDisplayData,
@@ -175,7 +174,7 @@ export default function SignUpProfileLayoutTemplate(
           <Carousel order={currentStep}>{children}</Carousel>
         </Container.FlexCol>
       </Container.FlexRow>
-      <Container.FlexRow className="absolute bottom-0 right-0 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
+      <Container.FlexRow className="absolute bottom-0 right-0 z-20 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
         <IconButton.Outline
           className="flex size-[3rem] flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
           iconType="left-arrow"
