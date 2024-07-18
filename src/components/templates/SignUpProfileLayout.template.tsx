@@ -185,12 +185,11 @@ export default function SignUpProfileLayoutTemplate(
           </Typography.P1>
         </IconButton.Outline>
         {isLastOfCarousel ? (
-          //  @FIXME: Button => IconButton으로 바꿈에 따라 마지막 carousel에서
-          //  자동으로 submit이 일어나는 버그가 생김
           <IconButton.Fill
+            key="signUpProfileSubmitButton"
             className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
             iconType="done"
-            fill="bg"
+            stroke="bg"
             type="submit"
             disabled={isSubmitted}
           >
@@ -200,6 +199,7 @@ export default function SignUpProfileLayoutTemplate(
           </IconButton.Fill>
         ) : (
           <IconButton.Fill
+            key="signUpProfileNextButton"
             className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
             iconType="right-arrow"
             stroke="bg"
