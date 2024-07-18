@@ -10,6 +10,7 @@ import BadgeButtons from '@/components/molecules/BadgeButtons';
 import FormItem from '@/components/molecules/FormItem';
 import { signUpProfileBadgeExamples } from '@/constants/signUpProfileData';
 import { SignUpProfileFormType } from '@/types/signUp.type';
+import { createToast } from '@/libs/toast';
 
 export default function SignUpProfile3_2Template() {
   const [mateAppeals, setMateAppeals] = useRecoilState(
@@ -22,6 +23,18 @@ export default function SignUpProfile3_2Template() {
   const createBadge = async (badgeContent: string) => {
     if (!mateAppeals.includes(badgeContent) && badgeContent !== '') {
       setValue('mateAppealsInputValue', '');
+
+      if (mateAppeals.length >= 5) {
+        createToast('maxMateAppealsLimit', '최대 5개까지 작성 가능합니다.', {
+          type: 'warning',
+          isLoading: false,
+          containerId: 'signUpProfileToastContainer',
+          autoClose: 1000,
+        });
+
+        return;
+      }
+
       setMateAppeals(prev => [...prev, badgeContent]);
     }
   };
@@ -48,9 +61,9 @@ export default function SignUpProfile3_2Template() {
           title="내가 원하는 룸메이트는..."
         />
         <Container.FlexCol className="mb-[3.75rem]">
-          <Typography.SubTitle1 className="mb-7 flex items-center gap-[0.375rem] leading-150 text-brown">
+          <Typography.SubTitle1 className="mb-7 flex flex-wrap items-center gap-[0.375rem] leading-150 text-brown">
             원하는 룸메이트의 스타일을 선택해주세요
-            <Typography.P3 className="font-medium text-brown1">
+            <Typography.P3 className="min-w-fit font-medium text-brown1">
               (최대 5개)
             </Typography.P3>
           </Typography.SubTitle1>
