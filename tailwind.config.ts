@@ -13,7 +13,7 @@ export default {
         mobile: '430px',
       },
       colors: {
-        bg: '#FFFAF5',
+        bg: '#FFFFFF',
         subColor1: '#FFDBA5',
         subColor2: '#FFB186',
         brown: '#643927',
