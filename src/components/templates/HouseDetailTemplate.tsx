@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
@@ -11,56 +12,63 @@ import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { supabase } from '@/libs/supabaseClient';
+import { UserType } from '@/types/auth.type';
+import {
+  defaultRentalTypes,
+  defaultGenderTypes,
+  defaultSmokingTypes,
+  defaultPetTypes,
+  defaultFloorTypes,
+  defaultHouseTypes,
+} from '@/constants/profileDetailInfo';
+import { HouseFormType } from '@/types/house.type';
+import { SessionAtom } from '@/stores/auth.store';
+import BadgeIcon from '@/components/molecules/BadgeIcon';
 
-interface HouseData {
-  id: string;
-  post_title: string;
+// TODO: HouseData Type은 유하꺼랑 합쳐지면 import
+type HouseData = Omit<HouseFormType, 'rental_type'> & {
   created_at: string;
   updated_at: string;
-  house_img: string[];
-  deposit_price: number;
-  monthly_price: number;
-  manage_price: number;
-  district: string;
-  house_type: number;
-  house_size: number;
-  room_num: number;
-  house_appeal: string[];
-  mates_num: number;
-  term: number[];
-  user_id: string;
-  user: User;
-  user_lifestyle: LifeStyle;
-  describe: string;
-  visible: number;
-  region: string;
-  rental_type: number;
-}
+  floor: keyof typeof defaultFloorTypes;
+  user: User | null;
+  user_lifestyle: LifeStyle | null;
+  rental_type: keyof typeof defaultRentalTypes;
+  user_mate_style: MateStyle | null;
+};
 
-interface User {
-  id: string;
-  name: string;
-  avatar: string;
-  gender: number;
-}
+type User = Pick<UserType, 'id' | 'name' | 'avatar'> & {
+  gender: keyof typeof defaultGenderTypes;
+};
 
-interface LifeStyle {
-  smoking: boolean;
-  pet: number;
+type LifeStyle = {
+  smoking: keyof typeof defaultSmokingTypes;
+  pet: keyof typeof defaultPetTypes;
   appeals: string[];
-}
+};
+
+type MateStyle = {
+  mate_gender: number;
+  mate_number: number;
+  mate_appeals: string[];
+  prefer_mate_age: number[];
+};
 
 export default function HouseDetailTemplate() {
   const { houseId } = useParams();
   const [houseData, setHouseData] = useState<HouseData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isHouseOwner, setIsHouseOwner] = useState(false);
+  const session = useRecoilValue(SessionAtom);
 
+  // TODO: try-catch
   const fetchData = async () => {
     const { data: house, error } = await supabase
       .from('house')
       .select(
-        `*, user(id, name, avatar, gender), user_lifestyle(smoking, pet, appeals)`,
+        `*, user(id, name, avatar, gender), user_lifestyle(smoking, pet, appeals), user_mate_style(mate_gender, mate_number, mate_appeals, prefer_mate_age)`,
       )
-      .eq('id', houseId)
+      .eq('id', houseId ?? '')
       .single();
     if (error) {
       console.log(error.message);
@@ -68,37 +76,57 @@ export default function HouseDetailTemplate() {
     return house;
   };
 
+  const fetchBookmark = async () => {
+    const { data: user_bookmark, error } = await supabase
+      .from('user_bookmark')
+      .select('*')
+      .eq('id', session?.user.id ?? '')
+      .eq('house_id', houseId ?? '')
+      .single();
+    if (error) {
+      console.log('d', error.message);
+    }
+    return user_bookmark;
+  };
+
+  // TODO: 초기 렌더링 / 업데이트 로직 분리
+  // TODO: Loading상태에 따른 loading page rendering
   useEffect(() => {
     (async () => {
-      const houseData = await fetchData();
-      console.log('houseData =>', houseData);
+      const houseUserInfo = await fetchData();
+      // console.log('houseData =>', houseUserInfo);
 
-      setHouseData(houseData);
+      setHouseData(houseUserInfo as HouseData);
+      setIsLoading(false);
+      if (session) {
+        const bookmarks = await fetchBookmark();
+        // console.error('bookmarks=>', bookmarks);
+        if (houseData?.user_id === session?.user.id) {
+          setIsHouseOwner(true);
+        }
+
+        if (bookmarks) {
+          setIsBookmarked(true);
+        }
+      }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  if (!houseData) {
-    return <h1 className="text-4xl">Loading...</h1>;
+  }, [session]);
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
+  // TODO: fallback ui
+  if (!houseData) {
+    return <h1 className="text-4xl">하우스 데이터 없음...</h1>;
+  }
+
   // houseData
+  const { created_at: createdAt, updated_at: updatedAt } = houseData;
+
   const formDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
   };
-  const rentalTypeText = (rentalType: number) => {
-    switch (rentalType) {
-      case 0:
-        return '월세';
-      case 1:
-        return '전세';
-      case 2:
-        return '반전세';
-      default:
-        return '알 수 없음';
-    }
-  };
-  const createAt = houseData.created_at;
-  const updatedAt = houseData.updated_at;
 
   const termArray = houseData.term.map(value => {
     const years = Math.floor(value / 12);
@@ -111,33 +139,10 @@ export default function HouseDetailTemplate() {
     }
     return `${years}년 ${months}개월 이상`;
   });
-  // userData
-  const genderType = (gender: number) => {
-    if (gender === 1) {
-      return '남성';
-    }
-    return '여성';
-  };
-  const smokingType = (smoking: boolean) => {
-    if (smoking) {
-      return '흡연자';
-    }
-    return '비흡연자';
-  };
-  const petType = (pet: number) => {
-    switch (pet) {
-      case 1:
-        return '반려동물 키워요';
-      case 2:
-        return '반려동물 No';
-      default:
-        return '반려동물 상관없어요';
-    }
-  };
 
   return (
-    <Container.FlexCol className="gap-8 ">
-      <Container.Grid className="max-h-[590px] grid-cols-4 grid-rows-2 gap-5">
+    <Container.FlexCol className="gap-8 pb-32 ">
+      <Container.Grid className="max-h-[440px] grid-cols-4 grid-rows-2 gap-5">
         {houseData &&
           houseData.house_img
             .slice(0, 5)
@@ -153,31 +158,53 @@ export default function HouseDetailTemplate() {
       <Container.FlexCol>
         <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
           <Container.FlexCol className="gap-4">
-            <Typography.Head2 className="text-brown">
-              {houseData && houseData.post_title}
-            </Typography.Head2>
+            <Container.FlexRow>
+              <Typography.Head2 className="pr-3 text-brown">
+                {houseData && houseData.post_title}
+              </Typography.Head2>
+              {isHouseOwner && (
+                <>
+                  <Button.Ghost className="text-brown">
+                    <Typography.P3 className="p-[0.625rem]">수정</Typography.P3>
+                  </Button.Ghost>
+                  <Button.Ghost className="text-brown">
+                    <Typography.P3>삭제</Typography.P3>
+                  </Button.Ghost>
+                </>
+              )}
+            </Container.FlexRow>
             <Container.FlexRow className="gap-3">
-              <Typography.Span1 className="text-brown1">
-                최근 등록일 {formDate(createAt)}
-              </Typography.Span1>
-              <Divider.Row />
-              <Typography.Span1 className="text-brown1">
+              <Typography.P2 className="text-brown1">
+                최근 등록일 {formDate(createdAt)}
+              </Typography.P2>
+              <Divider.Row className="border-l-0" />
+              <Typography.P2 className="text-brown1">
                 최근 수정일 {formDate(updatedAt)}
-              </Typography.Span1>
+              </Typography.P2>
             </Container.FlexRow>
           </Container.FlexCol>
           <Container.FlexRow className="justify-between	">
             <Container.FlexRow className="gap-5">
-              <Button.Fill className="rounded-lg px-7 py-5 text-white">
-                <Typography.P1>룸메이트 신청</Typography.P1>
-              </Button.Fill>
-              <Button.Outline className="rounded-lg bg-white px-7 py-5 text-brown ">
-                <Typography.P1>메시지 보내기</Typography.P1>
-              </Button.Outline>
+              {isHouseOwner ? (
+                <Button.Fill className="rounded-lg px-[3.125rem] py-5 text-white">
+                  <Typography.P1>신청 현황</Typography.P1>
+                </Button.Fill>
+              ) : (
+                <>
+                  <Button.Fill className="rounded-lg px-8 py-5 text-white">
+                    <Typography.P1>룸메이트 신청</Typography.P1>
+                  </Button.Fill>
+                  <Button.Outline className="rounded-lg bg-white px-8 py-5 text-brown ">
+                    <Typography.P1>메시지 보내기</Typography.P1>
+                  </Button.Outline>
+                </>
+              )}
             </Container.FlexRow>
             <Container.FlexRow className="gap-10">
               <Container.FlexCol className="items-center justify-center gap-3">
-                <IconButton.Ghost iconType="heart" />
+                <IconButton.Ghost
+                  iconType={isBookmarked ? 'fill-heart' : 'heart'}
+                />
                 <Typography.Span1 className="text-brown1">43</Typography.Span1>
               </Container.FlexCol>
               <Container.FlexCol className="items-center justify-center gap-3">
@@ -189,54 +216,75 @@ export default function HouseDetailTemplate() {
             </Container.FlexRow>
           </Container.FlexRow>
         </Container.FlexCol>
-        <Container.FlexRow className="mt-14 justify-between gap-7">
-          <Container.FlexCol className="gap-11 text-brown">
+        <Container.FlexRow className="mt-14 justify-between gap-6">
+          <Container.FlexCol className="flex-1 gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
-              {/* TODO: Avatar component 생성 */}
+              {/* TODO: Avatar component 적용 */}
               <Img
-                className="size-16 min-h-0 rounded-full"
-                src={houseData.user.avatar}
+                className="size-12 shrink-0 cursor-pointer rounded-full bg-transparent shadow-avatar"
+                src={houseData.user?.avatar}
               />
-              <Typography.Head3>{houseData.user.name}</Typography.Head3>
+              <Typography.Head3>{houseData.user?.name}</Typography.Head3>
             </Container.FlexRow>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>자기소개</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
-                <Badge.Outline className="rounded-3xl px-5 py-1">
-                  <Icon type="mini-male" className="pr-2" />
-                  {genderType(houseData.user.gender)}
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-1">
-                  <Icon type="mini-smoke" className="pr-2" />
-                  {smokingType(houseData.user_lifestyle.smoking)}
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-1">
-                  <Icon type="mini-none-pet-lover" className="pr-2" />
-                  {petType(houseData.user_lifestyle.pet)}
-                </Badge.Outline>
+                <BadgeIcon.Outline
+                  iconType={defaultGenderTypes[houseData.user.gender].icon}
+                >
+                  <Typography.P2 className="py-2.5">
+                    {defaultGenderTypes[houseData.user.gender].sex}
+                  </Typography.P2>
+                </BadgeIcon.Outline>
+                <BadgeIcon.Outline
+                  iconType={
+                    defaultSmokingTypes[houseData.user_lifestyle.smoking].icon
+                  }
+                >
+                  <Typography.P2 className="py-2.5">
+                    {
+                      defaultSmokingTypes[houseData.user_lifestyle.smoking]
+                        .smokeInfo
+                    }
+                  </Typography.P2>
+                </BadgeIcon.Outline>
+                <BadgeIcon.Outline
+                  iconType={defaultPetTypes[houseData.user_lifestyle?.pet].icon}
+                >
+                  <Typography.P2 className="py-2.5">
+                    {defaultPetTypes[houseData.user_lifestyle.pet].petInfo}
+                  </Typography.P2>
+                </BadgeIcon.Outline>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>라이프 스타일</Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
-                {houseData.user_lifestyle.appeals.map(value => (
+              <Container.FlexRow className="flex-wrap gap-x-2 gap-y-3">
+                {houseData.user_lifestyle?.appeals.map(value => (
                   <Badge.Outline
                     key={value}
+                    focus={false}
+                    active={false}
+                    hover={false}
                     className="rounded-3xl px-5 pb-[9px] pt-[10px]"
                   >
-                    {value}
+                    <Typography.P2>{value}</Typography.P2>
                   </Badge.Outline>
                 ))}
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexCol className="gap-12 rounded-lg bg-brown6 p-8 text-brown">
+          <Container.FlexCol className="flex-1 gap-12 rounded-lg bg-brown6 p-8 text-brown">
             <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
-                <Typography.Head3>
-                  {rentalTypeText(houseData.rental_type)}
-                  {houseData.deposit_price}/{houseData.monthly_price}
-                </Typography.Head3>
+                <Container.FlexRow className="gap-2">
+                  <Typography.Head3>
+                    {defaultRentalTypes[houseData.rental_type]}
+                  </Typography.Head3>
+                  <Typography.Head3>
+                    {houseData.deposit_price}/{houseData.monthly_price}
+                  </Typography.Head3>
+                </Container.FlexRow>
                 <Divider.Col />
                 <Typography.P1 className="leading-6">
                   관리비 {houseData.manage_price}만원
@@ -249,49 +297,112 @@ export default function HouseDetailTemplate() {
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>하우스 소개</Typography.SubTitle1>
               <Container.FlexRow className="items-center gap-5">
-                <Icon type="apartment" />
-                <Badge.Fill className="rounded-3xl px-5 py-2 text-white">
-                  원룸/오피스텔
+                <Icon type={defaultHouseTypes[houseData.house_type].icon} />
+                <Badge.Fill
+                  active={false}
+                  focus={false}
+                  hover={false}
+                  className="rounded-3xl px-5 py-2 text-white"
+                >
+                  <Typography.P2>
+                    {defaultHouseTypes[houseData.house_type].houseInfo}
+                  </Typography.P2>
                 </Badge.Fill>
                 <Container.FlexRow className="gap-3 ">
                   <Typography.P2>{houseData.house_size}평</Typography.P2>
                   <Divider.Col />
                   <Typography.P2>방 {houseData.room_num}개</Typography.P2>
                   <Divider.Col />
-                  <Typography.P2>2층</Typography.P2>
+                  <Typography.P2>
+                    {defaultFloorTypes[houseData.floor]}
+                  </Typography.P2>
                 </Container.FlexRow>
               </Container.FlexRow>
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>이런 특징이 있어요</Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
+              <Container.FlexRow className="flex-wrap gap-x-2 gap-y-3">
                 {houseData.house_appeal.map(value => (
                   <Badge.Fill
+                    focus={false}
+                    hover={false}
+                    active={false}
                     className="rounded-3xl px-5 py-2 text-white"
                     key={value}
                   >
-                    {value}
+                    <Typography.P2>{value}</Typography.P2>
                   </Badge.Fill>
                 ))}
               </Container.FlexRow>
             </Container.FlexCol>
+            {/* //!TODO: UI 수정 및 데이터 user_mate_style 에서 가져오기 */}
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  {houseData.mates_num} 명
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  {termArray}
-                </Badge.Outline>
-                <Badge.Outline className="rounded-3xl px-5 py-2">
-                  반려동물 NO
+              <Container.FlexRow className="items-center gap-5">
+                <Typography.SubTitle3>기간</Typography.SubTitle3>
+                <Badge.Outline
+                  className="rounded-full px-4"
+                  focus={false}
+                  active={false}
+                  hover={false}
+                >
+                  <Typography.P2 className="py-2.5">{termArray}</Typography.P2>
                 </Badge.Outline>
               </Container.FlexRow>
+              <Container.FlexCol className="gap-3">
+                <Container.FlexRow className="items-center gap-5">
+                  <Typography.SubTitle3>특징</Typography.SubTitle3>
+                  <Container.FlexRow className="gap-2">
+                    <BadgeIcon.Outline
+                      iconType={
+                        defaultGenderTypes[
+                          houseData.user_mate_style.mate_gender
+                        ].icon
+                      }
+                    >
+                      <Typography.P2 className="py-2.5">
+                        {
+                          defaultGenderTypes[
+                            houseData.user_mate_style.mate_gender
+                          ].sex
+                        }
+                      </Typography.P2>
+                    </BadgeIcon.Outline>
+                    <BadgeIcon.Outline iconType="mini-female">
+                      <Typography.P2>
+                        {houseData.user_mate_style.mate_number}명
+                      </Typography.P2>
+                    </BadgeIcon.Outline>
+                    <Badge.Outline
+                      className="rounded-full px-4"
+                      focus={false}
+                      active={false}
+                      hover={false}
+                    >
+                      <Typography.P2>
+                        {houseData.user_mate_style.prefer_mate_age[0]}살-
+                        {houseData.user_mate_style.prefer_mate_age[1]}살
+                      </Typography.P2>
+                    </Badge.Outline>
+                  </Container.FlexRow>
+                </Container.FlexRow>
+                <Container.FlexRow className="flex-wrap items-center gap-x-2 gap-y-3 pl-[3.125rem]">
+                  {houseData.user_mate_style.mate_appeals.map(value => (
+                    <Badge.Outline
+                      focus={false}
+                      active={false}
+                      hover={false}
+                      className="rounded-full px-4"
+                      key={value}
+                    >
+                      <Typography.P2 className="py-2.5">{value}</Typography.P2>
+                    </Badge.Outline>
+                  ))}
+                </Container.FlexRow>
+              </Container.FlexCol>
             </Container.FlexCol>
           </Container.FlexCol>
         </Container.FlexRow>
-
         <Container.FlexCol className="gap-7 pb-16 text-brown ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-8">
@@ -299,27 +410,28 @@ export default function HouseDetailTemplate() {
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
-        <Container.FlexCol className="gap-9 pt-8">
+        <Container.FlexCol className="gap-8 pt-8">
           <Typography.SubTitle1 className="text-brown">
             댓글 2개
           </Typography.SubTitle1>
-          <Container.FlexCol className="items-end gap-8	">
+          <Container.FlexCol className="items-end gap-8 	">
             <TextArea
               type="text"
               name="comment"
+              className="min-h-[11.5625rem] overflow-scroll"
               placeholder="댓글을 남겨보세요."
               rows={5}
             />
-            <Button.Fill className="h-12 w-16 items-center justify-center rounded-lg text-white	">
-              등록
+            <Button.Fill className="rounded-lg px-10 py-5 text-white	">
+              <Typography.SubTitle3>등록</Typography.SubTitle3>
             </Button.Fill>
           </Container.FlexCol>
         </Container.FlexCol>
       </Container.FlexCol>
       <Container.FlexCol>
-        <Container.FlexCol className="gap-7 py-8">
+        <Container.FlexCol className="gap-7 py-[1.875rem]">
           <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="gap-4 ">
+            <Container.FlexRow className="items-center gap-[0.9375rem] ">
               <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user123</Typography.P1>
@@ -327,17 +439,23 @@ export default function HouseDetailTemplate() {
               </Container.FlexCol>
             </Container.FlexRow>
             <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost>답변</Button.Ghost>
-              <Button.Ghost>수정</Button.Ghost>
-              <Button.Ghost>삭제</Button.Ghost>
+              <Button.Ghost className="p-[0.625rem]">
+                <Typography.P2>답변</Typography.P2>
+              </Button.Ghost>
+              <Button.Ghost className="p-[0.625rem]">
+                <Typography.P2>수정</Typography.P2>
+              </Button.Ghost>
+              <Button.Ghost className="p-[0.625rem]">
+                <Typography.P2>삭제</Typography.P2>
+              </Button.Ghost>
             </Container.FlexRow>
           </Container.FlexRow>
           <Typography.P2 className="text-brown">신청 보내봅니다!</Typography.P2>
         </Container.FlexCol>
-        <Divider.Col />
-        <Container.FlexCol className="gap-7 py-7">
+        <Divider.Col className="mb-8" />
+        <Container.FlexCol className="gap-7 py-[1.875rem]">
           <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="gap-4 ">
+            <Container.FlexRow className="items-center gap-[0.9375rem] ">
               <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user1234</Typography.P1>
@@ -345,13 +463,16 @@ export default function HouseDetailTemplate() {
               </Container.FlexCol>
             </Container.FlexRow>
             <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost>답변</Button.Ghost>
+              <Button.Ghost className="p-[0.625rem]">
+                <Typography.P2>답변</Typography.P2>
+              </Button.Ghost>
             </Container.FlexRow>
           </Container.FlexRow>
           <Typography.P2 className="text-brown">
             보증금 올리고 월세 낮춰도 될까요?
           </Typography.P2>
         </Container.FlexCol>
+        <Divider.Col className="mb-8" />
       </Container.FlexCol>
     </Container.FlexCol>
   );
