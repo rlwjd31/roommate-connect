@@ -10,10 +10,11 @@ export default {
         laptop: '1440px',
         screen1140: '1140px',
         tablet: '768px',
+        screen640: '640px',
         mobile: '430px',
       },
       colors: {
-        bg: '#FFFAF5',
+        bg: '#FFFFFF',
         subColor1: '#FFDBA5',
         subColor2: '#FFB186',
         brown: '#643927',
