@@ -12,26 +12,15 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { SessionAtom } from '@/stores/auth.store';
+import { HouseRegisterTemplateProp } from '@/components/templates/HouseRegisterTemplate1';
 
-type MultiImageFormProps = {
-  images: string[];
-  setImages: React.Dispatch<React.SetStateAction<string[]>>;
-  representativeImg: string;
-  setRepresentativeImg: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export default function MultiImageForm({
-  images,
-  setImages,
-  representativeImg,
-  setRepresentativeImg,
-}: MultiImageFormProps) {
+export default function MultiImageForm({ form }: HouseRegisterTemplateProp) {
   const IMAGE_PER_PAGE = 3;
-  const MAX_IMAGES = 10;
   const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
   const userId = useRecoilState(SessionAtom)[0]?.user.id;
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentImgPage, setCurrentImgPage] = useState(0);
   const [renderImg, setRenderImg] = useState<string[]>([]);
+  const representative = form.watch('representative_img');
   const imageLen = renderImg.length;
 
   const createErrorToast = (message: string) =>
@@ -50,15 +39,18 @@ export default function MultiImageForm({
         .upload(`temporary/${newFileName}`, file);
 
       if (error) {
-        createErrorToast('supabase 업로드에 실패했습니다.');
+        createErrorToast('이미지 업로드에 실패했습니다.');
         return;
       }
-      setImages(prev => [...prev, newFileName]);
+
+      const images = form.getValues('house_img');
+      images.push(newFileName);
+      form.setValue('house_img', images);
 
       const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
       setRenderImg(prev => [...prev, newFileUrl]);
     } catch (error) {
-      createErrorToast('이미지 저장에 실패했습니다.');
+      createErrorToast('이미지 업로드에 실패했습니다.');
     }
   };
 
@@ -67,10 +59,6 @@ export default function MultiImageForm({
     const fileList = e.target.files;
     if (fileList) {
       const filesArray = Array.from(fileList);
-      if (imageLen + filesArray.length > MAX_IMAGES) {
-        createErrorToast('이미지는 최대 10개까지만 업로드 할 수 있습니다.');
-        return;
-      }
       filesArray.forEach(file => {
         handleAddImages(file);
       });
@@ -78,8 +66,10 @@ export default function MultiImageForm({
   };
 
   // 라디오버튼 선택시 대표사진으로 설정하는 함수
-  const handleRepresentativeChange = (imgUrl: string) => {
-    setRepresentativeImg(imgUrl);
+  const handleRepresentativeChange = (imgSrc: string) => {
+    const imgName = imgSrc.split('/').slice(-1)[0];
+    console.log(imgName);
+    form.setValue('representative_img', imgName);
   };
 
   // 이미지 삭제 버튼 이벤트
@@ -90,20 +80,16 @@ export default function MultiImageForm({
         .from('images')
         .remove([`house/${userId}/temporary/${imgName}`]);
 
-      if (imgName === representativeImg.split('/').slice(-1)[0]) {
-        setRepresentativeImg('');
-      } else {
-        setImages(prev => {
-          const newImages = prev.filter(img => img !== imgSrc);
-
-          if (newImages.length % 3 === 0 && currentPage > 0) {
-            setCurrentPage(currentPage - 1);
-          }
-          return newImages;
-        });
+      if (imgName === representative) {
+        form.setValue('representative_img', '');
       }
+      const images = form.watch('house_img').filter(img => img !== imgName);
+      form.setValue('house_img', images);
 
       setRenderImg(prev => prev.filter(imgUrl => !imgUrl.includes(imgName)));
+      if (imageLen % 3 === 0 && currentImgPage > 0) {
+        setCurrentImgPage(currentImgPage - 1);
+      }
 
       if (error) {
         createErrorToast('supabase에서 이미지를 삭제하는 데 실패했습니다.');
@@ -114,43 +100,44 @@ export default function MultiImageForm({
   };
 
   const handleNextImage = () => {
-    if (currentPage < Math.ceil(images.length / IMAGE_PER_PAGE) - 1) {
-      setCurrentPage(currentPage + 1);
+    if (currentImgPage < Math.ceil(imageLen / IMAGE_PER_PAGE) - 1) {
+      setCurrentImgPage(currentImgPage + 1);
     }
   };
 
   const handlePrevImage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
+    if (currentImgPage > 0) {
+      setCurrentImgPage(currentImgPage - 1);
     }
   };
 
   // 처음 이미지 업로드시 첫번째 사진을 대표사진으로 지정
   useEffect(() => {
     if (
-      renderImg &&
-      (representativeImg === undefined || representativeImg === '')
+      (representative === '' || representative === undefined) &&
+      imageLen !== 0
     ) {
-      setRepresentativeImg(renderImg[0]);
+      const firstImage = form.getValues('house_img')[0];
+      form.setValue('representative_img', firstImage);
     }
-  }, [renderImg, setRepresentativeImg]);
+  }, [imageLen, renderImg]);
 
   return (
     <Container.FlexCol>
       <Container.FlexRow>
-        {currentPage !== 0 && (
+        {currentImgPage !== 0 && (
           <IconButton.Ghost
             iconType="prev"
-            iconClassName="absolute left-3 z-10"
+            iconClassName="absolute left-0 z-10"
             stroke="brown"
             onClick={handlePrevImage}
           />
         )}
-        <Container.FlexRow className="gap-4">
-          <div className="relative">
+        <Container.Grid className="w-full grid-cols-4 gap-4 px-4">
+          <div className="relative w-full pb-[100%]">
             <Label
               htmlFor="house_img"
-              className="mb-0 flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+              className="absolute inset-0 mb-0 flex w-full cursor-pointer items-center justify-center rounded-xl bg-brown3"
             >
               <Icon type="camera" />
               <Input
@@ -159,6 +146,7 @@ export default function MultiImageForm({
                 name="house_img"
                 className="hidden"
                 onChange={handleFiles}
+                accept=".jpg, .jpeg, .png"
                 multiple
               />
             </Label>
@@ -168,29 +156,33 @@ export default function MultiImageForm({
           </div>
           {renderImg
             .slice(
-              currentPage * IMAGE_PER_PAGE,
-              (currentPage + 1) * IMAGE_PER_PAGE,
+              currentImgPage * IMAGE_PER_PAGE,
+              (currentImgPage + 1) * IMAGE_PER_PAGE,
             )
-            .map((img, index) => (
-              <div key={uuid()} className="relative">
+            .map((imgSrc, index) => (
+              <div key={uuid()} className="relative w-full pb-[75%]">
                 <IconButton.Ghost
                   iconType="close"
                   stroke="brown"
-                  iconClassName="absolute top-4 right-4 w-[0.6875rem] h-[0.75rem]"
-                  onClick={() => onClickDeleteImg(img)}
+                  iconClassName="absolute top-5 right-5 w-[1rem] h-[1rem] z-10"
+                  onClick={() => onClickDeleteImg(imgSrc)}
                 />
-                <Label htmlFor={`image_${index}`}>
+                <Label
+                  htmlFor={`image_${index}`}
+                  className="absolute inset-0 block"
+                >
                   <Input
                     type="radio"
                     id={`image_${index}`}
-                    name="representativeImage"
-                    className="absolute bottom-2 right-3 size-6 p-1"
-                    checked={img === representativeImg}
-                    onChange={() => handleRepresentativeChange(img)}
+                    className="absolute bottom-3 right-3 z-10 h-7 w-7 p-1"
+                    checked={imgSrc.includes(representative)}
+                    onChange={() => handleRepresentativeChange(imgSrc)}
                   />
-                  <Img className="size-[17rem] object-cover" src={img} />
-                  {img === representativeImg && (
-                    <Typography.SubTitle2 className="absolute bottom-2 w-full rounded-xl bg-brown/70 p-4 text-bg">
+                  <div className="absolute inset-0">
+                    <Img className="size-full object-cover" src={imgSrc} />
+                  </div>
+                  {imgSrc.includes(representative) && (
+                    <Typography.SubTitle2 className="absolute bottom-0 z-20 w-full rounded-b-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>
                   )}
@@ -204,20 +196,25 @@ export default function MultiImageForm({
                 <Label
                   key={uuid()}
                   htmlFor="house_img"
-                  className="mb-0 flex size-[17rem] cursor-pointer items-center justify-center rounded-[10px] bg-brown3"
+                  className="mb-0 flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-brown3 pb-[75%]"
                 />
               ))}
-        </Container.FlexRow>
+        </Container.Grid>
         {imageLen > 3 &&
-          Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 !== currentPage && (
+          Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 !== currentImgPage && (
             <IconButton.Ghost
               iconType="next"
-              iconClassName="absolute right-3 z-10"
+              iconClassName="absolute right-0 z-10"
               stroke="brown"
               onClick={handleNextImage}
             />
           )}
       </Container.FlexRow>
+      <Typography.Span2
+        className={`${!form.formState.errors.house_img?.message && 'invisible h-3'} mr-7 mt-[8px] block text-right text-point`}
+      >
+        {form.formState.errors.house_img?.message as string}
+      </Typography.Span2>
     </Container.FlexCol>
   );
 }
