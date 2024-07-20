@@ -708,27 +708,30 @@ export type Database = {
       user_mate_style: {
         Row: {
           created_at: string;
-          gender: number;
+          mate_gender: number;
           id: string;
           mate_appeals: string[] | null;
-          mates_number: number;
+          mate_number: number;
           updated_at: string | null;
+          prefer_mate_age: number[];
         };
         Insert: {
           created_at?: string;
-          gender: number;
+          mate_gender: number;
           id: string;
           mate_appeals?: string[] | null;
-          mates_number: number;
+          mate_number: number;
           updated_at?: string | null;
+          prefer_mate_age?: number[];
         };
         Update: {
           created_at?: string;
-          gender?: number;
+          mate_gender?: number;
           id?: string;
           mate_appeals?: string[] | null;
-          mates_number?: number;
+          mate_number?: number;
           updated_at?: string | null;
+          prefer_mate_age?: number[];
         };
         Relationships: [
           {
