@@ -59,8 +59,8 @@ const useSignUpProfile = () => {
       };
       const userMateStyle = {
         id: user.id,
-        gender: gender as number,
-        mates_number: mates_number as number,
+        mate_gender: gender as number,
+        mate_number: mates_number as number,
         mate_appeals,
       };
 
