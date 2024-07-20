@@ -1,18 +1,17 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 
 import { supabase } from '@/libs/supabaseClient';
 import { SignUpProfileType } from '@/types/signUp.type';
 import { createToast, errorToast, successToast } from '@/libs/toast';
+import { UserAtom } from '@/stores/auth.store';
 
 const useSignUpProfile = () => {
   const navigate = useNavigate();
+  const user = useRecoilValue(UserAtom);
   const { mutate, isPending } = useMutation({
     mutationFn: async (payload: SignUpProfileType) => {
-      // ! TODO useAuthState 추후 적용
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
       if (!user) throw new Error('Authentication Required!');
       const {
         smoking,
