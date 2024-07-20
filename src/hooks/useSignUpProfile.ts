@@ -42,6 +42,7 @@ const useSignUpProfile = () => {
         deposit_price,
         monthly_rental_price,
       };
+      // @FIXME: user_mate_style db를 바꿈에 따라 mismatch column을 변경해야 함.
       const userMateStyle = {
         id: user.id,
         gender: gender as number,
