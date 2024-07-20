@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
-import Img from '@/components/atoms/Img';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
+import { isEnglish } from '@/libs/checkLanguage';
+import Avatar from '@/components/atoms/Avatar';
 
 type PointAlertType = {
   content: string | number;
@@ -19,7 +20,7 @@ export function PointAlert({
   return (
     <Container.FlexRow
       className={cn(
-        'w-fit items-center justify-center rounded-full bg-point px-2 pt-[6px] pb-[4px]',
+        'w-fit items-center justify-center rounded-full bg-point pl-2 pr-[7px] pt-[4px] pb-[5px]',
         containerStyle,
       )}
     >
@@ -97,7 +98,7 @@ const chats = [
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
-    content: '안녕하세요',
+    content: 'hi',
     newChatCount: 2,
     navigateUrl: '7',
   },
@@ -115,7 +116,7 @@ const chats = [
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
     latestDate: '오후 9:48',
-    content: '안녕하세요',
+    content: 'hello',
     newChatCount: 2,
     navigateUrl: '9',
   },
@@ -180,10 +181,14 @@ export default function ChatList() {
               }
             >
               {/* shrink를 0으로 설정하지 않으면 이미지가 깨짐 */}
-              <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} />
+              <Avatar.M src={avatarUrl} />
+              {/* <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} /> */}
               <Container.FlexCol className="w-full">
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span1 className="font-bold leading-150 text-brown">
+                  <Typography.Span1
+                    lang={isEnglish(nickname) ? 'en' : 'ko'}
+                    className="font-bold leading-150 text-brown"
+                  >
                     {nickname}
                   </Typography.Span1>
                   <Typography.Span2 className="font-semibold leading-150 text-brown2">
@@ -191,7 +196,10 @@ export default function ChatList() {
                   </Typography.Span2>
                 </Container.FlexRow>
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span2 className="font-semibold leading-150 text-brown2">
+                  <Typography.Span2
+                    lang={isEnglish(content) ? 'en' : 'ko'}
+                    className="font-semibold leading-150 text-brown2"
+                  >
                     {content}
                   </Typography.Span2>
                   <PointAlert content={newChatCount} />

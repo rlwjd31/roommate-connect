@@ -1,5 +1,5 @@
 import { IconType } from '@/types/icon.type';
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 
 const stepDisplayData = [
   {
@@ -52,7 +52,7 @@ const stepDisplayData = [
 
 const houseTypeDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['type'];
+  stateValue: SignUpProfileFormType['type'];
   iconType: IconType;
 }[] = [
   {
@@ -79,29 +79,34 @@ const houseTypeDisplayData: {
 
 const rentalTypeDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['rental_type'];
+  stateValue: SignUpProfileFormType['rental_type'];
+  iconType: IconType;
 }[] = [
   {
     displayValue: '월세',
     stateValue: 1,
+    iconType: 'monthly-rental-price',
   },
   {
     displayValue: '반전세',
     stateValue: 2,
+    iconType: 'semi-monthly-rental-price',
   },
   {
     displayValue: '전세',
     stateValue: 3,
+    iconType: 'year-rental-price',
   },
   {
     displayValue: '상관없음',
     stateValue: 0,
+    iconType: 'dont-mind-rental-price',
   },
 ];
 
 const smokeDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['smoking'];
+  stateValue: SignUpProfileFormType['smoking'];
   iconType: IconType;
 }[] = [
   {
@@ -118,7 +123,7 @@ const smokeDisplayData: {
 
 const petDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['pet'];
+  stateValue: SignUpProfileFormType['pet'];
   iconType: IconType;
 }[] = [
   {
@@ -140,7 +145,7 @@ const petDisplayData: {
 
 const genderDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['gender'];
+  stateValue: SignUpProfileFormType['gender'];
   iconType: IconType;
 }[] = [
   {
@@ -162,65 +167,49 @@ const genderDisplayData: {
 
 const mateNumberDisplayData: {
   displayValue: string;
-  stateValue: SignUpType['mates_number'];
+  stateValue: SignUpProfileFormType['mates_number'];
+  iconType: IconType;
 }[] = [
   {
     displayValue: '1명',
     stateValue: 1,
+    iconType: 'one-person',
   },
   {
     displayValue: '2명',
     stateValue: 2,
+    iconType: 'two-people',
   },
   {
-    displayValue: '3명',
+    displayValue: '3명 이상',
     stateValue: 3,
+    iconType: 'three-people',
   },
   {
     displayValue: '상관없어요',
     stateValue: 0,
+    iconType: 'dont-mind-people',
   },
 ];
 
 const signUpProfileValidationConfig = {
   0: {
-    fields: ['houseType', 'rentalType'],
-    messages: {
-      houseType: '집 유형을 선택해주세요',
-      rentalType: '매물 종류를 선택해주세요',
-    },
+    fields: ['type', 'rental_type'],
   },
   1: {
     fields: ['regions'],
-    messages: {
-      regions: '위치를 선택해주세요',
-    },
   },
   3: {
     fields: ['smoking', 'pet'],
-    messages: {
-      smoking: '흡연 여부를 선택해주세요',
-      pet: '반려동물 여부를 선택해주세요',
-    },
   },
   4: {
     fields: ['appeals'],
-    messages: {
-      appeals: '어필을 입력해주세요',
-    },
   },
   5: {
-    fields: ['gender', 'matesNumber'],
-    messages: {
-      gender: '성별을 선택해주세요',
-      matesNumber: '인원 수를 선택해주세요',
-    },
+    fields: ['gender', 'mates_number'],
   },
   6: {
-    fields: ['mateAppeals'],
-    messages: {
-      mateAppeals: '어필을 입력해주세요',
-    },
+    fields: ['mate_appeals'],
   },
 } as const;
 
@@ -236,12 +225,10 @@ export const signUpProfileBadgeExamples = [
   '혼밥 싫어요',
   '더위 잘 타요',
   '추위 잘 타요',
-]
+];
 
 export type ValidationConfig = typeof signUpProfileValidationConfig;
 export type ValidationStep = keyof ValidationConfig;
-export type ValidationStepFieldName =
-  keyof ValidationConfig[ValidationStep]['messages'];
 
 export {
   stepDisplayData,

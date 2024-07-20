@@ -14,9 +14,11 @@
     "gen-types": "npx supabase gen types typescript --linked > src/types/supabase.ts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-query": "^5.17.12",
     "@tanstack/react-query-devtools": "^5.17.12",
+    "classnames": "^2.5.1",
     "clsx": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,7 +26,8 @@
     "react-router-dom": "^6.22.3",
     "react-toastify": "^10.0.5",
     "recoil": "^0.7.7",
-    "tailwind-merge": "^2.2.2"
+    "tailwind-merge": "^2.2.2",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@hookform/devtools": "^4.3.1",

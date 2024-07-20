@@ -27,10 +27,22 @@ export type IconType =
   | 'visible'
   | 'alarm-exist'
   | 'alarm-none'
-  | 'avartar'
+  | 'avatar'
   | 'back'
   | 'paper-clip'
-  | 'send';
+  | 'send'
+  | 'camera'
+  | 'prev'
+  | 'next'
+  | 'back'
+  | 'monthly-rental-price'
+  | 'semi-monthly-rental-price'
+  | 'year-rental-price'
+  | 'dont-mind-rental-price'
+  | 'one-person'
+  | 'two-people'
+  | 'three-people'
+  | 'dont-mind-people' | 'done'
 
 export type CustomIconType = {
   fill?: ColorType;

@@ -9,15 +9,13 @@ import Typography from '@/components/atoms/Typography';
 import Carousel from '@/components/organisms/Carousel';
 import StepNavLinks from '@/components/molecules/StepNavLinks';
 import cn from '@/libs/cn';
-import Button from '@/components/atoms/Button';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
-import { createToast } from '@/libs/toast';
 import {
   signUpProfileValidationConfig,
   stepDisplayData,
   ValidationStep,
-  ValidationStepFieldName,
 } from '@/constants/signUpProfileData';
+import { SignUpProfileFormType } from '@/types/signUp.type';
+import { createToast } from '@/libs/toast';
 
 type StepTitleType = {
   num: string | number;
@@ -30,11 +28,11 @@ function StepTitle({ num, title, isActive }: StepTitleType) {
     <Container.FlexRow className="mb-3 items-center gap-3">
       <div
         className={cn(
-          'size-9 rounded-full flex justify-center items-center ',
+          'size-9 rounded-full flex justify-center items-center',
           isActive ? 'bg-brown' : 'bg-brown2',
         )}
       >
-        <span className="translate-y-[1.5px] text-xl font-semibold text-bg">
+        <span className="translate-x-[0.0625rem] translate-y-[-0.0625rem] text-lg font-semibold text-bg">
           {num}
         </span>
       </div>
@@ -53,13 +51,15 @@ StepTitle.defaultProps = {
 
 type SignProfileLayoutTemplateProps = {
   children: ReactNode;
+  isSubmitted: boolean;
 };
 
 export default function SignUpProfileLayoutTemplate(
   props: Readonly<SignProfileLayoutTemplateProps>,
 ) {
-  const { children } = props;
+  const { children, isSubmitted } = props;
   const [currentStep, setCurrentStep] = useState(0);
+  const [passedPage, setPassedPage] = useState<number[]>([]);
   const navigate = useNavigate();
   const numsOfCarouselChildren = Children.count(children);
   const [isFirstOfCarousel, isLastOfCarousel] = [
@@ -70,30 +70,31 @@ export default function SignUpProfileLayoutTemplate(
   const {
     trigger,
     formState: { errors },
-  } = useFormContext<ProfileFormValues>();
+  } = useFormContext<SignUpProfileFormType>();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    trigger();
+  }, []);
 
   const validationStep = async (carouselStep: ValidationStep) => {
     const validationConfig = signUpProfileValidationConfig[carouselStep];
 
     if (!validationConfig) return true;
 
-    const { fields, messages } = validationConfig;
+    const { fields } = validationConfig;
     const isStepValid = await trigger(fields);
 
     if (!isStepValid) {
       fields.forEach(field => {
-        if (errors[field]) {
-          createToast(
-            `${field}ValidationError`,
-            errors[field]?.message ||
-              messages[field as ValidationStepFieldName],
-            {
-              autoClose: 1000,
-              type: 'error',
-              isLoading: false,
-              position: 'top-center',
-            },
-          );
+        const message = errors[field]?.message;
+        if (message) {
+          createToast(`${field}ValidationError`, message, {
+            containerId: 'signUpProfileToastContainer',
+            autoClose: 1000,
+            isLoading: false,
+            type: 'error',
+          });
         }
       });
       return false;
@@ -111,17 +112,9 @@ export default function SignUpProfileLayoutTemplate(
       currentStep as ValidationStep,
     );
 
-    if (canGoNextCarousel) setCurrentStep(prev => prev + 1);
-  };
-
-  const onClickSubmit = async () => {
-    if (isLastOfCarousel) {
-      const isFinalStepValid = await validationStep(
-        currentStep as ValidationStep,
-      );
-
-      // ! TODO: fetch user profile data to supabase
-      if (isFinalStepValid) navigate('/signup-outro');
+    if (canGoNextCarousel) {
+      setCurrentStep(prev => prev + 1);
+      setPassedPage(prev => [...new Set([...prev, currentStep])]);
     }
   };
 
@@ -134,69 +127,91 @@ export default function SignUpProfileLayoutTemplate(
       isInitialRendered.current = false;
 
       if (carouselStep) {
-        setCurrentStep(JSON.parse(carouselStep));
+        const stepNumber = JSON.parse(carouselStep);
+        setCurrentStep(stepNumber);
+        setPassedPage(
+          Array.from({ length: stepNumber + 1 }, (_, i) => stepNumber - i),
+        );
       }
     } else {
       sessionStorage.setItem(carouselStepKey, JSON.stringify(currentStep));
     }
   }, [currentStep]);
 
+  const onClickstepNavLinkValidate = async (step: ValidationStep) =>
+    passedPage.includes(step) ? setCurrentStep(step) : null;
+
   return (
-    <Container.FlexRow className="max-h-[816px] grow justify-between">
-      <Container.FlexCol className="w-full min-w-48">
-        {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
-          <Container.FlexCol key={stepTitle} className="mb-12">
-            <StepTitle
-              num={stepNum}
-              isActive={stepContents.some(
-                content => content.carouselCurrentStep === currentStep,
-              )}
-              title={stepTitle}
-            />
-            <StepNavLinks
-              className="pl-[14px]"
-              contents={stepContents.map(stepContent => ({
-                ...stepContent,
-                isActive: currentStep === stepContent.carouselCurrentStep,
-                onClick: () => setCurrentStep(stepContent.carouselCurrentStep),
-              }))}
-            />
-          </Container.FlexCol>
-        ))}
-      </Container.FlexCol>
-      <Container.FlexCol className="justify-between">
-        <Container className="w-[894px]">
+    // ! 9.25rem은 prev, next button section의 높이 값
+    <>
+      <Container.FlexRow className="w-full justify-between gap-[3.75rem]">
+        <Container.FlexCol className="hidden h-[calc(100vh-9.25rem)] min-h-[31rem] min-w-[13rem] overflow-y-scroll pb-[10rem] lg:block">
+          {stepDisplayData.map(({ stepTitle, stepNum, stepContents }) => (
+            <Container.FlexCol key={stepTitle} className="mb-12">
+              <StepTitle
+                num={stepNum}
+                isActive={stepContents.some(
+                  content => content.carouselCurrentStep === currentStep,
+                )}
+                title={stepTitle}
+              />
+              <StepNavLinks
+                className="pl-[0.875rem]"
+                contents={stepContents.map(stepContent => ({
+                  ...stepContent,
+                  isActive: currentStep === stepContent.carouselCurrentStep,
+                  onClick: () =>
+                    onClickstepNavLinkValidate(
+                      stepContent.carouselCurrentStep as ValidationStep,
+                    ),
+                }))}
+              />
+            </Container.FlexCol>
+          ))}
+        </Container.FlexCol>
+        <Container.FlexCol className="size-full h-[calc(100vh-9.25rem)] pb-[10rem]">
           <Carousel order={currentStep}>{children}</Carousel>
-        </Container>
-        <Container.FlexRow className="justify-end gap-x-3 pb-[76px]">
-          <IconButton.Outline
-            className="flex-row-reverse gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
-            iconType="left-arrow"
-            onClick={onClickPrevButton}
+        </Container.FlexCol>
+      </Container.FlexRow>
+      <Container.FlexRow className="absolute bottom-0 right-0 z-20 w-full justify-end gap-x-3 bg-bg pb-[3.75rem] pr-8 pt-8">
+        <IconButton.Outline
+          className="flex size-[3rem] flex-row-reverse items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
+          iconType="left-arrow"
+          disabled={isSubmitted}
+          onClick={onClickPrevButton}
+        >
+          <Typography.P1 className="hidden text-brown tablet:block">
+            이전
+          </Typography.P1>
+        </IconButton.Outline>
+        {isLastOfCarousel ? (
+          <IconButton.Fill
+            key="signUpProfileSubmitButton"
+            className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
+            iconType="done"
+            stroke="bg"
+            type="submit"
+            disabled={isSubmitted}
           >
-            <Typography.P1 className="text-brown">이전</Typography.P1>
-          </IconButton.Outline>
-          {isLastOfCarousel ? (
-            <Button.Fill
-              className="gap-x-[10px] rounded-[32px] px-12 py-[15px]"
-              type="submit"
-              onClick={onClickSubmit}
-            >
-              <Typography.P1 className="text-bg">완료</Typography.P1>
-            </Button.Fill>
-          ) : (
-            <IconButton.Fill
-              className="gap-x-[10px] rounded-[32px] px-[30px] py-[15px]"
-              iconType="right-arrow"
-              stroke="bg"
-              onClick={onClickNextButton}
-              type="button"
-            >
-              <Typography.P1 className="text-bg">다음</Typography.P1>
-            </IconButton.Fill>
-          )}
-        </Container.FlexRow>
-      </Container.FlexCol>
-    </Container.FlexRow>
+            <Typography.P1 className="hidden text-bg tablet:block">
+              완료
+            </Typography.P1>
+          </IconButton.Fill>
+        ) : (
+          <IconButton.Fill
+            key="signUpProfileNextButton"
+            className="flex size-[3rem] items-center justify-center gap-x-[0.625rem] rounded-[2rem] tablet:h-14 tablet:w-36"
+            iconType="right-arrow"
+            stroke="bg"
+            onClick={onClickNextButton}
+            type="button"
+          >
+            <Typography.P1 className="hidden text-bg tablet:block">
+              다음
+            </Typography.P1>
+          </IconButton.Fill>
+        )}
+      </Container.FlexRow>
+    </>
   );
 }

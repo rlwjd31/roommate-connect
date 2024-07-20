@@ -1,21 +1,27 @@
 import { FormProvider, useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilState, useRecoilValue} from 'recoil';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRecoilValue } from 'recoil';
+import { useState } from 'react';
 
-import { SignUpEmailUserAtom, ShowVerificationAtom } from '@/stores/sign.store';
-import { EmailAuthType } from '@/types/auth.type';
+import { ShowVerificationAtom } from '@/stores/sign.store';
+import {
+  SignUpEmail,
+  SignUpEmailType,
+  VerifyEmailType,
+} from '@/types/auth.type';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import FormItem from '@/components/molecules/FormItem';
 import { useSignUpEmail, useVerifyEmail } from '@/hooks/useSign';
 
-export default function SignUpIntroTemplate2() {
+export default function SignUpEmailTemplate() {
   const Form = FormProvider;
-  // TODO: resolver를 나중에 만들어서 useForm에 추가
-  const form = useForm<EmailAuthType>();
+  const form = useForm<SignUpEmailType>({
+    resolver: zodResolver(SignUpEmail),
+  });
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const showVerification = useRecoilValue(ShowVerificationAtom);
-  const [signUpEmailUser, setSignUpEmailUser] =
-    useRecoilState(SignUpEmailUserAtom);
 
   const { signUpEmail, isSignUpEmail } = useSignUpEmail();
   const { verifyEmail, isVerifyEmail } = useVerifyEmail({
@@ -23,27 +29,22 @@ export default function SignUpIntroTemplate2() {
     successMessage: '🎉인증성공! 회원가입 되셨습니다!',
   });
 
+  const onClickVisible = () => setPasswordVisible(prev => !prev);
+
   const isPending = isSignUpEmail || isVerifyEmail;
 
-  const onSubmitSignUp = async (formData: EmailAuthType) => {
-    console.log(formData);
-    if (signUpEmailUser.birth !== 0 && signUpEmailUser.gender !== 0) {
-      setSignUpEmailUser(prev => ({
-        ...prev,
-        email: formData.email,
-        password: formData.password,
-      }))
-	signUpEmail();
-    }
+  const onSubmitSignUp = async (formData: SignUpEmailType) => {
+    signUpEmail(formData);
   };
 
-  const onSubmitVerify = async (formData: EmailAuthType) => {
+  const onSubmitVerify = async (formData: VerifyEmailType) => {
     verifyEmail(formData);
   };
 
-  const onSubmit: SubmitHandler<EmailAuthType> = !showVerification
-    ? onSubmitSignUp
-    : onSubmitVerify;
+  const onSubmit: SubmitHandler<SignUpEmailType> = data =>
+    !showVerification
+      ? onSubmitSignUp(data as SignUpEmailType)
+      : onSubmitVerify(data as VerifyEmailType);
 
   return (
     <Container.FlexCol className="min-w-full flex-1 gap-[3.25rem]">
@@ -54,50 +55,26 @@ export default function SignUpIntroTemplate2() {
               labelName="이메일"
               type="text"
               name="email"
-              options={{
-                required: '필수 항목 입니다.',
-                pattern: {
-                  value: /^([a-z0-9_.-]+)@([\da-z.-]+)\.([a-z.]{2,6})$/,
-                  message: '이메일 형식으로 입력해주세요.',
-                },
-              }}
               placeholder="이메일 입력"
+              inputStyle="w-full mt-[1rem]"
             />
-            <FormItem.TextField
+            <FormItem.Password
               labelName="비밀번호"
               type="password"
               name="password"
-              options={{
-                required: '비밀번호를 입력해주세요.',
-                minLength: {
-                  value: 8,
-                  message:
-                    '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
-                },
-                pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
-                  message:
-                    '영문, 숫자, 특수기호를 포함하여 8자리 이상 입력해주세요.',
-                },
-              }}
               placeholder="비밀번호 입력"
+              inputStyle="w-full mt-[1rem]"
+              isVisible={passwordVisible}
+              onClickVisible={onClickVisible}
             />
-            <FormItem.TextField
+            <FormItem.Password
               labelName="비밀번호 재입력"
               type="password"
               name="confirmPassword"
-              options={{
-                required: '비밀번호를 확인해주세요.',
-                validate: {
-                  confirmPassword: value => {
-                    const { password } = form.getValues();
-                    return (
-                      password === value || '비밀번호가 일치하지 않습니다.'
-                    );
-                  },
-                },
-              }}
               placeholder="비밀번호 입력"
+              inputStyle="w-full mt-[1rem]"
+              isVisible={passwordVisible}
+              onClickVisible={onClickVisible}
             />
           </Container.FlexCol>
           {showVerification ? (
@@ -108,6 +85,7 @@ export default function SignUpIntroTemplate2() {
                 name="token"
                 options={{ required: '인증번호를 입력해주세요.' }}
                 placeholder="인증번호 입력"
+                inputStyle="w-full mt-[1rem]"
                 containerStyle="mt-[1.625rem]"
               />
               <Button.Fill
@@ -127,7 +105,7 @@ export default function SignUpIntroTemplate2() {
               disabled={isPending}
             >
               <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
-                확인
+                다음
               </Typography.P3>
             </Button.Fill>
           )}

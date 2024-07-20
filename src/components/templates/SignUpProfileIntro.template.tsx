@@ -18,9 +18,10 @@ export default function SignUpProfileIntroTemplate(
   const onClickProfile = () => {
     navigate('/signup-profile');
   };
+
   return (
-    <Container.FlexCol className="size-full items-center justify-center gap-y-[60px]">
-      <Container.FlexCol className="items-center gap-y-[76px]">
+    <Container.FlexCol className="size-full items-center justify-center gap-y-[3.75rem]">
+      <Container.FlexCol className="items-center gap-y-[4.75rem]">
         <Container.FlexCol>
           <Container.FlexCol className="items-center gap-y-7">
             <Typography.Head2 className="text-brown">{`${name}님, 반가워요!`}</Typography.Head2>
@@ -31,14 +32,15 @@ export default function SignUpProfileIntroTemplate(
         </Container.FlexCol>
         <Container.FlexCol className="items-center gap-y-8">
           <IconButton.Fill
-            className="mx-auto gap-x-2 rounded-full px-[30px] py-[15px]"
+            className="mx-auto gap-x-2 rounded-full px-[1.875rem] py-[0.9375rem]"
             iconType="right-arrow"
             stroke="bg"
             onClick={onClickProfile}
+            iconClassName="w-[1.125rem] h-[1rem]"
           >
             <Typography.P1 className="text-bg">다음</Typography.P1>
           </IconButton.Fill>
-          <Link className="text-brown1 hover:underline" to="/house">
+          <Link className="text-brown1 hover:underline" to="/">
             <Typography.P1>다음에 할게요</Typography.P1>
           </Link>
         </Container.FlexCol>

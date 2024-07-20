@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import Button, { ButtonProps, ButtonType } from '@/components/atoms/Button';
 import Icon, { IconProps } from '@/components/atoms/Icon';
+import cn from '@/libs/cn';
 import { IconDirectionType, IconType } from '@/types/icon.type';
 
 type IconButtonProps = Omit<IconProps, 'type'> &
@@ -39,7 +40,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Fill')
     return (
       <Button.Fill
-        className={`${directionStyle[direction]} ${className}`}
+        className={cn(`${directionStyle[direction]}`, className)}
         {...others}
       >
         {children}

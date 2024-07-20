@@ -1,31 +1,19 @@
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { Outlet } from 'react-router-dom';
 
 import cn from '@/libs/cn';
-import { supabase } from '@/libs/supabaseClient';
-import { UserAtom } from '@/stores/auth.store';
 import Header from '@/components/organisms/Header';
+import { useAuthState } from '@/hooks/useSign';
 
 export default function LayoutTemplate() {
-  const navigate = useNavigate();
-  const setUser = useSetRecoilState(UserAtom);
+  // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
+  const [session] = useAuthState();
 
-  useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event, _session) => {
-      if (event === 'SIGNED_OUT') {
-        setUser(null);
-        navigate('/sign/in');
-      }
-    });
-    return () => data.subscription.unsubscribe();
-  }, []);
   return (
     <>
-      <Header isLogin />
+      <Header isLogin={!!session} />
       <main
         className={cn(
-          'flex flex-col relative max-w-[1200px] mx-auto h-screen px-8 pt-[148px]',
+          'flex bg-bg flex-col relative max-w-[79rem] px-8 mx-auto h-screen pt-[9.25rem]',
         )}
       >
         <Outlet />
@@ -33,3 +21,7 @@ export default function LayoutTemplate() {
     </>
   );
 }
+
+LayoutTemplate.defaultProps = {
+  isLogin: false,
+};

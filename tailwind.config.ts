@@ -5,8 +5,16 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        desktop: '1920px',
+        laptop: '1440px',
+        screen1140: '1140px',
+        tablet: '768px',
+        screen640: '640px',
+        mobile: '430px',
+      },
       colors: {
-        bg: '#FFFAF5',
+        bg: '#FFFFFF',
         subColor1: '#FFDBA5',
         subColor2: '#FFB186',
         brown: '#643927',
@@ -39,7 +47,8 @@ export default {
         SpanMid2: ['0.75rem', { fontWeight: 500 }],
       },
       fontFamily: {
-        'Noto-Sans-KR': ['Noto Sans KR'],
+        'Noto-Sans-KR': ['Noto Sans KR', 'sans-serif'],
+        'Myanmar-Khyay': ['Myanmar Khyay', 'sans-serif'],
       },
       lineHeight: {
         150: '1.5',
@@ -53,6 +62,10 @@ export default {
         '4': '4px',
         '6': '6px',
         '8': '8px',
+      },
+      boxShadow: {
+        avatar: 'rgba(0, 0, 0, 0.25) 0px 0px 4px 0px',
+        'avatar-active': 'rgba(0, 0, 0, 0.3) 0px 0px 4px 3px',
       },
     },
   },

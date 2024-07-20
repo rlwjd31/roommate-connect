@@ -5,9 +5,8 @@ import SignUpProfileStepTitleTemplate from '@/components/templates/SignUpProfile
 import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import IconButton from '@/components/molecules/IconButton';
-import { SignUpType } from '@/types/signUp.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 import FormItem from '@/components/molecules/FormItem';
-import { ProfileFormValues } from '@/components/pages/SignUpProfile';
 import {
   petDisplayData,
   smokeDisplayData,
@@ -19,12 +18,13 @@ export default function SignUpProfile2_1Template() {
   );
   const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
 
-  const onClickSmokingType = (stateValue: SignUpType['smoking']) =>
+  const onClickSmokingType = (stateValue: SignUpProfileFormType['smoking']) =>
     setSmoking(stateValue);
-  const onClickPetType = (stateValue: SignUpType['pet']) => setPet(stateValue);
+  const onClickPetType = (stateValue: SignUpProfileFormType['pet']) =>
+    setPet(stateValue);
 
   return (
-    <Container.FlexCol className="min-w-full px-2">
+    <Container.FlexCol className="min-w-full p-2">
       <Container.FlexCol>
         <SignUpProfileStepTitleTemplate
           step="2-1"
@@ -33,14 +33,11 @@ export default function SignUpProfile2_1Template() {
         <Typography.SubTitle1 className="text-brown">
           흡연 여부
         </Typography.SubTitle1>
-        <Container.FlexRow
-          style={{ width: `${(smokeDisplayData.length / 4) * 100}%` }}
-          className="mb-[4.25rem] mt-11 justify-start gap-x-6"
-        >
+        <Container.Grid className="mb-[3.75rem] mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {smokeDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="gap-y-5 rounded-lg py-5"
               isActive={stateValue === smoking}
               iconType={iconType}
               direction="top"
@@ -51,28 +48,19 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'smoking'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'smoking'>>
             name="smoking"
-            options={{
-              required: '흡연 여부를 선택해주세요',
-            }}
-            defaultValue={
-              typeof smoking === 'boolean' ? `${smoking}` : undefined
-            }
-            valueProp={typeof smoking === 'boolean' ? `${smoking}` : undefined}
+            valueProp={smoking}
           />
-        </Container.FlexRow>
+        </Container.Grid>
         <Typography.SubTitle1 className="text-brown">
           반려 동물
         </Typography.SubTitle1>
-        <Container.FlexRow
-          style={{ width: `${(petDisplayData.length / 4) * 100}%` }}
-          className="mb-[4.25rem] mt-11 gap-x-6"
-        >
+        <Container.Grid className="mt-7 grid-cols-2 gap-6 pb-2 screen640:grid-cols-4">
           {petDisplayData.map(({ displayValue, stateValue, iconType }) => (
             <IconButton.Outline
               key={displayValue}
-              className="flex-1 gap-y-5 rounded-lg py-5"
+              className="gap-y-5 rounded-lg py-5"
               isActive={stateValue === pet}
               iconType={iconType}
               direction="top"
@@ -83,15 +71,11 @@ export default function SignUpProfile2_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<ProfileFormValues, 'pet'>>
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'pet'>>
             name="pet"
-            options={{
-              required: '반려 동물 여부를 선택해주세요',
-            }}
-            defaultValue={pet}
             valueProp={pet}
           />
-        </Container.FlexRow>
+        </Container.Grid>
       </Container.FlexCol>
     </Container.FlexCol>
   );
