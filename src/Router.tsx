@@ -149,7 +149,6 @@ const routes: RouteType[] = [
         path: 'mypage',
         shouldProtected: true,
         element: <MyPageLayoutTemplate />,
-        // ! TODO: 아래는 my-page의 알림 설정 mock page -> 추후 재조정
         children: [
           { path: 'activity', element: <h1>나의 활동</h1> },
           { path: 'bookmark', element: <h1>나의 북마크</h1> },
@@ -157,10 +156,6 @@ const routes: RouteType[] = [
           { path: 'mate', element: <h1>준비중...</h1> },
           { path: 'alarm', element: <h1>준비중...</h1> },
           { path: 'theme', element: <h1>준비중...</h1> },
-          {
-            path: 'alert-settings',
-            element: <h1>알림 설정</h1>,
-          },
         ],
       },
     ],
