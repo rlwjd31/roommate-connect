@@ -26,6 +26,7 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
+import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -91,7 +92,6 @@ const routes: RouteType[] = [
           {
             path: 'regist',
             element: <HouseRegister />,
-            shouldProtected: true,
           },
         ],
       },
@@ -146,16 +146,17 @@ const routes: RouteType[] = [
         element: <SignUpProfileOutro />,
       },
       {
-        path: 'account',
+        path: 'mypage',
         shouldProtected: true,
-        element: (
-          <div>
-            My Account page(myPage할 때 sidebar UI먼저 작업 필요해 보임)
-            <Outlet />
-          </div>
-        ),
+        element: <MyPageLayoutTemplate />,
         // ! TODO: 아래는 my-page의 알림 설정 mock page -> 추후 재조정
         children: [
+          { path: 'activity', element: <h1>나의 활동</h1> },
+          { path: 'bookmark', element: <h1>나의 북마크</h1> },
+          { path: 'account', element: <h1>나의 계정</h1> },
+          { path: 'mate', element: <h1>준비중...</h1> },
+          { path: 'alarm', element: <h1>준비중...</h1> },
+          { path: 'theme', element: <h1>준비중...</h1> },
           {
             path: 'alert-settings',
             element: <h1>알림 설정</h1>,
