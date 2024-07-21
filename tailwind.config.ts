@@ -6,10 +6,15 @@ export default {
   theme: {
     extend: {
       screens: {
-        screen1000: { max: '1000px' },
+        monitor: '1920px',
+        desktop: '1440px',
+        laptop: '1024px',
+        tablet: '768px',
+        screen640: '640px',
+        screen1140: '1140px',
       },
       colors: {
-        bg: '#FFFAF5',
+        bg: '#FFFFFF',
         subColor1: '#FFDBA5',
         subColor2: '#FFB186',
         brown: '#643927',
@@ -60,6 +65,7 @@ export default {
       },
       boxShadow: {
         avatar: 'rgba(0, 0, 0, 0.25) 0px 0px 4px 0px',
+        'avatar-active': 'rgba(0, 0, 0, 0.3) 0px 0px 4px 3px',
       },
     },
   },

@@ -1,6 +1,7 @@
+import classNames from 'classnames';
+
 import { CustomIconType, IconType } from '@/types/icon.type';
 import IconSVG from '@/constants/iconSVG';
-import SVGContainer from '@/components/atoms/SVGContainer';
 import cn from '@/libs/cn';
 
 export type IconProps = CustomIconType & {
@@ -9,12 +10,23 @@ export type IconProps = CustomIconType & {
 };
 
 export default function Icon(props: IconProps) {
-  const { type, fill = undefined, stroke = undefined, className = '' } = props;
+  const {
+    type,
+    fill = undefined,
+    stroke = undefined,
+    className = '',
+  } = props;
+
+  const iconStyle = classNames(className, {
+    [`[&_path]:fill-${fill}`]: fill,
+    [`[&_path]:stroke-${stroke}`]: stroke,
+  });
+
+  const DynamicIconSVG = IconSVG[type];
+
   return (
-    <SVGContainer className={cn(className)} fill={fill} stroke={stroke}>
-      {IconSVG[type]}
-    </SVGContainer>
+    <DynamicIconSVG className={cn(iconStyle)} />
   );
 }
 
-Icon.defaultProps = { className: '' };
+Icon.defaultProps = { className: ''};

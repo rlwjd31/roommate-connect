@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import Img from '@/components/atoms/Img';
 import Input from '@/components/atoms/Input';
 import IconButton from '@/components/molecules/IconButton';
+import Avatar from '@/components/atoms/Avatar';
 
 export default function ChatRoom() {
   const { chatId } = useParams();
@@ -16,10 +16,7 @@ export default function ChatRoom() {
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-4 bg-brown6 p-6">
-        <Img
-          className="size-10 shrink-0 rounded-full"
-          src="https://picsum.photos/200?1"
-        />
+        <Avatar.XS src="https://picsum.photos/200?1" />
         <Container.FlexCol>
           <Typography.SubTitle1
             lang="en"
@@ -45,10 +42,7 @@ export default function ChatRoom() {
 
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?1"
-            />
+            <Avatar.XS src="https://picsum.photos/200?1" />
             <Container.FlexCol className="gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown6 px-4 py-2 leading-150 text-brown">
                 안녕하세요
@@ -77,10 +71,7 @@ export default function ChatRoom() {
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?2"
-            />
+            <Avatar.XS src="https://picsum.photos/200?2" />
             {/* user 다를 시 items-end추가 */}
             <Container.FlexCol className="items-end gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown px-4 py-2 leading-150 text-white">
@@ -106,10 +97,7 @@ export default function ChatRoom() {
 
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?1"
-            />
+            <Avatar.XS src="https://picsum.photos/200?1" />
             <Container.FlexCol className="gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown6 px-4 py-2 leading-150 text-brown">
                 안녕하세요
@@ -138,10 +126,7 @@ export default function ChatRoom() {
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?2"
-            />
+            <Avatar.XS src="https://picsum.photos/200?2" />
             {/* user 다를 시 items-end추가 */}
             <Container.FlexCol className="items-end gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown px-4 py-2 leading-150 text-white">
@@ -167,10 +152,7 @@ export default function ChatRoom() {
 
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?1"
-            />
+            <Avatar.XS src="https://picsum.photos/200?1" />
             <Container.FlexCol className="gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown6 px-4 py-2 leading-150 text-brown">
                 안녕하세요
@@ -199,10 +181,7 @@ export default function ChatRoom() {
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
-            <Img
-              className="size-10 shrink-0 rounded-full"
-              src="https://picsum.photos/200?2"
-            />
+            <Avatar.XS src="https://picsum.photos/200?2" />
             {/* user 다를 시 items-end추가 */}
             <Container.FlexCol className="items-end gap-[10px]">
               <Typography.Span1 className="w-fit rounded-xl bg-brown px-4 py-2 leading-150 text-white">
