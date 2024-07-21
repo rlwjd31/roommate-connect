@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -10,8 +10,27 @@ import Avatar from '@/components/atoms/Avatar';
 import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
 import { Database } from '@/types/supabase';
+import { formatDateByCountry } from '@/libs/formatDate';
 
 type MessageType = Database['public']['Tables']['messages']['Row'];
+
+type DateMessageBoxProps = {
+  children: ReactNode;
+  date: Date;
+};
+
+function DateMessageBox({ children, date }: DateMessageBoxProps) {
+  const messageDate = formatDateByCountry(date, 'ko-KR');
+
+  return (
+    <Container.FlexCol>
+      <Typography.Span1 className="mx-auto w-fit rounded-[1.25rem] bg-brown6 px-4 py-2 font-semibold text-brown">
+        {messageDate}
+      </Typography.Span1>
+      {children}
+    </Container.FlexCol>
+  );
+}
 
 export default function ChatRoom() {
   const { chatId } = useParams();
@@ -32,6 +51,9 @@ export default function ChatRoom() {
               send_by: sendBy,
             } = payload.new as MessageType;
             console.table({ created_at, message, sendBy });
+
+            // * formatDateByCountry method test
+            console.log(formatDateByCountry(new Date(created_at), 'ko-KR'));
           }
         },
       )
@@ -44,7 +66,7 @@ export default function ChatRoom() {
 
   // ! TODO: image 클릭시 userProfileModal
   return (
-    <Container.FlexCol className="size-full min-h-full">
+    <Container.FlexCol className="size-full min-h-full bg-teal-500">
       {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-4 bg-brown6 p-6">
         <Avatar.XS src="https://picsum.photos/200?1" />
@@ -66,11 +88,7 @@ export default function ChatRoom() {
       {/* chats area */}
       <Container.FlexCol className="h-full gap-8 overflow-y-auto p-6">
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 1일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 1)}>
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
             <Avatar.XS src="https://picsum.photos/200?1" />
@@ -92,13 +110,9 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 2일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 2)}>
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
@@ -119,13 +133,9 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 1일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 3)}>
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
             <Avatar.XS src="https://picsum.photos/200?1" />
@@ -147,13 +157,9 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 2일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 4)}>
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
@@ -174,13 +180,9 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 1일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 5)}>
           {/* 유저에 따른 chats UI */}
           <Container.FlexRow className="gap-4">
             <Avatar.XS src="https://picsum.photos/200?1" />
@@ -202,13 +204,9 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
         {/* date별로 묶을 UI */}
-        <Container.FlexCol className="gap-8">
-          <Typography.Span1 className="mx-auto w-fit rounded-xl bg-brown6 px-4 pb-[5px] pt-[6px] font-semibold text-brown">
-            2024년 1월 2일
-          </Typography.Span1>
-
+        <DateMessageBox date={new Date(2024, 0, 6)}>
           {/* 유저에 따른 chats UI */}
           {/* user 다를 시 reverse 적용 */}
           <Container.FlexRow className="flex-row-reverse gap-4">
@@ -229,7 +227,7 @@ export default function ChatRoom() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexRow>
-        </Container.FlexCol>
+        </DateMessageBox>
       </Container.FlexCol>
       {/* Chat Input UI */}
       <Container.FlexRow className="gap-6 px-6 py-9">
@@ -248,3 +246,6 @@ export default function ChatRoom() {
     </Container.FlexCol>
   );
 }
+
+// ! gijung8282   cd916d68-216b-4a7a-8ba9-7155e0c2ce16
+// ! gijung828282 b87f4ae6-fe0d-46b9-802e-45742e81f2b5
