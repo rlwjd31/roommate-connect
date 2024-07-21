@@ -1,17 +1,48 @@
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Input from '@/components/atoms/Input';
 import IconButton from '@/components/molecules/IconButton';
 import Avatar from '@/components/atoms/Avatar';
+import { supabase } from '@/libs/supabaseClient';
+import { UserAtom } from '@/stores/auth.store';
+import { Database } from '@/types/supabase';
+
+type MessageType = Database['public']['Tables']['messages']['Row'];
 
 export default function ChatRoom() {
   const { chatId } = useParams();
+  const user = useRecoilValue(UserAtom);
+  const userId = user?.id;
 
-  const userId = 'someone';
+  useEffect(() => {
+    const chatChannel = supabase
+      .channel(`chat_room_messages:${chatId}`) // ? channel에 '/'가 들어가면 정상작동하지 않음...
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages' },
+        payload => {
+          if (payload.eventType === 'INSERT') {
+            const {
+              created_at,
+              message,
+              send_by: sendBy,
+            } = payload.new as MessageType;
+            console.table({ created_at, message, sendBy });
+          }
+        },
+      )
+      .subscribe();
+
+    return () => {
+      chatChannel.unsubscribe();
+    };
+  }, []);
+
   // ! TODO: image 클릭시 userProfileModal
-
   return (
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
