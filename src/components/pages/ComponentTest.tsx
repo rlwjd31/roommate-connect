@@ -31,6 +31,7 @@ import {
   RoommateApplicationState,
   RoommateApplyState,
 } from '@/types/modal.type';
+import Avatar from '@/components/atoms/Avatar';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 
 export default function ComponentTest() {
@@ -641,6 +642,29 @@ export default function ComponentTest() {
         alt="house image"
         className="max-h-80 max-w-80"
       />
+      {/* UserAvatar test */}
+      <h1 className="my-12 text-Head1">Avatar</h1>
+      <h3>Avatar 기본 상태</h3>
+      <Container.FlexRow className="w-full items-center gap-3">
+        <Avatar.XS src="https://i.pravatar.cc/300?img=1" />
+        <Avatar.S src="https://i.pravatar.cc/300?img=2" />
+        <Avatar.M src="https://i.pravatar.cc/300?img=3" />
+        <Avatar.L src="https://i.pravatar.cc/300?img=4" />
+        <Avatar.XL src="https://i.pravatar.cc/300?img=5" />
+        <Avatar.XXL src="https://i.pravatar.cc/300?img=6" />
+        <Avatar.XXXL src="https://i.pravatar.cc/300?img=7" />
+      </Container.FlexRow>
+      <br />
+      <h3>Avatar Active 상태</h3>
+      <Container.FlexRow className="w-full items-center gap-3">
+        <Avatar.XS isActive src="https://i.pravatar.cc/300?img=1" />
+        <Avatar.S isActive src="https://i.pravatar.cc/300?img=2" />
+        <Avatar.M isActive src="https://i.pravatar.cc/300?img=3" />
+        <Avatar.L isActive src="https://i.pravatar.cc/300?img=4" />
+        <Avatar.XL isActive src="https://i.pravatar.cc/300?img=5" />
+        <Avatar.XXL isActive src="https://i.pravatar.cc/300?img=6" />
+        <Avatar.XXXL isActive src="https://i.pravatar.cc/300?img=7" />
+      </Container.FlexRow>
       {/* InputRange test */}
       <h1 className="my-12 text-Head1">InputRange</h1>
       <Container className="w-full max-w-[30rem]">
