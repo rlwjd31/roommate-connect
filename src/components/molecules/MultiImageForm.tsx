@@ -12,9 +12,9 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { SessionAtom } from '@/stores/auth.store';
-import { HouseRegisterTemplateProp } from '@/components/templates/HouseRegisterTemplate1';
+import { HouseRegisterFormType } from '@/components/templates/HouseRegisterTemplate1';
 
-export default function MultiImageForm({ form }: HouseRegisterTemplateProp) {
+export default function MultiImageForm({ form }: HouseRegisterFormType) {
   const IMAGE_PER_PAGE = 3;
   const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
   const userId = useRecoilState(SessionAtom)[0]?.user.id;
@@ -68,7 +68,6 @@ export default function MultiImageForm({ form }: HouseRegisterTemplateProp) {
   // 라디오버튼 선택시 대표사진으로 설정하는 함수
   const handleRepresentativeChange = (imgSrc: string) => {
     const imgName = imgSrc.split('/').slice(-1)[0];
-    console.log(imgName);
     form.setValue('representative_img', imgName);
   };
 

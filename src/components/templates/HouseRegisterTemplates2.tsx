@@ -1,9 +1,6 @@
 import { KeyboardEvent, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
-import { SignupProfileStateSelector } from '@/stores/sign.store';
-import { HouseRegisterTemplateProp } from '@/components/templates/HouseRegisterTemplate1';
-import { HouseFormType } from '@/types/house.type';
+import { HouseRegisterFormType } from '@/components/templates/HouseRegisterTemplate1';
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import {
   matesGenderDisplayData,
@@ -16,55 +13,26 @@ import {
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
-import FormItem from '@/components/molecules/FormItem';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
-import { InputRangeState } from '@/components/molecules/DualInputRange';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import Accordion from '@/components/molecules/Accordion';
-
-type Template2HiddenState = {
-  mates_gender: SignUpProfileFormType['gender'];
-  mates_num: SignUpProfileFormType['mates_number'];
-  mates_appeal: SignUpProfileFormType['mate_appeals'];
-};
-
-type Template2UserProfileState = {
-  smoking: SignUpProfileFormType['smoking'];
-  pet: SignUpProfileFormType['pet'];
-  appeals: SignUpProfileFormType['appeals'];
-};
+import {
+  UserLifeStyleType,
+  UserMateStyleType,
+} from '@/components/pages/HouseRegister';
 
 export default function HouseRegisterTemplates2({
   form,
-}: HouseRegisterTemplateProp) {
-  const [template2HiddenState, setTemplate2HiddenState] =
-    useState<Template2HiddenState>({
-      mates_gender: 1,
-      mates_num: 1,
-      mates_appeal: [],
-    });
-  const [preferAge, setPreferAge] = useState<InputRangeState>([0, 30]);
-  const [template2UserProfileState, setTemplate2UserProfileState] =
-    useState<Template2UserProfileState>({
-      smoking: true,
-      pet: 0,
-      appeals: ['늦게 자요', '청소 자주 해요', '코골이 해요'],
-    });
+}: HouseRegisterFormType) {
+  const [preferAge, setPreferAge] = useState<
+    UserMateStyleType['prefer_mate_age']
+  >([0, 30]);
 
-  const onClickMatesNum = (
-    stateValue: SignUpProfileFormType['mates_number'],
-  ) => {
-    setTemplate2HiddenState(prev => ({
-      ...prev,
-      mates_num: stateValue,
-    }));
-  };
+  const onClickMatesNum = (stateValue: SignUpProfileFormType['mates_number']) =>
+    form.setValue('mates_num', stateValue);
 
   const onClickGenderType = (stateValue: SignUpProfileFormType['gender']) =>
-    setTemplate2HiddenState(prev => ({
-      ...prev,
-      mates_gender: stateValue,
-    }));
+    form.setValue('mate_gender', stateValue);
 
   const [mateAppeal, setMateAppeal] = useState('');
   const [myAppeal, setMyAppeal] = useState('');
@@ -79,23 +47,17 @@ export default function HouseRegisterTemplates2({
 
   const createBadge = (part: string) => {
     if (part === 'mateAppeals') {
-      const mateAppeals = template2HiddenState.mates_appeal;
+      const mateAppeals = form.getValues('mate_appeal');
       if (!mateAppeals.includes(mateAppeal) && mateAppeal !== '') {
         mateAppeals.push(mateAppeal);
-        setTemplate2HiddenState(prev => ({
-          ...prev,
-          mates_appeal: mateAppeals,
-        }));
+        form.setValue('mate_appeal', mateAppeals);
         setMateAppeal('');
       }
     } else if (part === 'myAppeals') {
-      const myAppeals = template2UserProfileState.appeals;
+      const myAppeals = form.getValues('appeals');
       if (!myAppeals.includes(myAppeal) && myAppeal !== '') {
         myAppeals.push(myAppeal);
-        setTemplate2UserProfileState(prev => ({
-          ...prev,
-          appeals: myAppeals,
-        }));
+        form.setValue('appeals', myAppeals);
         setMyAppeal('');
       }
     }
@@ -113,38 +75,23 @@ export default function HouseRegisterTemplates2({
   };
 
   const onDeleteAppealBadge = (appealContent: string) => {
-    const mateAppeals = template2HiddenState.mates_appeal;
-    const myAppeals = template2UserProfileState.appeals;
+    const mateAppeals = form.watch('mate_appeal');
+    const myAppeals = form.watch('appeals');
 
     if (mateAppeals.includes(appealContent)) {
-      const appeals = template2HiddenState.mates_appeal.filter(
-        appeal => appeal !== appealContent,
-      );
-      setTemplate2HiddenState(prev => ({
-        ...prev,
-        mates_appeal: appeals,
-      }));
+      const appeals = mateAppeals.filter(appeal => appeal !== appealContent);
+      form.setValue('mate_appeal', appeals);
     } else if (myAppeals.includes(appealContent)) {
-      const appeals = template2UserProfileState.appeals.filter(
-        appeal => appeal !== appealContent,
-      );
-      setTemplate2UserProfileState(prev => ({
-        ...prev,
-        appeals,
-      }));
+      const appeals = myAppeals.filter(appeal => appeal !== appealContent);
+      form.setValue('appeals', appeals);
     }
   };
 
-  const [smoking, setSmoking] = useRecoilState(
-    SignupProfileStateSelector('smoking'),
-  );
-  const [pet, setPet] = useRecoilState(SignupProfileStateSelector('pet'));
+  const onClickSmokingType = (stateValue: UserLifeStyleType['smoking']) =>
+    form.setValue('smoking', stateValue);
 
-  const onClickSmokingType = (stateValue: SignUpProfileFormType['smoking']) =>
-    setSmoking(stateValue);
-
-  const onClickPetType = (stateValue: SignUpProfileFormType['pet']) =>
-    setPet(stateValue);
+  const onClickPetType = (stateValue: UserLifeStyleType['pet']) =>
+    form.setValue('pet', stateValue);
 
   return (
     <Container.FlexCol className="mt-8 min-w-full flex-1">
@@ -163,9 +110,7 @@ export default function HouseRegisterTemplates2({
                   <BadgeButton.Outline
                     key={displayValue}
                     className="h-10 gap-2 rounded-full px-4"
-                    badgeActive={
-                      stateValue === template2HiddenState.mates_gender
-                    }
+                    badgeActive={stateValue === form.watch('mate_gender')}
                     iconType={iconType}
                     direction="left"
                     onClick={() => onClickGenderType(stateValue)}
@@ -186,7 +131,7 @@ export default function HouseRegisterTemplates2({
                   key={displayValue}
                   className="h-10 rounded-full px-5"
                   onClick={() => onClickMatesNum(stateValue)}
-                  badgeActive={stateValue === template2HiddenState.mates_num}
+                  badgeActive={stateValue === form.watch('mates_num')}
                 >
                   <Typography.P2>{displayValue}</Typography.P2>
                 </BadgeButton.Outline>
@@ -223,11 +168,11 @@ export default function HouseRegisterTemplates2({
                 className="mb-[1rem] h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
                 placeholder="EX) 반려동물 NO, 늦게자요, 잠귀 어두운 분"
               />
-              {template2HiddenState.mates_appeal.length === 0 ? (
+              {form.watch('mate_appeal').length === 0 ? (
                 <span className="h-[2.5rem]">&nbsp;</span>
               ) : (
                 <BadgeButtons
-                  contents={template2HiddenState.mates_appeal}
+                  contents={form.watch('mate_appeal')}
                   className=" gap-2"
                   badgeStyle="h-10 rounded-full px-5"
                   iconStyle="ml-2"
@@ -258,7 +203,7 @@ export default function HouseRegisterTemplates2({
                         <BadgeButton.Outline
                           key={displayValue}
                           className="h-10 rounded-full px-4"
-                          badgeActive={stateValue === smoking}
+                          badgeActive={stateValue === form.watch('smoking')}
                           iconType={iconType}
                           iconClassName="h-[1.75rem] w-auto mr-1.5"
                           direction="left"
@@ -269,10 +214,6 @@ export default function HouseRegisterTemplates2({
                       ),
                     )}
                   </Container.FlexRow>
-                  <FormItem.Hidden<Pick<SignUpProfileFormType, 'smoking'>>
-                    name="smoking"
-                    valueProp={smoking}
-                  />
                 </Container.FlexCol>
                 <Container.FlexCol className="gap-6">
                   <Typography.SubTitle2 className="text-brown">
@@ -284,7 +225,7 @@ export default function HouseRegisterTemplates2({
                         <BadgeButton.Outline
                           key={displayValue}
                           className="h-10 rounded-full px-3"
-                          badgeActive={stateValue === pet}
+                          badgeActive={stateValue === form.watch('pet')}
                           iconType={iconType}
                           iconClassName="w-[1.125rem] h-auto mr-1.5"
                           direction="left"
@@ -294,10 +235,6 @@ export default function HouseRegisterTemplates2({
                         </BadgeButton.Outline>
                       ),
                     )}
-                    <FormItem.Hidden<Pick<SignUpProfileFormType, 'pet'>>
-                      name="pet"
-                      valueProp={pet}
-                    />
                   </Container.FlexRow>
                 </Container.FlexCol>
                 <Container.FlexCol className="mt-3 gap-6">
@@ -314,11 +251,11 @@ export default function HouseRegisterTemplates2({
                       className="mb-[1rem] h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
                       placeholder="EX) 반려동물 NO, 늦게자요, 잠귀 어두운 분"
                     />
-                    {template2UserProfileState.appeals.length === 0 ? (
+                    {form.getValues('appeals').length === 0 ? (
                       <span className="h-[2.5rem]">&nbsp;</span>
                     ) : (
                       <BadgeButtons
-                        contents={template2UserProfileState.appeals}
+                        contents={form.watch('appeals')}
                         className="gap-2"
                         badgeStyle="h-10 rounded-full px-5"
                         iconStyle="ml-2"

@@ -5,6 +5,21 @@ import { createToast, errorToast, successToast } from '@/libs/toast';
 import { supabase } from '@/libs/supabaseClient';
 import { HouseFormType } from '@/types/house.type';
 
+export const fetchData = async (
+  fetchingDB: string,
+  selectingDate: string,
+  userId: string,
+) => {
+  const { data: response, error } = await supabase
+    .from(fetchingDB)
+    .select(selectingDate)
+    .eq('id', userId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return response;
+};
+
 // 삭제할 storage directory(temporary || post)의 이미지를 가져와 삭제하는 함수
 export const emptyStorage = async (userId: string, directory: string) => {
   try {

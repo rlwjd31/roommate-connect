@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
@@ -17,10 +17,13 @@ import {
   houseTypeDisplayData,
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
-import { useHouseRegist } from '@/hooks/useHouse';
 import Input from '@/components/atoms/Input';
 import TextAreaField from '@/components/molecules/TextAreaField';
 import { floorDisplayData } from '@/constants/houseData';
+import {
+  UserLifeStyleType,
+  UserMateStyleType,
+} from '@/components/pages/HouseRegister';
 
 type Template1HiddenState = {
   house_type: HouseFormType['house_type'];
@@ -29,13 +32,20 @@ type Template1HiddenState = {
   floor: HouseFormType['floor'];
 };
 
-export type HouseRegisterTemplateProp = {
-  form: UseFormReturn<HouseFormType>;
+export type HouseRegisterFormType = {
+  form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
+};
+
+type HouseRegisterTemplate1Prop = HouseRegisterFormType & {
+  locationError: boolean;
+  setLocationError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function HouseRegisterTemplate1({
   form,
-}: HouseRegisterTemplateProp) {
+  locationError,
+  setLocationError,
+}: HouseRegisterTemplate1Prop) {
   const [template1HiddenState, setTemplate1HiddenState] =
     useState<Template1HiddenState>({
       house_type: 0,
@@ -43,14 +53,13 @@ export default function HouseRegisterTemplate1({
       house_appeal: [],
       floor: 0,
     });
-  const [images, setImages] = useState<string[]>([]);
-  const [representativeImg, setRepresentativeImg] = useState('');
 
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));
   const [region, setRegion] = useRecoilState(MoleculeSelectorState('지역'));
   const [district, setDistrict] = useRecoilState(
     MoleculeSelectorState('시, 구'),
   );
+
   const location =
     region.value !== '지역' && district.value !== '시, 구'
       ? `${region.value} ${district.value}`
@@ -59,6 +68,7 @@ export default function HouseRegisterTemplate1({
   const onDeleteLocationBadge = () => {
     setRegion({ value: '지역', isOpen: false });
     setDistrict({ value: '시, 구', isOpen: false });
+    setLocationError(true);
   };
 
   const onClickHouseType = (stateValue: HouseFormType['house_type']) => {
@@ -119,44 +129,6 @@ export default function HouseRegisterTemplate1({
     form.setValue('describe', e.currentTarget.value);
   };
 
-  const { registHouse, isRegistHouse } = useHouseRegist();
-  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
-    const representativeImgName = representativeImg.split('/').slice(-1)[0];
-    const houseImgExcludeRep = images.filter(
-      imgName => imgName !== representativeImgName,
-    );
-
-    registHouse({
-      ...formData,
-      temporary,
-      region: region.value,
-      district: district.value,
-      house_size: Number(formData.house_size),
-      deposit_price: Number(formData.deposit_price),
-      monthly_price: Number(formData.monthly_price),
-      manage_price: Number(formData.manage_price),
-      house_img: houseImgExcludeRep,
-      representative_img: representativeImgName,
-      room_num: Number(formData.room_num),
-      term,
-    });
-  };
-
-  const onSubmitHouse = (formData: HouseFormType) => {
-    onSaveHouse(formData, 1);
-  };
-
-  const onSaveTemporary = () => {
-    const formData = form.getValues();
-    onSaveHouse(formData, 0);
-  };
-
-  useEffect(() => {
-    setRegion({ value: '지역', isOpen: false });
-    setDistrict({ value: '시, 구', isOpen: false });
-    setTerm([0, 25]);
-  }, []);
-
   return (
     <Container.FlexCol className="mt-8 min-w-full flex-1">
       <Container.FlexCol className="min-w-[13rem] max-w-[75rem]">
@@ -164,13 +136,8 @@ export default function HouseRegisterTemplate1({
           나의 하우스
         </Typography.Head3>
         <Container.FlexCol className="gap-[5.5rem]">
-          <MultiImageForm
-            images={images}
-            setImages={setImages}
-            representativeImg={representativeImg}
-            setRepresentativeImg={setRepresentativeImg}
-          />
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <MultiImageForm form={form} />
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-3 text-brown">
               제목
             </Typography.SubTitle1>
@@ -182,7 +149,7 @@ export default function HouseRegisterTemplate1({
               placeholder="제목을 작성해주세요"
             />
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               위치
             </Typography.SubTitle1>
@@ -199,24 +166,22 @@ export default function HouseRegisterTemplate1({
                 </BadgeButton.Fill>
               )}
               <DistrictSelector />
-              {form.formState.errors.region?.message && (
-                <Typography.Span2
-                  className={`${location !== '' && 'invisible h-3'} mt-[8px] block text-point`}
-                >
-                  위치를 선택해주세요.
+              {location === '' && locationError && (
+                <Typography.Span2 className="mt-[8px] block text-point">
+                  주거지의 지역을 선택해주세요.
                 </Typography.Span2>
               )}
+              <FormItem.Hidden<Pick<HouseFormType, 'region'>>
+                name="region"
+                valueProp={region.value}
+              />
+              <FormItem.Hidden<Pick<HouseFormType, 'district'>>
+                name="district"
+                valueProp={district.value}
+              />
             </Container.FlexCol>
-            <FormItem.Hidden<Pick<HouseFormType, 'region'>>
-              name="region"
-              valueProp={region.value}
-            />
-            <FormItem.Hidden<Pick<HouseFormType, 'district'>>
-              name="district"
-              valueProp={district.value}
-            />
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               집유형
             </Typography.SubTitle1>
@@ -255,7 +220,7 @@ export default function HouseRegisterTemplate1({
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               크기/방 개수
             </Typography.SubTitle1>
@@ -295,7 +260,7 @@ export default function HouseRegisterTemplate1({
               )}
             </Container.FlexCol>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               건물층 옵션
             </Typography.SubTitle1>
@@ -312,55 +277,51 @@ export default function HouseRegisterTemplate1({
               ))}
             </Container.FlexRow>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               가격
             </Typography.SubTitle1>
             <Container.FlexCol className="gap-[2rem]">
-              <Container.Grid className="items-center sm:grid-cols-[4.875rem_auto]">
-                <Typography.SubTitle2 className="text-brown">
+              <Container.FlexRow className="items-center gap-[1.5rem]">
+                <Typography.SubTitle2 className="w-[3.375rem] text-brown">
                   보증금
                 </Typography.SubTitle2>
-                <Container.FlexRow className="items-center gap-[1.5rem]">
-                  <Input
-                    type="text"
-                    className="w-[6rem]"
-                    {...form.register('deposit_price', { valueAsNumber: true })}
-                    placeholder="500"
-                  />
-                  <Typography.P2 className="whitespace-nowrap text-brown">
-                    만원
-                  </Typography.P2>
-                  <Typography.Span2
-                    className={`${!form.formState.errors.deposit_price?.message && 'invisible h-3'} mt-[8px] block text-point`}
-                  >
-                    {form.formState.errors.deposit_price?.message as string}
-                  </Typography.Span2>
-                </Container.FlexRow>
-              </Container.Grid>
-              <Container.Grid className="items-center sm:grid-cols-[4.875rem_auto]">
-                <Typography.SubTitle2 className="text-brown">
+                <Input
+                  type="text"
+                  className="w-[6rem]"
+                  {...form.register('deposit_price', { valueAsNumber: true })}
+                  placeholder="500"
+                />
+                <Typography.P2 className="whitespace-nowrap text-brown">
+                  만원
+                </Typography.P2>
+                <Typography.Span2
+                  className={`${!form.formState.errors.deposit_price?.message && 'invisible h-3'} mt-[8px] block text-point`}
+                >
+                  {form.formState.errors.deposit_price?.message as string}
+                </Typography.Span2>
+              </Container.FlexRow>
+              <Container.FlexRow className="items-center gap-[1.5rem]">
+                <Typography.SubTitle2 className="w-[3.375rem] text-brown">
                   월세
                 </Typography.SubTitle2>
-                <Container.FlexRow className="items-center gap-[1.5rem]">
-                  <Input
-                    type="text"
-                    className="w-[6rem]"
-                    {...form.register('monthly_price', { valueAsNumber: true })}
-                    placeholder="50"
-                  />
-                  <Typography.P2 className="whitespace-nowrap text-brown">
-                    만원
-                  </Typography.P2>
-                  <Typography.Span2
-                    className={`${!form.formState.errors.monthly_price?.message && 'invisible h-3'} mt-[8px] block text-point`}
-                  >
-                    {form.formState.errors.monthly_price?.message as string}
-                  </Typography.Span2>
-                </Container.FlexRow>
-              </Container.Grid>
-              <Container.Grid className="items-center sm:grid-cols-[4.875rem_auto]">
-                <Typography.SubTitle2 className="text-brown">
+                <Input
+                  type="text"
+                  className="w-[6rem]"
+                  {...form.register('monthly_price', { valueAsNumber: true })}
+                  placeholder="50"
+                />
+                <Typography.P2 className="whitespace-nowrap text-brown">
+                  만원
+                </Typography.P2>
+                <Typography.Span2
+                  className={`${!form.formState.errors.monthly_price?.message && 'invisible h-3'} mt-[8px] block text-point`}
+                >
+                  {form.formState.errors.monthly_price?.message as string}
+                </Typography.Span2>
+              </Container.FlexRow>
+              <Container.FlexRow className="items-center gap-[1.5rem]">
+                <Typography.SubTitle2 className="w-[3.375rem] text-brown">
                   관리비
                 </Typography.SubTitle2>
                 <Container.FlexRow className="items-center gap-[1.5rem]">
@@ -379,10 +340,10 @@ export default function HouseRegisterTemplate1({
                     {form.formState.errors.manage_price?.message as string}
                   </Typography.Span2>
                 </Container.FlexRow>
-              </Container.Grid>
+              </Container.FlexRow>
             </Container.FlexCol>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               특징
             </Typography.SubTitle1>
@@ -392,15 +353,19 @@ export default function HouseRegisterTemplate1({
                 value={appeal}
                 onChange={onChangeAppeal}
                 onKeyDown={pressEnterCreateBadge}
-                className="mb-[1rem] h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
+                className=" h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
                 placeholder="EX) 역 도보 5분, 정류장 3분, 햇빛 잘 들어요"
               />
               {form.watch('house_appeal').length === 0 ? (
-                <span className="h-[40px]">&nbsp;</span>
+                <Typography.Span2
+                  className={`${!form.formState.errors.house_appeal?.message && 'invisible h-3'} mb-9 mt-2 block text-point`}
+                >
+                  {form.formState.errors.house_appeal?.message as string}
+                </Typography.Span2>
               ) : (
                 <BadgeButtons
                   contents={form.watch('house_appeal')}
-                  className="gap-2"
+                  className="mt-4 gap-2"
                   badgeStyle="rounded-full px-5 pb-2 pt-2.5"
                   iconStyle="ml-2"
                   stroke="bg"
@@ -409,13 +374,14 @@ export default function HouseRegisterTemplate1({
                   onClick={onDeleteAppealBadge}
                 />
               )}
+
               <FormItem.Hidden<Pick<HouseFormType, 'house_appeal'>>
                 name="house_appeal"
                 valueProp={template1HiddenState.house_appeal}
               />
             </Container.FlexCol>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               원하는 기간
             </Typography.SubTitle1>
@@ -435,18 +401,18 @@ export default function HouseRegisterTemplate1({
               />
             </Container.FlexCol>
           </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
+          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-2 text-brown">
               상세설명
             </Typography.SubTitle1>
             <TextAreaField
-              value={form.getValues('describe')}
+              value={form.watch('describe')}
               name="describe"
               onChange={onChangeDescribe}
               placeholder="집에 대한 설명이나 내가 원하는 조건에 대해 더 소개할 것이 있다면 작성해주세요 (200자 이내)"
-              className=" resize-none rounded-[8px] border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
+              textAreaStyle="h-[10rem] resize-none rounded-lg border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
               maxLength={200}
-              rows={8}
+              rows={5}
               cols={100}
             />
           </Container.Grid>

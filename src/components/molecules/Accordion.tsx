@@ -24,7 +24,7 @@ export default function Accordion({
   children,
   openContainerStyle,
 }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -53,3 +53,11 @@ export default function Accordion({
     </Container.FlexCol>
   );
 }
+
+Accordion.defaultProps = {
+  guideline: '',
+  accordionButtonStyle: '',
+  titleStyle: '',
+  guideStyle: '',
+  openContainerStyle: '',
+};
