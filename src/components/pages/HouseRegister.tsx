@@ -14,7 +14,11 @@ import Carousel from '@/components/organisms/Carousel';
 import HouseRegisterTemplate1 from '@/components/templates/HouseRegisterTemplate1';
 import HouseRegisterTemplates2 from '@/components/templates/HouseRegisterTemplates2';
 import Button from '@/components/atoms/Button';
-import { fetchData, useHouseRegist } from '@/hooks/useHouse';
+import {
+  fetchData,
+  useHouseRegist,
+  useUserProfileUpdate,
+} from '@/hooks/useHouse';
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import { InputRangeState } from '@/components/molecules/DualInputRange';
 
@@ -27,7 +31,7 @@ export type UserLifeStyleType = {
 export type UserMateStyleType = {
   mate_gender: SignUpProfileFormType['gender'];
   mates_num: SignUpProfileFormType['mates_number'];
-  mate_appeal: SignUpProfileFormType['mate_appeals'];
+  mate_appeals: SignUpProfileFormType['mate_appeals'];
   prefer_mate_age: InputRangeState;
 };
 
@@ -65,7 +69,7 @@ export default function HouseRegister() {
       appeals: [],
       mate_gender: 1,
       mates_num: 1,
-      mate_appeal: [],
+      mate_appeals: [],
       prefer_mate_age: [0, 30],
     },
   });
@@ -78,12 +82,10 @@ export default function HouseRegister() {
 
   const handleNextCarousel = async () => {
     const isValid = await form.trigger();
-    setCurrentStep(prev => prev + 1);
 
     if (isValid) {
       setCurrentStep(prev => prev + 1);
       setLocationError(false);
-      sessionStorage.setItem('houseRegister', JSON.stringify(form.getValues()));
     } else if (
       !isValid &&
       (form.getValues('region') === '지역' ||
@@ -94,28 +96,61 @@ export default function HouseRegister() {
   };
 
   const { registHouse, isRegistHouse } = useHouseRegist();
-  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
-    console.log(formData);
-    // const representativeImgName = representativeImg.split('/').slice(-1)[0];
-    // const houseImgExcludeRep = images.filter(
-    //   imgName => imgName !== representativeImgName,
-    // );
+  const { updateUserProfile } = useUserProfileUpdate();
 
-    // registHouse({
-    //   ...formData,
-    //   temporary,
-    //   region: region.value,
-    //   district: district.value,
-    //   house_size: Number(formData.house_size),
-    //   deposit_price: Number(formData.deposit_price),
-    //   monthly_price: Number(formData.monthly_price),
-    //   manage_price: Number(formData.manage_price),
-    //   house_img: houseImgExcludeRep,
-    //   representative_img: representativeImgName,
-    //   room_num: Number(formData.room_num),
-    //   term,
-    // });
+  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
+    if (userId) {
+      const houseImgExcludeRep = form
+        .getValues('house_img')
+        .filter(imgName => imgName !== form.getValues('representative_img'));
+
+      registHouse({
+        house_img: houseImgExcludeRep,
+        representative_img: formData.representative_img,
+        post_title: formData.post_title,
+        region: formData.region,
+        district: formData.district,
+        house_type: formData.house_type,
+        rental_type: formData.rental_type,
+        floor: formData.floor,
+        house_size: Number(formData.house_size),
+        room_num: Number(formData.room_num),
+        deposit_price: Number(formData.deposit_price),
+        monthly_price: Number(formData.monthly_price),
+        manage_price: Number(formData.manage_price),
+        house_appeal: formData.house_appeal,
+        term: formData.term,
+        describe: formData.describe,
+        bookmark: formData.bookmark,
+        temporary,
+        user_id: userId,
+      });
+
+      updateUserProfile({
+        dbName: 'user_lifestyle',
+        data: {
+          smoking: formData.smoking,
+          pet: formData.pet,
+          appeals: formData.appeals,
+        },
+        userId,
+      });
+
+      updateUserProfile({
+        dbName: 'user_mate_style',
+        data: {
+          mate_gender: formData.mate_gender,
+          mate_number: formData.mates_num,
+          mate_appeals: formData.mate_appeals,
+          prefer_mate_age: formData.prefer_mate_age,
+        },
+        userId,
+      });
+      // navigate('/');
+    }
   };
+
+  const onError = errors => console.log(errors);
 
   const onSubmitHouse = (formData: HouseFormType) => {
     onSaveHouse(formData, 1);
@@ -126,16 +161,15 @@ export default function HouseRegister() {
     onSaveHouse(formData, 0);
   };
 
-  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } = useQuery(
-    {
+  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
+    useQuery<UserLifeStyleType>({
       queryKey: ['user_lifestyle', userId],
       queryFn: () =>
         fetchData('user_lifestyle', 'smoking, pet, appeals', userId),
-    },
-  );
+    });
 
-  const { data: userMateStyleData, isSuccess: fetchedUserMateStyle } = useQuery(
-    {
+  const { data: userMateStyleData, isSuccess: fetchedUserMateStyle } =
+    useQuery<UserMateStyleType>({
       queryKey: ['user_mate_style', userId],
       queryFn: () =>
         fetchData(
@@ -143,20 +177,16 @@ export default function HouseRegister() {
           'mate_gender, mate_number, mate_appeals',
           userId,
         ),
-    },
-  );
+    });
 
   useEffect(() => {
     if (fetchedUserLifeStyle && fetchedUserMateStyle) {
-      form.reset(prev => ({
-        ...prev,
-        smoking: userLifeStyleData?.smoking,
-        pet: userLifeStyleData?.pet,
-        appeals: userLifeStyleData?.appeals,
-        mate_gender: userMateStyleData?.mate_gender,
-        mates_num: userMateStyleData?.mate_number,
-        mate_appeal: userMateStyleData?.mate_appeals,
-      }));
+      form.setValue('mate_gender', userMateStyleData?.mate_gender);
+      form.setValue('mates_num', userMateStyleData?.mate_number);
+      form.setValue('mate_appeals', userMateStyleData?.mate_appeals);
+      form.setValue('smoking', userLifeStyleData?.smoking);
+      form.setValue('pet', userLifeStyleData?.pet);
+      form.setValue('appeals', userLifeStyleData?.appeals);
     }
   }, [
     fetchedUserLifeStyle,
@@ -169,7 +199,7 @@ export default function HouseRegister() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmitHouse)}
+        onSubmit={form.handleSubmit(onSubmitHouse, onError)}
         className="min-h-screen flex-col"
       >
         <Container.FlexCol className="mt-[4rem] w-full grow">

@@ -1,9 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 
 import { createToast, errorToast, successToast } from '@/libs/toast';
 import { supabase } from '@/libs/supabaseClient';
 import { HouseFormType } from '@/types/house.type';
+import {
+  UserLifeStyleType,
+  UserMateStyleType,
+} from '@/components/pages/HouseRegister';
 
 export const fetchData = async (
   fetchingDB: string,
@@ -86,8 +89,8 @@ const moveImageStorage = async (
   }
 };
 
+// Insert house data
 export const useHouseRegist = () => {
-  const navigate = useNavigate();
   const { mutate: registHouse, isPending: isRegistHouse } = useMutation({
     mutationFn: async (houseData: HouseFormType) => {
       const { data: insertedData, error } = await supabase
@@ -105,9 +108,31 @@ export const useHouseRegist = () => {
       const { user_id, house_img, representative_img } = variables;
       const images = house_img.concat(representative_img);
       await moveImageStorage(user_id, images, postId);
-      successToast('uploadHousePost', '포스트 저장 성공!');
-      navigate('/');
+      successToast('uploadHousePost', '게시글이 저장되었습니다.');
     },
   });
   return { registHouse, isRegistHouse };
+};
+
+type ProfileUpdateData = {
+  dbName: string;
+  data: UserLifeStyleType | UserMateStyleType;
+  userId: string;
+};
+
+// Update user profile
+export const useUserProfileUpdate = () => {
+  const { mutate: updateUserProfile } = useMutation({
+    mutationFn: async ({ dbName, data, userId }: ProfileUpdateData) => {
+      const { error } = await supabase
+        .from(dbName)
+        .update(data)
+        .eq('id', userId);
+      if (error) throw new Error(`profile update error: ${error.message}`);
+    },
+    onMutate: () => createToast('updateProfile', '프로필 수정 중'),
+    onError: error => errorToast('updateProfile', error.message),
+    onSuccess: () => successToast('updateProfile', '프로필이 수정되었습니다.'),
+  });
+  return { updateUserProfile };
 };

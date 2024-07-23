@@ -48,10 +48,10 @@ export default function HouseRegisterTemplate1({
 }: HouseRegisterTemplate1Prop) {
   const [template1HiddenState, setTemplate1HiddenState] =
     useState<Template1HiddenState>({
-      house_type: 0,
-      rental_type: 1,
-      house_appeal: [],
-      floor: 0,
+      house_type: form.getValues('house_type') || 0,
+      rental_type: form.getValues('rental_type') || 1,
+      house_appeal: form.getValues('house_appeal') || [],
+      floor: form.getValues('floor') || 0,
     });
 
   const [term, setTerm] = useRecoilState(SignupProfileStateSelector('term'));

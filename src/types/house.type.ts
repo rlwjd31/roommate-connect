@@ -23,9 +23,7 @@ export const HouseForm = z.object({
    * - 3: 단독주택
    * - undefined: 지정되지 않음(초기값)
    */
-  house_type: z
-    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    .optional(),
+  house_type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
   /**
    * ### 집 대여 유형
    * - 0: 상관없음
@@ -34,9 +32,12 @@ export const HouseForm = z.object({
    * - 3: 반 전세
    * - undefined: 지정되지 않음(초기값)
    */
-  rental_type: z
-    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    .optional(),
+  rental_type: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+  ]),
   house_size: z.number({
     invalid_type_error: '공유 주거의 넓이(평 단위)를 숫자로 입력해주세요.',
   }),

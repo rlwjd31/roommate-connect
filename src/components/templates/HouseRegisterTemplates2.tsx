@@ -20,10 +20,30 @@ import {
   UserLifeStyleType,
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
+import FormItem from '@/components/molecules/FormItem';
+
+type Template2HiddenState = {
+  mate_gender: UserMateStyleType['mate_gender'];
+  mate_number: UserMateStyleType['mates_num'];
+  mate_appeals: UserMateStyleType['mate_appeals'];
+  smoking: UserLifeStyleType['smoking'];
+  pet: UserLifeStyleType['pet'];
+  appeals: UserLifeStyleType['appeals'];
+};
 
 export default function HouseRegisterTemplates2({
   form,
 }: HouseRegisterFormType) {
+  const [template2HiddenState, setTemplate2HiddenState] =
+    useState<Template2HiddenState>({
+      mate_gender: form.getValues('mate_gender') || 1,
+      mate_number: form.getValues('mates_num') || 1,
+      mate_appeals: form.getValues('mate_appeals') || [],
+      smoking: form.getValues('smoking') || true,
+      pet: form.getValues('pet') || 1,
+      appeals: form.getValues('appeals') || [],
+    });
+
   const [preferAge, setPreferAge] = useState<
     UserMateStyleType['prefer_mate_age']
   >([0, 30]);
@@ -47,10 +67,10 @@ export default function HouseRegisterTemplates2({
 
   const createBadge = (part: string) => {
     if (part === 'mateAppeals') {
-      const mateAppeals = form.getValues('mate_appeal');
+      const mateAppeals = form.getValues('mate_appeals');
       if (!mateAppeals.includes(mateAppeal) && mateAppeal !== '') {
         mateAppeals.push(mateAppeal);
-        form.setValue('mate_appeal', mateAppeals);
+        form.setValue('mate_appeals', mateAppeals);
         setMateAppeal('');
       }
     } else if (part === 'myAppeals') {
@@ -75,12 +95,12 @@ export default function HouseRegisterTemplates2({
   };
 
   const onDeleteAppealBadge = (appealContent: string) => {
-    const mateAppeals = form.watch('mate_appeal');
+    const mateAppeals = form.watch('mate_appeals');
     const myAppeals = form.watch('appeals');
 
     if (mateAppeals.includes(appealContent)) {
       const appeals = mateAppeals.filter(appeal => appeal !== appealContent);
-      form.setValue('mate_appeal', appeals);
+      form.setValue('mate_appeals', appeals);
     } else if (myAppeals.includes(appealContent)) {
       const appeals = myAppeals.filter(appeal => appeal !== appealContent);
       form.setValue('appeals', appeals);
@@ -120,6 +140,10 @@ export default function HouseRegisterTemplates2({
                 ),
               )}
             </Container.FlexRow>
+            <FormItem.Hidden<Pick<UserMateStyleType, 'mate_gender'>>
+              name="mate_gender"
+              valueProp={template2HiddenState.mate_gender}
+            />
           </Container.Grid>
           <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-3 text-brown">
@@ -137,6 +161,10 @@ export default function HouseRegisterTemplates2({
                 </BadgeButton.Outline>
               ))}
             </Container.FlexRow>
+            <FormItem.Hidden<Pick<UserMateStyleType, 'mates_num'>>
+              name="mates_num"
+              valueProp={template2HiddenState.mate_number}
+            />
           </Container.Grid>
           <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-3 text-brown">
@@ -153,6 +181,10 @@ export default function HouseRegisterTemplates2({
                 category="age"
               />
             </Container.FlexCol>
+            <FormItem.Hidden<Pick<UserMateStyleType, 'prefer_mate_age'>>
+              name="prefer_mate_age"
+              valueProp={preferAge}
+            />
           </Container.Grid>
           <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-3 text-brown">
@@ -168,11 +200,11 @@ export default function HouseRegisterTemplates2({
                 className="mb-[1rem] h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
                 placeholder="EX) 반려동물 NO, 늦게자요, 잠귀 어두운 분"
               />
-              {form.watch('mate_appeal').length === 0 ? (
+              {form.watch('mate_appeals').length === 0 ? (
                 <span className="h-[2.5rem]">&nbsp;</span>
               ) : (
                 <BadgeButtons
-                  contents={form.watch('mate_appeal')}
+                  contents={form.watch('mate_appeals')}
                   className=" gap-2"
                   badgeStyle="h-10 rounded-full px-5"
                   iconStyle="ml-2"
@@ -183,6 +215,10 @@ export default function HouseRegisterTemplates2({
                 />
               )}
             </Container.FlexCol>
+            <FormItem.Hidden<Pick<UserMateStyleType, 'mate_appeals'>>
+              name="mate_appeals"
+              valueProp={template2HiddenState.mate_appeals}
+            />
           </Container.Grid>
           <Container.FlexCol>
             <Accordion
@@ -214,6 +250,10 @@ export default function HouseRegisterTemplates2({
                       ),
                     )}
                   </Container.FlexRow>
+                  <FormItem.Hidden<Pick<UserLifeStyleType, 'smoking'>>
+                    name="smoking"
+                    valueProp={template2HiddenState.smoking}
+                  />
                 </Container.FlexCol>
                 <Container.FlexCol className="gap-6">
                   <Typography.SubTitle2 className="text-brown">
@@ -236,6 +276,10 @@ export default function HouseRegisterTemplates2({
                       ),
                     )}
                   </Container.FlexRow>
+                  <FormItem.Hidden<Pick<UserLifeStyleType, 'pet'>>
+                    name="pet"
+                    valueProp={template2HiddenState.pet}
+                  />
                 </Container.FlexCol>
                 <Container.FlexCol className="mt-3 gap-6">
                   <Typography.SubTitle2 className="text-brown">
@@ -266,6 +310,10 @@ export default function HouseRegisterTemplates2({
                       />
                     )}
                   </Container.FlexCol>
+                  <FormItem.Hidden<Pick<UserLifeStyleType, 'appeals'>>
+                    name="appeals"
+                    valueProp={template2HiddenState.appeals}
+                  />
                 </Container.FlexCol>
               </Container.FlexCol>
             </Accordion>
