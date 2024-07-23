@@ -44,7 +44,10 @@ export type IconType =
   | 'three-people'
   | 'dont-mind-people'
   | 'done'
-  | 'mini-heart';
+  | 'mini-heart'
+  | 'page-prev'
+  | 'page-next'
+  | 'search';
 
 export type CustomIconType = {
   fill?: ColorType;
