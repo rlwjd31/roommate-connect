@@ -27,6 +27,7 @@ import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
 import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
+import MyBookmark from '@/components/pages/MyBookmark';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -151,7 +152,7 @@ const routes: RouteType[] = [
         element: <MyPageLayoutTemplate />,
         children: [
           { path: 'activity', element: <h1>나의 활동</h1> },
-          { path: 'bookmark', element: <h1>나의 북마크</h1> },
+          { path: 'bookmark', element: <MyBookmark /> },
           { path: 'account', element: <h1>나의 계정</h1> },
           { path: 'mate', element: <h1>준비중...</h1> },
           { path: 'alarm', element: <h1>준비중...</h1> },
