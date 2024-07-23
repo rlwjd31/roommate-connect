@@ -42,6 +42,7 @@ import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
+import MiniHeart from '@/assets/icons/mini-heart.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -271,6 +272,9 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
       className={cn('w-[1.0625rem] h-[0.8125rem]', className)}
       {...others}
     />
+  ),
+  'mini-heart': ({ className, ...others }) => (
+    <MiniHeart className={cn('w-[1.3025rem] h-6', className)} {...others} />
   ),
 };
 

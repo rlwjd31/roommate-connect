@@ -42,7 +42,9 @@ export type IconType =
   | 'one-person'
   | 'two-people'
   | 'three-people'
-  | 'dont-mind-people' | 'done'
+  | 'dont-mind-people'
+  | 'done'
+  | 'mini-heart';
 
 export type CustomIconType = {
   fill?: ColorType;
