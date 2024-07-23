@@ -534,38 +534,33 @@ export default function ComponentTest() {
           </BadgeIcon.Fill>
         </Container.FlexCol>
         <Container.FlexCol className="items-start gap-2">
-          <BadgeIcon.Outline className="text-brown" iconType="mini-male">
+          <BadgeIcon.Outline className="text-brown" iconType="icon-male">
             <Typography.P2 className="py-2.5">남성</Typography.P2>
           </BadgeIcon.Outline>
-          <BadgeIcon.Outline className="text-brown" iconType="mini-female">
+          <BadgeIcon.Outline className="text-brown" iconType="icon-female">
             <Typography.P2 className="py-2.5">여성</Typography.P2>
           </BadgeIcon.Outline>
-          <BadgeIcon.Outline
-            className="text-brown"
-            iconType="mini-gender-intersex"
-          >
+          <BadgeIcon.Outline className="text-brown" iconType="icon-gender-free">
             <Typography.P2 className="py-2.5">성별 상관없어요</Typography.P2>
           </BadgeIcon.Outline>
         </Container.FlexCol>
         <Container.FlexCol className="items-start gap-2">
-          <BadgeIcon.Outline className="text-brown" iconType="mini-pet-lover">
+          <BadgeIcon.Outline className="text-brown" iconType="pet-heart">
             <Typography.P2 className="py-2.5">반려동물 키워요</Typography.P2>
           </BadgeIcon.Outline>
-          <BadgeIcon.Outline
-            className="text-brown"
-            iconType="mini-none-pet-lover"
-          >
+          <BadgeIcon.Outline className="text-brown" iconType="pet-hate">
             <Typography.P2 className="py-2.5">반려동물 NO</Typography.P2>
           </BadgeIcon.Outline>
-          <BadgeIcon.Outline
-            className="text-brown"
-            iconType="mini-dont-mind-pet"
-          >
+          <BadgeIcon.Outline className="text-brown" iconType="pet-circle">
             <Typography.P2 className="py-2.5">
               반려동물 상관없어요
             </Typography.P2>
           </BadgeIcon.Outline>
         </Container.FlexCol>
+        <Container.FlexRow className="items-center gap-2">
+          <Icon type="edit" />
+          <Icon type="delete" />
+        </Container.FlexRow>
       </Container.FlexRow>
 
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />

@@ -53,6 +53,8 @@ import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
+import Edit from '@/assets/icons/edit.svg?react';
+import Delete from '@/assets/icons/delete.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -330,6 +332,12 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   'pet-circle': ({ className, ...others }) => (
     <PetCircle className={cn('size-[1.125rem]', className)} {...others} />
+  ),
+  edit: ({ className, ...others }) => (
+    <Edit className={cn('size-[17px]', className)} {...others} />
+  ),
+  delete: ({ className, ...others }) => (
+    <Delete className={cn('size-[24px]', className)} {...others} />
   ),
 };
 

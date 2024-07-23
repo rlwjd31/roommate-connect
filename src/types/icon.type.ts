@@ -47,13 +47,15 @@ export type IconType =
   | 'share'
   | 'mini-smoke'
   | 'mini-none-smoke'
-  | 'mini-male'
-  | 'mini-female'
-  | 'mini-gender-intersex'
-  | 'mini-pet-lover'
-  | 'mini-none-pet-lover'
-  | 'mini-dont-mind-pet'
-  | 'fill-heart';
+  | 'icon-male'
+  | 'icon-female'
+  | 'icon-gender-free'
+  | 'pet-heart'
+  | 'pet-hate'
+  | 'pet-circle'
+  | 'fill-heart'
+  | 'edit'
+  | 'delete';
 
 export type CustomIconType = {
   fill?: ColorType;
