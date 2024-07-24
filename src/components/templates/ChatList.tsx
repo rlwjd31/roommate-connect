@@ -5,16 +5,24 @@ import { useRecoilValue } from 'recoil';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
-import { isEnglish } from '@/libs/checkLanguage';
 import Avatar from '@/components/atoms/Avatar';
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { UserAtom } from '@/stores/auth.store';
+import { Tables } from '@/types/supabase';
 
 type PointAlertType = {
   content: string | number;
   containerStyle?: string;
   typoStyle?: string;
+};
+
+type ChatListState = {
+  chatId: string;
+  chatPartnerInfo: Tables<'user'>;
+  lastMessage: string;
+  lastMessageDate: string;
+  userIds: string[];
 };
 
 export function PointAlert({
@@ -41,121 +49,8 @@ PointAlert.defaultProps = {
   typoStyle: '',
 };
 
-// ! TODO: fetch chatList ordered by latest from supabase
-// ! TODO: navigateUrl은 그냥 chatId를 이용하면 돼서 나중에는 필요 없음.
-const chats = [
-  {
-    chatId: '1',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '1',
-  },
-  {
-    chatId: '2',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '2',
-  },
-  {
-    chatId: '3',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '3',
-  },
-  {
-    chatId: '4',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '4',
-  },
-  {
-    chatId: '5',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '5',
-  },
-  {
-    chatId: '6',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '6',
-  },
-  {
-    chatId: '7',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: 'hi',
-    newChatCount: 2,
-    navigateUrl: '7',
-  },
-  {
-    chatId: '8',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '8',
-  },
-  {
-    chatId: '9',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: 'hello',
-    newChatCount: 2,
-    navigateUrl: '9',
-  },
-  {
-    chatId: '10',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '10',
-  },
-  {
-    chatId: '11',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '11',
-  },
-  {
-    chatId: '12',
-    avatarUrl: 'https://picsum.photos/200',
-    nickname: 'User1234',
-    lastMessageDate: '오후 9:48',
-    lastMessage: '안녕하세요',
-    newChatCount: 2,
-    navigateUrl: '12',
-  },
-];
-
 export default function ChatList() {
-  const [chatListState, setChatListState] = useState(null);
+  const [chatListState, setChatListState] = useState<ChatListState[]>([]);
   const userInfo = useRecoilValue(UserAtom);
   useEffect(() => {
     if (userInfo) {
@@ -165,7 +60,8 @@ export default function ChatList() {
         const chatListResponse = await supabase
           .from('chat_room')
           .select('*')
-          .contains('users', [userInfo.id]);
+          .contains('users', [userInfo.id])
+          .order('last_message_date', { ascending: true });
 
         if (chatListResponse.error || !chatListResponse.data) {
           const supabaseError = new SupabaseCustomError(
@@ -198,14 +94,16 @@ export default function ChatList() {
               .eq('id', chatPartnerId)
               .single();
 
+            // TODO: chatPartnerResponse error 처리
+            if (!chatPartnerResponse.data && chatPartnerResponse.error)
+              throw new Error(`Couldn't find chat partner info`);
+
             return {
               chatId,
               lastMessage,
               lastMessageDate,
               userIds,
-              chatPartnerInfo: chatPartnerResponse.data
-                ? { ...chatPartnerResponse.data }
-                : null,
+              chatPartnerInfo: chatPartnerResponse.data,
             };
           }),
         );
@@ -226,19 +124,17 @@ export default function ChatList() {
       </Container.FlexRow>
       {/* 친구 대화 목록 전체 container */}
       <Container.FlexCol className="gap-2 overflow-y-auto bg-bg p-2">
-        {chats.map(
+        {chatListState.map(
           ({
-            avatarUrl,
+            chatPartnerInfo: { avatar, nickname },
             chatId,
             lastMessage,
-            navigateUrl,
-            nickname,
             lastMessageDate,
-            newChatCount,
+            newChatCount = 2,
           }) => (
             <NavLink
               key={chatId}
-              to={navigateUrl}
+              to={`/chats/${chatId}`}
               className={({ isActive }) =>
                 cn(
                   'flex items-start gap-4 rounded-xl p-3 hover:bg-brown6',
@@ -247,14 +143,11 @@ export default function ChatList() {
               }
             >
               {/* shrink를 0으로 설정하지 않으면 이미지가 깨짐 */}
-              <Avatar.M src={avatarUrl} />
+              <Avatar.M src={avatar ?? ''} />
               {/* <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} /> */}
               <Container.FlexCol className="w-full">
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span1
-                    lang={isEnglish(nickname) ? 'en' : 'ko'}
-                    className="font-bold leading-150 text-brown"
-                  >
+                  <Typography.Span1 className="font-bold leading-150 text-brown">
                     {nickname}
                   </Typography.Span1>
                   <Typography.Span2 className="font-semibold leading-150 text-brown2">
@@ -262,10 +155,7 @@ export default function ChatList() {
                   </Typography.Span2>
                 </Container.FlexRow>
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span2
-                    lang={isEnglish(lastMessage) ? 'en' : 'ko'}
-                    className="font-semibold leading-150 text-brown2"
-                  >
+                  <Typography.Span2 className="font-semibold leading-150 text-brown2">
                     {lastMessage}
                   </Typography.Span2>
                   <PointAlert content={newChatCount} />
