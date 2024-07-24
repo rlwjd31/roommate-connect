@@ -6,15 +6,16 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
-import { Database } from '@/types/supabase';
+import { Tables } from '@/types/supabase';
 import { formatDateByCountry } from '@/libs/formatDate';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { errorToast } from '@/libs/toast';
 import Avatar from '@/components/atoms/Avatar';
 import IconButton from '@/components/molecules/IconButton';
 import Input from '@/components/atoms/Input';
+import Chat from '@/components/pages/Chat';
 
-type MessageType = Database['public']['Tables']['messages']['Row'];
+type MessageType = Tables<'messages'>;
 
 type DateMessageBoxProps = {
   children: ReactNode;
@@ -72,9 +73,6 @@ export default function ChatRoom() {
         );
         throw error;
       });
-
-    // 'cd916d68-216b-4a7a-8ba9-7155e0c2ce16',
-    // 'b87f4ae6-fe0d-46b9-802e-45742e81f2b5',
   }, []);
 
   useEffect(() => {
@@ -106,7 +104,7 @@ export default function ChatRoom() {
 
   // ! TODO: image 클릭시 userProfileModal
   return (
-    <Container.FlexCol className="size-full min-h-full bg-teal-500">
+    <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-4 bg-brown6 p-6">
         <Avatar.XS src="https://picsum.photos/200?1" />
@@ -289,3 +287,14 @@ export default function ChatRoom() {
 
 // ! gijung8282   cd916d68-216b-4a7a-8ba9-7155e0c2ce16
 // ! gijung828282 b87f4ae6-fe0d-46b9-802e-45742e81f2b5
+
+// ! 이미 열려있는 채팅방이면 그냥 연결만 하면 되는 로직 구현해야 됨.
+
+
+// table chat_room {
+//   id: uuid,
+//   created_at: timestampzone,
+//   users: '{}'::uuid[],
+//   last_message: text,
+//   last_message_date: timestampzone
+// }

@@ -1,10 +1,15 @@
 import { NavLink } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';
 import { isEnglish } from '@/libs/checkLanguage';
 import Avatar from '@/components/atoms/Avatar';
+import { supabase } from '@/libs/supabaseClient';
+import SupabaseCustomError from '@/libs/supabaseCustomError';
+import { UserAtom } from '@/stores/auth.store';
 
 type PointAlertType = {
   content: string | number;
@@ -43,8 +48,8 @@ const chats = [
     chatId: '1',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '1',
   },
@@ -52,8 +57,8 @@ const chats = [
     chatId: '2',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '2',
   },
@@ -61,8 +66,8 @@ const chats = [
     chatId: '3',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '3',
   },
@@ -70,8 +75,8 @@ const chats = [
     chatId: '4',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '4',
   },
@@ -79,8 +84,8 @@ const chats = [
     chatId: '5',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '5',
   },
@@ -88,8 +93,8 @@ const chats = [
     chatId: '6',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '6',
   },
@@ -97,8 +102,8 @@ const chats = [
     chatId: '7',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: 'hi',
+    lastMessageDate: '오후 9:48',
+    lastMessage: 'hi',
     newChatCount: 2,
     navigateUrl: '7',
   },
@@ -106,8 +111,8 @@ const chats = [
     chatId: '8',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '8',
   },
@@ -115,8 +120,8 @@ const chats = [
     chatId: '9',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: 'hello',
+    lastMessageDate: '오후 9:48',
+    lastMessage: 'hello',
     newChatCount: 2,
     navigateUrl: '9',
   },
@@ -124,8 +129,8 @@ const chats = [
     chatId: '10',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '10',
   },
@@ -133,8 +138,8 @@ const chats = [
     chatId: '11',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '11',
   },
@@ -142,14 +147,75 @@ const chats = [
     chatId: '12',
     avatarUrl: 'https://picsum.photos/200',
     nickname: 'User1234',
-    latestDate: '오후 9:48',
-    content: '안녕하세요',
+    lastMessageDate: '오후 9:48',
+    lastMessage: '안녕하세요',
     newChatCount: 2,
     navigateUrl: '12',
   },
 ];
 
 export default function ChatList() {
+  const [chatListState, setChatListState] = useState(null);
+  const userInfo = useRecoilValue(UserAtom);
+  useEffect(() => {
+    if (userInfo) {
+      (async () => {
+        // ! PostgreSQL에서 배열 타입의 컬럼에 대해 외래 키 제약 조건을 설정하는 것은 지원되지 않아
+        // ! join을 할 수 없고 따로따로 fetch를 날리는 것으로 해결
+        const chatListResponse = await supabase
+          .from('chat_room')
+          .select('*')
+          .contains('users', [userInfo.id]);
+
+        if (chatListResponse.error || !chatListResponse.data) {
+          const supabaseError = new SupabaseCustomError(
+            chatListResponse.error,
+            chatListResponse.status,
+          );
+          console.error({ supabaseError });
+          throw supabaseError;
+        }
+
+        const chatListPageData = await Promise.all(
+          chatListResponse.data.map(async chatRoomInfo => {
+            const {
+              id: chatId,
+              last_message: lastMessage,
+              last_message_date: lastMessageDate,
+              users: userIds,
+            } = chatRoomInfo;
+
+            const chatPartnerId = userIds?.filter(
+              userId => userId !== userInfo?.id,
+            )[0];
+
+            if (!chatPartnerId)
+              throw new Error(`couldn't find chat partner id`);
+
+            const chatPartnerResponse = await supabase
+              .from('user')
+              .select('*')
+              .eq('id', chatPartnerId)
+              .single();
+
+            return {
+              chatId,
+              lastMessage,
+              lastMessageDate,
+              userIds,
+              chatPartnerInfo: chatPartnerResponse.data
+                ? { ...chatPartnerResponse.data }
+                : null,
+            };
+          }),
+        );
+        // TODO: 안 읽은 message count 기능
+        setChatListState(chatListPageData);
+        return chatListPageData;
+      })();
+    }
+  }, [userInfo]);
+
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-2 bg-brown6 p-6">
@@ -164,10 +230,10 @@ export default function ChatList() {
           ({
             avatarUrl,
             chatId,
-            content,
+            lastMessage,
             navigateUrl,
             nickname,
-            latestDate,
+            lastMessageDate,
             newChatCount,
           }) => (
             <NavLink
@@ -192,15 +258,15 @@ export default function ChatList() {
                     {nickname}
                   </Typography.Span1>
                   <Typography.Span2 className="font-semibold leading-150 text-brown2">
-                    {latestDate}
+                    {lastMessageDate}
                   </Typography.Span2>
                 </Container.FlexRow>
                 <Container.FlexRow className="items-center justify-between">
                   <Typography.Span2
-                    lang={isEnglish(content) ? 'en' : 'ko'}
+                    lang={isEnglish(lastMessage) ? 'en' : 'ko'}
                     className="font-semibold leading-150 text-brown2"
                   >
-                    {content}
+                    {lastMessage}
                   </Typography.Span2>
                   <PointAlert content={newChatCount} />
                 </Container.FlexRow>
