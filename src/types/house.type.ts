@@ -66,3 +66,17 @@ export const HouseForm = z.object({
 });
 
 export type HouseFormType = z.infer<typeof HouseForm>;
+
+const HouseCard = HouseForm.pick({
+  representative_img: true,
+  house_type: true,
+  rental_type: true,
+  deposit_price: true,
+  monthly_price: true,
+  house_appeal: true,
+  region: true,
+  district: true,
+  term: true,
+}).required();
+
+export type HouseCardType = z.infer<typeof HouseCard> & { id: string };
