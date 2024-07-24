@@ -14,12 +14,13 @@ import IconButton from '@/components/molecules/IconButton';
 import { supabase } from '@/libs/supabaseClient';
 import { UserType } from '@/types/auth.type';
 import {
-  defaultRentalTypes,
-  defaultGenderTypes,
-  defaultSmokingTypes,
-  defaultPetTypes,
-  defaultFloorTypes,
-  defaultHouseTypes,
+  rentalTypesInfo,
+  genderInfo,
+  smokingInfo,
+  petInfo,
+  floorInfo,
+  houseTypesInfo,
+  mateNumInfo,
 } from '@/constants/profileDetailInfo';
 import { HouseFormType } from '@/types/house.type';
 import { SessionAtom } from '@/stores/auth.store';
@@ -29,20 +30,20 @@ import BadgeIcon from '@/components/molecules/BadgeIcon';
 type HouseData = Omit<HouseFormType, 'rental_type'> & {
   created_at: string;
   updated_at: string;
-  floor: keyof typeof defaultFloorTypes;
+  floor: keyof typeof floorInfo;
   user: User | null;
   user_lifestyle: LifeStyle | null;
-  rental_type: keyof typeof defaultRentalTypes;
+  rental_type: keyof typeof rentalTypesInfo;
   user_mate_style: MateStyle | null;
 };
 
 type User = Pick<UserType, 'id' | 'name' | 'avatar'> & {
-  gender: keyof typeof defaultGenderTypes;
+  gender: keyof typeof genderInfo;
 };
 
 type LifeStyle = {
-  smoking: keyof typeof defaultSmokingTypes;
-  pet: keyof typeof defaultPetTypes;
+  smoking: keyof typeof smokingInfo;
+  pet: keyof typeof petInfo;
   appeals: string[];
 };
 
@@ -94,13 +95,17 @@ export default function HouseDetailTemplate() {
   useEffect(() => {
     (async () => {
       const houseUserInfo = await fetchData();
-      // console.log('houseData =>', houseUserInfo);
-
       setHouseData(houseUserInfo as HouseData);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       setIsLoading(false);
       if (session) {
         const bookmarks = await fetchBookmark();
-        // console.error('bookmarks=>', bookmarks);
+        console.error('bookmarks=>', bookmarks);
         if (houseData?.user_id === session?.user.id) {
           setIsHouseOwner(true);
         }
@@ -110,8 +115,7 @@ export default function HouseDetailTemplate() {
         }
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [session, houseData]);
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -142,33 +146,40 @@ export default function HouseDetailTemplate() {
 
   return (
     <Container.FlexCol className="gap-8 pb-32 ">
-      <Container.Grid className="max-h-[440px] grid-cols-4 grid-rows-2 gap-5">
-        {houseData &&
-          houseData.house_img
-            .slice(0, 5)
-            .map((src, index) => (
-              <Img
-                key={src}
-                src={src}
-                alt={`house image ${index + 1}`}
-                className={index === 0 ? 'col-span-2 row-span-2' : ''}
-              />
-            ))}
-      </Container.Grid>
+      <Container.FlexRow className="gap-5">
+        <Img
+          className="size-[390px] laptop:size-[440px] desktop:size-[588px]"
+          src={houseData.house_img[0]}
+        />
+        <Container.Grid className="hidden max-h-[440px] grid-cols-2 grid-rows-2 gap-5 laptop:grid desktop:max-h-[588px]">
+          {houseData &&
+            houseData.house_img
+              .slice(0, 4)
+              .map((src, index) => (
+                <Img key={src} src={src} alt={`house image ${index + 1}`} />
+              ))}
+        </Container.Grid>
+      </Container.FlexRow>
       <Container.FlexCol>
-        <Container.FlexCol className="gap-14 border-b	border-brown pb-8">
+        <Container.FlexCol className="gap-[3.25rem]">
           <Container.FlexCol className="gap-4">
-            <Container.FlexRow>
+            <Container.FlexRow className="items-center">
               <Typography.Head2 className="pr-3 text-brown">
                 {houseData && houseData.post_title}
               </Typography.Head2>
               {isHouseOwner && (
                 <>
-                  <Button.Ghost className="text-brown">
-                    <Typography.P3 className="p-[0.625rem]">수정</Typography.P3>
+                  <Button.Ghost className="p-[0.5625rem] text-brown">
+                    <Icon type="edit" className="block tablet:hidden" />
+                    <Typography.P3 className="hidden tablet:block">
+                      수정
+                    </Typography.P3>
                   </Button.Ghost>
-                  <Button.Ghost className="text-brown">
-                    <Typography.P3>삭제</Typography.P3>
+                  <Button.Ghost className="p-[0.5625rem] text-brown">
+                    <Icon type="delete" className="block tablet:hidden" />
+                    <Typography.P3 className="hidden tablet:block ">
+                      삭제
+                    </Typography.P3>
                   </Button.Ghost>
                 </>
               )}
@@ -184,23 +195,23 @@ export default function HouseDetailTemplate() {
             </Container.FlexRow>
           </Container.FlexCol>
           <Container.FlexRow className="justify-between	">
-            <Container.FlexRow className="gap-5">
+            <Container.FlexRow className="gap-3">
               {isHouseOwner ? (
-                <Button.Fill className="rounded-lg px-[3.125rem] py-5 text-white">
+                <Button.Fill className="rounded-lg p-5 text-white">
                   <Typography.P1>신청 현황</Typography.P1>
                 </Button.Fill>
               ) : (
                 <>
-                  <Button.Fill className="rounded-lg px-8 py-5 text-white">
+                  <Button.Fill className="rounded-lg p-5 text-white">
                     <Typography.P1>룸메이트 신청</Typography.P1>
                   </Button.Fill>
-                  <Button.Outline className="rounded-lg bg-white px-8 py-5 text-brown ">
+                  <Button.Outline className="rounded-lg bg-white p-5 text-brown ">
                     <Typography.P1>메시지 보내기</Typography.P1>
                   </Button.Outline>
                 </>
               )}
             </Container.FlexRow>
-            <Container.FlexRow className="gap-10">
+            <Container.FlexRow className="gap-5">
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost
                   iconType={isBookmarked ? 'fill-heart' : 'heart'}
@@ -216,7 +227,8 @@ export default function HouseDetailTemplate() {
             </Container.FlexRow>
           </Container.FlexRow>
         </Container.FlexCol>
-        <Container.FlexRow className="mt-14 justify-between gap-6">
+        <Divider.Col className="my-8 laptop:my-11" />
+        <Container className="flex flex-col justify-between gap-14 laptop:gap-20 desktop:flex-row">
           <Container.FlexCol className="flex-1 gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
               {/* TODO: Avatar component 적용 */}
@@ -230,29 +242,24 @@ export default function HouseDetailTemplate() {
               <Typography.SubTitle1>자기소개</Typography.SubTitle1>
               <Container.FlexRow className="gap-2">
                 <BadgeIcon.Outline
-                  iconType={defaultGenderTypes[houseData.user.gender].icon}
+                  iconType={genderInfo[houseData.user.gender].icon}
                 >
                   <Typography.P2 className="py-2.5">
-                    {defaultGenderTypes[houseData.user.gender].sex}
+                    {genderInfo[houseData.user.gender].text}
                   </Typography.P2>
                 </BadgeIcon.Outline>
                 <BadgeIcon.Outline
-                  iconType={
-                    defaultSmokingTypes[houseData.user_lifestyle.smoking].icon
-                  }
+                  iconType={smokingInfo[houseData.user_lifestyle.smoking].icon}
                 >
                   <Typography.P2 className="py-2.5">
-                    {
-                      defaultSmokingTypes[houseData.user_lifestyle.smoking]
-                        .smokeInfo
-                    }
+                    {smokingInfo[houseData.user_lifestyle.smoking].text}
                   </Typography.P2>
                 </BadgeIcon.Outline>
                 <BadgeIcon.Outline
-                  iconType={defaultPetTypes[houseData.user_lifestyle?.pet].icon}
+                  iconType={petInfo[houseData.user_lifestyle?.pet].icon}
                 >
                   <Typography.P2 className="py-2.5">
-                    {defaultPetTypes[houseData.user_lifestyle.pet].petInfo}
+                    {petInfo[houseData.user_lifestyle.pet].text}
                   </Typography.P2>
                 </BadgeIcon.Outline>
               </Container.FlexRow>
@@ -274,12 +281,12 @@ export default function HouseDetailTemplate() {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexCol className="flex-1 gap-12 rounded-lg bg-brown6 p-8 text-brown">
+          <Container.FlexCol className="flex-1 gap-10 rounded-lg bg-brown6 px-[0.65625rem] py-[1.8125rem] text-brown laptop:gap-11 laptop:p-8">
             <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
                 <Container.FlexRow className="gap-2">
                   <Typography.Head3>
-                    {defaultRentalTypes[houseData.rental_type]}
+                    {rentalTypesInfo[houseData.rental_type]}
                   </Typography.Head3>
                   <Typography.Head3>
                     {houseData.deposit_price}/{houseData.monthly_price}
@@ -296,8 +303,8 @@ export default function HouseDetailTemplate() {
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>하우스 소개</Typography.SubTitle1>
-              <Container.FlexRow className="items-center gap-5">
-                <Icon type={defaultHouseTypes[houseData.house_type].icon} />
+              <Container.FlexRow className="items-center gap-3">
+                <Icon type={houseTypesInfo[houseData.house_type].icon} />
                 <Badge.Fill
                   active={false}
                   focus={false}
@@ -305,7 +312,7 @@ export default function HouseDetailTemplate() {
                   className="rounded-3xl px-5 py-2 text-white"
                 >
                   <Typography.P2>
-                    {defaultHouseTypes[houseData.house_type].houseInfo}
+                    {houseTypesInfo[houseData.house_type].text}
                   </Typography.P2>
                 </Badge.Fill>
                 <Container.FlexRow className="gap-3 ">
@@ -313,9 +320,7 @@ export default function HouseDetailTemplate() {
                   <Divider.Col />
                   <Typography.P2>방 {houseData.room_num}개</Typography.P2>
                   <Divider.Col />
-                  <Typography.P2>
-                    {defaultFloorTypes[houseData.floor]}
-                  </Typography.P2>
+                  <Typography.P2>{floorInfo[houseData.floor]}</Typography.P2>
                 </Container.FlexRow>
               </Container.FlexRow>
             </Container.FlexCol>
@@ -355,22 +360,23 @@ export default function HouseDetailTemplate() {
                   <Container.FlexRow className="gap-2">
                     <BadgeIcon.Outline
                       iconType={
-                        defaultGenderTypes[
-                          houseData.user_mate_style.mate_gender
-                        ].icon
+                        genderInfo[houseData.user_mate_style.mate_gender].icon
                       }
                     >
                       <Typography.P2 className="py-2.5">
-                        {
-                          defaultGenderTypes[
-                            houseData.user_mate_style.mate_gender
-                          ].sex
-                        }
+                        {genderInfo[houseData.user_mate_style.mate_gender].text}
                       </Typography.P2>
                     </BadgeIcon.Outline>
-                    <BadgeIcon.Outline iconType="mini-female">
+                    <BadgeIcon.Outline
+                      iconType={
+                        mateNumInfo[houseData.user_mate_style?.mate_number].icon
+                      }
+                    >
                       <Typography.P2>
-                        {houseData.user_mate_style.mate_number}명
+                        {
+                          mateNumInfo[houseData.user_mate_style?.mate_number]
+                            .text
+                        }
                       </Typography.P2>
                     </BadgeIcon.Outline>
                     <Badge.Outline
@@ -402,11 +408,13 @@ export default function HouseDetailTemplate() {
               </Container.FlexCol>
             </Container.FlexCol>
           </Container.FlexCol>
-        </Container.FlexRow>
-        <Container.FlexCol className="gap-7 pb-16 text-brown ">
+        </Container>
+        <Container.FlexCol className="gap-7 py-[3.25rem] text-brown laptop:py-[4.5rem] ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-8">
-            <pre className="text-lg font-normal">{houseData.describe}</pre>
+            <pre className="whitespace-pre-wrap leading-5">
+              {houseData.describe}
+            </pre>
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
@@ -414,7 +422,7 @@ export default function HouseDetailTemplate() {
           <Typography.SubTitle1 className="text-brown">
             댓글 2개
           </Typography.SubTitle1>
-          <Container.FlexCol className="items-end gap-8 	">
+          <Container.FlexCol className="items-center gap-8 laptop:items-end">
             <TextArea
               type="text"
               name="comment"
@@ -422,7 +430,7 @@ export default function HouseDetailTemplate() {
               placeholder="댓글을 남겨보세요."
               rows={5}
             />
-            <Button.Fill className="rounded-lg px-10 py-5 text-white	">
+            <Button.Fill className="w-full justify-center rounded-lg py-4 text-white laptop:w-auto laptop:px-10 laptop:py-[1.125rem]">
               <Typography.SubTitle3>등록</Typography.SubTitle3>
             </Button.Fill>
           </Container.FlexCol>
