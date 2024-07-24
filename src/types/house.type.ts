@@ -15,18 +15,43 @@ export const HouseForm = z.object({
     message: '주거지의 지역을 입력해주세요.',
     path: ['region'],
   }),
-  house_type: z
-    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    .optional(),
-  rental_type: z
-    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    .optional(),
+  /**
+   * ### 찾는 집 유형
+   * - 0: 원룸/오피스텔
+   * - 1: 빌라/연립
+   * - 2: 아파트
+   * - 3: 단독주택
+   * - undefined: 지정되지 않음(초기값)
+   */
+  house_type: z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]),
+  /**
+   * ### 집 대여 유형
+   * - 0: 상관없음
+   * - 1: 월세
+   * - 2: 전세
+   * - 3: 반 전세
+   * - undefined: 지정되지 않음(초기값)
+   */
+  rental_type: z.union([
+    z.literal(0),
+    z.literal(1),
+    z.literal(2),
+    z.literal(3),
+  ]),
   house_size: z.number({
     invalid_type_error: '공유 주거의 넓이(평 단위)를 숫자로 입력해주세요.',
   }),
   room_num: z.number({
     invalid_type_error: '공유 주거 내 방의 갯수를 숫자로 입력해주세요.',
   }),
+  /**
+   * ### 층 옵션
+   * - 0: 지하
+   * - 1: 반지하
+   * - 2: 지상
+   * - undefined: 지정되지 않음(초기값)
+   */
+  floor: z.union([z.literal(0), z.literal(1), z.literal(2)]).optional(),
   deposit_price: z.number({
     invalid_type_error: '보증금을 만원 단위 숫자로 입력해주세요.',
   }),
@@ -39,12 +64,6 @@ export const HouseForm = z.object({
   house_appeal: z
     .array(z.string(), { required_error: '우리 집의 매력을 작성해주세요.' })
     .min(1, { message: '1개 이상의 특징을 작성해주세요.' }),
-  mates_num: z
-    .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
-    .optional()
-    .refine(data => data !== undefined, {
-      message: '인원 수를 선택해주세요.',
-    }),
   term: z
     .tuple([
       z
@@ -60,13 +79,17 @@ export const HouseForm = z.object({
       message: '최소 기간이 최대 기간보다 클 수 없습니다.',
     }),
   describe: z.string(),
+  /**
+   * ### 저장 유형
+   * - 0: 임시 저장(default)
+   * - 1: 완전 저장
+   */
   temporary: z.union([z.literal(0), z.literal(1)]).default(0),
   bookmark: z.number(),
   user_id: z.string(),
 });
 
 export type HouseFormType = z.infer<typeof HouseForm>;
-
 const HouseCard = HouseForm.pick({
   representative_img: true,
   house_type: true,
