@@ -4,13 +4,15 @@ import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import Input from '@/components/atoms/Input';
-import IconButton from '@/components/molecules/IconButton';
-import Avatar from '@/components/atoms/Avatar';
 import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
 import { Database } from '@/types/supabase';
 import { formatDateByCountry } from '@/libs/formatDate';
+import SupabaseCustomError from '@/libs/supabaseCustomError';
+import { errorToast } from '@/libs/toast';
+import Avatar from '@/components/atoms/Avatar';
+import IconButton from '@/components/molecules/IconButton';
+import Input from '@/components/atoms/Input';
 
 type MessageType = Database['public']['Tables']['messages']['Row'];
 
@@ -19,11 +21,31 @@ type DateMessageBoxProps = {
   date: Date;
 };
 
+// * 추후에 단톡방을 고려하여 정확하게 array length가 2인 개인 채팅방에 대한 query
+// * .contains('users', [userId, chatPartnerId]);는 단톡방에서도 찾아지므로 or로 사용
+const fetchChatPartnerInfo = async (userId: string, chatPartnerId: string) => {
+  const { data, error, status } = await supabase
+    .from('chat_room')
+    .select('users')
+    .or(
+      `users.eq.{${userId},${chatPartnerId}},users.eq.{${chatPartnerId},${userId}}`,
+    );
+
+  if (error) {
+    const supabaseError = new SupabaseCustomError(error, status);
+    console.error({ supabaseError });
+    throw supabaseError;
+  }
+
+  // TODO: 현재 내 id를 이용해서 상대방 정보를 filter 후 넘겨주기
+  return data;
+};
+
 function DateMessageBox({ children, date }: DateMessageBoxProps) {
   const messageDate = formatDateByCountry(date, 'ko-KR');
 
   return (
-    <Container.FlexCol>
+    <Container.FlexCol className="gap-8">
       <Typography.Span1 className="mx-auto w-fit rounded-[1.25rem] bg-brown6 px-4 py-2 font-semibold text-brown">
         {messageDate}
       </Typography.Span1>
@@ -36,6 +58,24 @@ export default function ChatRoom() {
   const { chatId } = useParams();
   const user = useRecoilValue(UserAtom);
   const userId = user?.id;
+
+  useEffect(() => {
+    fetchChatPartnerInfo(
+      'cd916d68-216b-4a7a-8ba9-7155e0c2ce16',
+      'b87f4ae6-fe0d-46b9-802e-45742e81f2b5',
+    )
+      .then(response => console.log(response))
+      .catch(error => {
+        errorToast(
+          'fetchChatPartnerInfoError',
+          '프로필 설정에 실패하였습니다.',
+        );
+        throw error;
+      });
+
+    // 'cd916d68-216b-4a7a-8ba9-7155e0c2ce16',
+    // 'b87f4ae6-fe0d-46b9-802e-45742e81f2b5',
+  }, []);
 
   useEffect(() => {
     const chatChannel = supabase
