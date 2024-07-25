@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FC, SVGProps } from 'react';
 
 import Apartment from '@/assets/icons/apartment.svg?react';
 import Close from '@/assets/icons/close.svg?react';
@@ -29,68 +29,316 @@ import AlarmNone from '@/assets/icons/alarm-none.svg?react';
 import Avatar from '@/assets/icons/avatar.svg?react';
 import Back from '@/assets/icons/back.svg?react';
 import Heart from '@/assets/icons/heart.svg?react';
+import FillHeart from '@/assets/icons/fill-heart.svg?react';
 import Share from '@/assets/icons/share.svg?react';
 import MiniSmoke from '@/assets/icons/mini-smoke.svg?react';
 import MiniNoneSmoke from '@/assets/icons/mini-none-smoke.svg?react';
-import MiniMale from '@/assets/icons/mini-male-icon.svg?react';
-import MiniFemale from '@/assets/icons/mini-female-icon.svg?react';
-import GenderIntersex from '@/assets/icons/ph_gender-intersex.svg?react';
-import MiniPetLover from '@/assets/icons/mini-pet-lover.svg?react';
-import MiniNonePetLover from '@/assets/icons/mini-none-pet-lover.svg?react';
-import MiniDontMindPet from '@/assets/icons/mini-dont-mind-pet.svg?react';
+import IconMale from '@/assets/icons/mini-male-icon.svg?react';
+import IconFemale from '@/assets/icons/mini-female-icon.svg?react';
+import IconGenderFree from '@/assets/icons/ph_gender-intersex.svg?react';
+import PetHeart from '@/assets/icons/mini-pet-lover.svg?react';
+import PetHate from '@/assets/icons/mini-none-pet-lover.svg?react';
+import PetCircle from '@/assets/icons/mini-dont-mind-pet.svg?react';
 import PaperClip from '@/assets/icons/paper-clip.svg?react';
 import Send from '@/assets/icons/send.svg?react';
 import Camera from '@/assets/icons/camera.svg?react';
 import Next from '@/assets/icons/next.svg?react';
 import Prev from '@/assets/icons/prev.svg?react';
-import FillHeart from '@/assets/icons/fill-heart.svg?react';
+import MonthlyRentalPrice from '@/assets/icons/monthly-rental-price.svg?react';
+import SemiMonthlyRentalPrice from '@/assets/icons/semi-monthly-rental-price.svg?react';
+import YearRentalPrice from '@/assets/icons/year-rental-price.svg?react';
+import DontMindRentalPrice from '@/assets/icons/dont-mind-rental-price.svg?react';
+import OnePerson from '@/assets/icons/one-person.svg?react';
+import TwoPeople from '@/assets/icons/two-people.svg?react';
+import ThreePeople from '@/assets/icons/three-people.svg?react';
+import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
+import Done from '@/assets/icons/done.svg?react';
+import Edit from '@/assets/icons/edit.svg?react';
+import Delete from '@/assets/icons/delete.svg?react';
 import { IconType } from '@/types/icon.type';
+import cn from '@/libs/cn';
 
-const IconSVG: { [key in IconType]: ReactNode } = {
-  character: <HouseCharacter />,
-  logo: <Logo />,
-  welcome: <ImgWelcome />,
-  'seeking-house': <SeekingHouse />,
-  male: <Male />,
-  female: <Female />,
-  'dont-mind-sex': <DontMindSex />,
-  'dont-mind-pet': <DontMindPet />,
-  'pet-lover': <PetLover />,
-  'none-pet-lover': <NonePetLover />,
-  'studio-officetel': <StudioOfficetel />,
-  'villa-townhouse': <VillaTownhouse />,
-  apartment: <Apartment />,
-  'single-family-house': <SingleFamilyHouse />,
-  smoke: <Smoke />,
-  'none-smoke': <NoneSmoke />,
-  'left-arrow': <LeftArrowLogo />,
-  'right-arrow': <RightArrow />,
-  close: <Close />,
-  'expand-arrow': <ExpandArrow />,
-  'google-logo': <GoogleLogo />,
-  'kakaotalk-logo': <KakaotalkLogo />,
-  invisible: <Invisible />,
-  visible: <Visible />,
-  'alarm-exist': <AlarmExist />,
-  'alarm-none': <AlarmNone />,
-  avatar: <Avatar />,
-  'paper-clip': <PaperClip />,
-  send: <Send />,
-  camera: <Camera />,
-  prev: <Prev />,
-  next: <Next />,
-  back: <Back />,
-  heart: <Heart />,
-  share: <Share />,
-  'mini-smoke': <MiniSmoke />,
-  'mini-none-smoke': <MiniNoneSmoke />,
-  'mini-male': <MiniMale />,
-  'mini-female': <MiniFemale />,
-  'mini-gender-intersex': <GenderIntersex />,
-  'mini-pet-lover': <MiniPetLover />,
-  'mini-none-pet-lover': <MiniNonePetLover />,
-  'mini-dont-mind-pet': <MiniDontMindPet />,
-  'fill-heart': <FillHeart />,
+const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
+  character: ({ className, ...others }) => (
+    <HouseCharacter
+      className={cn('w-[20.25rem] h-[25.6875rem]', className)}
+      {...others}
+    />
+  ),
+  logo: ({ className, ...others }) => (
+    <Logo
+      className={cn('w-[6.5625rem] h-[9.1875rem]', className)}
+      {...others}
+    />
+  ),
+  welcome: ({ className, ...others }) => (
+    <ImgWelcome
+      className={cn('h-[30.75rem] w-[35.5rem]', className)}
+      {...others}
+    />
+  ),
+  'seeking-house': ({ className, ...others }) => (
+    <SeekingHouse
+      className={cn('h-[17.25rem] w-[24rem]', className)}
+      {...others}
+    />
+  ),
+  male: ({ className, ...others }) => (
+    <Male className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  female: ({ className, ...others }) => (
+    <Female className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  'dont-mind-sex': ({ className, ...others }) => (
+    <DontMindSex
+      className={cn('w-[4.75rem] h-[4.25rem]', className)}
+      {...others}
+    />
+  ),
+  'dont-mind-pet': ({ className, ...others }) => (
+    <DontMindPet
+      className={cn('w-[6.25rem] h-[4.5rem]', className)}
+      {...others}
+    />
+  ),
+  'pet-lover': ({ className, ...others }) => (
+    <PetLover className={cn('w-[6.25rem] h-[4.5rem]', className)} {...others} />
+  ),
+  'none-pet-lover': ({ className, ...others }) => (
+    <NonePetLover
+      className={cn('w-[6.25rem] h-[4.5rem]', className)}
+      {...others}
+    />
+  ),
+  'studio-officetel': ({ className, ...others }) => (
+    <StudioOfficetel
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  'villa-townhouse': ({ className, ...others }) => (
+    <VillaTownhouse
+      className={cn('w-[2.75rem] h-[2.875rem]', className)}
+      {...others}
+    />
+  ),
+  apartment: ({ className, ...others }) => (
+    <Apartment
+      className={cn('w-[3.125rem] h-[3.5rem]', className)}
+      {...others}
+    />
+  ),
+  'single-family-house': ({ className, ...others }) => (
+    <SingleFamilyHouse
+      className={cn('w-[4.75rem] h-[3.75rem]', className)}
+      {...others}
+    />
+  ),
+  smoke: ({ className, ...others }) => (
+    <Smoke className={cn('w-[4.75rem] h-[4.25rem]', className)} {...others} />
+  ),
+  'none-smoke': ({ className, ...others }) => (
+    <NoneSmoke
+      className={cn('w-[4.75rem] h-[4.25rem]', className)}
+      {...others}
+    />
+  ),
+  'left-arrow': ({ className, ...others }) => (
+    <LeftArrowLogo
+      className={cn('w-[1.125rem] h-[1rem]', className)}
+      {...others}
+    />
+  ),
+  'right-arrow': ({ className, ...others }) => (
+    <RightArrow
+      className={cn('w-[1.125rem] h-[1rem]', className)}
+      {...others}
+    />
+  ),
+  close: ({ className, ...others }) => (
+    <Close className={cn('w-[0.6875rem] h-[0.75rem]', className)} {...others} />
+  ),
+  'expand-arrow': ({ className, ...others }) => (
+    <ExpandArrow
+      className={cn('w-[0.75rem] h-[0.375rem]', className)}
+      {...others}
+    />
+  ),
+  'google-logo': ({ className, ...others }) => (
+    <GoogleLogo
+      className={cn('w-[30.625rem] h-[3.5rem]', className)}
+      {...others}
+    />
+  ),
+  'kakaotalk-logo': ({ className, ...others }) => (
+    <KakaotalkLogo
+      className={cn('w-[30.625rem] h-[3.5rem]', className)}
+      {...others}
+    />
+  ),
+  invisible: ({ className, ...others }) => (
+    <Invisible
+      className={cn('w-[1.25rem] h-[1.25rem]', className)}
+      {...others}
+    />
+  ),
+  visible: ({ className, ...others }) => (
+    <Visible className={cn('w-[1.25rem] h-[1.25rem]', className)} {...others} />
+  ),
+  'alarm-exist': ({ className, ...others }) => (
+    <AlarmExist
+      className={cn('w-[1.375rem] h-[1.6875rem]', className)}
+      {...others}
+    />
+  ),
+  'alarm-none': ({ className, ...others }) => (
+    <AlarmNone
+      className={cn('w-[1.375rem] h-[1.6875rem]', className)}
+      {...others}
+    />
+  ),
+  avatar: ({ className, ...others }) => (
+    <Avatar
+      className={cn('w-[2.5625rem] h-[2.5625rem]', className)}
+      {...others}
+    />
+  ),
+  'paper-clip': ({ className, ...others }) => (
+    <PaperClip
+      className={cn('w-[1rem] h-[1.3125rem]', className)}
+      {...others}
+    />
+  ),
+  send: ({ className, ...others }) => (
+    <Send
+      className={cn('w-[1.1875rem] h-[1.1875rem]', className)}
+      {...others}
+    />
+  ),
+  camera: ({ className, ...others }) => (
+    <Camera
+      className={cn('h-[4.375rem] w-[4.875rem]', className)}
+      {...others}
+    />
+  ),
+  prev: ({ className, ...others }) => (
+    <Prev className={cn('w-[0.6875rem] h-[1.25rem]', className)} {...others} />
+  ),
+  next: ({ className, ...others }) => (
+    <Next className={cn('w-[0.6875rem] h-[1.25rem]', className)} {...others} />
+  ),
+  back: ({ className, ...others }) => (
+    <Back className={cn('w-[2.75rem] h-[2.75rem]', className)} {...others} />
+  ),
+
+  'monthly-rental-price': ({ className, ...others }) => (
+    <MonthlyRentalPrice
+      className={cn('w-[2.5625rem] h-[2.25rem]', className)}
+      {...others}
+    />
+  ),
+  'semi-monthly-rental-price': ({ className, ...others }) => (
+    <SemiMonthlyRentalPrice
+      className={cn('w-[3.4375rem] h-[2.5625rem]', className)}
+      {...others}
+    />
+  ),
+  'year-rental-price': ({ className, ...others }) => (
+    <YearRentalPrice
+      className={cn('w-[2.375rem] h-[2.5625rem]', className)}
+      {...others}
+    />
+  ),
+  'dont-mind-rental-price': ({ className, ...others }) => (
+    <DontMindRentalPrice
+      className={cn('w-[1.875rem] h-[2.875rem]', className)}
+      {...others}
+    />
+  ),
+  'one-person': ({ className, ...others }) => (
+    <OnePerson
+      className={cn('w-[1.4375rem] h-[1.4375rem]', className)}
+      {...others}
+    />
+  ),
+  'two-people': ({ className, ...others }) => (
+    <TwoPeople
+      className={cn('w-[3.125rem] h-[1.4375rem]', className)}
+      {...others}
+    />
+  ),
+  'three-people': ({ className, ...others }) => (
+    <ThreePeople
+      className={cn('w-[4.8125rem] h-[1.4375rem]', className)}
+      {...others}
+    />
+  ),
+  'dont-mind-people': ({ className, ...others }) => (
+    <DontMindPeople
+      className={cn('w-[2.5rem] h-[1.4375rem]', className)}
+      {...others}
+    />
+  ),
+  done: ({ className, ...others }) => (
+    <Done
+      className={cn('w-[1.0625rem] h-[0.8125rem]', className)}
+      {...others}
+    />
+  ),
+  heart: ({ className, ...others }) => (
+    <Heart
+      className={cn('w-[2.6875rem] h-[2.3125rem]', className)}
+      {...others}
+    />
+  ),
+  'fill-heart': ({ className, ...others }) => (
+    <FillHeart
+      className={cn('w-[2.6875rem] h-[2.3125rem]', className)}
+      {...others}
+    />
+  ),
+  share: ({ className, ...others }) => (
+    <Share className={cn('w-[1.8125rem] h-[2.25rem]', className)} {...others} />
+  ),
+  'mini-smoke': ({ className, ...others }) => (
+    <MiniSmoke
+      className={cn('w-[2.3125rem] h-[2.0625rem]', className)}
+      {...others}
+    />
+  ),
+  'mini-none-smoke': ({ className, ...others }) => (
+    <MiniNoneSmoke
+      className={cn('w-[1.5rem] h-[1.5rem]', className)}
+      {...others}
+    />
+  ),
+  'icon-male': ({ className, ...others }) => (
+    <IconMale className={cn('size-6', className)} {...others} />
+  ),
+  'icon-female': ({ className, ...others }) => (
+    <IconFemale className={cn('size-6', className)} {...others} />
+  ),
+  'icon-gender-free': ({ className, ...others }) => (
+    <IconGenderFree className={cn('size-6', className)} {...others} />
+  ),
+  'pet-heart': ({ className, ...others }) => (
+    <PetHeart
+      className={cn('w-[1.125rem] h-[0.958125rem]', className)}
+      {...others}
+    />
+  ),
+  'pet-hate': ({ className, ...others }) => (
+    <PetHate className={cn('size-[1.125rem]', className)} {...others} />
+  ),
+  'pet-circle': ({ className, ...others }) => (
+    <PetCircle className={cn('size-[1.125rem]', className)} {...others} />
+  ),
+  edit: ({ className, ...others }) => (
+    <Edit className={cn('size-[17px]', className)} {...others} />
+  ),
+  delete: ({ className, ...others }) => (
+    <Delete className={cn('size-[24px]', className)} {...others} />
+  ),
 };
 
 export default IconSVG;

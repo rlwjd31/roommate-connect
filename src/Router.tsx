@@ -98,7 +98,7 @@ const routes: RouteType[] = [
       },
       {
         path: 'house-detail/:houseId',
-        element: <h1>House Detail Page</h1>,
+        element: <HouseDetailTemplate />,
         shouldProtected: true,
       },
       {
@@ -134,7 +134,7 @@ const routes: RouteType[] = [
       },
       {
         path: 'signup-profile',
-        shouldProtected: true,
+        // shouldProtected: true,
         element: <SignUpProfile />,
       },
       {
@@ -163,7 +163,6 @@ const routes: RouteType[] = [
           },
         ],
       },
-      { path: 'house-detail/:houseId', element: <HouseDetailTemplate /> },
     ],
   },
 ];
