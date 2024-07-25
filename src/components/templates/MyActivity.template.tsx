@@ -147,15 +147,17 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
           </Container.FlexRow>
           <BadgeContainer className="pb-[3.25rem] pt-6">
             {/* TODO IconType 수정  */}
-            <BadgeIcon.Outline iconType="one-person">
+            <BadgeIcon.Outline iconType={genderInfo[user.gender].icon}>
               <Typography.P2>{genderInfo[user.gender].text}</Typography.P2>
             </BadgeIcon.Outline>
-            <BadgeIcon.Outline iconType="one-person">
+            <BadgeIcon.Outline
+              iconType={smokingInfo[user.user_lifestyle.smoking].icon}
+            >
               <Typography.P2>
                 {smokingInfo[user.user_lifestyle.smoking].text}
               </Typography.P2>
             </BadgeIcon.Outline>
-            <BadgeIcon.Outline iconType="one-person">
+            <BadgeIcon.Outline iconType={petInfo[user.user_lifestyle.pet].icon}>
               <Typography.P2>
                 {petInfo[user.user_lifestyle.pet].text}
               </Typography.P2>
@@ -189,7 +191,7 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
                   </Typography.P2>
                 </BadgeIcon.Outline>
                 <BadgeIcon.Outline
-                  iconType={mateNumInfo[user.user_mate_style.mate_number].icon}
+                  iconType={genderInfo[user.user_mate_style.mate_gender].icon}
                 >
                   <Typography.P2>
                     {genderInfo[user.user_mate_style.mate_gender].text}
