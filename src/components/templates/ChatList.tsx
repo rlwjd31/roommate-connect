@@ -14,6 +14,7 @@ import { formatDateByCountry, isToday } from '@/libs/dateUtils';
 import {
   fetchLastReadDate,
   fetchUnReadMessagesCount,
+  useUnReadMessageCount,
 } from '@/hooks/useChat';
 
 type PointAlertType = {
@@ -59,22 +60,12 @@ const chatRoomId = '2c818fc5-8b49-44ff-8713-b4ece60c36d5';
 export default function ChatList() {
   const [chatListState, setChatListState] = useState<ChatListState[]>([]);
   const userInfo = useRecoilValue(UserAtom);
+  const unReadMessageCount = useUnReadMessageCount(
+    userInfo?.id ?? '',
+    chatRoomId,
+  );
 
-  useEffect(() => {
-    if (userInfo) {
-      (async () => {
-        // TODO: chatRoomId는 임시적으로 추후에 지워야 함
-        const chatRoomId = '2c818fc5-8b49-44ff-8713-b4ece60c36d5';
-        const lastReadDate = await fetchLastReadDate(userInfo.id, chatRoomId);
-        const unReadMessagesCount = await fetchUnReadMessagesCount(
-          chatRoomId,
-          lastReadDate,
-        );
-
-        console.log('unReadMessagesCount', unReadMessagesCount);
-      })();
-    }
-  }, [userInfo]);
+  console.log('unReadMessageCount', unReadMessageCount);
 
   useEffect(() => {
     if (userInfo) {
