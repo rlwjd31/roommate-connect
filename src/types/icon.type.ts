@@ -28,7 +28,6 @@ export type IconType =
   | 'alarm-exist'
   | 'alarm-none'
   | 'avatar'
-  | 'back'
   | 'paper-clip'
   | 'send'
   | 'camera'
@@ -42,7 +41,21 @@ export type IconType =
   | 'one-person'
   | 'two-people'
   | 'three-people'
-  | 'dont-mind-people' | 'done'
+  | 'dont-mind-people'
+  | 'done'
+  | 'heart'
+  | 'share'
+  | 'mini-smoke'
+  | 'mini-none-smoke'
+  | 'icon-male'
+  | 'icon-female'
+  | 'icon-gender-free'
+  | 'pet-heart'
+  | 'pet-hate'
+  | 'pet-circle'
+  | 'fill-heart'
+  | 'edit'
+  | 'delete';
 
 export type CustomIconType = {
   fill?: ColorType;
