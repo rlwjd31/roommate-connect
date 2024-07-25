@@ -7,13 +7,12 @@ import Typography from '@/components/atoms/Typography';
 import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
-import { formatDateByCountry } from '@/libs/formatDate';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { errorToast } from '@/libs/toast';
 import Avatar from '@/components/atoms/Avatar';
 import IconButton from '@/components/molecules/IconButton';
 import Input from '@/components/atoms/Input';
-import Chat from '@/components/pages/Chat';
+import { formatDateByCountry } from '@/libs/dateUtils';
 
 type MessageType = Tables<'messages'>;
 
@@ -43,13 +42,13 @@ const fetchChatPartnerInfo = async (userId: string, chatPartnerId: string) => {
 };
 
 function DateMessageBox({ children, date }: DateMessageBoxProps) {
-  const messageDate = formatDateByCountry(date, 'ko-KR');
+  const messageDate = formatDateByCountry(date);
 
   return (
     <Container.FlexCol className="gap-8">
-      <Typography.Span1 className="mx-auto w-fit rounded-[1.25rem] bg-brown6 px-4 py-2 font-semibold text-brown">
+      <Typography.Span2 className="mx-auto w-fit rounded-[1.25rem] bg-brown6 px-4 py-2 font-medium text-brown1">
         {messageDate}
-      </Typography.Span1>
+      </Typography.Span2>
       {children}
     </Container.FlexCol>
   );

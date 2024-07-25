@@ -10,6 +10,7 @@ import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
+import { formatDateByCountry, isToday } from '@/libs/dateUtils';
 
 type PointAlertType = {
   content: string | number;
@@ -52,28 +53,62 @@ PointAlert.defaultProps = {
 export default function ChatList() {
   const [chatListState, setChatListState] = useState<ChatListState[]>([]);
   const userInfo = useRecoilValue(UserAtom);
+
+  useEffect(() => {
+    if (userInfo) {
+      (async () => {
+        // TODO: user가 마지막으로 읽은 시간
+
+        const { data, error, status } = await supabase
+          .from('user_chat')
+          .select('last_read')
+          .eq('id', userInfo.id)
+          .eq('chat_room_id', '2c818fc5-8b49-44ff-8713-b4ece60c36d5') // TODO: alternate chatRoomId
+          .single();
+
+        if (error) {
+          const supabaseError = new SupabaseCustomError(error, status);
+          console.error({ supabaseError });
+          throw supabaseError;
+        }
+
+        const userLastRead = data.last_read;
+
+        const unReadMessageCountResonponse = await supabase
+          .from('messages')
+          .select('id', { count: 'exact' })
+          .eq('chat_room_id', '2c818fc5-8b49-44ff-8713-b4ece60c36d5') // TODO: alternate chatRoomId
+          .gt('created_at', userLastRead);
+
+        const unReadMessageCount = unReadMessageCountResonponse.data?.length;
+        console.log('unReadMessageCount', unReadMessageCount);
+        // console.log('data =>', response.data);
+      })();
+    }
+  }, [userInfo]);
+
   useEffect(() => {
     if (userInfo) {
       (async () => {
         // ! PostgreSQL에서 배열 타입의 컬럼에 대해 외래 키 제약 조건을 설정하는 것은 지원되지 않아
         // ! join을 할 수 없고 따로따로 fetch를 날리는 것으로 해결
-        const chatListResponse = await supabase
+        const chatRoomListResponse = await supabase
           .from('chat_room')
           .select('*')
           .contains('users', [userInfo.id])
-          .order('last_message_date', { ascending: true });
+          .order('last_message_date', { ascending: false });
 
-        if (chatListResponse.error || !chatListResponse.data) {
+        if (chatRoomListResponse.error || !chatRoomListResponse.data) {
           const supabaseError = new SupabaseCustomError(
-            chatListResponse.error,
-            chatListResponse.status,
+            chatRoomListResponse.error,
+            chatRoomListResponse.status,
           );
           console.error({ supabaseError });
           throw supabaseError;
         }
 
-        const chatListPageData = await Promise.all(
-          chatListResponse.data.map(async chatRoomInfo => {
+        const chatRoomListPageData = await Promise.all(
+          chatRoomListResponse.data.map(async chatRoomInfo => {
             const {
               id: chatId,
               last_message: lastMessage,
@@ -108,8 +143,8 @@ export default function ChatList() {
           }),
         );
         // TODO: 안 읽은 message count 기능
-        setChatListState(chatListPageData);
-        return chatListPageData;
+        setChatListState(chatRoomListPageData);
+        return chatRoomListPageData;
       })();
     }
   }, [userInfo]);
@@ -144,18 +179,20 @@ export default function ChatList() {
             >
               {/* shrink를 0으로 설정하지 않으면 이미지가 깨짐 */}
               <Avatar.M src={avatar ?? ''} />
-              {/* <Img className="size-12 shrink-0 rounded-full" src={avatarUrl} /> */}
               <Container.FlexCol className="w-full">
                 <Container.FlexRow className="items-center justify-between">
                   <Typography.Span1 className="font-bold leading-150 text-brown">
                     {nickname}
                   </Typography.Span1>
-                  <Typography.Span2 className="font-semibold leading-150 text-brown2">
-                    {lastMessageDate}
+                  <Typography.Span2 className="font-medium leading-150 text-brown2">
+                    {formatDateByCountry(
+                      new Date(lastMessageDate),
+                      isToday(new Date(), new Date(lastMessageDate)),
+                    )}
                   </Typography.Span2>
                 </Container.FlexRow>
                 <Container.FlexRow className="items-center justify-between">
-                  <Typography.Span2 className="font-semibold leading-150 text-brown2">
+                  <Typography.Span2 className="font-medium leading-150 text-brown2">
                     {lastMessage}
                   </Typography.Span2>
                   <PointAlert content={newChatCount} />
