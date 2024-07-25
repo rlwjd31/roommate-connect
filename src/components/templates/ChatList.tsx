@@ -11,6 +11,10 @@ import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 import { formatDateByCountry, isToday } from '@/libs/dateUtils';
+import {
+  fetchLastReadDate,
+  fetchUnReadMessagesCount,
+} from '@/hooks/useChat';
 
 type PointAlertType = {
   content: string | number;
@@ -50,6 +54,8 @@ PointAlert.defaultProps = {
   typoStyle: '',
 };
 
+const chatRoomId = '2c818fc5-8b49-44ff-8713-b4ece60c36d5';
+
 export default function ChatList() {
   const [chatListState, setChatListState] = useState<ChatListState[]>([]);
   const userInfo = useRecoilValue(UserAtom);
@@ -57,32 +63,15 @@ export default function ChatList() {
   useEffect(() => {
     if (userInfo) {
       (async () => {
-        // TODO: user가 마지막으로 읽은 시간
+        // TODO: chatRoomId는 임시적으로 추후에 지워야 함
+        const chatRoomId = '2c818fc5-8b49-44ff-8713-b4ece60c36d5';
+        const lastReadDate = await fetchLastReadDate(userInfo.id, chatRoomId);
+        const unReadMessagesCount = await fetchUnReadMessagesCount(
+          chatRoomId,
+          lastReadDate,
+        );
 
-        const { data, error, status } = await supabase
-          .from('user_chat')
-          .select('last_read')
-          .eq('id', userInfo.id)
-          .eq('chat_room_id', '2c818fc5-8b49-44ff-8713-b4ece60c36d5') // TODO: alternate chatRoomId
-          .single();
-
-        if (error) {
-          const supabaseError = new SupabaseCustomError(error, status);
-          console.error({ supabaseError });
-          throw supabaseError;
-        }
-
-        const userLastRead = data.last_read;
-
-        const unReadMessageCountResonponse = await supabase
-          .from('messages')
-          .select('id', { count: 'exact' })
-          .eq('chat_room_id', '2c818fc5-8b49-44ff-8713-b4ece60c36d5') // TODO: alternate chatRoomId
-          .gt('created_at', userLastRead);
-
-        const unReadMessageCount = unReadMessageCountResonponse.data?.length;
-        console.log('unReadMessageCount', unReadMessageCount);
-        // console.log('data =>', response.data);
+        console.log('unReadMessagesCount', unReadMessagesCount);
       })();
     }
   }, [userInfo]);
@@ -98,7 +87,8 @@ export default function ChatList() {
           .contains('users', [userInfo.id])
           .order('last_message_date', { ascending: false });
 
-        if (chatRoomListResponse.error || !chatRoomListResponse.data) {
+        // * chatRoomList가 없을 때는 null로 들어옴
+        if (chatRoomListResponse.error && !chatRoomListResponse.data) {
           const supabaseError = new SupabaseCustomError(
             chatRoomListResponse.error,
             chatRoomListResponse.status,
