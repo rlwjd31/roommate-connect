@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
 import { useRecoilState } from 'recoil';
+import { useWatch } from 'react-hook-form';
 
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
@@ -21,7 +22,11 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
   const [currentImgPage, setCurrentImgPage] = useState(0);
   const [renderImg, setRenderImg] = useState<string[]>([]);
   const representative = form.watch('representative_img');
-  const imageLen = renderImg.length;
+  const houseImages = useWatch({
+    control: form.control,
+    name: 'house_img',
+  });
+  const imageLen = houseImages?.length || 0;
 
   const createErrorToast = (message: string) =>
     createToast('uploadImage', `${message}`, {
@@ -119,7 +124,7 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
       const firstImage = form.getValues('house_img')[0];
       form.setValue('representative_img', firstImage);
     }
-  }, [imageLen, renderImg]);
+  }, [imageLen, renderImg, form, representative]);
 
   return (
     <Container.FlexCol>
