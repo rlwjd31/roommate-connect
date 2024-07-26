@@ -90,7 +90,7 @@ export default function ChatRoom() {
             console.table({ created_at, message, sendBy });
 
             // * formatDateByCountry method test
-            console.log(formatDateByCountry(new Date(created_at), 'ko-KR'));
+            console.log(formatDateByCountry(new Date(created_at)));
           }
         },
       )
@@ -283,17 +283,3 @@ export default function ChatRoom() {
     </Container.FlexCol>
   );
 }
-
-// ! gijung8282   cd916d68-216b-4a7a-8ba9-7155e0c2ce16
-// ! gijung828282 b87f4ae6-fe0d-46b9-802e-45742e81f2b5
-
-// ! 이미 열려있는 채팅방이면 그냥 연결만 하면 되는 로직 구현해야 됨.
-
-
-// table chat_room {
-//   id: uuid,
-//   created_at: timestampzone,
-//   users: '{}'::uuid[],
-//   last_message: text,
-//   last_message_date: timestampzone
-// }

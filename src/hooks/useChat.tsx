@@ -1,7 +1,4 @@
-import {
-  useQueries,
-  useQuery,
-} from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
@@ -71,7 +68,6 @@ const fetchChatPartnerInfo = async (chatPartnerId: string) => {
   return data;
 };
 
-
 const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   const { data: lastReadDate } = useQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
@@ -95,7 +91,7 @@ const useChatRoomListPageData = (userId: string) => {
     enabled: !!userId,
   });
 
-  const chatRoomListPageData = useQueries({
+  const { data: chatRoomListPageData } = useQueries({
     queries: chatRoomList
       ? chatRoomList.map(chatRoomInfo => {
           const {
@@ -151,7 +147,13 @@ const useChatRoomListPageData = (userId: string) => {
     }),
   });
 
-  return chatRoomListPageData.data;
+  return {
+    chatRoomListPageData,
+    totalUnreadMessagesCount: chatRoomListPageData?.reduce(
+      (acc, cur) => acc + (cur.newChatCount || 0),
+      0,
+    ),
+  };
 };
 
 export { useUnReadMessageCount, useChatRoomListPageData };
