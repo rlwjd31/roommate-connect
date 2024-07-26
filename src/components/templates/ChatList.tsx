@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -8,6 +10,7 @@ import Avatar from '@/components/atoms/Avatar';
 import { UserAtom } from '@/stores/auth.store';
 import { formatDateByCountry, isToday } from '@/libs/dateUtils';
 import { useChatRoomListPageData } from '@/hooks/useChat';
+import { supabase } from '@/libs/supabaseClient';
 
 type PointAlertType = {
   content: string | number;
@@ -41,15 +44,34 @@ PointAlert.defaultProps = {
 
 export default function ChatList() {
   const userInfo = useRecoilValue(UserAtom);
-  const { chatRoomListPageData, totalUnreadMessagesCount } =
+  const { chatRoomListPageData, totalNewChatsCount } =
     useChatRoomListPageData(userInfo?.id ?? '')!;
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const chatChannel = supabase
+      .channel(`chatRoomList`)
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages' },
+        () => {
+          queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
+          queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
+        },
+      )
+      .subscribe();
+
+    return () => {
+      chatChannel.unsubscribe();
+    };
+  }, [queryClient]);
 
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-2 bg-brown6 p-6">
         <Typography.SubTitle1 className="text-brown">채팅</Typography.SubTitle1>
         <PointAlert
-          content={totalUnreadMessagesCount}
+          content={totalNewChatsCount}
           containerStyle="self-center"
         />
       </Container.FlexRow>

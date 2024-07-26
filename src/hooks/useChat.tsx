@@ -149,7 +149,7 @@ const useChatRoomListPageData = (userId: string) => {
 
   return {
     chatRoomListPageData,
-    totalUnreadMessagesCount: chatRoomListPageData?.reduce(
+    totalNewChatsCount: chatRoomListPageData?.reduce(
       (acc, cur) => acc + (cur.newChatCount || 0),
       0,
     ),
