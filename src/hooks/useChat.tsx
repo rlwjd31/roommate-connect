@@ -1,4 +1,7 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
+import {
+  useQueries,
+  useQuery,
+} from '@tanstack/react-query';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
@@ -22,6 +25,8 @@ const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
   return userLastRead;
 };
 
+// db join이 table구성 상 되지 않는 관계로 dependent fetch로 구성(chatRoomListPageData 내부 참조)
+// TODO: 추후 db 바꿀 시 join으로 수정
 const fetchUnReadMessagesCount = async (
   chatRoomId: string,
   lastReadDate: string,
@@ -66,8 +71,7 @@ const fetchChatPartnerInfo = async (chatPartnerId: string) => {
   return data;
 };
 
-// db join이 table구성 상 되지 않는 관계로 dependent query로 구성
-// TODO: 추후 db 바꿀 시 join으로 수정
+
 const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   const { data: lastReadDate } = useQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
