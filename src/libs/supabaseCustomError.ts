@@ -16,6 +16,14 @@ class SupabaseCustomError extends Error {
     this.hint = postgresError.hint;
     this.details = postgresError.details;
     this.statusCode = statusCode;
+
+    console.error({
+      name: this.name,
+      code: this.code,
+      hint: this.hint,
+      details: this.details,
+      statusCode: this.statusCode,
+    });
   }
 }
 
