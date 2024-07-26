@@ -4,6 +4,7 @@ export type ModalType =
   | 'Profile'
   | 'RoommateApplicationStatus'
   | 'RoommateApply'
+  | 'Continue';
 
 export type ModalStateByType = {
   Alert: AlertModalState;
@@ -11,6 +12,7 @@ export type ModalStateByType = {
   Profile: ProfileModalState;
   RoommateApplicationStatus: RoommateApplicationState;
   RoommateApply: RoommateApplyState;
+  Continue: ContinuationModalState;
 };
 
 export type AlertModalState = {
@@ -54,7 +56,7 @@ export type RoommateApplicationState = {
   onClickChat: () => void;
   onClickCancel: () => void;
   onClickConfirm: () => void;
-}
+};
 
 export type RoommateApplyState = {
   isOpen: boolean;
@@ -63,4 +65,15 @@ export type RoommateApplyState = {
   roommateAppeals: string[];
   onClickCancel: () => void;
   onClickConfirm: () => void;
+};
+
+export type ContinuationModalState = {
+  isOpen: boolean;
+  type: 'Continue';
+  title: string;
+  message: string;
+  onClickCancel: () => void;
+  onClickContinue: () => void;
+  cancelButtonContent: string;
+  continueButtonContent: string;
 };

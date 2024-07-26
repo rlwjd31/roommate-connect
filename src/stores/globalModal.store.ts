@@ -3,6 +3,7 @@ import { atom, errorSelector, selectorFamily } from 'recoil';
 import {
   AlertModalState,
   ConfirmModalState,
+  ContinuationModalState,
   ModalStateByType,
   ModalType,
   ProfileModalState,
@@ -86,6 +87,20 @@ export const RoommateApplyAtom = atom<RoommateApplyState>({
   },
 });
 
+export const ContinuationModalAtom = atom<ContinuationModalState>({
+  key: 'continuationModalState',
+  default: {
+    isOpen: false,
+    type: 'Continue',
+    title: '',
+    message: '',
+    onClickCancel: () => {},
+    onClickContinue: () => {},
+    cancelButtonContent: '',
+    continueButtonContent: '',
+  },
+});
+
 export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
   get:
@@ -102,6 +117,8 @@ export const ModalSelector = selectorFamily({
           return get(RoommateApplicationAtom) as ModalStateByType[P];
         case 'RoommateApply':
           return get(RoommateApplyAtom) as ModalStateByType[P];
+        case 'Continue':
+          return get(ContinuationModalAtom) as ModalStateByType[P];
         default:
           errorSelector('Undefined cannot be a value of ModalType.');
           throw new Error('Undefined cannot be a value of ModalType.');
@@ -128,6 +145,9 @@ export const ModalSelector = selectorFamily({
           break;
         case 'RoommateApply':
           set(RoommateApplyAtom, newModalState as RoommateApplyState);
+          break;
+        case 'Continue':
+          set(ContinuationModalAtom, newModalState as ContinuationModalState);
           break;
         default:
           // eslint-disable-next-line no-console
