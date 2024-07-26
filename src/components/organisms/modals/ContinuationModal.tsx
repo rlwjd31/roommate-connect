@@ -22,7 +22,7 @@ export default function ContinuationModal() {
       <Container.FlexCol className="w-full max-w-96 cursor-auto rounded-2xl bg-bg text-brown">
         <Container.FlexCol className="gap-5 p-6">
           <Typography.SubTitle3>{title}</Typography.SubTitle3>
-          <Typography.P3 className="whitespace-pre-wrap leading-6">
+          <Typography.P3 className="whitespace-pre-line text-start leading-6">
             {message}
           </Typography.P3>
         </Container.FlexCol>
