@@ -1,40 +1,15 @@
-import {
-  QueryFunctionContext,
-  useQueries,
-  useQuery,
-} from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { Tables } from '@/types/supabase';
 
-/**
- * [queryKey, userId, chatRoomId]
- */
-type LastReadDateProps = [string, string, string];
-/**
- * [queryKey, chatRoomId, lastReadDate]
- */
-type UnReadMessagesProps = [string, string, string];
-/**
- * [queryKey, userId]
- */
-type ChatRoomListProps = [string, string];
-/**
- * [queryKey, chatPartnerId]
- */
-type ChatPartnerInfoProps = [string, string];
-
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
-const fetchLastReadDate = async ({
-  queryKey,
-}: QueryFunctionContext<LastReadDateProps>) => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const [_, userId, chatRoomId] = queryKey;
+const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
   const { data, error, status } = await supabase
     .from('user_chat')
     .select('last_read')
-    .eq('id', userId)
+    .eq('user_id', userId)
     .eq('chat_room_id', chatRoomId)
     .single();
 
@@ -47,11 +22,10 @@ const fetchLastReadDate = async ({
   return userLastRead;
 };
 
-const fetchUnReadMessagesCount = async ({
-  queryKey,
-}: QueryFunctionContext<UnReadMessagesProps>) => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const [_, chatRoomId, lastReadDate] = queryKey;
+const fetchUnReadMessagesCount = async (
+  chatRoomId: string,
+  lastReadDate: string,
+) => {
   const { data, error, status } = await supabase
     .from('messages')
     .select('id', { count: 'exact' })
@@ -65,11 +39,7 @@ const fetchUnReadMessagesCount = async ({
   return data.length;
 };
 
-const fetchChatRoomList = async ({
-  queryKey,
-}: QueryFunctionContext<ChatRoomListProps>) => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const [_, userId] = queryKey;
+const fetchChatRoomList = async (userId: string) => {
   const { data, error, status } = await supabase
     .from('chat_room')
     .select('*')
@@ -84,11 +54,7 @@ const fetchChatRoomList = async ({
   return data;
 };
 
-const fetchChatPartnerInfo = async ({
-  queryKey,
-}: QueryFunctionContext<ChatPartnerInfoProps>) => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const [_, chatPartnerId] = queryKey;
+const fetchChatPartnerInfo = async (chatPartnerId: string) => {
   const { data, error, status } = await supabase
     .from('user')
     .select('*')
@@ -105,13 +71,13 @@ const fetchChatPartnerInfo = async ({
 const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   const { data: lastReadDate } = useQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
-    queryFn: fetchLastReadDate,
+    queryFn: () => fetchLastReadDate(userId, chatRoomId),
     enabled: !!userId,
   });
 
   const { data: unReadMessagesCount } = useQuery({
     queryKey: ['unReadMessagesCount', chatRoomId, lastReadDate!],
-    queryFn: fetchUnReadMessagesCount,
+    queryFn: () => fetchUnReadMessagesCount(chatRoomId, lastReadDate!),
     enabled: !!lastReadDate,
   });
 
@@ -121,7 +87,7 @@ const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
 const useChatRoomListPageData = (userId: string) => {
   const { data: chatRoomList } = useQuery({
     queryKey: ['chatRoomList', userId],
-    queryFn: fetchChatRoomList,
+    queryFn: () => fetchChatRoomList(userId),
     enabled: !!userId,
   });
 
@@ -129,7 +95,7 @@ const useChatRoomListPageData = (userId: string) => {
     queries: chatRoomList
       ? chatRoomList.map(chatRoomInfo => {
           const {
-            id: chatId,
+            id: chatRoomId,
             last_message: lastMessage,
             last_message_date: lastMessageDate,
             users: userIds,
@@ -142,15 +108,31 @@ const useChatRoomListPageData = (userId: string) => {
           if (!chatPartnerId) throw new Error(`couldn't find chat partner id`);
 
           return {
-            queryKey: ['chatPartnerInfo', chatPartnerId] as [string, string],
-            queryFn: fetchChatPartnerInfo,
+            queryKey: ['chatPartnerInfo', userId, chatRoomId, chatPartnerId],
+            queryFn: async () => {
+              const lastReadDate = await fetchLastReadDate(userId, chatRoomId);
+              const newChatCount = await fetchUnReadMessagesCount(
+                chatRoomId,
+                lastReadDate!,
+              );
+              const chatPartnerInfo = await fetchChatPartnerInfo(chatPartnerId);
+
+              return {
+                newChatCount,
+                chatPartnerInfo,
+              };
+            },
             // * combine에서 하려 했지만, chatId, lastMessage 등 값을 scope 때문에 참조할 수 없어 select를 사용
-            select: (data: Tables<'user'>) => ({
-              chatId,
+            select: (data: {
+              newChatCount: number;
+              chatPartnerInfo: Tables<'user'>;
+            }) => ({
+              chatRoomId,
               lastMessage,
               lastMessageDate,
               userIds,
-              chatPartnerInfo: { ...data },
+              newChatCount: data.newChatCount,
+              chatPartnerInfo: { ...data.chatPartnerInfo },
             }),
             enabled: !!chatPartnerId,
           };

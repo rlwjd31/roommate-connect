@@ -8,10 +8,7 @@ import Avatar from '@/components/atoms/Avatar';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 import { formatDateByCountry, isToday } from '@/libs/dateUtils';
-import {
-  useChatRoomListPageData,
-  useUnReadMessageCount,
-} from '@/hooks/useChat';
+import { useChatRoomListPageData } from '@/hooks/useChat';
 
 type PointAlertType = {
   content: string | number;
@@ -51,16 +48,11 @@ PointAlert.defaultProps = {
   typoStyle: '',
 };
 
-const chatRoomId = '2c818fc5-8b49-44ff-8713-b4ece60c36d5';
-
 export default function ChatList() {
   const userInfo = useRecoilValue(UserAtom);
-  const unReadMessageCount = useUnReadMessageCount(
-    userInfo?.id ?? '',
-    chatRoomId,
-  );
   const chatListPageData = useChatRoomListPageData(userInfo?.id ?? '')!;
-  console.log('chatListPageData', chatListPageData);
+
+  // console.log('chatListPageData', chatListPageData);
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-2 bg-brown6 p-6">
@@ -74,14 +66,14 @@ export default function ChatList() {
         {chatListPageData.map(
           ({
             chatPartnerInfo: { avatar, nickname },
-            chatId,
+            chatRoomId,
             lastMessage,
             lastMessageDate,
-            newChatCount = 2,
+            newChatCount,
           }) => (
             <NavLink
-              key={chatId}
-              to={`/chats/${chatId}`}
+              key={chatRoomId}
+              to={`/chats/${chatRoomId}`}
               className={({ isActive }) =>
                 cn(
                   'flex items-start gap-4 rounded-xl p-3 hover:bg-brown6',
