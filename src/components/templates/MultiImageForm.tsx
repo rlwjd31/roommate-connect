@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
-import { useRecoilState } from 'recoil';
 import { useWatch } from 'react-hook-form';
 
 import { supabase } from '@/libs/supabaseClient';
@@ -12,16 +11,25 @@ import Img from '@/components/atoms/Img';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import { SessionAtom } from '@/stores/auth.store';
 import { HouseRegisterFormType } from '@/components/templates/HouseRegisterTemplate1';
 
-export default function MultiImageForm({ form }: HouseRegisterFormType) {
+type MultiImageFormProp = HouseRegisterFormType & {
+  userId: string;
+  houseId: string;
+  isEditMode: boolean;
+};
+
+export default function MultiImageForm({
+  form,
+  userId,
+  houseId,
+  isEditMode,
+}: MultiImageFormProp) {
   const IMAGE_PER_PAGE = 3;
   const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
-  const userId = useRecoilState(SessionAtom)[0]?.user.id;
   const [currentImgPage, setCurrentImgPage] = useState(0);
   const [renderImg, setRenderImg] = useState<string[]>([]);
-  const representative = form.watch('representative_img');
+  const representativeImg = form.watch('representative_img');
   const houseImages = useWatch({
     control: form.control,
     name: 'house_img',
@@ -36,6 +44,7 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
     });
 
   // file을 받아서 supabase storage에 이미지를 넣는 함수
+  // TODO: trigger() 쓰지 않고 form에서 house_img의 길이를 인식하도록 하기!
   const handleAddImages = async (file: File) => {
     try {
       const newFileName = uuid();
@@ -51,6 +60,7 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
       const images = form.getValues('house_img');
       images.push(newFileName);
       form.setValue('house_img', images);
+      form.trigger();
 
       const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
       setRenderImg(prev => [...prev, newFileUrl]);
@@ -84,11 +94,12 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
         .from('images')
         .remove([`house/${userId}/temporary/${imgName}`]);
 
-      if (imgName === representative) {
+      if (imgName === representativeImg) {
         form.setValue('representative_img', '');
       }
       const images = form.watch('house_img').filter(img => img !== imgName);
       form.setValue('house_img', images);
+      form.trigger();
 
       setRenderImg(prev => prev.filter(imgUrl => !imgUrl.includes(imgName)));
       if (imageLen % 3 === 0 && currentImgPage > 0) {
@@ -118,13 +129,33 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
   // 처음 이미지 업로드시 첫번째 사진을 대표사진으로 지정
   useEffect(() => {
     if (
-      (representative === '' || representative === undefined) &&
+      (representativeImg === '' || representativeImg === undefined) &&
       imageLen !== 0
     ) {
       const firstImage = form.getValues('house_img')[0];
       form.setValue('representative_img', firstImage);
     }
-  }, [imageLen, renderImg, form, representative]);
+  }, [imageLen]);
+
+  // edit이라면 db에 있는 대표사진과 이미지배열을 가져와 Rendering 되도록 정제
+  useEffect(() => {
+    if (!houseImages.includes(representativeImg)) {
+      if (isEditMode && representativeImg !== '') {
+        const totalImages = [];
+        totalImages.push(representativeImg);
+
+        if (houseImages.length !== 0) {
+          totalImages.push(...houseImages);
+        }
+
+        const houseImageUrls = totalImages.map(
+          imgName => `${HOUSE_STORAGE_URL}/${userId}/${houseId}/${imgName}`,
+        );
+        form.setValue('house_img', totalImages);
+        setRenderImg(houseImageUrls);
+      }
+    }
+  }, [representativeImg, houseImages]);
 
   return (
     <Container.FlexCol>
@@ -179,13 +210,13 @@ export default function MultiImageForm({ form }: HouseRegisterFormType) {
                     type="radio"
                     id={`image_${index}`}
                     className="absolute bottom-3 right-3 z-10 h-7 w-7 p-1"
-                    checked={imgSrc.includes(representative)}
+                    checked={imgSrc.includes(representativeImg)}
                     onChange={() => handleRepresentativeChange(imgSrc)}
                   />
                   <div className="absolute inset-0">
                     <Img className="size-full object-cover" src={imgSrc} />
                   </div>
-                  {imgSrc.includes(representative) && (
+                  {imgSrc.includes(representativeImg) && (
                     <Typography.SubTitle2 className="absolute bottom-0 z-20 w-full rounded-b-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>
