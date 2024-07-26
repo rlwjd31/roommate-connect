@@ -25,7 +25,7 @@ import BadgeIcon from '@/components/molecules/BadgeIcon';
 import copyUrl from '@/libs/copyUrl';
 import { useUpdateBookMark } from '@/hooks/useHouseDetail';
 
-// TODO: HouseData Type은 유하꺼랑 합쳐지면 import
+// TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
   created_at: string;
   updated_at: string;
@@ -67,7 +67,6 @@ export default function HouseDetailTemplate(props: {
   }
   const houseOwner = houseData.user_id === user?.id;
 
-  // TODO: try catch로 리펙토링
   const onClickBookMark = () => {
     updateBookMark({
       id: user?.id as string,
@@ -76,7 +75,6 @@ export default function HouseDetailTemplate(props: {
     });
   };
 
-  // houseData
   const { created_at: createdAt, updated_at: updatedAt } = houseData;
 
   const formDate = (dateString: string) => {
@@ -296,7 +294,6 @@ export default function HouseDetailTemplate(props: {
                 ))}
               </Container.FlexRow>
             </Container.FlexCol>
-            {/* //!TODO: UI 수정 및 데이터 user_mate_style 에서 가져오기 */}
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
               <Container.FlexRow className="items-center gap-5">
