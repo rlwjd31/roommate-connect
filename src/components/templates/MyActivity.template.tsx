@@ -256,7 +256,7 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
               className={`h-14 w-[11.25rem] items-center justify-center border-b-brown text-brown2 ${currentTab === index ? 'border-b-3 text-brown' : ''}`}
               onClick={() => setCurrentTab(index)}
             >
-              <Typography.SubTitle1 className="">{item}</Typography.SubTitle1>
+              <Typography.SubTitle1>{item}</Typography.SubTitle1>
             </Button.Ghost>
           ))}
         </Container.FlexRow>
