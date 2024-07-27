@@ -258,6 +258,13 @@ export type Database = {
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "messages_send_by_fkey"
+            columns: ["send_by"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
         ]
       }
       user: {
@@ -492,7 +499,7 @@ export type Database = {
           {
             foreignKeyName: "user_bookmark_id_fkey"
             columns: ["id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -500,33 +507,36 @@ export type Database = {
       }
       user_chat: {
         Row: {
-          chat_id: string
+          chat_room_id: string
           id: string
           last_read: string
+          user_id: string
         }
         Insert: {
-          chat_id: string
+          chat_room_id: string
           id?: string
           last_read?: string
+          user_id?: string
         }
         Update: {
-          chat_id?: string
+          chat_room_id?: string
           id?: string
           last_read?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_chat_chat_id_fkey"
-            columns: ["chat_id"]
-            isOneToOne: false
+            foreignKeyName: "user_chat_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: true
             referencedRelation: "chat_room"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_chat_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
+            foreignKeyName: "user_chat_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]

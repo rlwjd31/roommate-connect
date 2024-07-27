@@ -1,4 +1,9 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
@@ -64,6 +69,21 @@ const fetchChatPartnerInfo = async (chatPartnerId: string) => {
     .single();
 
   if (!data && error) throw new SupabaseCustomError(error, status);
+
+  return data;
+};
+
+const updateLastRead = async (userId: string, chatRoomId: string) => {
+  const { data, error, status } = await supabase
+    .from('user_chat')
+    .update({ last_read: JSON.stringify(new Date()) })
+    .eq('user_id', userId)
+    .eq('chat_room_id', chatRoomId);
+
+  if (!data && error) {
+    error.message = `${error?.message}\nfail to update last_read`;
+    throw new SupabaseCustomError(error, status);
+  }
 
   return data;
 };
@@ -156,4 +176,24 @@ const useChatRoomListPageData = (userId: string) => {
   };
 };
 
-export { useUnReadMessageCount, useChatRoomListPageData };
+const useUpdateLastRead = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      userId,
+      chatRoomId,
+    }: {
+      userId: string;
+      chatRoomId: string;
+    }) => updateLastRead(userId, chatRoomId),
+    onMutate: () => console.log('mutating'),
+    onError: () => console.error('error 발생'),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
+      queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
+    },
+  });
+};
+
+export { useUnReadMessageCount, useChatRoomListPageData, useUpdateLastRead };
