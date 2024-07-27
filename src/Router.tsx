@@ -26,7 +26,7 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
-import HouseDetailTemplate from '@/components/templates/HouseDetailTemplate';
+import HouseDetail from '@/components/pages/HouseDetail';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -97,8 +97,8 @@ const routes: RouteType[] = [
         ],
       },
       {
-        path: 'house-detail/:houseId',
-        element: <HouseDetailTemplate />,
+        path: 'house/:houseId',
+        element: <HouseDetail />,
         shouldProtected: true,
       },
       {
