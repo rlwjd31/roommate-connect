@@ -13,7 +13,7 @@ import { useChatRoomListPageData, useUpdateLastRead } from '@/hooks/useChat';
 import { supabase } from '@/libs/supabaseClient';
 
 type PointAlertType = {
-  content: string | number;
+  content: number;
   containerStyle?: string;
   typoStyle?: string;
 };
@@ -23,7 +23,7 @@ export function PointAlert({
   containerStyle,
   typoStyle,
 }: PointAlertType) {
-  return (
+  return content > 0 ? (
     <Container.FlexRow
       className={cn(
         'w-fit items-center justify-center rounded-full bg-point pl-2 pr-[7px] pt-[4px] pb-[5px]',
@@ -34,7 +34,7 @@ export function PointAlert({
         {content}
       </Typography.Span2>
     </Container.FlexRow>
-  );
+  ) : null;
 }
 
 PointAlert.defaultProps = {
