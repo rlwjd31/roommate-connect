@@ -12,17 +12,17 @@ import { formatDateByCountry, isToday } from '@/libs/dateUtils';
 import { useChatRoomListPageData, useUpdateLastRead } from '@/hooks/useChat';
 import { supabase } from '@/libs/supabaseClient';
 
-type PointAlertType = {
+type NewChatCountCircleType = {
   content: number;
   containerStyle?: string;
   typoStyle?: string;
 };
 
-export function PointAlert({
+export function NewChatCountCircle({
   content,
   containerStyle,
   typoStyle,
-}: PointAlertType) {
+}: NewChatCountCircleType) {
   return content > 0 ? (
     <Container.FlexRow
       className={cn(
@@ -37,7 +37,7 @@ export function PointAlert({
   ) : null;
 }
 
-PointAlert.defaultProps = {
+NewChatCountCircle.defaultProps = {
   containerStyle: '',
   typoStyle: '',
 };
@@ -72,7 +72,7 @@ export default function ChatList() {
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
       <Container.FlexRow className="sticky left-0 top-0 items-center gap-2 bg-brown6 p-6">
         <Typography.SubTitle1 className="text-brown">채팅</Typography.SubTitle1>
-        <PointAlert content={totalNewChatsCount} containerStyle="self-center" />
+        <NewChatCountCircle content={totalNewChatsCount} containerStyle="self-center" />
       </Container.FlexRow>
       {/* 친구 대화 목록 전체 container */}
       {userInfo ? (
@@ -116,7 +116,7 @@ export default function ChatList() {
                     <Typography.Span2 className="font-medium leading-150 text-brown2">
                       {lastMessage}
                     </Typography.Span2>
-                    <PointAlert content={newChatCount} />
+                    <NewChatCountCircle content={newChatCount} />
                   </Container.FlexRow>
                 </Container.FlexCol>
               </NavLink>
