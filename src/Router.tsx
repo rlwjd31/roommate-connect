@@ -83,13 +83,17 @@ const routes: RouteType[] = [
         path: 'house',
         element: (
           <span>
-            house page
             <Outlet />
           </span>
         ),
         children: [
           {
             path: 'regist',
+            element: <HouseRegister />,
+            shouldProtected: true,
+          },
+					{
+            path: 'edit/:houseId',
             element: <HouseRegister />,
             shouldProtected: true,
           },
