@@ -181,51 +181,53 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
                 {user.email}
               </Typography.P2>
             </Container.FlexRow>
-            <Container.FlexRow
-              className={isEdit.password ? '!items-start' : ''}
-            >
-              <Typography.SubTitle2
-                className={`pr-[7.0625rem] text-brown ${isEdit.password ? 'pt-3' : ''}`}
+            {user.app_metadata.provider === 'email' && (
+              <Container.FlexRow
+                className={isEdit.password ? '!items-start' : ''}
               >
-                비밀번호
-              </Typography.SubTitle2>
-              {isEdit.password ? (
-                <Container.FlexCol>
-                  <FormItem.Password
-                    name="password"
-                    placeholder="비밀번호 수정"
-                    disabled={isPending}
-                    isVisible={passwordVisible}
-                    onClickVisible={() => setPasswordVisible(prev => !prev)}
-                  />
-                  <FormItem.Password
-                    name="confirmPassword"
-                    placeholder="비밀번호 확인"
-                    disabled={isPending}
-                    isVisible={passwordVisible}
-                    onClickVisible={() => setPasswordVisible(prev => !prev)}
-                  />
-                </Container.FlexCol>
-              ) : (
-                <>
-                  <Container.FlexRow className="flex-1 items-center gap-x-1">
-                    {Array.from({ length: 6 }).map(() => (
-                      // eslint-disable-next-line react/jsx-key
-                      <PasswordDot />
-                    ))}
-                  </Container.FlexRow>
-                  <Button.Outline
-                    className="rounded-[3.125rem] px-[1.4375rem] py-[0.5625rem]"
-                    disabled={isPending}
-                    onClick={() =>
-                      setIsEdit(prev => ({ ...prev, password: true }))
-                    }
-                  >
-                    <Typography.P3 className="text-brown">변경</Typography.P3>
-                  </Button.Outline>
-                </>
-              )}
-            </Container.FlexRow>
+                <Typography.SubTitle2
+                  className={`pr-[7.0625rem] text-brown ${isEdit.password ? 'pt-3' : ''}`}
+                >
+                  비밀번호
+                </Typography.SubTitle2>
+                {isEdit.password ? (
+                  <Container.FlexCol>
+                    <FormItem.Password
+                      name="password"
+                      placeholder="비밀번호 수정"
+                      disabled={isPending}
+                      isVisible={passwordVisible}
+                      onClickVisible={() => setPasswordVisible(prev => !prev)}
+                    />
+                    <FormItem.Password
+                      name="confirmPassword"
+                      placeholder="비밀번호 확인"
+                      disabled={isPending}
+                      isVisible={passwordVisible}
+                      onClickVisible={() => setPasswordVisible(prev => !prev)}
+                    />
+                  </Container.FlexCol>
+                ) : (
+                  <>
+                    <Container.FlexRow className="flex-1 items-center gap-x-1">
+                      {Array.from({ length: 6 }).map(() => (
+                        // eslint-disable-next-line react/jsx-key
+                        <PasswordDot />
+                      ))}
+                    </Container.FlexRow>
+                    <Button.Outline
+                      className="rounded-[3.125rem] px-[1.4375rem] py-[0.5625rem]"
+                      disabled={isPending}
+                      onClick={() =>
+                        setIsEdit(prev => ({ ...prev, password: true }))
+                      }
+                    >
+                      <Typography.P3 className="text-brown">변경</Typography.P3>
+                    </Button.Outline>
+                  </>
+                )}
+              </Container.FlexRow>
+            )}
           </Container.FlexCol>
           {session?.user.app_metadata.provider !== 'email' ? (
             <Container.FlexCol>
