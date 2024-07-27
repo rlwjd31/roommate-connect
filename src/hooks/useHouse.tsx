@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { FileObject } from '@supabase/storage-js';
 
 import {
@@ -15,19 +15,103 @@ import {
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
 
-export const fetchData = async (
-  fetchingDB: string,
-  selectingDate: string,
-  matchingId: string,
-) => {
-  const { data: response, error } = await supabase
-    .from(fetchingDB)
-    .select(selectingDate)
-    .eq('id', matchingId)
+const fetchUserLifeStyle = async (
+  userId: string,
+): Promise<UserLifeStyleType> => {
+  const { data, error } = await supabase
+    .from('user_lifestyle')
+    .select('*')
+    .eq('id', userId)
     .single();
 
   if (error) throw new Error(error.message);
-  return response;
+  return {
+    smoking: data.smoking,
+    pet: data.pet as 0 | 1 | 2,
+    appeals: data.appeals || [],
+  };
+};
+
+const fetchUserMateStyle = async (
+  userId: string,
+): Promise<UserMateStyleType> => {
+  const { data, error } = await supabase
+    .from('user_mate_style')
+    .select('*')
+    .eq('id', userId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  return {
+    mate_gender: data.mate_gender as 0 | 1 | 2,
+    mate_number: data.mate_number as 0 | 1 | 2 | 3,
+    mate_appeals: data.mate_appeals || [],
+    prefer_mate_age:
+      data.prefer_mate_age as UserMateStyleType['prefer_mate_age'],
+  };
+};
+
+const fetchHousePost = async (houseId: string): Promise<HouseFormType> => {
+  const { data, error } = await supabase
+    .from('house')
+    .select('*')
+    .eq('id', houseId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  if (!data) {
+    throw new Error('No data found');
+  }
+
+  return {
+    bookmark: data.bookmark,
+    deposit_price: data.deposit_price,
+    describe: data.describe,
+    district: data.district,
+    floor: data.floor as 0 | 1 | 2,
+    house_appeal: data.house_appeal,
+    house_img: data.house_img,
+    house_size: data.house_size,
+    house_type: data.house_type as 0 | 1 | 2 | 3,
+    manage_price: data.manage_price,
+    monthly_price: data.monthly_price,
+    post_title: data.post_title,
+    region: data.region,
+    rental_type: data.rental_type as 0 | 1 | 2 | 3,
+    representative_img: data.representative_img,
+    room_num: data.room_num,
+    temporary: data.temporary as 0 | 1,
+    term: data.term as HouseFormType['term'],
+    user_id: data.user_id,
+  };
+};
+
+export const useProfileData = (userId: string) => {
+  const userLifeStyleQuery = useQuery<UserLifeStyleType>({
+    queryKey: ['user_lifestyle', userId],
+    queryFn: () => fetchUserLifeStyle(userId),
+    enabled: !!userId,
+  });
+
+  const userMateStyleQuery = useQuery<UserMateStyleType>({
+    queryKey: ['user_mate_style', userId],
+    queryFn: () => fetchUserMateStyle(userId),
+    enabled: !!userId,
+  });
+
+  return {
+    userLifeStyleQuery,
+    userMateStyleQuery,
+  };
+};
+
+export const useHouseData = (isEditMode: boolean, houseId: string) => {
+  const houseQuery = useQuery<HouseFormType>({
+    queryKey: ['housePost', houseId],
+    queryFn: () => fetchHousePost(houseId),
+    enabled: isEditMode && !!houseId,
+  });
+  return { houseQuery };
 };
 
 // storage directory(temporary || post)의 이미지를 가져오는 함수
@@ -240,30 +324,28 @@ export const useHouseUpdate = () => {
 
 // Update user profile
 export const useUserProfileUpdate = () => {
-  const { mutate: updateUserProfile, isSuccess: updatedUserProfile } =
-    useMutation({
-      mutationFn: async ({
-        dbName,
-        data,
-        userId,
-      }: {
-        dbName: string;
-        data: UserLifeStyleType | UserMateStyleType;
-        userId: string;
-      }) => {
-        const { error } = await supabase
-          .from(dbName)
-          .update(data)
-          .eq('id', userId);
-        if (error) throw new Error(`Profile update error: ${error.message}`);
-      },
-      onMutate: () => createToast('updateProfile', '프로필 수정 중'),
-      onError: error => {
-        console.error('Update profile error:', error);
-        errorToast('updateProfile', error.message);
-      },
-      onSuccess: () =>
-        successToast('updateProfile', '프로필이 수정되었습니다.'),
-    });
-  return { updateUserProfile, updatedUserProfile };
+  const { mutate: updateUserProfile } = useMutation({
+    mutationFn: async ({
+      dbName,
+      data,
+      userId,
+    }: {
+      dbName: string;
+      data: UserLifeStyleType | UserMateStyleType;
+      userId: string;
+    }) => {
+      const { error } = await supabase
+        .from(dbName)
+        .update(data)
+        .eq('id', userId);
+      if (error) throw new Error(`Profile update error: ${error.message}`);
+    },
+    onMutate: () => createToast('updateProfile', '프로필 수정 중'),
+    onError: error => {
+      console.error('Update profile error:', error);
+      errorToast('updateProfile', error.message);
+    },
+    onSuccess: () => successToast('updateProfile', '프로필이 수정되었습니다.'),
+  });
+  return { updateUserProfile };
 };

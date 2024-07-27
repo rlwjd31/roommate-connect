@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
 
-import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SessionAtom } from '@/stores/auth.store';
+import { HouseForm, HouseFormType } from '@/types/house.type';
+import { SignUpProfileFormType } from '@/types/signUp.type';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
@@ -14,13 +14,14 @@ import Carousel from '@/components/organisms/Carousel';
 import HouseRegisterTemplate1 from '@/components/templates/HouseRegisterTemplate1';
 import HouseRegisterTemplates2 from '@/components/templates/HouseRegisterTemplates2';
 import Button from '@/components/atoms/Button';
+import { InputRangeState } from '@/components/molecules/DualInputRange';
 import {
-  fetchData,
+  useHouseData,
   useHouseRegist,
+  useHouseUpdate,
+  useProfileData,
   useUserProfileUpdate,
 } from '@/hooks/useHouse';
-import { SignUpProfileFormType } from '@/types/signUp.type';
-import { InputRangeState } from '@/components/molecules/DualInputRange';
 
 export type UserLifeStyleType = {
   smoking: SignUpProfileFormType['smoking'];
@@ -30,7 +31,7 @@ export type UserLifeStyleType = {
 
 export type UserMateStyleType = {
   mate_gender: SignUpProfileFormType['gender'];
-  mates_num: SignUpProfileFormType['mates_number'];
+  mate_number: SignUpProfileFormType['mates_number'];
   mate_appeals: SignUpProfileFormType['mate_appeals'];
   prefer_mate_age: InputRangeState;
 };
@@ -38,8 +39,11 @@ export type UserMateStyleType = {
 export default function HouseRegister() {
   const navigate = useNavigate();
   const Form = FormProvider;
-  const userId = useRecoilState(SessionAtom)[0]?.user.id;
+  const userId = useRecoilState(SessionAtom)[0]?.user.id as string;
+  const { houseId } = useParams<{ houseId: string }>();
   const [currentStep, setCurrentStep] = useState(0);
+  const isEditMode = !!houseId;
+
   const form = useForm<HouseFormType & UserLifeStyleType & UserMateStyleType>({
     resolver: zodResolver(HouseForm),
     mode: 'onChange',
@@ -68,10 +72,23 @@ export default function HouseRegister() {
       pet: 1,
       appeals: [],
       mate_gender: 1,
-      mates_num: 1,
+      mate_number: 1,
       mate_appeals: [],
       prefer_mate_age: [0, 30],
     },
+  });
+
+  const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
+    smoking: form.getValues('smoking'),
+    pet: form.getValues('pet'),
+    appeals: form.getValues('appeals'),
+  });
+
+  const [userMateStyle, setUserMateStyle] = useState<UserMateStyleType>({
+    mate_gender: form.getValues('mate_gender'),
+    mate_number: form.getValues('mate_number'),
+    mate_appeals: form.getValues('mate_appeals'),
+    prefer_mate_age: form.getValues('prefer_mate_age'),
   });
 
   const handlePrevCarousel = () => {
@@ -97,13 +114,69 @@ export default function HouseRegister() {
 
   const { registHouse, isRegistHouse } = useHouseRegist();
   const { updateUserProfile } = useUserProfileUpdate();
+  const { updateHouse, isUpdateHouse } = useHouseUpdate();
 
-  const onSaveHouse = async (formData: HouseFormType, temporary: 0 | 1) => {
-    if (userId) {
-      const houseImgExcludeRep = form
-        .getValues('house_img')
-        .filter(imgName => imgName !== form.getValues('representative_img'));
+  const onUpdateProfile = async () => {
+    const formData = form.getValues();
+    updateUserProfile({
+      dbName: 'user_lifestyle',
+      data: {
+        smoking: formData.smoking,
+        pet: formData.pet,
+        appeals: formData.appeals,
+      },
+      userId,
+    });
 
+    updateUserProfile({
+      dbName: 'user_mate_style',
+      data: {
+        mate_gender: formData.mate_gender,
+        mate_number: formData.mate_number,
+        mate_appeals: formData.mate_appeals,
+        prefer_mate_age: formData.prefer_mate_age,
+      },
+      userId,
+    });
+
+    navigate('/');
+  };
+
+  const onSaveHouse = async (
+    formData: HouseFormType & UserLifeStyleType & UserMateStyleType,
+    temporary: 0 | 1,
+  ) => {
+    const houseImgExcludeRep = form
+      .getValues('house_img')
+      .filter(imgName => imgName !== form.getValues('representative_img'));
+
+    if (isEditMode && temporary === 1) {
+      updateHouse({
+        houseData: {
+          house_img: houseImgExcludeRep,
+          representative_img: formData.representative_img,
+          post_title: formData.post_title,
+          region: formData.region,
+          district: formData.district,
+          house_type: formData.house_type,
+          rental_type: formData.rental_type,
+          floor: formData.floor,
+          house_size: Number(formData.house_size),
+          room_num: Number(formData.room_num),
+          deposit_price: Number(formData.deposit_price),
+          monthly_price: Number(formData.monthly_price),
+          manage_price: Number(formData.manage_price),
+          house_appeal: formData.house_appeal,
+          term: formData.term,
+          describe: formData.describe,
+          bookmark: formData.bookmark,
+          temporary,
+          user_id: userId,
+        },
+        houseId: houseId as string,
+      });
+      onUpdateProfile();
+    } else {
       registHouse({
         house_img: houseImgExcludeRep,
         representative_img: formData.representative_img,
@@ -126,33 +199,13 @@ export default function HouseRegister() {
         user_id: userId,
       });
 
-      updateUserProfile({
-        dbName: 'user_lifestyle',
-        data: {
-          smoking: formData.smoking,
-          pet: formData.pet,
-          appeals: formData.appeals,
-        },
-        userId,
-      });
-
-      updateUserProfile({
-        dbName: 'user_mate_style',
-        data: {
-          mate_gender: formData.mate_gender,
-          mate_number: formData.mates_num,
-          mate_appeals: formData.mate_appeals,
-          prefer_mate_age: formData.prefer_mate_age,
-        },
-        userId,
-      });
-      // navigate('/');
+      onUpdateProfile();
     }
   };
 
-  const onError = errors => console.log(errors);
-
-  const onSubmitHouse = (formData: HouseFormType) => {
+  const onSubmitHouse = (
+    formData: HouseFormType & UserLifeStyleType & UserMateStyleType,
+  ) => {
     onSaveHouse(formData, 1);
   };
 
@@ -161,32 +214,29 @@ export default function HouseRegister() {
     onSaveHouse(formData, 0);
   };
 
-  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
-    useQuery<UserLifeStyleType>({
-      queryKey: ['user_lifestyle', userId],
-      queryFn: () =>
-        fetchData('user_lifestyle', 'smoking, pet, appeals', userId),
-    });
+  const { userLifeStyleQuery, userMateStyleQuery } = useProfileData(
+    userId as string,
+  );
+  const { houseQuery } = useHouseData(isEditMode, houseId as string);
 
+  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
+    userLifeStyleQuery;
   const { data: userMateStyleData, isSuccess: fetchedUserMateStyle } =
-    useQuery<UserMateStyleType>({
-      queryKey: ['user_mate_style', userId],
-      queryFn: () =>
-        fetchData(
-          'user_mate_style',
-          'mate_gender, mate_number, mate_appeals',
-          userId,
-        ),
-    });
+    userMateStyleQuery;
+  const { data: housePost, isSuccess: fetchedHousePost } = houseQuery;
 
   useEffect(() => {
     if (fetchedUserLifeStyle && fetchedUserMateStyle) {
-      form.setValue('mate_gender', userMateStyleData?.mate_gender);
-      form.setValue('mates_num', userMateStyleData?.mate_number);
-      form.setValue('mate_appeals', userMateStyleData?.mate_appeals);
-      form.setValue('smoking', userLifeStyleData?.smoking);
-      form.setValue('pet', userLifeStyleData?.pet);
-      form.setValue('appeals', userLifeStyleData?.appeals);
+      form.setValue('smoking', userLifeStyleData.smoking);
+      form.setValue('pet', userLifeStyleData.pet);
+      form.setValue('appeals', userLifeStyleData.appeals);
+      form.setValue('mate_gender', userMateStyleData.mate_gender);
+      form.setValue('mate_number', userMateStyleData.mate_number);
+      form.setValue('mate_appeals', userMateStyleData.mate_appeals);
+      form.setValue('prefer_mate_age', userMateStyleData.prefer_mate_age);
+
+      setUserLifeStyle(prev => ({ ...prev, ...userLifeStyleData }));
+      setUserMateStyle(prev => ({ ...prev, ...userMateStyleData }));
     }
   }, [
     fetchedUserLifeStyle,
@@ -196,10 +246,19 @@ export default function HouseRegister() {
     userMateStyleData,
   ]);
 
+  useEffect(() => {
+    if (isEditMode && houseId && fetchedHousePost) {
+      form.reset(prev => ({
+        ...prev,
+        ...housePost,
+      }));
+    }
+  }, [isEditMode, fetchedHousePost, form]);
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmitHouse, onError)}
+        onSubmit={form.handleSubmit(onSubmitHouse)}
         className="min-h-screen flex-col"
       >
         <Container.FlexCol className="mt-[4rem] w-full grow">
@@ -229,10 +288,19 @@ export default function HouseRegister() {
           <Carousel order={currentStep}>
             <HouseRegisterTemplate1
               form={form}
+              userId={userId}
+              houseId={houseId as string}
+              isEditMode={isEditMode}
               locationError={locationError}
               setLocationError={setLocationError}
             />
-            <HouseRegisterTemplates2 form={form} />
+            <HouseRegisterTemplates2
+              form={form}
+              userLifeStyle={userLifeStyle}
+              setUserLifeStyle={setUserLifeStyle}
+              userMateStyle={userMateStyle}
+              setUserMateStyle={setUserMateStyle}
+            />
           </Carousel>
         </Container.FlexCol>
         <hr style={{ marginTop: '5rem', marginBottom: '2.75rem' }} />
@@ -249,7 +317,7 @@ export default function HouseRegister() {
             <Button.Outline
               className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
               onClick={onSaveTemporary}
-              disabled={isRegistHouse}
+              disabled={isRegistHouse || isUpdateHouse}
             >
               <Typography.P1 className="text-brown">임시저장</Typography.P1>
             </Button.Outline>
@@ -257,7 +325,7 @@ export default function HouseRegister() {
               <Button.Fill
                 className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
                 onClick={handleNextCarousel}
-                disabled={isRegistHouse}
+                disabled={isRegistHouse || isUpdateHouse}
               >
                 <Typography.P1 className="text-bg">다음</Typography.P1>
               </Button.Fill>
@@ -272,6 +340,7 @@ export default function HouseRegister() {
                 <Button.Fill
                   className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
                   type="submit"
+                  disabled={isRegistHouse || isUpdateHouse}
                 >
                   <Typography.P1 className="text-bg">완료</Typography.P1>
                 </Button.Fill>

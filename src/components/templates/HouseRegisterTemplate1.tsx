@@ -1,10 +1,14 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
-import { HouseFormType } from '@/types/house.type';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
+import { HouseFormType } from '@/types/house.type';
+import {
+  UserLifeStyleType,
+  UserMateStyleType,
+} from '@/components/pages/HouseRegister';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import BadgeButton from '@/components/molecules/BadgeButton';
@@ -12,18 +16,14 @@ import DistrictSelector from '@/components/organisms/districtSelector/DistrictSe
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import FormItem from '@/components/molecules/FormItem';
-import MultiImageForm from '@/components/molecules/MultiImageForm';
+import MultiImageForm from '@/components/templates/MultiImageForm';
+import Input from '@/components/atoms/Input';
+import TextAreaField from '@/components/molecules/TextAreaField';
 import {
   houseTypeDisplayData,
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
-import Input from '@/components/atoms/Input';
-import TextAreaField from '@/components/molecules/TextAreaField';
 import { floorDisplayData } from '@/constants/houseData';
-import {
-  UserLifeStyleType,
-  UserMateStyleType,
-} from '@/components/pages/HouseRegister';
 
 type Template1HiddenState = {
   house_type: HouseFormType['house_type'];
@@ -37,12 +37,18 @@ export type HouseRegisterFormType = {
 };
 
 type HouseRegisterTemplate1Prop = HouseRegisterFormType & {
+  userId: string;
+  houseId: string;
+  isEditMode: boolean;
   locationError: boolean;
   setLocationError: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function HouseRegisterTemplate1({
   form,
+  userId,
+  houseId,
+  isEditMode,
   locationError,
   setLocationError,
 }: HouseRegisterTemplate1Prop) {
@@ -60,10 +66,16 @@ export default function HouseRegisterTemplate1({
     MoleculeSelectorState('시, 구'),
   );
 
-  const location =
-    region.value !== '지역' && district.value !== '시, 구'
-      ? `${region.value} ${district.value}`
-      : '';
+  // TODO: location logic 정리 필요
+  const setLocation = () => {
+    if (region.value !== '지역' && district.value !== '시, 구')
+      return `${region.value} ${district.value}`;
+    if (form.watch('region') !== '지역' && form.watch('district') !== '시, 구')
+      return `${form.watch('region')} ${form.watch('district')}`;
+    return '';
+  };
+
+  const location = setLocation();
 
   const onDeleteLocationBadge = () => {
     setRegion({ value: '지역', isOpen: false });
@@ -136,7 +148,12 @@ export default function HouseRegisterTemplate1({
           나의 하우스
         </Typography.Head3>
         <Container.FlexCol className="gap-[5.5rem]">
-          <MultiImageForm form={form} />
+          <MultiImageForm
+            form={form}
+            userId={userId}
+            houseId={houseId}
+            isEditMode={isEditMode}
+          />
           <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
             <Typography.SubTitle1 className="mt-3 text-brown">
               제목
@@ -353,7 +370,7 @@ export default function HouseRegisterTemplate1({
                 value={appeal}
                 onChange={onChangeAppeal}
                 onKeyDown={pressEnterCreateBadge}
-                className=" h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] placeholder:text-brown3 focus:outline-none focus:ring-1 focus:ring-brown2"
+                className=" h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] caret-brown ring-subColor2 placeholder:text-brown3 focus:border-point focus:outline-none focus:ring-1 focus:ring-point"
                 placeholder="EX) 역 도보 5분, 정류장 3분, 햇빛 잘 들어요"
               />
               {form.watch('house_appeal').length === 0 ? (
