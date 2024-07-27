@@ -17,8 +17,6 @@ import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
-import Chat from '@/components/pages/Chat';
-import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 import Loading from '@/components/pages/Loading';
 import SignPasswordReset from '@/components/pages/SignPasswordReset';
@@ -26,6 +24,8 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
+import { ChatRoom } from '@/components/templates/chats';
+import Chat from '@/components/pages/Chat';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;

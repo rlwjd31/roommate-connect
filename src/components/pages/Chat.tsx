@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import ChatList from '@/components/templates/ChatList';
 import Container from '@/components/atoms/Container';
+import { ChatList } from '@/components/templates/chats';
 
 export default function Chat() {
   return (
