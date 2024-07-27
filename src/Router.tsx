@@ -69,7 +69,7 @@ const routes: RouteType[] = [
         shouldProtected: true,
         children: [
           {
-            path: ':chatId',
+            path: ':chatRoomId',
             element: <ChatRoom />,
           },
         ],
