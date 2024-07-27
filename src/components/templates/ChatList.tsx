@@ -57,6 +57,7 @@ export default function ChatList() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'messages' },
         () => {
+          // * refetch chatListPageData
           queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
           queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
         },
@@ -70,9 +71,12 @@ export default function ChatList() {
 
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
-      <Container.FlexRow className="sticky left-0 top-0 items-center gap-2 bg-brown6 p-6">
+      <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center gap-2 bg-brown6 px-6">
         <Typography.SubTitle1 className="text-brown">채팅</Typography.SubTitle1>
-        <NewChatCountCircle content={totalNewChatsCount} containerStyle="self-center" />
+        <NewChatCountCircle
+          content={totalNewChatsCount}
+          containerStyle="self-center"
+        />
       </Container.FlexRow>
       {/* 친구 대화 목록 전체 container */}
       {userInfo ? (

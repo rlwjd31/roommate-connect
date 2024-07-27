@@ -105,18 +105,15 @@ export default function ChatRoom() {
   return (
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
-      <Container.FlexRow className="sticky left-0 top-0 items-center gap-4 bg-brown6 p-6">
+      <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center gap-4 bg-brown6 px-6">
         <Avatar.XS src="https://picsum.photos/200?1" />
         <Container.FlexCol>
-          <Typography.SubTitle1
-            lang="en"
-            className="font-bold leading-150 text-brown"
-          >
+          <Typography.SubTitle3 className="font-bold leading-150 text-brown">
             User1234
-          </Typography.SubTitle1>
+          </Typography.SubTitle3>
           <Container.FlexRow className="items-center gap-1">
-            <div className="size-[10px] translate-y-[-1px] animate-pulse rounded-full bg-teal-400" />
-            <Typography.Span2 className="leading-150 text-brown/60">
+            <div className="size-[0.625rem] animate-pulse rounded-full bg-teal-400" />
+            <Typography.Span2 className="text-[0.625rem] leading-150 text-brown/60">
               활동중
             </Typography.Span2>
           </Container.FlexRow>

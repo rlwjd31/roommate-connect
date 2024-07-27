@@ -190,6 +190,7 @@ const useUpdateLastRead = () => {
     onMutate: () => console.log('mutating'),
     onError: () => console.error('error 발생'),
     onSuccess: () => {
+      // * refetch chatListPageData
       queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
       queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
     },
