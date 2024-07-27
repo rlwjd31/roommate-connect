@@ -68,7 +68,8 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
   const isPending = isUpdating || isDeleting;
 
   const onSaveAccount = (data: AccountFormType) => {
-    updateUser({ ...data, id: user.id });
+    const { password, ...others } = data;
+    updateUser({ ...others, id: user.id });
   };
 
   const onClickChangeAvatar = (event: ChangeEvent<HTMLInputElement>) => {
