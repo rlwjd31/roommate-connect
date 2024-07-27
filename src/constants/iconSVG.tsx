@@ -298,7 +298,10 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     />
   ),
   share: ({ className, ...others }) => (
-    <Share className={cn('w-[1.8125rem] h-[2.25rem]', className)} {...others} />
+    <Share
+      className={cn('w-[2.6875rem] h-[2.3125rem]', className)}
+      {...others}
+    />
   ),
   'mini-smoke': ({ className, ...others }) => (
     <MiniSmoke

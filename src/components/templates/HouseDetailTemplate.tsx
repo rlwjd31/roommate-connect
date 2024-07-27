@@ -97,11 +97,8 @@ export default function HouseDetailTemplate(props: {
   return (
     <Container.FlexCol className="gap-8 pb-32 ">
       <Container.FlexRow className="gap-5">
-        <Img
-          className="size-[390px] laptop:size-[440px] desktop:size-[588px]"
-          src={houseData.house_img[0]}
-        />
-        <Container.Grid className="hidden max-h-[440px] grid-cols-2 grid-rows-2 gap-5 laptop:grid desktop:max-h-[588px]">
+        <Img className=" flex-1 shrink-0 " src={houseData.house_img[0]} />
+        <Container.Grid className="hidden flex-1 grid-cols-2 grid-rows-2 gap-5 tablet:grid ">
           {houseData &&
             houseData.house_img
               .slice(0, 4)
@@ -114,9 +111,9 @@ export default function HouseDetailTemplate(props: {
         <Container.FlexCol className="gap-[3.25rem]">
           <Container.FlexCol className="gap-4">
             <Container.FlexRow className="items-center">
-              <Typography.Head2 className="pr-3 text-brown">
+              <Typography.Head3 className="text-pretty pr-3 text-[1.8461538462rem] text-brown tablet:text-Head2">
                 {houseData && houseData.post_title}
-              </Typography.Head2>
+              </Typography.Head3>
               {houseOwner && (
                 <>
                   <Button.Ghost className="p-[0.5625rem] text-brown">
@@ -135,53 +132,69 @@ export default function HouseDetailTemplate(props: {
               )}
             </Container.FlexRow>
             <Container.FlexRow className="gap-3">
-              <Typography.P2 className="text-brown1">
-                최근 등록일 {formDate(createdAt)}
-              </Typography.P2>
+              <Container className="flex flex-wrap gap-1 tablet:inline-flex tablet:flex-row">
+                <Typography.P2 className="text-brown1">
+                  최근 등록일
+                </Typography.P2>
+                <Typography.P2 className="text-brown1">
+                  {formDate(createdAt)}
+                </Typography.P2>
+              </Container>
               <Divider.Row className="border-l-0" />
-              <Typography.P2 className="text-brown1">
-                최근 수정일 {formDate(updatedAt)}
-              </Typography.P2>
+              <Container className="flex flex-wrap gap-1 tablet:inline-flex tablet:flex-row">
+                <Typography.P2 className="text-brown1">
+                  최근 수정일
+                </Typography.P2>
+                <Typography.P2 className="text-brown1">
+                  {formDate(updatedAt)}
+                </Typography.P2>
+              </Container>
             </Container.FlexRow>
           </Container.FlexCol>
           <Container.FlexRow className="justify-between	">
-            <Container.FlexRow className="gap-3">
+            <Container.FlexRow className="flex-wrap gap-3">
               {houseOwner ? (
-                <Button.Fill className="rounded-lg p-5 text-white">
-                  <Typography.P1>신청 현황</Typography.P1>
+                <Button.Fill className="rounded-lg px-10 py-4 text-white tablet:px-[3.15625rem] tablet:py-[1.21875rem]">
+                  <Typography.P3 className="tablet:text-P1">
+                    신청 현황
+                  </Typography.P3>
                 </Button.Fill>
               ) : (
                 <>
-                  <Button.Fill className="rounded-lg p-5 text-white">
-                    <Typography.P1>룸메이트 신청</Typography.P1>
+                  <Button.Fill className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white">
+                    <Typography.P3 className="tablet:text-P1">
+                      룸메이트 신청
+                    </Typography.P3>
                   </Button.Fill>
-                  <Button.Outline className="rounded-lg bg-white p-5 text-brown ">
-                    <Typography.P1>메시지 보내기</Typography.P1>
+                  <Button.Outline className="rounded-lg bg-white px-[1.96875rem] py-[1.21875rem] text-brown ">
+                    <Typography.P3 className="tablet:text-P1">
+                      메시지 보내기
+                    </Typography.P3>
                   </Button.Outline>
                 </>
               )}
             </Container.FlexRow>
-            <Container.FlexRow className="gap-5">
+            <Container.FlexRow className="gap-5 tablet:gap-7 laptop:gap-8">
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost
                   iconType={bookmark ? 'fill-heart' : 'heart'}
                   onClick={onClickBookMark}
                   disabled={isPending}
                 />
-                <Typography.Span1 className="text-brown1">
+                <Typography.P3 className="text-brown1 tablet:text-P2">
                   {houseData.bookmark}
-                </Typography.Span1>
+                </Typography.P3>
               </Container.FlexCol>
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost iconType="share" onClick={copyUrl} />
-                <Typography.Span1 className="text-brown1">
+                <Typography.P3 className="text-brown1 tablet:text-P2">
                   공유
-                </Typography.Span1>
+                </Typography.P3>
               </Container.FlexCol>
             </Container.FlexRow>
           </Container.FlexRow>
         </Container.FlexCol>
-        <Divider.Col className="my-8 laptop:my-11" />
+        <Divider.Col className="my-8 border-t-0 laptop:my-11" />
         <Container className="flex flex-col justify-between gap-14 laptop:gap-20 desktop:flex-row">
           <Container.FlexCol className="flex-1 gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
@@ -194,7 +207,7 @@ export default function HouseDetailTemplate(props: {
             </Container.FlexRow>
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>자기소개</Typography.SubTitle1>
-              <Container.FlexRow className="gap-2">
+              <Container.FlexRow className="flex-wrap gap-2">
                 <BadgeIcon.Outline
                   iconType={genderInfo[houseData.user.gender].icon}
                 >
@@ -235,14 +248,14 @@ export default function HouseDetailTemplate(props: {
               </Container.FlexRow>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexCol className="flex-1 gap-10 rounded-lg bg-brown6 px-[0.65625rem] py-[1.8125rem] text-brown laptop:gap-11 laptop:p-8">
+          <Container.FlexCol className="flex-1 gap-10 rounded-lg bg-brown6 p-6 text-brown laptop:gap-11 laptop:p-8">
             <Container.FlexCol className="gap-5 ">
               <Container.FlexRow className="gap-4">
                 <Container.FlexRow className="gap-2">
-                  <Typography.Head3>
+                  <Typography.Head3 className="text-[1.3846153846rem] tablet:text-Head3">
                     {rentalTypesInfo[houseData.rental_type]}
                   </Typography.Head3>
-                  <Typography.Head3>
+                  <Typography.Head3 className="text-[1.3846153846rem] tablet:text-Head3">
                     {houseData.deposit_price}/{houseData.monthly_price}
                   </Typography.Head3>
                 </Container.FlexRow>
@@ -257,7 +270,7 @@ export default function HouseDetailTemplate(props: {
             </Container.FlexCol>
             <Container.FlexCol className="gap-5">
               <Typography.SubTitle1>하우스 소개</Typography.SubTitle1>
-              <Container.FlexRow className="items-center gap-3">
+              <Container.FlexRow className="flex-wrap items-center gap-3">
                 <Icon type={houseTypesInfo[houseData.house_type].icon} />
                 <Badge.Fill
                   active={false}
@@ -271,7 +284,7 @@ export default function HouseDetailTemplate(props: {
                 </Badge.Fill>
                 <Container.FlexRow className="gap-3 ">
                   <Typography.P2>{houseData.house_size}평</Typography.P2>
-                  <Divider.Col />
+                  <Divider.Col className="border-t-0" />
                   <Typography.P2>방 {houseData.room_num}개</Typography.P2>
                   <Divider.Col />
                   <Typography.P2>{floorInfo[houseData.floor]}</Typography.P2>
@@ -310,7 +323,7 @@ export default function HouseDetailTemplate(props: {
               <Container.FlexCol className="gap-3">
                 <Container.FlexRow className="items-center gap-5">
                   <Typography.SubTitle3>특징</Typography.SubTitle3>
-                  <Container.FlexRow className="gap-2">
+                  <Container.FlexRow className="flex-wrap gap-2">
                     <BadgeIcon.Outline
                       iconType={
                         genderInfo[houseData.user_mate_style.mate_gender].icon
@@ -325,7 +338,7 @@ export default function HouseDetailTemplate(props: {
                         mateNumInfo[houseData.user_mate_style?.mate_number].icon
                       }
                     >
-                      <Typography.P2>
+                      <Typography.P2 className="py-2.5">
                         {
                           mateNumInfo[houseData.user_mate_style?.mate_number]
                             .text
@@ -338,7 +351,7 @@ export default function HouseDetailTemplate(props: {
                       active={false}
                       hover={false}
                     >
-                      <Typography.P2>
+                      <Typography.P2 className="py-2.5">
                         {houseData.user_mate_style.prefer_mate_age[0]}살-
                         {houseData.user_mate_style.prefer_mate_age[1]}살
                       </Typography.P2>
@@ -364,13 +377,13 @@ export default function HouseDetailTemplate(props: {
         </Container>
         <Container.FlexCol className="gap-7 py-[3.25rem] text-brown laptop:py-[4.5rem] ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
-          <Container.FlexCol className="rounded-lg bg-brown6 p-8">
-            <pre className="whitespace-pre-wrap leading-5">
+          <Container.FlexCol className="rounded-lg bg-brown6 p-6">
+            <pre className="whitespace-pre-wrap font-Noto-Sans-KR text-P2 leading-6">
               {houseData.describe}
             </pre>
           </Container.FlexCol>
         </Container.FlexCol>
-        <Divider.Row />
+        <Divider.Row className="border-t-0" />
         <Container.FlexCol className="gap-8 pt-8">
           <Typography.SubTitle1 className="text-brown">
             댓글 2개
@@ -379,11 +392,11 @@ export default function HouseDetailTemplate(props: {
             <TextArea
               type="text"
               name="comment"
-              className="min-h-[11.5625rem] overflow-scroll"
+              className="min-h-[11.5625rem] overflow-scroll placeholder:text-brown3"
               placeholder="댓글을 남겨보세요."
               rows={5}
             />
-            <Button.Fill className="w-full justify-center rounded-lg py-4 text-white laptop:w-auto laptop:px-10 laptop:py-[1.125rem]">
+            <Button.Fill className="w-full justify-center rounded-lg py-5 text-white laptop:w-auto laptop:px-10 laptop:py-[1.125rem]">
               <Typography.SubTitle3>등록</Typography.SubTitle3>
             </Button.Fill>
           </Container.FlexCol>
@@ -396,7 +409,9 @@ export default function HouseDetailTemplate(props: {
               <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user123</Typography.P1>
-                <Typography.Span1>1시간 전</Typography.Span1>
+                <Typography.Span1 className="text-brown1">
+                  1시간 전
+                </Typography.Span1>
               </Container.FlexCol>
             </Container.FlexRow>
             <Container.FlexRow className="gap-2 text-brown">
@@ -413,14 +428,16 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexRow>
           <Typography.P2 className="text-brown">신청 보내봅니다!</Typography.P2>
         </Container.FlexCol>
-        <Divider.Col className="mb-8" />
+        <Divider.Col className="mb-8 border-t-0" />
         <Container.FlexCol className="gap-7 py-[1.875rem]">
           <Container.FlexRow className="justify-between">
             <Container.FlexRow className="items-center gap-[0.9375rem] ">
               <Icon type="avatar" />
               <Container.FlexCol className="gap-3 text-brown">
                 <Typography.P1>user1234</Typography.P1>
-                <Typography.Span1>1시간 전</Typography.Span1>
+                <Typography.Span1 className="text-brown1">
+                  1시간 전
+                </Typography.Span1>
               </Container.FlexCol>
             </Container.FlexRow>
             <Container.FlexRow className="gap-2 text-brown">
@@ -433,7 +450,7 @@ export default function HouseDetailTemplate(props: {
             보증금 올리고 월세 낮춰도 될까요?
           </Typography.P2>
         </Container.FlexCol>
-        <Divider.Col className="mb-8" />
+        <Divider.Col className="mb-8 border-t-0" />
       </Container.FlexCol>
     </Container.FlexCol>
   );
