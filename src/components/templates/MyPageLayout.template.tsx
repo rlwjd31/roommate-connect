@@ -42,7 +42,11 @@ export default function MyPageLayoutTemplate() {
               key={sidebarItem.name}
               name={sidebarItem.name}
               path={sidebarItem.path}
-              isActive={location.pathname.endsWith(sidebarItem.path)}
+              isActive={
+                location.pathname.endsWith(sidebarItem.path) ||
+                (location.pathname.endsWith('account') &&
+                  sidebarItem.path === 'activity')
+              }
             />
           ))}
         </Container.FlexCol>

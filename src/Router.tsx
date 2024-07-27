@@ -28,6 +28,7 @@ import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
 import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
+import MyAccount from '@/components/pages/MyAccount';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -153,7 +154,7 @@ const routes: RouteType[] = [
         children: [
           { path: 'activity', element: <MyActivity /> },
           { path: 'bookmark', element: <h1>나의 북마크</h1> },
-          { path: 'account', element: <h1>나의 계정</h1> },
+          { path: 'account', element: <MyAccount /> },
           { path: 'mate', element: <h1>준비중...</h1> },
           { path: 'alarm', element: <h1>준비중...</h1> },
           { path: 'theme', element: <h1>준비중...</h1> },
