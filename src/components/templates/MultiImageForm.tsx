@@ -168,7 +168,7 @@ export default function MultiImageForm({
             onClick={handlePrevImage}
           />
         )}
-        <Container.Grid className="w-full grid-cols-4 gap-4 px-4">
+        <Container.Grid className="w-full grid-cols-4 gap-4 px-6">
           <div className="relative w-full pb-[100%]">
             <Label
               htmlFor="house_img"
@@ -209,7 +209,7 @@ export default function MultiImageForm({
                   <Input
                     type="radio"
                     id={`image_${index}`}
-                    className="absolute bottom-3 right-3 z-10 h-7 w-7 p-1"
+                    className="absolute bottom-3 right-3 z-10 h-7 w-7 accent-point"
                     checked={imgSrc.includes(representativeImg)}
                     onChange={() => handleRepresentativeChange(imgSrc)}
                   />
@@ -217,7 +217,7 @@ export default function MultiImageForm({
                     <Img className="size-full object-cover" src={imgSrc} />
                   </div>
                   {imgSrc.includes(representativeImg) && (
-                    <Typography.SubTitle2 className="absolute bottom-0 z-20 w-full rounded-b-xl bg-brown/70 p-4 text-bg">
+                    <Typography.SubTitle2 className="absolute bottom-0 w-full rounded-b-xl bg-brown/70 p-4 text-bg">
                       대표사진
                     </Typography.SubTitle2>
                   )}
