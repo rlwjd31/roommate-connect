@@ -6,7 +6,6 @@ import Typography from '@/components/atoms/Typography';
 import { SignupProfileStateSelector } from '@/stores/sign.store';
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import IconButton from '@/components/molecules/IconButton';
-import Button from '@/components/atoms/Button';
 import FormItem from '@/components/molecules/FormItem';
 import {
   genderDisplayData,
@@ -15,17 +14,18 @@ import {
 
 export default function SignUpProfile3_1Template() {
   const [gender, setGender] = useRecoilState(
-    SignupProfileStateSelector('gender'),
+    SignupProfileStateSelector('mate_gender'),
   );
   const [matesNumber, setMatesNumber] = useRecoilState(
-    SignupProfileStateSelector('mates_number'),
+    SignupProfileStateSelector('mate_number'),
   );
 
-  const onClickGenderType = (stateValue: SignUpProfileFormType['gender']) =>
-    setGender(stateValue);
+  const onClickGenderType = (
+    stateValue: SignUpProfileFormType['mate_gender'],
+  ) => setGender(stateValue);
 
   const onClickMateNumberType = (
-    stateValue: SignUpProfileFormType['mates_number'],
+    stateValue: SignUpProfileFormType['mate_number'],
   ) => setMatesNumber(stateValue);
 
   return (
@@ -51,8 +51,8 @@ export default function SignUpProfile3_1Template() {
               </Typography.P2>
             </IconButton.Outline>
           ))}
-          <FormItem.Hidden<Pick<SignUpProfileFormType, 'gender'>>
-            name="gender"
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_gender'>>
+            name="mate_gender"
             valueProp={gender}
           />
         </Container.Grid>
@@ -88,8 +88,8 @@ export default function SignUpProfile3_1Template() {
               </Typography.P2>
             </Button.Outline>
           ))} */}
-          <FormItem.Hidden<Pick<SignUpProfileFormType, 'mates_number'>>
-            name="mates_number"
+          <FormItem.Hidden<Pick<SignUpProfileFormType, 'mate_number'>>
+            name="mate_number"
             valueProp={matesNumber}
           />
         </Container.Grid>
