@@ -6,12 +6,12 @@ export default {
   theme: {
     extend: {
       screens: {
-        desktop: '1920px',
-        laptop: '1440px',
-        screen1140: '1140px',
+        monitor: '1920px',
+        desktop: '1440px',
+        laptop: '1024px',
         tablet: '768px',
         screen640: '640px',
-        mobile: '430px',
+        screen1140: '1140px',
       },
       colors: {
         bg: '#FFFFFF',
