@@ -14,6 +14,7 @@ import Input from '@/components/atoms/Input';
 import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
+import SupabaseCustomError from '@/libs/supabaseCustomError';
 
 type MessageType = Tables<'messages'>;
 
@@ -21,6 +22,31 @@ export default function ChatRoom() {
   const { chatRoomId } = useParams();
   const user = useRecoilValue(UserAtom);
   const userId = user?.id;
+
+
+  const { data: messageData } = useQuery({
+    queryKey: ['messages', chatRoomId],
+    queryFn: async () => {
+      const response = await supabase.rpc('get_messages_group_by_date', {
+        input_chat_room_id: chatRoomId!,
+      });
+
+      if (response.error) {
+        const customError = new SupabaseCustomError(
+          response.error,
+          response.status,
+        );
+        console.error({ customError });
+        throw customError;
+      }
+
+      return response.data;
+    },
+    enabled: !!chatRoomId,
+  });
+
+  console.log('messageData', messageData);
+  console.log('chatRoomId', chatRoomId);
 
   useEffect(() => {
     const chatChannel = supabase
@@ -49,14 +75,13 @@ export default function ChatRoom() {
     };
   }, [chatRoomId]);
 
-  if (messagesData) {
-    // latestCreatedAt: message
-    const data = messagesData.map(messageData => ({
-      ...messageData,
-      created_at: formatDateByCountry(new Date(messageData.created_at)),
-    }));
-  }
-
+  // if (messagesData) {
+  //   // latestCreatedAt: message
+  //   const data = messagesData.map(messageData => ({
+  //     ...messageData,
+  //     created_at: formatDateByCountry(new Date(messageData.created_at)),
+  //   }));
+  // }
 
   // ! TODO: image 클릭시 userProfileModal
   return (

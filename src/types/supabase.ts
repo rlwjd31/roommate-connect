@@ -829,7 +829,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_messages_group_by_date: {
+        Args: {
+          input_chat_room_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
