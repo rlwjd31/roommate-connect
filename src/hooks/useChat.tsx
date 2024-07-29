@@ -253,8 +253,8 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
               tempUserMessageObj.userId = '';
               tempUserMessageObj.messages = [];
             }
-            tempUserMessageObj = { userId: '', messages: [] };
             currentUserId = message.send_by;
+            tempUserMessageObj = { userId: currentUserId, messages: [] };
           }
 
           tempUserMessageObj.messages.push(message);
