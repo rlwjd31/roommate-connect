@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import {
   useMutation,
   useQueries,
@@ -86,6 +87,21 @@ const updateLastRead = async (userId: string, chatRoomId: string) => {
   }
 
   return data;
+};
+
+const fetchMessagesGroupByDate = async (chatRoomId: string) => {
+  const { data, error, status } = await supabase.rpc(
+    'get_messages_group_by_date',
+    {
+      input_chat_room_id: chatRoomId!,
+    },
+  );
+
+  if (error) {
+    throw new SupabaseCustomError(error, status);
+  }
+
+  return data as { date: string; messages: Tables<'messages'>[] }[];
 };
 
 const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
@@ -197,4 +213,74 @@ const useUpdateLastRead = () => {
   });
 };
 
-export { useUnReadMessageCount, useChatRoomListPageData, useUpdateLastRead };
+const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
+  const { data } = useQuery({
+    queryKey: ['MessagesGroupByDate', chatRoomId],
+    queryFn: () => fetchMessagesGroupByDate(chatRoomId!),
+    enabled: !!chatRoomId,
+    select: messagesGroupByDate => {
+      // * 시간 복잡도 O(N), N => messages database row의 개수
+      /**
+       * 
+        type ASIS = {
+          date: string;
+          messages: Tables<'messages'>
+        }[] 
+
+        type TOBE = {
+          date: string; 
+          userMessages: {
+            userId: string;
+            messages: Tables<'messages'>
+          }
+        }
+
+        - ASIS에서 TOBE형태로 parsing하는 로직이며 같은 date내 user가 연달아 보낸 메세지들을 구하는 로직.
+        - created_at기준으로 오름차순 정렬이 되어 들어와 순서는 이미 정렬되어 있는 상태
+      */
+      const parsedMessages = [];
+      for (const dateMessages of messagesGroupByDate) {
+        const tempUserMessages = [];
+        let tempUserMessageObj = { userId: '', messages: [] } as {
+          userId: string;
+          messages: Tables<'messages'>[];
+        };
+        let currentUserId = null;
+        for (const message of dateMessages.messages) {
+          if (message.send_by !== currentUserId) {
+            if (tempUserMessageObj?.messages?.length > 0) {
+              tempUserMessages.push(tempUserMessageObj);
+              tempUserMessageObj.userId = '';
+              tempUserMessageObj.messages = [];
+            }
+            tempUserMessageObj = { userId: '', messages: [] };
+            currentUserId = message.send_by;
+          }
+
+          tempUserMessageObj.messages.push(message);
+        }
+
+        // 마지막 남은 값 처리
+        if (tempUserMessageObj?.messages?.length > 0) {
+          tempUserMessages.push(tempUserMessageObj);
+        }
+
+        parsedMessages.push({
+          date: new Date(dateMessages.date),
+          userMessages: tempUserMessages,
+        });
+      }
+
+      return parsedMessages;
+    },
+  });
+
+  return data;
+};
+
+export {
+  useUnReadMessageCount,
+  useChatRoomListPageData,
+  useUpdateLastRead,
+  useGetMessagesGroupByDate,
+};
