@@ -1,5 +1,10 @@
 /* eslint-disable consistent-return */
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  UseQueryResult,
+} from '@tanstack/react-query';
 import { FileObject } from '@supabase/storage-js';
 
 import {
@@ -14,6 +19,17 @@ import {
   UserLifeStyleType,
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
+
+export const fetchTemporaryHouseId = async (
+  userId: string,
+): Promise<{ id: string }> => {
+  const { data, error } = await supabase
+    .from('house')
+    .select('id')
+    .match({ user_id: userId, temporary: 0 });
+  if (error) throw new Error('임시저장된 글 확인에 실패했습니다.');
+  return { id: data[0].id };
+};
 
 const fetchUserLifeStyle = async (
   userId: string,
@@ -51,11 +67,15 @@ const fetchUserMateStyle = async (
   };
 };
 
-const fetchHousePost = async (houseId: string): Promise<HouseFormType> => {
+const fetchHousePost = async (
+  houseId: string,
+  temporary: number,
+): Promise<HouseFormType> => {
   const { data, error } = await supabase
     .from('house')
     .select('*')
     .eq('id', houseId)
+    .eq('temporary', temporary)
     .single();
 
   if (error) throw new Error(error.message);
@@ -87,17 +107,29 @@ const fetchHousePost = async (houseId: string): Promise<HouseFormType> => {
 };
 
 export const useProfileData = (userId: string) => {
-  const userLifeStyleQuery = useQuery<UserLifeStyleType>({
-    queryKey: ['user_lifestyle', userId],
-    queryFn: () => fetchUserLifeStyle(userId),
-    enabled: !!userId,
+  const queryResults = useQueries({
+    queries: [
+      {
+        queryKey: ['user_lifestyle', userId],
+        queryFn: () => fetchUserLifeStyle(userId),
+        enabled: !!userId,
+      },
+      {
+        queryKey: ['user_mate_style', userId],
+        queryFn: () => fetchUserMateStyle(userId),
+        enabled: !!userId,
+      },
+    ],
   });
 
-  const userMateStyleQuery = useQuery<UserMateStyleType>({
-    queryKey: ['user_mate_style', userId],
-    queryFn: () => fetchUserMateStyle(userId),
-    enabled: !!userId,
-  });
+  const userLifeStyleQuery = queryResults[0] as UseQueryResult<
+    UserLifeStyleType,
+    Error
+  >;
+  const userMateStyleQuery = queryResults[1] as UseQueryResult<
+    UserMateStyleType,
+    Error
+  >;
 
   return {
     userLifeStyleQuery,
@@ -105,10 +137,14 @@ export const useProfileData = (userId: string) => {
   };
 };
 
-export const useHouseData = (isEditMode: boolean, houseId: string) => {
+export const useHouseData = (
+  isEditMode: boolean,
+  houseId: string,
+  temporary: number,
+) => {
   const houseQuery = useQuery<HouseFormType>({
-    queryKey: ['housePost', houseId],
-    queryFn: () => fetchHousePost(houseId),
+    queryKey: ['housePost', houseId, temporary],
+    queryFn: () => fetchHousePost(houseId, temporary),
     enabled: isEditMode && !!houseId,
   });
   return { houseQuery };
