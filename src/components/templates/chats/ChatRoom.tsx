@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useQuery } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -14,40 +14,24 @@ import Input from '@/components/atoms/Input';
 import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
-import SupabaseCustomError from '@/libs/supabaseCustomError';
+import { useGetMessagesGroupByDate } from '@/hooks/useChat';
 
 type MessageType = Tables<'messages'>;
 
 export default function ChatRoom() {
   const { chatRoomId } = useParams();
+  const queryClient = useQueryClient();
   const user = useRecoilValue(UserAtom);
+  const location = useLocation();
   const userId = user?.id;
+  const chatPartnerId = location.state.chatPartnerId as string;
+  const chatPartnerInfo = queryClient.getQueryData([
+    'chatPartnerInfo',
+    user?.id,
+    chatPartnerId,
+  ]);
 
-
-  const { data: messageData } = useQuery({
-    queryKey: ['messages', chatRoomId],
-    queryFn: async () => {
-      const response = await supabase.rpc('get_messages_group_by_date', {
-        input_chat_room_id: chatRoomId!,
-      });
-
-      if (response.error) {
-        const customError = new SupabaseCustomError(
-          response.error,
-          response.status,
-        );
-        console.error({ customError });
-        throw customError;
-      }
-
-      return response.data;
-    },
-    enabled: !!chatRoomId,
-  });
-
-  console.log('messageData', messageData);
-  console.log('chatRoomId', chatRoomId);
-
+  const dateMessages = useGetMessagesGroupByDate(chatRoomId);
   useEffect(() => {
     const chatChannel = supabase
       .channel(`chat_room_messages:${chatRoomId}`) // ? channel에 '/'가 들어가면 정상작동하지 않음...
@@ -75,15 +59,6 @@ export default function ChatRoom() {
     };
   }, [chatRoomId]);
 
-  // if (messagesData) {
-  //   // latestCreatedAt: message
-  //   const data = messagesData.map(messageData => ({
-  //     ...messageData,
-  //     created_at: formatDateByCountry(new Date(messageData.created_at)),
-  //   }));
-  // }
-
-  // ! TODO: image 클릭시 userProfileModal
   return (
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
@@ -103,12 +78,20 @@ export default function ChatRoom() {
       </Container.FlexRow>
       {/* chats area */}
       <Container.FlexCol className="h-full gap-8 overflow-y-auto p-6">
-        <DateMessageBox date={new Date(2024, 0, 1)}>
+        {dateMessages?.map(dateMessage => (
+          <DateMessageBox
+            key={dateMessage.date.toString()}
+            date={dateMessage.date}
+          >
+            <UserMessageBox userMessages={dateMessage.userMessages} />
+          </DateMessageBox>
+        ))}
+        {/* <DateMessageBox date={new Date(2024, 0, 1)}>
           <UserMessageBox />
         </DateMessageBox>
         <DateMessageBox date={new Date(2024, 0, 3)}>
           <UserMessageBox />
-        </DateMessageBox>
+        </DateMessageBox> */}
       </Container.FlexCol>
       {/* Chat Input UI */}
       <Container.FlexRow className="gap-6 px-6 py-9">

@@ -127,7 +127,7 @@ const useChatRoomListPageData = (userId: string) => {
     enabled: !!userId,
   });
 
-  const { data: chatRoomListPageData } = useQueries({
+  const { data: chatRoomListPageData, isLoading } = useQueries({
     queries: chatRoomList
       ? chatRoomList.map(chatRoomInfo => {
           const {
@@ -144,7 +144,7 @@ const useChatRoomListPageData = (userId: string) => {
           if (!chatPartnerId) throw new Error(`couldn't find chat partner id`);
 
           return {
-            queryKey: ['chatPartnerInfo', userId, chatRoomId, chatPartnerId],
+            queryKey: ['chatPartnerInfo', userId, chatPartnerId],
             queryFn: async () => {
               const lastReadDate = await fetchLastReadDate(userId, chatRoomId);
               const newChatCount = await fetchUnReadMessagesCount(
@@ -180,11 +180,13 @@ const useChatRoomListPageData = (userId: string) => {
       data: results
         .map(result => result.data)
         .filter(data => data !== undefined),
+      isLoading: results.some(result => result.isLoading),
     }),
   });
 
   return {
     chatRoomListPageData,
+    isLoading,
     totalNewChatsCount: chatRoomListPageData?.reduce(
       (acc, cur) => acc + (cur.newChatCount || 0),
       0,

@@ -1,7 +1,5 @@
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -9,36 +7,28 @@ import cn from '@/libs/cn';
 import Avatar from '@/components/atoms/Avatar';
 import { UserAtom } from '@/stores/auth.store';
 import { formatDateByCountry, isToday } from '@/libs/dateUtils';
-import { useChatRoomListPageData, useUpdateLastRead } from '@/hooks/useChat';
-import { supabase } from '@/libs/supabaseClient';
+import { useUpdateLastRead } from '@/hooks/useChat';
 import NewChatCountCircle from '@/components/templates/chats/\bNewChatCountCircle';
+import { Tables } from '@/types/supabase';
 
-export default function ChatList() {
+type ChatListProps = {
+  chatRoomListPageData: {
+    chatRoomId: string;
+    lastMessage: string;
+    lastMessageDate: string;
+    userIds: string[];
+    newChatCount: number;
+    chatPartnerInfo: Tables<'user'>;
+  }[];
+  totalNewChatsCount: number;
+};
+
+export default function ChatList({
+  chatRoomListPageData,
+  totalNewChatsCount,
+}: ChatListProps) {
   const userInfo = useRecoilValue(UserAtom);
-  const { chatRoomListPageData, totalNewChatsCount } = useChatRoomListPageData(
-    userInfo?.id ?? '',
-  )!;
-  const queryClient = useQueryClient();
   const lastReadMutation = useUpdateLastRead();
-
-  useEffect(() => {
-    const chatChannel = supabase
-      .channel(`chatRoomList`)
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'messages' },
-        () => {
-          // * refetch chatListPageData
-          queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
-          queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
-        },
-      )
-      .subscribe();
-
-    return () => {
-      chatChannel.unsubscribe();
-    };
-  }, [queryClient]);
 
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
@@ -54,7 +44,7 @@ export default function ChatList() {
         <Container.FlexCol className="gap-2 overflow-y-auto bg-bg p-2">
           {chatRoomListPageData.map(
             ({
-              chatPartnerInfo: { avatar, nickname },
+              chatPartnerInfo: { id: chatPartnerId, avatar, nickname },
               chatRoomId,
               lastMessage,
               lastMessageDate,
@@ -63,6 +53,7 @@ export default function ChatList() {
               <NavLink
                 key={chatRoomId}
                 to={`/chats/${chatRoomId}`}
+                state={{ chatPartnerId }}
                 onClick={() =>
                   lastReadMutation.mutate({ userId: userInfo.id, chatRoomId })
                 }

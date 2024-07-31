@@ -1,13 +1,26 @@
+import { useRecoilValue } from 'recoil';
+
 import Avatar from '@/components/atoms/Avatar';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import MessageBox from '@/components/templates/chats/MessageBox';
 import cn from '@/libs/cn';
+import { UserAtom } from '@/stores/auth.store';
+import { Tables } from '@/types/supabase';
+
+type UserMessageType = {
+  userMessages: {
+    userId: string;
+    messages: Tables<'messages'>[];
+  }[];
+};
 
 // 유저에 따른 chats UI Component
-export default function UserMessageBox() {
+export default function UserMessageBox({ userMessages }: UserMessageType) {
+  const currentUserId = useRecoilValue(UserAtom);
   const userId = 'me';
   const chatPartenrId = 'other';
+
 
   const fakeMessageData = [
     {
