@@ -25,6 +25,7 @@ import {
 import { HouseFormType } from '@/types/house.type';
 import { SessionAtom } from '@/stores/auth.store';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
+import CommentTemplate from '@/components/templates/CommentTemplate';
 
 // TODO: HouseData Type은 유하꺼랑 합쳐지면 import
 type HouseData = Omit<HouseFormType, 'rental_type'> & {
@@ -418,69 +419,7 @@ export default function HouseDetailTemplate() {
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
-        <Container.FlexCol className="gap-8 pt-8">
-          <Typography.SubTitle1 className="text-brown">
-            댓글 2개
-          </Typography.SubTitle1>
-          <Container.FlexCol className="items-center gap-8 laptop:items-end">
-            <TextArea
-              type="text"
-              name="comment"
-              className="min-h-[11.5625rem] overflow-scroll"
-              placeholder="댓글을 남겨보세요."
-              rows={5}
-            />
-            <Button.Fill className="w-full justify-center rounded-lg py-4 text-white laptop:w-auto laptop:px-10 laptop:py-[1.125rem]">
-              <Typography.SubTitle3>등록</Typography.SubTitle3>
-            </Button.Fill>
-          </Container.FlexCol>
-        </Container.FlexCol>
-      </Container.FlexCol>
-      <Container.FlexCol>
-        <Container.FlexCol className="gap-7 py-[1.875rem]">
-          <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="items-center gap-[0.9375rem] ">
-              <Icon type="avatar" />
-              <Container.FlexCol className="gap-3 text-brown">
-                <Typography.P1>user123</Typography.P1>
-                <Typography.Span1>1시간 전</Typography.Span1>
-              </Container.FlexCol>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>답변</Typography.P2>
-              </Button.Ghost>
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>수정</Typography.P2>
-              </Button.Ghost>
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>삭제</Typography.P2>
-              </Button.Ghost>
-            </Container.FlexRow>
-          </Container.FlexRow>
-          <Typography.P2 className="text-brown">신청 보내봅니다!</Typography.P2>
-        </Container.FlexCol>
-        <Divider.Col className="mb-8" />
-        <Container.FlexCol className="gap-7 py-[1.875rem]">
-          <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="items-center gap-[0.9375rem] ">
-              <Icon type="avatar" />
-              <Container.FlexCol className="gap-3 text-brown">
-                <Typography.P1>user1234</Typography.P1>
-                <Typography.Span1>1시간 전</Typography.Span1>
-              </Container.FlexCol>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>답변</Typography.P2>
-              </Button.Ghost>
-            </Container.FlexRow>
-          </Container.FlexRow>
-          <Typography.P2 className="text-brown">
-            보증금 올리고 월세 낮춰도 될까요?
-          </Typography.P2>
-        </Container.FlexCol>
-        <Divider.Col className="mb-8" />
+        <CommentTemplate />
       </Container.FlexCol>
     </Container.FlexCol>
   );
