@@ -33,8 +33,8 @@ const useSignUpProfile = () => {
         pet,
         appeals,
         mate_appeals,
-        mates_number,
-        gender,
+        mate_number,
+        mate_gender,
         monthly_rental_price,
         deposit_price,
         rental_type,
@@ -59,8 +59,8 @@ const useSignUpProfile = () => {
       };
       const userMateStyle = {
         id: user.id,
-        mate_gender: gender as number,
-        mate_number: mates_number as number,
+        mate_gender: mate_gender as number,
+        mate_number: mate_number as number,
         mate_appeals,
       };
 
