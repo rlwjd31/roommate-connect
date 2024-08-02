@@ -34,7 +34,7 @@ function MyBookmarkHouseTemplate(props: MyBookmarkHouseTemplateProps) {
         />
       </Container>
       <Container.Grid className="grid-cols-[320px_320px_320px] gap-x-[1.125rem] gap-y-10 pt-10">
-        {house && house[0].house ? (
+        {house?.length && house[0].house ? (
           house.map(({ house: houseData }) => (
             <HouseCard key={houseData.id} {...houseData} />
           ))
