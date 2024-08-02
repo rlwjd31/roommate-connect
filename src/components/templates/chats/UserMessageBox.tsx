@@ -9,82 +9,49 @@ import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 
 type UserMessageType = {
-  userMessages: {
+  userMessage: {
     userId: string;
     messages: Tables<'messages'>[];
-  }[];
+  };
+  chatPartnerInfo: Tables<'user'>;
 };
 
 // 유저에 따른 chats UI Component
-export default function UserMessageBox({ userMessages }: UserMessageType) {
-  const currentUserId = useRecoilValue(UserAtom);
-  const userId = 'me';
-  const chatPartenrId = 'other';
+export default function UserMessageBox({
+  userMessage,
+  chatPartnerInfo,
+}: UserMessageType) {
+  const currentUserInfo = useRecoilValue(UserAtom);
+  const { userId, messages } = userMessage;
 
+  const isCurrentUser = userMessage.userId === currentUserInfo?.id;
 
-  const fakeMessageData = [
-    {
-      userInfo: {
-        userId: 'me',
-        avatar: 'https://picsum.photos/200?1',
-      },
-      messages: [
-        {
-          id: 1,
-          content: '안녕하세요',
-        },
-        {
-          id: 2,
-          content: '글 보고 연락드렸어요',
-        },
-        {
-          id: 3,
-          content: '아직도 구하시나요?',
-        },
-      ],
-      lastCreatedAt: '오후 3:26',
-    },
-    {
-      userInfo: {
-        userId: 'other',
-        avatar: 'https://picsum.photos/200?2',
-      },
-      messages: [
-        {
-          id: 4,
-          content: '넵',
-        },
-        {
-          id: 5,
-          content: '안녕하세요',
-        },
-      ],
-      lastCreatedAt: '오후 4:16',
-    },
-  ];
-
-  return fakeMessageData.map((messageData, index) => (
+  return messages.length > 0 ? (
     <Container.FlexRow
-      key={index}
       className={cn(
         'gap-4',
-        userId !== messageData.userInfo.userId && 'flex-row-reverse',
+        currentUserInfo?.id !== userId && 'flex-row-reverse',
       )}
     >
-      <Avatar.XS src={messageData.userInfo.avatar} />
+      <Avatar.XS
+        src={
+          (isCurrentUser ? currentUserInfo.avatar : chatPartnerInfo.avatar) ||
+          ''
+        }
+      />
       <Container.FlexCol
         className={cn(
           'gap-[10px]',
-          userId !== messageData.userInfo.userId && 'items-end',
+          currentUserInfo?.id !== userId && 'items-end',
         )}
       >
-        {messageData.messages.map((eachMessage, index) =>
-          index !== messageData.messages.length - 1 ? (
+        {messages.map((eachMessage, index) =>
+          index !== messages.length - 1 ? (
             <MessageBox
-              isChatPartner={userId !== messageData.userInfo.userId}
+              isChatPartner={currentUserInfo?.id !== userId}
               key={eachMessage.id}
             >
-              {eachMessage.content}
+              {eachMessage.message}
             </MessageBox>
           ) : (
             // 마지막 메세지일 시 시간 표시
@@ -92,22 +59,25 @@ export default function UserMessageBox({ userMessages }: UserMessageType) {
               key={eachMessage.id}
               className={cn(
                 'items-end gap-2',
-                userId !== messageData.userInfo.userId && 'flex-row-reverse',
+                currentUserInfo?.id !== userId && 'flex-row-reverse',
               )}
             >
               <MessageBox
-                isChatPartner={userId !== messageData.userInfo.userId}
+                isChatPartner={currentUserInfo?.id !== userId}
                 key={eachMessage.id}
               >
-                {eachMessage.content}
+                {eachMessage.message}
               </MessageBox>
               <Typography.Span2 className="translate-y-[-0.125rem] text-brown2">
-                {messageData.lastCreatedAt}
+                {/* TODO: lastCreatedAt */}
+                오후 3:00
               </Typography.Span2>
             </Container.FlexRow>
           ),
         )}
       </Container.FlexCol>
     </Container.FlexRow>
-  ));
+  ) : (
+    <h1>메세지가 없습니다</h1>
+  );
 }

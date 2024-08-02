@@ -25,13 +25,17 @@ export default function ChatRoom() {
   const location = useLocation();
   const userId = user?.id;
   const chatPartnerId = location.state.chatPartnerId as string;
-  const chatPartnerInfo = queryClient.getQueryData([
+  const { chatPartnerInfo } = queryClient.getQueryData([
     'chatPartnerInfo',
     user?.id,
     chatPartnerId,
-  ]);
+  ]) as {
+    newChatCount: number;
+    chatPartnerInfo: Tables<'user'>;
+  };
 
   const dateMessages = useGetMessagesGroupByDate(chatRoomId);
+
   useEffect(() => {
     const chatChannel = supabase
       .channel(`chat_room_messages:${chatRoomId}`) // ? channel에 '/'가 들어가면 정상작동하지 않음...
@@ -78,20 +82,21 @@ export default function ChatRoom() {
       </Container.FlexRow>
       {/* chats area */}
       <Container.FlexCol className="h-full gap-8 overflow-y-auto p-6">
+        {/* TODO: react query를 이용해서 loading일 때는 대체 처리 하기 */}
         {dateMessages?.map(dateMessage => (
           <DateMessageBox
             key={dateMessage.date.toString()}
             date={dateMessage.date}
           >
-            <UserMessageBox userMessages={dateMessage.userMessages} />
+            {dateMessage.userMessages.map((userMessage, index) => (
+              <UserMessageBox
+                key={userMessage.userId + index}
+                chatPartnerInfo={chatPartnerInfo}
+                userMessage={userMessage}
+              />
+            ))}
           </DateMessageBox>
         ))}
-        {/* <DateMessageBox date={new Date(2024, 0, 1)}>
-          <UserMessageBox />
-        </DateMessageBox>
-        <DateMessageBox date={new Date(2024, 0, 3)}>
-          <UserMessageBox />
-        </DateMessageBox> */}
       </Container.FlexCol>
       {/* Chat Input UI */}
       <Container.FlexRow className="gap-6 px-6 py-9">
