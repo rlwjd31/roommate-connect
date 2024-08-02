@@ -24,6 +24,7 @@ export type IconType =
   | 'google-logo'
   | 'invisible'
   | 'kakaotalk-logo'
+  | 'kakaotalk-logo-text'
   | 'visible'
   | 'alarm-exist'
   | 'alarm-none'
@@ -59,7 +60,8 @@ export type IconType =
   | 'pet-circle'
   | 'fill-heart'
   | 'edit'
-  | 'delete';
+  | 'delete'
+  | 'edit-avatar';
 
 export type CustomIconType = {
   fill?: ColorType;

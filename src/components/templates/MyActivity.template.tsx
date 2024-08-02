@@ -112,17 +112,18 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
               <Typography.P3 className="pr-[1.25rem] text-brown">
                 위치
               </Typography.P3>
-              {user.user_looking_house.regions.map(region => (
-                <Badge.Outline
-                  key={region}
-                  hover={false}
-                  active={false}
-                  focus={false}
-                  className="mr-2"
-                >
-                  <Typography.P2>{region}</Typography.P2>
-                </Badge.Outline>
-              ))}
+              {user.user_looking_house.regions &&
+                user.user_looking_house.regions.map(region => (
+                  <Badge.Outline
+                    key={region}
+                    hover={false}
+                    active={false}
+                    focus={false}
+                    className="mr-2"
+                  >
+                    <Typography.P2>{region}</Typography.P2>
+                  </Badge.Outline>
+                ))}
             </BadgeContainer>
             <BadgeContainer>
               <Typography.P3 className="pr-[1.25rem] text-brown">
@@ -195,16 +196,17 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
                 나의 라이프스타일
               </Typography.SubTitle2>
               <BadgeContainer className="pb-[3.25rem]">
-                {user.user_lifestyle.appeals.map(value => (
-                  <Badge.Outline
-                    key={value}
-                    hover={false}
-                    active={false}
-                    focus={false}
-                  >
-                    <Typography.P2>{value}</Typography.P2>
-                  </Badge.Outline>
-                ))}
+                {user.user_lifestyle.appeals &&
+                  user.user_lifestyle.appeals.map(value => (
+                    <Badge.Outline
+                      key={value}
+                      hover={false}
+                      active={false}
+                      focus={false}
+                    >
+                      <Typography.P2>{value}</Typography.P2>
+                    </Badge.Outline>
+                  ))}
               </BadgeContainer>
             </Container.FlexCol>
           </Container.FlexRow>
@@ -230,16 +232,17 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
                 </BadgeIcon.Outline>
               </BadgeContainer>
               <BadgeContainer>
-                {user.user_mate_style.mate_appeals.map(value => (
-                  <Badge.Outline
-                    key={value}
-                    hover={false}
-                    active={false}
-                    focus={false}
-                  >
-                    <Typography.P2>{value}</Typography.P2>
-                  </Badge.Outline>
-                ))}
+                {user.user_mate_style.mate_appeals &&
+                  user.user_mate_style.mate_appeals.map(value => (
+                    <Badge.Outline
+                      key={value}
+                      hover={false}
+                      active={false}
+                      focus={false}
+                    >
+                      <Typography.P2>{value}</Typography.P2>
+                    </Badge.Outline>
+                  ))}
               </BadgeContainer>
             </Container.FlexCol>
           </Container.FlexRow>
@@ -253,7 +256,7 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
               className={`h-14 w-[11.25rem] items-center justify-center border-b-brown text-brown2 ${currentTab === index ? 'border-b-3 text-brown' : ''}`}
               onClick={() => setCurrentTab(index)}
             >
-              <Typography.SubTitle1 className="">{item}</Typography.SubTitle1>
+              <Typography.SubTitle1>{item}</Typography.SubTitle1>
             </Button.Ghost>
           ))}
         </Container.FlexRow>

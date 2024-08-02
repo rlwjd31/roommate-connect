@@ -9,6 +9,7 @@ import Female from '@/assets/icons/female.svg?react';
 import GoogleLogo from '@/assets/icons/google-logo.svg?react';
 import Invisible from '@/assets/icons/invisible.svg?react';
 import KakaotalkLogo from '@/assets/icons/kakaotalk-logo.svg?react';
+import KakaotalkLogoText from '@/assets/icons/kakaotalk-logo-text.svg?react';
 import LeftArrowLogo from '@/assets/icons/left-arrow.svg?react';
 import Logo from '@/assets/icons/logo.svg?react';
 import Male from '@/assets/icons/male.svg?react';
@@ -59,6 +60,7 @@ import PageNext from '@/assets/icons/page-next.svg?react';
 import Search from '@/assets/icons/search.svg?react';
 import Edit from '@/assets/icons/edit.svg?react';
 import Delete from '@/assets/icons/delete.svg?react';
+import EditAvatar from '@/assets/icons/edit_avatar.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -169,14 +171,14 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     />
   ),
   'google-logo': ({ className, ...others }) => (
-    <GoogleLogo
-      className={cn('w-[30.625rem] h-[3.5rem]', className)}
-      {...others}
-    />
+    <GoogleLogo className={cn('size-[1.1875rem]', className)} {...others} />
   ),
   'kakaotalk-logo': ({ className, ...others }) => (
-    <KakaotalkLogo
-      className={cn('w-[30.625rem] h-[3.5rem]', className)}
+    <KakaotalkLogo className={cn('size-[1.125rem]', className)} {...others} />
+  ),
+  'kakaotalk-logo-text': ({ className, ...others }) => (
+    <KakaotalkLogoText
+      className={cn('w-[1.3125rem] h-[1.1875rem]', className)}
       {...others}
     />
   ),
@@ -353,6 +355,9 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   delete: ({ className, ...others }) => (
     <Delete className={cn('size-[24px]', className)} {...others} />
+  ),
+  'edit-avatar': ({ className, ...others }) => (
+    <EditAvatar className={cn('w-6 h-[1.375rem]', className)} {...others} />
   ),
 };
 
