@@ -63,6 +63,7 @@ export default function ChatRoom() {
     };
   }, [chatRoomId]);
 
+  // @FIXME: chats/:chatId에서 새로고침 시 user가 null로 인한 초기 rendering 시 오류 발생
   return (
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
