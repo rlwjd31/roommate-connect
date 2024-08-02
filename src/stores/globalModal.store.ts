@@ -6,6 +6,7 @@ import {
   ModalStateByType,
   ModalType,
   ProfileModalState,
+  ProfileModifyModalState,
   RoommateApplicationState,
   RoommateApplyState,
 } from '@/types/modal.type';
@@ -85,6 +86,14 @@ export const RoommateApplyAtom = atom<RoommateApplyState>({
     onClickConfirm: () => {},
   },
 });
+export const ProfileModifyModalAtom = atom<ProfileModifyModalState>({
+  key: 'applyModalState',
+  default: {
+    isOpen: false,
+    type: 'ProfileModify',
+    userInfo: null,
+  },
+});
 
 export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
@@ -102,6 +111,8 @@ export const ModalSelector = selectorFamily({
           return get(RoommateApplicationAtom) as ModalStateByType[P];
         case 'RoommateApply':
           return get(RoommateApplyAtom) as ModalStateByType[P];
+        case 'ProfileModify':
+          return get(ProfileModifyModalAtom) as ModalStateByType[P];
         default:
           errorSelector('Undefined cannot be a value of ModalType.');
           throw new Error('Undefined cannot be a value of ModalType.');
@@ -128,6 +139,9 @@ export const ModalSelector = selectorFamily({
           break;
         case 'RoommateApply':
           set(RoommateApplyAtom, newModalState as RoommateApplyState);
+          break;
+        case 'ProfileModify':
+          set(ProfileModifyModalAtom, newModalState as ProfileModifyModalState);
           break;
         default:
           // eslint-disable-next-line no-console
