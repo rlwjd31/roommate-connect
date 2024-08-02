@@ -8,13 +8,10 @@ import cn from '@/libs/cn';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 import { formatDateByCountry } from '@/libs/dateUtils';
+import { UserMessageType } from '@/types/chat.type';
 
 type UserMessageProps = {
-  userMessage: {
-    userId: string;
-    messages: Tables<'messages'>[];
-    lastCreatedAt: Date;
-  };
+  userMessage: UserMessageType;
   chatPartnerInfo: Tables<'user'>;
 };
 
@@ -78,5 +75,5 @@ export default function UserMessageBox({
         )}
       </Container.FlexCol>
     </Container.FlexRow>
-  ) : null // 메세지가 없을 경우
+  ) : null; // 메세지가 없을 경우
 }

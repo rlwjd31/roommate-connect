@@ -15,8 +15,8 @@ import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
 import { useGetMessagesGroupByDate } from '@/hooks/useChat';
+import { MessageType } from '@/types/chat.type';
 
-type MessageType = Tables<'messages'>;
 
 export default function ChatRoom() {
   const { chatRoomId } = useParams();

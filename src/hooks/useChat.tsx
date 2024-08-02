@@ -9,6 +9,7 @@ import {
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { Tables } from '@/types/supabase';
+import { UserMessageType } from '@/types/chat.type';
 
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
 const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
@@ -233,14 +234,15 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
        * 
         type ASIS = {
           date: string;
-          messages: Tables<'messages'>
+          messages: Tables<'messages'>[],
         }[] 
 
         type TOBE = {
           date: string; 
           userMessages: {
             userId: string;
-            messages: Tables<'messages'>
+            messages: Tables<'messages'>[];
+            lastCreatedAt: Date;
           }
         }
 
@@ -251,15 +253,12 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
       const initialLastCreatedAt = new Date('1970-01-01T00:00:00.000Z');
       for (const dateMessages of messagesGroupByDate) {
         const tempUserMessages = [];
-        let tempUserMessageObj = {
+        let tempUserMessageObj: UserMessageType = {
           userId: '',
           messages: [],
           lastCreatedAt: initialLastCreatedAt,
-        } as {
-          userId: string;
-          messages: Tables<'messages'>[];
-          lastCreatedAt: Date;
-        };
+        } 
+
         let currentUserId = null;
 
         for (const message of dateMessages.messages) {
