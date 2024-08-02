@@ -38,13 +38,14 @@ export default function Chat() {
   }, [queryClient]);
 
   if (isLoadingPageData) return <h1>...loading chat room list data</h1>;
+
   return (
     <Container.FlexRow className="min-h-full w-full">
       <ChatList
         chatRoomListPageData={chatRoomListPageData}
         totalNewChatsCount={totalNewChatsCount}
       />
-      {chatRoomListPageData && <Outlet />}
+      <Outlet />
     </Container.FlexRow>
   );
 }
