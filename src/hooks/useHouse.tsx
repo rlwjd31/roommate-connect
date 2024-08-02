@@ -385,3 +385,29 @@ export const useUserProfileUpdate = () => {
   });
   return { updateUserProfile };
 };
+
+export const useDeleteHousePost = () => {
+  const { mutate: deleteHousePost } = useMutation({
+    mutationFn: async (houseId: string) => {
+      const { error } = await supabase.from('house').delete().eq('id', houseId);
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onError: () => {
+      createToast('deletePost', `임시저장된 글 삭제에 실패했습니다.`, {
+        type: 'error',
+        autoClose: 3000,
+        isLoading: false,
+      });
+    },
+    onSuccess: () => {
+      createToast('deletePost', `임시저장된 글이 삭제되었습니다.`, {
+        type: 'success',
+        autoClose: 3000,
+        isLoading: false,
+      });
+    },
+  });
+  return { deleteHousePost };
+};

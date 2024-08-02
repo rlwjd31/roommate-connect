@@ -19,6 +19,7 @@ import useModal from '@/hooks/useModal';
 import { InputRangeState } from '@/components/molecules/DualInputRange';
 import {
   fetchTemporaryHouseId,
+  useDeleteHousePost,
   useHouseData,
   useHouseRegist,
   useHouseUpdate,
@@ -105,6 +106,10 @@ export default function HouseRegister() {
 
     if (isValid) {
       setCurrentStep(prev => prev + 1);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
       setLocationError(false);
     } else if (
       !isValid &&
@@ -232,6 +237,7 @@ export default function HouseRegister() {
     userMateStyleData,
   ]);
 
+  const { deleteHousePost } = useDeleteHousePost();
   // 모달 관련 state
   const { setModalState, closeModal } = useModal('Continue');
   const continuationModalContext: ContinuationModalState = {
@@ -243,6 +249,7 @@ export default function HouseRegister() {
     continueButtonContent: '이어쓰기',
     cancelButtonContent: '취소',
     onClickCancel: () => {
+      deleteHousePost(temporaryId as string);
       setIsEditMode(false);
       closeModal();
     },
