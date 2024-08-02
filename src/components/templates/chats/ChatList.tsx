@@ -32,7 +32,8 @@ export default function ChatList({
 
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
-      <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center gap-2 bg-brown6 px-6">
+      {/* chatList header */}
+      <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center justify-between gap-2 bg-brown6 px-5">
         <Typography.SubTitle1 className="text-brown">채팅</Typography.SubTitle1>
         <NewChatCountCircle
           content={totalNewChatsCount}

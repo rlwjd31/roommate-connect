@@ -17,7 +17,6 @@ import UserMessageBox from '@/components/templates/chats/UserMessageBox';
 import { useGetMessagesGroupByDate } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 
-
 export default function ChatRoom() {
   const { chatRoomId } = useParams();
   const queryClient = useQueryClient();
@@ -66,10 +65,10 @@ export default function ChatRoom() {
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center gap-4 bg-brown6 px-6">
-        <Avatar.XS src="https://picsum.photos/200?1" />
+        <Avatar.XS src={chatPartnerInfo.avatar ?? ''} />
         <Container.FlexCol>
           <Typography.SubTitle3 className="font-bold leading-150 text-brown">
-            User1234
+            {chatPartnerInfo.nickname}
           </Typography.SubTitle3>
           <Container.FlexRow className="items-center gap-1">
             <div className="size-[0.625rem] animate-pulse rounded-full bg-teal-400" />
