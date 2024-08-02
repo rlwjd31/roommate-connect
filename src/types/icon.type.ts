@@ -43,6 +43,10 @@ export type IconType =
   | 'three-people'
   | 'dont-mind-people'
   | 'done'
+  | 'mini-heart'
+  | 'page-prev'
+  | 'page-next'
+  | 'search';
   | 'heart'
   | 'share'
   | 'mini-smoke'
