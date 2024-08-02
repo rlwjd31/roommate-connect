@@ -153,8 +153,8 @@ const routes: RouteType[] = [
         shouldProtected: true,
         element: <MyPageLayoutTemplate />,
         children: [
-          { path: 'activity', element: <h1>나의 활동</h1> },
-          { path: 'bookmark', element: <h1>나의 북마크</h1> },
+          { path: 'activity', element: <MyActivity /> },
+          { path: 'bookmark', element: <MyBookmark /> },
           { path: 'account', element: <MyAccount /> },
           { path: 'mate', element: <h1>준비중...</h1> },
           { path: 'alarm', element: <h1>준비중...</h1> },

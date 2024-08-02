@@ -302,6 +302,7 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   search: ({ className, ...others }) => (
     <Search className={cn('size-6', className)} {...others} />
+  ),
   heart: ({ className, ...others }) => (
     <Heart
       className={cn('w-[2.6875rem] h-[2.3125rem]', className)}

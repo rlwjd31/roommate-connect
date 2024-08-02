@@ -47,7 +47,7 @@ export type IconType =
   | 'mini-heart'
   | 'page-prev'
   | 'page-next'
-  | 'search';
+  | 'search'
   | 'heart'
   | 'share'
   | 'mini-smoke'
