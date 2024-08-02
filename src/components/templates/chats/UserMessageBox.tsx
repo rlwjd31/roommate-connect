@@ -7,11 +7,13 @@ import MessageBox from '@/components/templates/chats/MessageBox';
 import cn from '@/libs/cn';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
+import { formatDateByCountry } from '@/libs/dateUtils';
 
-type UserMessageType = {
+type UserMessageProps = {
   userMessage: {
     userId: string;
     messages: Tables<'messages'>[];
+    lastCreatedAt: Date;
   };
   chatPartnerInfo: Tables<'user'>;
 };
@@ -20,9 +22,9 @@ type UserMessageType = {
 export default function UserMessageBox({
   userMessage,
   chatPartnerInfo,
-}: UserMessageType) {
+}: UserMessageProps) {
   const currentUserInfo = useRecoilValue(UserAtom);
-  const { userId, messages } = userMessage;
+  const { userId, messages, lastCreatedAt } = userMessage;
 
   const isCurrentUser = userMessage.userId === currentUserInfo?.id;
 
@@ -69,15 +71,12 @@ export default function UserMessageBox({
                 {eachMessage.message}
               </MessageBox>
               <Typography.Span2 className="translate-y-[-0.125rem] text-brown2">
-                {/* TODO: lastCreatedAt */}
-                오후 3:00
+                {formatDateByCountry(lastCreatedAt, true)}
               </Typography.Span2>
             </Container.FlexRow>
           ),
         )}
       </Container.FlexCol>
     </Container.FlexRow>
-  ) : (
-    <h1>메세지가 없습니다</h1>
-  );
+  ) : null // 메세지가 없을 경우
 }

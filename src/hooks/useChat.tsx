@@ -248,13 +248,20 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
         - created_at기준으로 오름차순 정렬이 되어 들어와 순서는 이미 정렬되어 있는 상태
       */
       const parsedMessages = [];
+      const initialLastCreatedAt = new Date('1970-01-01T00:00:00.000Z');
       for (const dateMessages of messagesGroupByDate) {
         const tempUserMessages = [];
-        let tempUserMessageObj = { userId: '', messages: [] } as {
+        let tempUserMessageObj = {
+          userId: '',
+          messages: [],
+          lastCreatedAt: initialLastCreatedAt,
+        } as {
           userId: string;
           messages: Tables<'messages'>[];
+          lastCreatedAt: Date;
         };
         let currentUserId = null;
+
         for (const message of dateMessages.messages) {
           if (message.send_by !== currentUserId) {
             if (tempUserMessageObj?.messages?.length > 0) {
@@ -263,7 +270,15 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
               tempUserMessageObj.messages = [];
             }
             currentUserId = message.send_by;
-            tempUserMessageObj = { userId: currentUserId, messages: [] };
+            tempUserMessageObj = {
+              userId: currentUserId,
+              messages: [],
+              lastCreatedAt: initialLastCreatedAt,
+            };
+          }
+
+          if (tempUserMessageObj.lastCreatedAt < new Date(message.created_at)) {
+            tempUserMessageObj.lastCreatedAt = new Date(message.created_at)
           }
 
           tempUserMessageObj.messages.push(message);
