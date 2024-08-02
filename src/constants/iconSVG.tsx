@@ -54,6 +54,10 @@ import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
+import MiniHeart from '@/assets/icons/mini-heart.svg?react';
+import PagePrev from '@/assets/icons/page-prev.svg?react';
+import PageNext from '@/assets/icons/page-next.svg?react';
+import Search from '@/assets/icons/search.svg?react';
 import Edit from '@/assets/icons/edit.svg?react';
 import Delete from '@/assets/icons/delete.svg?react';
 import EditAvatar from '@/assets/icons/edit_avatar.svg?react';
@@ -287,6 +291,17 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
       {...others}
     />
   ),
+  'mini-heart': ({ className, ...others }) => (
+    <MiniHeart className={cn('w-[1.3025rem] h-6', className)} {...others} />
+  ),
+  'page-prev': ({ className, ...others }) => (
+    <PagePrev className={cn('size-[1.2rem]', className)} {...others} />
+  ),
+  'page-next': ({ className, ...others }) => (
+    <PageNext className={cn('size-[1.2rem]', className)} {...others} />
+  ),
+  search: ({ className, ...others }) => (
+    <Search className={cn('size-6', className)} {...others} />
   heart: ({ className, ...others }) => (
     <Heart
       className={cn('w-[2.6875rem] h-[2.3125rem]', className)}
