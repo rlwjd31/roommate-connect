@@ -20,6 +20,8 @@ import {
 import { generateUnitByPrice, generateUnitByTerm } from '@/libs/generateUnit';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 import Button from '@/components/atoms/Button';
+import useModal from '@/hooks/useModal';
+import { ProfileModifyModalState } from '@/types/modal.type';
 
 type MyActivityTemplateProps = {
   user: UserInfoType;
@@ -46,6 +48,19 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
   const { user } = props;
   const [currentTab, setCurrentTab] = useState(0);
   const tabItem = ['내가 쓴 게시글', '내가 쓴 댓글'];
+
+  const { setModalState: setProfileModifyModal } = useModal('ProfileModify');
+
+  const profileModifyContext: ProfileModifyModalState = {
+    isOpen: true,
+    type: 'ProfileModify',
+    userInfo: {
+      ...{ ...user }.user_mate_style,
+      ...{ ...user }.user_lifestyle,
+      ...{ ...user }.user_looking_house,
+      ...user,
+    },
+  };
 
   return (
     <Container.FlexCol className="gap-y-8">
@@ -74,9 +89,12 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
         <Typography.SubTitle1 className="text-brown">
           내 프로필 카드
         </Typography.SubTitle1>
-        <BadgeButton.Outline className="rounded-[30px] px-4 py-[0.625rem]">
-          수정
-        </BadgeButton.Outline>
+        <Button.Outline
+          className="rounded-[30px] px-4 py-[0.625rem]"
+          onClick={() => setProfileModifyModal(profileModifyContext)}
+        >
+          <Typography.Span1 className="text-brown">수정</Typography.Span1>
+        </Button.Outline>
       </Container.FlexRow>
       <Container.FlexRow className="flex-1 gap-x-6 [&>div]:flex-1 [&>div]:rounded-[12px] [&>div]:bg-brown6 [&>div]:p-8">
         <Container.FlexCol className="flex-1 bg-brown6">
@@ -91,7 +109,6 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
               <Typography.P3 className="pr-[1.25rem] text-brown">
                 유형
               </Typography.P3>
-              {/* TODO Badge 최신화 후 hover효과 제거 */}
               <Badge.Outline
                 className="mr-2"
                 hover={false}
@@ -177,10 +194,22 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
               <Typography.P2>{genderInfo[user.gender].text}</Typography.P2>
             </BadgeIcon.Outline>
             <BadgeIcon.Outline
-              iconType={smokingInfo[user.user_lifestyle.smoking].icon}
+              iconType={
+                smokingInfo[
+                  JSON.stringify(user.user_lifestyle.smoking) as
+                    | 'true'
+                    | 'false'
+                ].icon
+              }
             >
               <Typography.P2>
-                {smokingInfo[user.user_lifestyle.smoking].text}
+                {
+                  smokingInfo[
+                    JSON.stringify(user.user_lifestyle.smoking) as
+                      | 'true'
+                      | 'false'
+                  ].text
+                }
               </Typography.P2>
             </BadgeIcon.Outline>
             <BadgeIcon.Outline iconType={petInfo[user.user_lifestyle.pet].icon}>
