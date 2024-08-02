@@ -2,6 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -30,6 +31,7 @@ function PasswordDot() {
 export default function MyAccountTemplate(props: MyAccountTemplateProps) {
   const { session } = props;
   const { user } = session;
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploadeAvatar, setUploadedAvatar] = useState<string>();
 
@@ -66,6 +68,10 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
   });
 
   const isPending = isUpdating || isDeleting;
+
+  const onClickCancel = () => {
+    navigate('/mypage/activity');
+  };
 
   const onSaveAccount = (data: AccountFormType) => {
     const { password, ...others } = data;
@@ -106,7 +112,10 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
               계정설정
             </Typography.SubTitle1>
             <Container.FlexRow className="gap-x-3">
-              <Button.Outline className="rounded-[3.125rem] px-[1.4375rem] py-[0.5625rem]">
+              <Button.Outline
+                className="rounded-[3.125rem] px-[1.4375rem] py-[0.5625rem]"
+                onClick={onClickCancel}
+              >
                 <Typography.P3 className="text-brown1">취소</Typography.P3>
               </Button.Outline>
               <Button.Fill
