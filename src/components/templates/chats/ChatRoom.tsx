@@ -1,5 +1,5 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -14,10 +14,7 @@ import Input from '@/components/atoms/Input';
 import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
-import {
-  useGetMessagesGroupByDate,
-  useSendMessage,
-} from '@/hooks/useChat';
+import { useGetMessagesGroupByDate, useSendMessage } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 
 export default function ChatRoom() {
@@ -50,16 +47,11 @@ export default function ChatRoom() {
         { event: '*', schema: 'public', table: 'messages' },
         payload => {
           if (payload.eventType === 'INSERT') {
-            const {
-              created_at,
-              message,
-              send_by: sendBy,
-            } = payload.new as MessageType;
-
-            console.table({ created_at, message, sendBy });
-
-            // * formatDateByCountry method test
-            console.log(formatDateByCountry(new Date(created_at)));
+            if (payload.new as MessageType) {
+              queryClient.invalidateQueries({
+                queryKey: ['MessagesGroupByDate'],
+              });
+            }
           }
         },
       )
@@ -68,7 +60,7 @@ export default function ChatRoom() {
     return () => {
       chatChannel.unsubscribe();
     };
-  }, [chatRoomId]);
+  }, [chatRoomId, queryClient]);
 
   const onClickSendMessage = async () => {
     if (inputRef.current) {
