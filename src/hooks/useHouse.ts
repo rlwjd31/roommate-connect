@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import {
+  infiniteQueryOptions,
   useMutation,
   useQueries,
   useQuery,
@@ -411,3 +412,23 @@ export const useDeleteHousePost = () => {
   });
   return { deleteHousePost };
 };
+
+export const useHouseList = () =>
+  infiniteQueryOptions({
+    queryKey: ['house', 'list', 'recent'],
+    queryFn: async ({ pageParam }) =>
+      supabase
+        .from('house')
+        .select(
+          'id, representative_img, region, house_appeal, house_type, rental_type, region, district, term, deposit_price, monthly_price',
+          { count: 'exact' },
+        )
+        // 임시 저장 제외
+        .eq('temporary', 1)
+        .range(pageParam * 12, (pageParam + 1) * 11),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, _allPages, lastPageParam, _allPageParams) =>
+      (lastPage.count as number) - (lastPageParam + 1) * 12 > 0
+        ? lastPageParam + 1
+        : undefined,
+  });
