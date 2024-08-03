@@ -5,14 +5,14 @@ import { useRecoilValue } from 'recoil';
 import HouseDetailTemplate, {
   HouseData,
 } from '@/components/templates/HouseDetailTemplate';
-import { useHouseBookMark, useHouseDetail } from '@/hooks/useHouseDetail';
+import { useHouseBookMark, houseDetailQuery } from '@/hooks/useHouseDetail';
 import { UserAtom } from '@/stores/auth.store';
 
 function HouseDetail() {
   const { houseId } = useParams();
   const user = useRecoilValue(UserAtom);
   const data = useQueries({
-    queries: [useHouseDetail(houseId), useHouseBookMark(user, houseId)],
+    queries: [houseDetailQuery(houseId), useHouseBookMark(user, houseId)],
   });
   const [houseDetail, houseBookmark] = data;
   const { data: houseData } = houseDetail;
