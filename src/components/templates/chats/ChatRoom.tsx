@@ -1,5 +1,5 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -14,15 +14,23 @@ import Input from '@/components/atoms/Input';
 import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
-import { useGetMessagesGroupByDate } from '@/hooks/useChat';
+import {
+  useGetMessagesGroupByDate,
+  useSendMessage,
+} from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 
 export default function ChatRoom() {
-  const { chatRoomId } = useParams();
+  // ! chatRoomId는 무조건 존재하지만 undefined로도 추론되어 제네릭으로 타입 명시 후
+  // ! 타입 단언 이용
+  const params = useParams<{ chatRoomId: string }>();
+  const chatRoomId = params.chatRoomId as string;
   const queryClient = useQueryClient();
   const user = useRecoilValue(UserAtom);
   const location = useLocation();
+  const inputRef = useRef<HTMLInputElement>(null);
   const chatPartnerId = location.state.chatPartnerId as string;
+  const sendMessage = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData([
     'chatPartnerInfo',
     user?.id,
@@ -47,6 +55,7 @@ export default function ChatRoom() {
               message,
               send_by: sendBy,
             } = payload.new as MessageType;
+
             console.table({ created_at, message, sendBy });
 
             // * formatDateByCountry method test
@@ -60,6 +69,29 @@ export default function ChatRoom() {
       chatChannel.unsubscribe();
     };
   }, [chatRoomId]);
+
+  const onClickSendMessage = async () => {
+    if (inputRef.current) {
+      const response = await sendMessage.mutate({
+        content: inputRef.current.value,
+        chatRoomId,
+        // ! user는 protected router에서 user가 있는 경우만 현재 컴포넌트를 rendering하므로 !를 이용하여 type error 해결
+        sendBy: user?.id as string,
+      });
+      console.log('response =>', { response });
+    }
+  };
+
+  const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && inputRef.current) {
+      const response = await sendMessage.mutate({
+        content: inputRef.current.value,
+        chatRoomId,
+        sendBy: user?.id as string,
+      });
+      console.log('response =>', { response });
+    }
+  };
 
   return (
     <Container.FlexCol className="size-full min-h-full">
@@ -102,11 +134,17 @@ export default function ChatRoom() {
           <IconButton iconType="paper-clip" button="Ghost" />
         </Container.FlexRow>
         <div className="relative w-full">
-          <Input className="w-full" placeholder="메세지를 입력해주세요" />
+          <Input
+            ref={inputRef}
+            className="w-full"
+            placeholder="메세지를 입력해주세요"
+            onKeyDown={onEnterSendMessage}
+          />
           <IconButton
             iconType="send"
             button="Ghost"
             className="absolute right-5 top-1/2 -translate-y-1/2"
+            onClick={onClickSendMessage}
           />
         </div>
       </Container.FlexRow>

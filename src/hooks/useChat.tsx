@@ -105,6 +105,28 @@ const fetchMessagesGroupByDate = async (chatRoomId: string) => {
   return data as { date: string; messages: Tables<'messages'>[] }[];
 };
 
+const sendMessage = async ({
+  chatRoomId,
+  content,
+  sendBy,
+}: {
+  chatRoomId: string;
+  content: string;
+  sendBy: string;
+}) => {
+  const { data, error, status } = await supabase.from('messages').insert({
+    chat_room_id: chatRoomId,
+    message: content,
+    send_by: sendBy,
+  });
+
+  if (error) {
+    throw new SupabaseCustomError(error, status);
+  }
+
+  return data;
+};
+
 const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   const { data: lastReadDate } = useQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
@@ -257,7 +279,7 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
           userId: '',
           messages: [],
           lastCreatedAt: initialLastCreatedAt,
-        } 
+        };
 
         let currentUserId = null;
 
@@ -277,7 +299,7 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
           }
 
           if (tempUserMessageObj.lastCreatedAt < new Date(message.created_at)) {
-            tempUserMessageObj.lastCreatedAt = new Date(message.created_at)
+            tempUserMessageObj.lastCreatedAt = new Date(message.created_at);
           }
 
           tempUserMessageObj.messages.push(message);
@@ -301,9 +323,30 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
   return data;
 };
 
+const useSendMessage = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (props: {
+      chatRoomId: string;
+      content: string;
+      sendBy: string;
+    }) => sendMessage(props),
+    onMutate: () => console.log('sending message...'),
+    onError: error => console.error({ error }),
+    onSuccess: () => {
+      // * refetch updated messages
+      queryClient.invalidateQueries({
+        queryKey: ['MessagesGroupByDate'],
+      });
+    },
+  });
+};
+
 export {
   useUnReadMessageCount,
   useChatRoomListPageData,
   useUpdateLastRead,
   useGetMessagesGroupByDate,
+  useSendMessage,
 };
