@@ -11,7 +11,6 @@ import { Tables } from '@/types/supabase';
 import Avatar from '@/components/atoms/Avatar';
 import IconButton from '@/components/molecules/IconButton';
 import Input from '@/components/atoms/Input';
-import { formatDateByCountry } from '@/libs/dateUtils';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
 import { useGetMessagesGroupByDate, useSendMessage } from '@/hooks/useChat';
@@ -103,7 +102,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
       </Container.FlexRow>
       {/* chats area */}
-      <Container.FlexCol className="h-full gap-8 overflow-y-auto p-6">
+      <Container.FlexCol className="h-full justify-end gap-8 overflow-y-auto bg-green-100 p-6">
         {/* TODO: react query를 이용해서 loading일 때는 대체 처리 하기 */}
         {dateMessages?.map(dateMessage => (
           <DateMessageBox
