@@ -25,6 +25,7 @@ export default function ChatRoom() {
   const user = useRecoilValue(UserAtom);
   const location = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
+  const chatsContainerRef = useRef<HTMLDivElement>(null);
   const chatPartnerId = location.state.chatPartnerId as string;
   const sendMessage = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData([
@@ -61,26 +62,31 @@ export default function ChatRoom() {
     };
   }, [chatRoomId, queryClient]);
 
+  useEffect(() => {
+    if (chatsContainerRef.current) {
+      chatsContainerRef.current.scrollTop =
+        chatsContainerRef.current.scrollHeight;
+    }
+  }, [dateMessages]);
+
   const onClickSendMessage = async () => {
     if (inputRef.current) {
-      const response = await sendMessage.mutate({
+      sendMessage.mutate({
         content: inputRef.current.value,
         chatRoomId,
         // ! user는 protected router에서 user가 있는 경우만 현재 컴포넌트를 rendering하므로 !를 이용하여 type error 해결
         sendBy: user?.id as string,
       });
-      console.log('response =>', { response });
     }
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputRef.current) {
-      const response = await sendMessage.mutate({
+      sendMessage.mutate({
         content: inputRef.current.value,
         chatRoomId,
         sendBy: user?.id as string,
       });
-      console.log('response =>', { response });
     }
   };
 
@@ -102,8 +108,10 @@ export default function ChatRoom() {
         </Container.FlexCol>
       </Container.FlexRow>
       {/* chats area */}
-      {/* @FIXME: 최신 메시지를 하단으로 고정하기 위해 end로 정렬했더니 scroll이 동작하지 않음 */}
-      <Container.FlexCol className="h-full justify-end gap-8 overflow-y-auto bg-green-100 p-6">
+      <Container.FlexCol
+        ref={chatsContainerRef}
+        className="h-full gap-8 overflow-y-auto p-6"
+      >
         {/* TODO: react query를 이용해서 loading일 때는 대체 처리 하기 */}
         {dateMessages?.map(dateMessage => (
           <DateMessageBox
