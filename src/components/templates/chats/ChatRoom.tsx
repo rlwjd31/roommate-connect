@@ -13,7 +13,11 @@ import IconButton from '@/components/molecules/IconButton';
 import Input from '@/components/atoms/Input';
 import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
-import { useGetMessagesGroupByDate, useSendMessage } from '@/hooks/useChat';
+import {
+  useGetMessagesGroupByDate,
+  useScrollToBottom,
+  useSendMessage,
+} from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 
 export default function ChatRoom() {
@@ -62,12 +66,7 @@ export default function ChatRoom() {
     };
   }, [chatRoomId, queryClient]);
 
-  useEffect(() => {
-    if (chatsContainerRef.current) {
-      chatsContainerRef.current.scrollTop =
-        chatsContainerRef.current.scrollHeight;
-    }
-  }, [dateMessages]);
+  useScrollToBottom(chatsContainerRef, [dateMessages]);
 
   const onClickSendMessage = async () => {
     if (inputRef.current) {

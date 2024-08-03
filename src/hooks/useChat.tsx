@@ -5,6 +5,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { RefObject, useEffect } from 'react';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
@@ -127,7 +128,7 @@ const sendMessage = async ({
   return data;
 };
 
-const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
+export const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   const { data: lastReadDate } = useQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
     queryFn: () => fetchLastReadDate(userId, chatRoomId),
@@ -143,7 +144,7 @@ const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
   return unReadMessagesCount;
 };
 
-const useChatRoomListPageData = (userId: string) => {
+export const useChatRoomListPageData = (userId: string) => {
   const { data: chatRoomList, isLoading: isChatRoomListLoading } = useQuery({
     queryKey: ['chatRoomList', userId],
     queryFn: () => fetchChatRoomList(userId),
@@ -224,7 +225,7 @@ const useChatRoomListPageData = (userId: string) => {
 };
 
 // * 채팅리스트 중 하나 클릭할 시 호출할 hook
-const useUpdateLastRead = () => {
+export const useUpdateLastRead = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -245,7 +246,7 @@ const useUpdateLastRead = () => {
   });
 };
 
-const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
+export const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
   const { data } = useQuery({
     queryKey: ['MessagesGroupByDate', chatRoomId],
     queryFn: () => fetchMessagesGroupByDate(chatRoomId!),
@@ -323,7 +324,7 @@ const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
   return data;
 };
 
-const useSendMessage = () => {
+export const useSendMessage = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -343,10 +344,14 @@ const useSendMessage = () => {
   });
 };
 
-export {
-  useUnReadMessageCount,
-  useChatRoomListPageData,
-  useUpdateLastRead,
-  useGetMessagesGroupByDate,
-  useSendMessage,
+export const useScrollToBottom = (
+  ref: RefObject<HTMLElement>,
+  dependencies: unknown[],
+) => {
+  useEffect(() => {
+    if (ref.current) {
+      // eslint-disable-next-line no-param-reassign
+      ref.current.scrollTop = ref.current.scrollHeight;
+    }
+  }, [ref, ...dependencies]);
 };
