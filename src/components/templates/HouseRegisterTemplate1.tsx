@@ -1,5 +1,5 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { KeyboardEvent, useState } from 'react';
+import { Controller, UseFormReturn } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
@@ -116,10 +116,12 @@ export default function HouseRegisterTemplate1({
 
   const createBadge = () => {
     const appeals = form.watch('house_appeal');
-    if (!appeals.includes(appeal) && appeal !== '') {
+    if (appeals.length < 5 && !appeals.includes(appeal) && appeal !== '') {
       appeals.push(appeal);
       form.setValue('house_appeal', appeals);
       setAppeal('');
+    } else {
+      form.trigger('house_appeal');
     }
   };
 
@@ -137,10 +139,15 @@ export default function HouseRegisterTemplate1({
     form.setValue('house_appeal', appeals);
   };
 
-  const onChangeDescribe = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    form.setValue('describe', e.currentTarget.value);
+  // 마지막 요소에서 tab 키로 다음 캐러셀로 이동하지 않도록 하는 핸들러
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
+      if (event.target instanceof HTMLElement) {
+        (event.target as HTMLElement).focus();
+      }
+    }
   };
-
   return (
     <Container.FlexCol className="mt-8 min-w-full flex-1">
       <Container.FlexCol className="min-w-[13rem] max-w-[75rem]">
@@ -203,7 +210,7 @@ export default function HouseRegisterTemplate1({
               집유형
             </Typography.SubTitle1>
             <Container.FlexCol>
-              <Container.FlexRow className="mb-4 gap-2">
+              <Container.FlexRow className="mb-4 flex-wrap gap-2">
                 {houseTypeDisplayData.map(house => (
                   <BadgeButton.Outline
                     key={house.displayValue}
@@ -219,7 +226,7 @@ export default function HouseRegisterTemplate1({
                   valueProp={template1HiddenState.house_type}
                 />
               </Container.FlexRow>
-              <Container.FlexRow className="gap-2">
+              <Container.FlexRow className="flex-wrap gap-2">
                 {rentalTypeDisplayData.map(({ displayValue, stateValue }) => (
                   <BadgeButton.Outline
                     key={displayValue}
@@ -373,24 +380,23 @@ export default function HouseRegisterTemplate1({
                 className=" h-14 max-w-[30.4375rem] rounded-lg border-[1px] border-solid border-brown bg-transparent p-[1rem] caret-brown ring-subColor2 placeholder:text-brown3 focus:border-point focus:outline-none focus:ring-1 focus:ring-point"
                 placeholder="EX) 역 도보 5분, 정류장 3분, 햇빛 잘 들어요"
               />
-              {form.watch('house_appeal').length === 0 ? (
+              {form.formState.errors.house_appeal && (
                 <Typography.Span2
-                  className={`${!form.formState.errors.house_appeal?.message && 'invisible h-3'} mb-9 mt-2 block text-point`}
+                  className={`${!form.formState.errors.house_appeal?.message && 'invisible h-3'} mt-2 block text-point`}
                 >
                   {form.formState.errors.house_appeal?.message as string}
                 </Typography.Span2>
-              ) : (
-                <BadgeButtons
-                  contents={form.watch('house_appeal')}
-                  className="mt-4 gap-2"
-                  badgeStyle="rounded-full px-5 pb-2 pt-2.5"
-                  iconStyle="ml-2"
-                  stroke="bg"
-                  iconType="close"
-                  typoStyle="text-bg"
-                  onClick={onDeleteAppealBadge}
-                />
               )}
+              <BadgeButtons
+                contents={form.watch('house_appeal')}
+                className="mt-4 flex-wrap gap-2"
+                badgeStyle="rounded-full px-5 pb-2 pt-2.5"
+                iconStyle="ml-2"
+                stroke="bg"
+                iconType="close"
+                typoStyle="text-bg"
+                onClick={onDeleteAppealBadge}
+              />
 
               <FormItem.Hidden<Pick<HouseFormType, 'house_appeal'>>
                 name="house_appeal"
@@ -422,15 +428,20 @@ export default function HouseRegisterTemplate1({
             <Typography.SubTitle1 className="mt-2 text-brown">
               상세설명
             </Typography.SubTitle1>
-            <TextAreaField
-              value={form.watch('describe')}
+            <Controller
               name="describe"
-              onChange={onChangeDescribe}
-              placeholder="집에 대한 설명이나 내가 원하는 조건에 대해 더 소개할 것이 있다면 작성해주세요 (200자 이내)"
-              textAreaStyle="h-[10rem] resize-none rounded-lg border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
-              maxLength={200}
-              rows={5}
-              cols={100}
+              control={form.control}
+              render={({ field }) => (
+                <TextAreaField
+                  {...field}
+                  placeholder="집에 대한 설명이나 내가 원하는 조건에 대해 더 소개할 것이 있다면 작성해주세요 (200자 이내)"
+                  textAreaStyle="h-[10rem] resize-none rounded-lg border border-solid border-brown bg-inherit p-5 placeholder:text-brown3"
+                  maxLength={200}
+                  rows={5}
+                  cols={100}
+                  onKeyDown={handleKeyDown}
+                />
+              )}
             />
           </Container.Grid>
         </Container.FlexCol>
