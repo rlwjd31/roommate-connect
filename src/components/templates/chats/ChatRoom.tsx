@@ -102,6 +102,7 @@ export default function ChatRoom() {
         </Container.FlexCol>
       </Container.FlexRow>
       {/* chats area */}
+      {/* @FIXME: 최신 메시지를 하단으로 고정하기 위해 end로 정렬했더니 scroll이 동작하지 않음 */}
       <Container.FlexCol className="h-full justify-end gap-8 overflow-y-auto bg-green-100 p-6">
         {/* TODO: react query를 이용해서 loading일 때는 대체 처리 하기 */}
         {dateMessages?.map(dateMessage => (
