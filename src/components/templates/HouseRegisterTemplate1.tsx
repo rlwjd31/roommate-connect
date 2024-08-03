@@ -116,12 +116,11 @@ export default function HouseRegisterTemplate1({
 
   const createBadge = () => {
     const appeals = form.watch('house_appeal');
-    if (appeals.length < 5 && !appeals.includes(appeal) && appeal !== '') {
+    if (appeals.length < 6 && !appeals.includes(appeal) && appeal !== '') {
       appeals.push(appeal);
       form.setValue('house_appeal', appeals);
-      setAppeal('');
-    } else {
       form.trigger('house_appeal');
+      setAppeal('');
     }
   };
 
@@ -137,6 +136,7 @@ export default function HouseRegisterTemplate1({
       .watch('house_appeal')
       .filter(houseAppeal => houseAppeal !== appealContent);
     form.setValue('house_appeal', appeals);
+    form.trigger('house_appeal');
   };
 
   // 마지막 요소에서 tab 키로 다음 캐러셀로 이동하지 않도록 하는 핸들러
