@@ -60,7 +60,7 @@ export default function MultiImageForm({
       const images = form.getValues('house_img');
       images.push(newFileName);
       form.setValue('house_img', images);
-      form.trigger();
+      form.trigger('house_img');
 
       const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
       setRenderImg(prev => [...prev, newFileUrl]);
@@ -99,7 +99,7 @@ export default function MultiImageForm({
       }
       const images = form.watch('house_img').filter(img => img !== imgName);
       form.setValue('house_img', images);
-      form.trigger();
+      form.trigger('house_img');
 
       setRenderImg(prev => prev.filter(imgUrl => !imgUrl.includes(imgName)));
       if (imageLen % 3 === 0 && currentImgPage > 0) {
