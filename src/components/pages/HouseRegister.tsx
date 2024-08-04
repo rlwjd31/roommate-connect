@@ -20,10 +20,10 @@ import { InputRangeState } from '@/components/molecules/DualInputRange';
 import {
   fetchTemporaryHouseId,
   useDeleteHousePost,
-  useHouseData,
+  useFetchHouseData,
   useHouseRegist,
   useHouseUpdate,
-  useProfileData,
+  useFetchProfileData,
   useUserProfileUpdate,
 } from '@/hooks/useHouse';
 
@@ -45,15 +45,13 @@ export default function HouseRegister() {
   const Form = FormProvider;
   const userId = useRecoilState(SessionAtom)[0]?.user.id as string;
   const { houseId } = useParams<{ houseId: string }>();
-  const [isEditMode, setIsEditMode] = useState<boolean>(!!houseId);
+  const isEditMode = !!houseId;
   const [currentStep, setCurrentStep] = useState(0);
   const [locationError, setLocationError] = useState(false);
-  const [temporaryId, setTemporaryId] = useState<string | null>(null);
 
   const form = useForm<HouseFormType & UserLifeStyleType & UserMateStyleType>({
     resolver: zodResolver(HouseForm),
     mode: 'onChange',
-    reValidateMode: 'onSubmit',
     defaultValues: {
       house_img: [],
       representative_img: '',
@@ -84,41 +82,18 @@ export default function HouseRegister() {
     },
   });
 
+  // Form.Hidden 때문에 state가 필요해서 만들어 내려줌
   const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
     smoking: form.getValues('smoking'),
     pet: form.getValues('pet'),
     appeals: form.getValues('appeals'),
   });
-
   const [userMateStyle, setUserMateStyle] = useState<UserMateStyleType>({
     mate_gender: form.getValues('mate_gender'),
     mate_number: form.getValues('mate_number'),
     mate_appeals: form.getValues('mate_appeals'),
     prefer_mate_age: form.getValues('prefer_mate_age'),
   });
-
-  const handlePrevCarousel = () => {
-    setCurrentStep(prev => prev - 1);
-  };
-
-  const handleNextCarousel = async () => {
-    const isValid = await form.trigger();
-
-    if (isValid) {
-      setCurrentStep(prev => prev + 1);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-      setLocationError(false);
-    } else if (
-      !isValid &&
-      (form.getValues('region') === '지역' ||
-        form.getValues('district') === '시, 구')
-    ) {
-      setLocationError(true);
-    }
-  };
 
   const { registHouse, isRegistHouse } = useHouseRegist();
   const { updateUserProfile } = useUserProfileUpdate();
@@ -184,13 +159,28 @@ export default function HouseRegister() {
     if (isEditMode) {
       updateHouse({
         houseData,
-        houseId: (houseId as string) || (temporaryId as string),
+        houseId: houseId as string,
       });
-      onUpdateProfile();
     } else {
       registHouse(houseData);
+    }
 
-      onUpdateProfile();
+    onUpdateProfile();
+  };
+
+  const handlePrevCarousel = () => setCurrentStep(prev => prev - 1);
+
+  const handleNextCarousel = async () => {
+    const isValid = await form.trigger();
+    if (isValid) {
+      setCurrentStep(prev => prev + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setLocationError(false);
+    } else if (
+      form.getValues('region') === '지역' ||
+      form.getValues('district') === '시, 구'
+    ) {
+      setLocationError(true);
     }
   };
 
@@ -206,7 +196,7 @@ export default function HouseRegister() {
   };
 
   // user_lifeStyle, user_mate_style 값을 가져오는 로직
-  const { userLifeStyleQuery, userMateStyleQuery } = useProfileData(
+  const { userLifeStyleQuery, userMateStyleQuery } = useFetchProfileData(
     userId as string,
   );
   const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
@@ -238,59 +228,45 @@ export default function HouseRegister() {
   ]);
 
   const { deleteHousePost } = useDeleteHousePost();
+
   // 모달 관련 state
   const { setModalState, closeModal } = useModal('Continue');
-  const continuationModalContext: ContinuationModalState = {
-    isOpen: true,
-    type: 'Continue',
-    title: '저장된 글이 있어요!',
-    message: `저장된 글을 불러와 이어서 작성할 수 있습니다.
-			취소를 누르면 저장된 글은 삭제됩니다.`,
-    continueButtonContent: '이어쓰기',
-    cancelButtonContent: '취소',
-    onClickCancel: () => {
-      deleteHousePost(temporaryId as string);
-      setIsEditMode(false);
-      closeModal();
-    },
-    onClickContinue: () => {
-      setIsEditMode(true);
-      closeModal();
-    },
-  };
-
   // 임시저장된 글이 있는지 확인하고 postId를 저장하는 useEffect
   useEffect(() => {
     const fetchId = async () => {
-      try {
-        const { id } = await fetchTemporaryHouseId(userId);
-        setTemporaryId(id);
-        setModalState(continuationModalContext);
-      } catch (error) {
-        // TODO: 이 때 error처리를 어떻게 할지? 이 부분을 useHouse로 빼는 방식에 대해 고민 중
-        console.error(error.message);
-      }
+      const { id } = await fetchTemporaryHouseId(userId);
+      setModalState({
+        isOpen: true,
+        type: 'Continue',
+        title: '저장된 글이 있어요!',
+        message: `저장된 글을 불러와 이어서 작성할 수 있습니다.
+					취소를 누르면 저장된 글은 삭제됩니다.`,
+        continueButtonContent: '이어쓰기',
+        cancelButtonContent: '취소',
+        onClickCancel: () => {
+          if (id) {
+            deleteHousePost(id as string);
+          }
+          closeModal();
+        },
+        onClickContinue: () => {
+          if (id) {
+            navigate(`/house/edit/${id}`);
+          }
+          closeModal();
+        },
+      });
     };
 
     if (!houseId) {
       fetchId();
     }
-  }, [userId]);
+  }, [userId, houseId]);
 
-  // 임시 저장된 글이 있으면 가져오는 쿼리
-  const { houseQuery: loadHouseQuery } = useHouseData(
-    isEditMode,
-    temporaryId as string,
-    0,
-  );
-  const { data: tempHousePost, isSuccess: fetchedTempHousePost } =
-    loadHouseQuery;
-
-  // 글 수정시에 이전에 저장된 글을 가져오는 쿼리
-  const { houseQuery: editHouseQuery } = useHouseData(
+  // 글 수정시에 저장된 글을 가져오는 쿼리
+  const { houseQuery: editHouseQuery } = useFetchHouseData(
     isEditMode,
     houseId as string,
-    1,
   );
   const { data: housePost, isSuccess: fetchedHousePost } = editHouseQuery;
 
@@ -302,28 +278,13 @@ export default function HouseRegister() {
         ...housePost,
       }));
     }
-    if (isEditMode && temporaryId && fetchedTempHousePost) {
-      form.reset(prev => ({
-        ...prev,
-        ...tempHousePost,
-      }));
-    }
-  }, [
-    isEditMode,
-    fetchedHousePost,
-    form,
-    fetchedTempHousePost,
-    houseId,
-    housePost,
-    tempHousePost,
-    temporaryId,
-  ]);
+  }, [isEditMode, form, houseId, housePost]);
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmitHouse)}
-        className="min-h-screen flex-col"
+        className="min-h-screen flex-col focus:scroll-auto"
       >
         <Container.FlexCol className="mt-[4rem] w-full grow">
           <Container.FlexRow className="items-center gap-4">
@@ -348,12 +309,12 @@ export default function HouseRegister() {
             />
           )}
         </Container.FlexCol>
-        <Container.FlexCol className="w-full grow overflow-y-auto">
+        <Container.FlexCol className="w-full grow">
           <Carousel order={currentStep}>
             <HouseRegisterTemplate1
               form={form}
               userId={userId}
-              houseId={(houseId as string) || (temporaryId as string)}
+              houseId={houseId as string}
               isEditMode={isEditMode}
               locationError={locationError}
               setLocationError={setLocationError}
