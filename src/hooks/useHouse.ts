@@ -20,7 +20,9 @@ import {
   UserLifeStyleType,
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
+import queryKeys from '@/constants/queryKeys';
 
+// 임시저장된 글의 id를 가져오는 fetch
 export const fetchTemporaryHouseId = async (
   userId: string,
 ): Promise<{ id: string }> => {
@@ -30,6 +32,41 @@ export const fetchTemporaryHouseId = async (
     .match({ user_id: userId, temporary: 0 });
   if (error) throw new Error('임시저장된 글 확인에 실패했습니다.');
   return { id: data[0].id };
+};
+
+const fetchHousePost = async (houseId: string): Promise<HouseFormType> => {
+  const { data, error } = await supabase
+    .from('house')
+    .select('*')
+    .eq('id', houseId)
+    .single();
+
+  if (error) throw new Error(error.message);
+  if (!data) {
+    throw new Error('No data found');
+  }
+
+  return {
+    bookmark: data.bookmark,
+    deposit_price: data.deposit_price,
+    describe: data.describe,
+    district: data.district,
+    floor: data.floor as 0 | 1 | 2,
+    house_appeal: data.house_appeal,
+    house_img: data.house_img,
+    house_size: data.house_size,
+    house_type: data.house_type as 0 | 1 | 2 | 3,
+    manage_price: data.manage_price,
+    monthly_price: data.monthly_price,
+    post_title: data.post_title,
+    region: data.region,
+    rental_type: data.rental_type as 0 | 1 | 2 | 3,
+    representative_img: data.representative_img,
+    room_num: data.room_num,
+    temporary: data.temporary as 0 | 1,
+    term: data.term as HouseFormType['term'],
+    user_id: data.user_id,
+  };
 };
 
 const fetchUserLifeStyle = async (
@@ -68,55 +105,16 @@ const fetchUserMateStyle = async (
   };
 };
 
-const fetchHousePost = async (
-  houseId: string,
-  temporary: number,
-): Promise<HouseFormType> => {
-  const { data, error } = await supabase
-    .from('house')
-    .select('*')
-    .eq('id', houseId)
-    .eq('temporary', temporary)
-    .single();
-
-  if (error) throw new Error(error.message);
-  if (!data) {
-    throw new Error('No data found');
-  }
-
-  return {
-    bookmark: data.bookmark,
-    deposit_price: data.deposit_price,
-    describe: data.describe,
-    district: data.district,
-    floor: data.floor as 0 | 1 | 2,
-    house_appeal: data.house_appeal,
-    house_img: data.house_img,
-    house_size: data.house_size,
-    house_type: data.house_type as 0 | 1 | 2 | 3,
-    manage_price: data.manage_price,
-    monthly_price: data.monthly_price,
-    post_title: data.post_title,
-    region: data.region,
-    rental_type: data.rental_type as 0 | 1 | 2 | 3,
-    representative_img: data.representative_img,
-    room_num: data.room_num,
-    temporary: data.temporary as 0 | 1,
-    term: data.term as HouseFormType['term'],
-    user_id: data.user_id,
-  };
-};
-
-export const useProfileData = (userId: string) => {
+export const useFetchProfileData = (userId: string) => {
   const queryResults = useQueries({
     queries: [
       {
-        queryKey: ['user_lifestyle', userId],
+        queryKey: queryKeys.userLifeStyle(userId),
         queryFn: () => fetchUserLifeStyle(userId),
         enabled: !!userId,
       },
       {
-        queryKey: ['user_mate_style', userId],
+        queryKey: queryKeys.userMateStyle(userId),
         queryFn: () => fetchUserMateStyle(userId),
         enabled: !!userId,
       },
@@ -138,14 +136,10 @@ export const useProfileData = (userId: string) => {
   };
 };
 
-export const useHouseData = (
-  isEditMode: boolean,
-  houseId: string,
-  temporary: number,
-) => {
+export const useFetchHouseData = (isEditMode: boolean, houseId: string) => {
   const houseQuery = useQuery<HouseFormType>({
-    queryKey: ['housePost', houseId, temporary],
-    queryFn: () => fetchHousePost(houseId, temporary),
+    queryKey: queryKeys.housePost(houseId),
+    queryFn: () => fetchHousePost(houseId),
     enabled: isEditMode && !!houseId,
   });
   return { houseQuery };
