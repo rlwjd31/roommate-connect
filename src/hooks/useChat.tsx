@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-syntax */
 import {
   useMutation,
@@ -6,11 +7,22 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { RefObject, useEffect } from 'react';
+import {
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT,
+  RealtimeChannel,
+  RealtimePostgresChangesFilter,
+  RealtimePostgresChangesPayload,
+} from '@supabase/supabase-js';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
 import { Tables } from '@/types/supabase';
-import { UserMessageType } from '@/types/chat.type';
+import {
+  OpenChannelProps,
+  PostgresChangeCallback,
+  PostgresChangeFilterOption,
+  UserMessageType,
+} from '@/types/chat.type';
 
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
 const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
@@ -354,4 +366,33 @@ export const useScrollToBottom = (
       ref.current.scrollTop = ref.current.scrollHeight;
     }
   }, [ref, ...dependencies]);
+};
+
+export const useOpenChatChannel = <Payload extends { [key: string]: string }>({
+  channelName,
+  realtimeEventFilters,
+  useEffectDependencies,
+}: OpenChannelProps<Payload>) => {
+  useEffect(() => {
+    const chatChannel = supabase.channel(channelName);
+
+    realtimeEventFilters.forEach(({ filterOption, callbackFn }) => {
+      // ! postgres_changes라고 인자를 주어도 on method의 overloading이 정확하지 않아 단언으로 해결
+      (
+        chatChannel.on as (
+          type: 'postgres_changes',
+          filter: PostgresChangeFilterOption,
+          callback: PostgresChangeCallback<Payload>,
+        ) => RealtimeChannel
+      )('postgres_changes', { ...filterOption }, callbackFn);
+    });
+
+    chatChannel.subscribe();
+
+    return () => {
+      chatChannel.unsubscribe();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...useEffectDependencies]);
 };

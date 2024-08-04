@@ -1,11 +1,10 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { KeyboardEvent, useEffect, useRef } from 'react';
+import { KeyboardEvent, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import { supabase } from '@/libs/supabaseClient';
 import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 import Avatar from '@/components/atoms/Avatar';
@@ -15,6 +14,7 @@ import DateMessageBox from '@/components/templates/chats/DateMessageBox';
 import UserMessageBox from '@/components/templates/chats/UserMessageBox';
 import {
   useGetMessagesGroupByDate,
+  useOpenChatChannel,
   useScrollToBottom,
   useSendMessage,
 } from '@/hooks/useChat';
@@ -43,28 +43,24 @@ export default function ChatRoom() {
 
   const dateMessages = useGetMessagesGroupByDate(chatRoomId);
 
-  useEffect(() => {
-    const chatChannel = supabase
-      .channel(`chat_room_messages:${chatRoomId}`) // ? channel에 '/'가 들어가면 정상작동하지 않음...
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'messages' },
-        payload => {
-          if (payload.eventType === 'INSERT') {
-            if (payload.new as MessageType) {
-              queryClient.invalidateQueries({
-                queryKey: ['MessagesGroupByDate'],
-              });
-            }
-          }
+  useOpenChatChannel<MessageType>({
+    channelName: `chat_room_messages:${chatRoomId}`, // ? channel에 '/'가 들어가면 정상작동하지 않음...
+    realtimeEventFilters: [
+      {
+        filterOption: {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
         },
-      )
-      .subscribe();
-
-    return () => {
-      chatChannel.unsubscribe();
-    };
-  }, [chatRoomId, queryClient]);
+        callbackFn: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['MessagesGroupByDate'],
+          });
+        },
+      },
+    ],
+    useEffectDependencies: [chatRoomId, queryClient],
+  });
 
   useScrollToBottom(chatsContainerRef, [dateMessages]);
 
