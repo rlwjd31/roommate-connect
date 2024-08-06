@@ -8,10 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { RefObject, useEffect } from 'react';
 import {
-  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT,
   RealtimeChannel,
-  RealtimePostgresChangesFilter,
-  RealtimePostgresChangesPayload,
 } from '@supabase/supabase-js';
 
 import { supabase } from '@/libs/supabaseClient';
@@ -51,7 +48,7 @@ const fetchUnReadMessagesCount = async (
   const { data, error, status } = await supabase
     .from('messages')
     .select('id', { count: 'exact' })
-    .eq('chat_room_id', chatRoomId) // TODO: alternate chatRoomId
+    .eq('chat_room_id', chatRoomId)
     .gt('created_at', lastReadDate);
 
   if (error) {

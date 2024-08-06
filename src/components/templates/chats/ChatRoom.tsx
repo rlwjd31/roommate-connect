@@ -17,6 +17,7 @@ import {
   useOpenChatChannel,
   useScrollToBottom,
   useSendMessage,
+  useUpdateLastRead,
 } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 
@@ -26,15 +27,16 @@ export default function ChatRoom() {
   const params = useParams<{ chatRoomId: string }>();
   const chatRoomId = params.chatRoomId as string;
   const queryClient = useQueryClient();
-  const user = useRecoilValue(UserAtom);
+  const userInfo = useRecoilValue(UserAtom);
   const location = useLocation();
   const inputRef = useRef<HTMLInputElement>(null);
   const chatsContainerRef = useRef<HTMLDivElement>(null);
   const chatPartnerId = location.state.chatPartnerId as string;
+  const lastReadMutation = useUpdateLastRead();
   const sendMessage = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData([
     'chatPartnerInfo',
-    user?.id,
+    userInfo?.id,
     chatPartnerId,
   ]) as {
     newChatCount: number;
@@ -70,17 +72,17 @@ export default function ChatRoom() {
         content: inputRef.current.value,
         chatRoomId,
         // ! user는 protected router에서 user가 있는 경우만 현재 컴포넌트를 rendering하므로 !를 이용하여 type error 해결
-        sendBy: user?.id as string,
+        sendBy: userInfo?.id as string,
       });
     }
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && inputRef.current) {
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing && inputRef.current) {
       sendMessage.mutate({
         content: inputRef.current.value,
         chatRoomId,
-        sendBy: user?.id as string,
+        sendBy: userInfo?.id as string,
       });
     }
   };
