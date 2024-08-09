@@ -9,9 +9,12 @@ import Divider from '@/components/atoms/Divider';
 import Typography from '@/components/atoms/Typography';
 import CommentRegister from '@/components/molecules/CommentRegister';
 import { UserType } from '@/types/auth.type';
+import { useComment, useReply } from '@/hooks/useCommentReply';
 
 type CommentItemProps = {
   id: string;
+  // eslint-disable-next-line react/require-default-props
+  topId?: string;
   content: string;
   created_at: string;
   updated_at: string;
@@ -33,10 +36,26 @@ export default function CommentItem(props: CommentItemProps) {
     isReply,
     isOwner,
     user,
+    topId,
   } = props;
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const { updateComment, commentPending } = useComment();
+  const { updateReply, replyPending } = useReply();
+  const onClickDeleteComment = () => {
+    if (!isReply) {
+      updateComment({
+        methodType: 'delete',
+        id,
+        topId,
+      });
+    } else {
+      updateReply({
+        methodType: 'delete',
+        id,
+      });
+    }
+  };
   return (
     <>
       <Container.FlexCol className="gap-7 py-7">
@@ -62,7 +81,10 @@ export default function CommentItem(props: CommentItemProps) {
             {isReply || (
               <Button.Ghost
                 className="p-[0.625rem]"
-                onClick={() => setIsReplying(prev => !prev)}
+                onClick={() => {
+                  setIsReplying(prev => !prev);
+                  setIsEditing(false);
+                }}
               >
                 <Typography.P2>답변</Typography.P2>
               </Button.Ghost>
@@ -72,11 +94,18 @@ export default function CommentItem(props: CommentItemProps) {
               <>
                 <Button.Ghost
                   className="p-[0.625rem]"
-                  onClick={() => setIsEditing(prev => !prev)}
+                  onClick={() => {
+                    setIsEditing(prev => !prev);
+                    setIsReplying(false);
+                  }}
                 >
                   <Typography.P2>수정</Typography.P2>
                 </Button.Ghost>
-                <Button.Ghost className="p-[0.625rem]">
+                <Button.Ghost
+                  onClick={onClickDeleteComment}
+                  disabled={commentPending || replyPending}
+                  className="p-[0.625rem]"
+                >
                   <Typography.P2>삭제</Typography.P2>
                 </Button.Ghost>
               </>
@@ -87,12 +116,28 @@ export default function CommentItem(props: CommentItemProps) {
           <CommentRegister
             nickName={user.nickname as string}
             content={content}
+            id={id}
+            methodType="update"
+            isReply={isReply}
+            onCloseRegister={() => setIsEditing(false)}
           />
         ) : (
-          <Typography.P2 className="text-brown">{content}</Typography.P2>
+          <pre>
+            <Typography.P2 className="leading-6 text-brown">
+              {content}
+            </Typography.P2>
+          </pre>
         )}
       </Container.FlexCol>
-      {isReplying && <CommentRegister nickName={user.nickname as string} />}
+      {isReplying && (
+        <CommentRegister
+          nickName={user.nickname as string}
+          methodType="insert"
+          topId={id}
+          isReply
+          onCloseRegister={() => setIsReplying(false)}
+        />
+      )}
       <Divider.Col className="border-t-0 " />
     </>
   );

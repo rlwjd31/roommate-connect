@@ -33,6 +33,7 @@ function CommentReplyList({ comment }: CommentProps) {
           <CommentItem
             key={reply.id}
             id={reply.id}
+            topId={id}
             content={reply.content}
             created_at={reply.created_at}
             updated_at={reply.updated_at}
