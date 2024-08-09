@@ -6,7 +6,6 @@ import Container from '@/components/atoms/Container';
 import Divider from '@/components/atoms/Divider';
 import Icon from '@/components/atoms/Icon';
 import Img from '@/components/atoms/Img';
-import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { UserType } from '@/types/auth.type';
@@ -24,7 +23,6 @@ import { UserAtom } from '@/stores/auth.store';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 import copyUrl from '@/libs/copyUrl';
 import { useUpdateBookMark } from '@/hooks/useHouseDetail';
-import CommentTemplate from '@/components/templates/CommentTemplate';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -372,7 +370,6 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexCol>
         </Container.FlexCol>
         <Divider.Row />
-        <CommentTemplate />
       </Container.FlexCol>
     </Container.FlexCol>
   );
