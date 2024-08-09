@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Badge from '@/components/atoms/Badge';
@@ -11,7 +9,6 @@ import Img from '@/components/atoms/Img';
 import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import { supabase } from '@/libs/supabaseClient';
 import { UserType } from '@/types/auth.type';
 import {
   rentalTypesInfo,
@@ -23,19 +20,21 @@ import {
   mateNumInfo,
 } from '@/constants/profileDetailInfo';
 import { HouseFormType } from '@/types/house.type';
-import { SessionAtom } from '@/stores/auth.store';
+import { UserAtom } from '@/stores/auth.store';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
+import copyUrl from '@/libs/copyUrl';
+import { useUpdateBookMark } from '@/hooks/useHouseDetail';
 import CommentTemplate from '@/components/templates/CommentTemplate';
 
-// TODO: HouseData Type은 유하꺼랑 합쳐지면 import
-type HouseData = Omit<HouseFormType, 'rental_type'> & {
+// TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
+export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
   created_at: string;
   updated_at: string;
   floor: keyof typeof floorInfo;
-  user: User | null;
-  user_lifestyle: LifeStyle | null;
+  user: User;
+  user_lifestyle: LifeStyle;
   rental_type: keyof typeof rentalTypesInfo;
-  user_mate_style: MateStyle | null;
+  user_mate_style: MateStyle;
 };
 
 type User = Pick<UserType, 'id' | 'name' | 'avatar'> & {
@@ -49,83 +48,34 @@ type LifeStyle = {
 };
 
 type MateStyle = {
-  mate_gender: number;
-  mate_number: number;
+  mate_gender: 0 | 1 | 2;
+  mate_number: 0 | 1 | 2 | 3;
   mate_appeals: string[];
   prefer_mate_age: number[];
 };
 
-export default function HouseDetailTemplate() {
-  const { houseId } = useParams();
-  const [houseData, setHouseData] = useState<HouseData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [isHouseOwner, setIsHouseOwner] = useState(false);
-  const session = useRecoilValue(SessionAtom);
+export default function HouseDetailTemplate(props: {
+  houseData: HouseData;
+  bookmark: boolean;
+  houseId: string;
+}) {
+  const { houseData, bookmark, houseId } = props;
 
-  // TODO: try-catch
-  const fetchData = async () => {
-    const { data: house, error } = await supabase
-      .from('house')
-      .select(
-        `*, user(id, name, avatar, gender), user_lifestyle(smoking, pet, appeals), user_mate_style(mate_gender, mate_number, mate_appeals, prefer_mate_age)`,
-      )
-      .eq('id', houseId ?? '')
-      .single();
-    if (error) {
-      console.log(error.message);
-    }
-    return house;
-  };
-
-  const fetchBookmark = async () => {
-    const { data: user_bookmark, error } = await supabase
-      .from('user_bookmark')
-      .select('*')
-      .eq('id', session?.user.id ?? '')
-      .eq('house_id', houseId ?? '')
-      .single();
-    if (error) {
-      console.log('d', error.message);
-    }
-    return user_bookmark;
-  };
-
-  // TODO: 초기 렌더링 / 업데이트 로직 분리
-  // TODO: Loading상태에 따른 loading page rendering
-  useEffect(() => {
-    (async () => {
-      const houseUserInfo = await fetchData();
-      setHouseData(houseUserInfo as HouseData);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    (async () => {
-      setIsLoading(false);
-      if (session) {
-        const bookmarks = await fetchBookmark();
-        console.error('bookmarks=>', bookmarks);
-        if (houseData?.user_id === session?.user.id) {
-          setIsHouseOwner(true);
-        }
-
-        if (bookmarks) {
-          setIsBookmarked(true);
-        }
-      }
-    })();
-  }, [session, houseData]);
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  // TODO: fallback ui
+  const { updateBookMark, isPending } = useUpdateBookMark();
+  const user = useRecoilValue(UserAtom);
   if (!houseData) {
-    return <h1 className="text-4xl">하우스 데이터 없음...</h1>;
+    return <div>데이터 없음..</div>;
   }
+  const houseOwner = houseData.user_id === user?.id;
 
-  // houseData
+  const onClickBookMark = () => {
+    updateBookMark({
+      id: user?.id as string,
+      houseId: houseId as string,
+      isBookMark: bookmark,
+    });
+  };
+
   const { created_at: createdAt, updated_at: updatedAt } = houseData;
 
   const formDate = (dateString: string) => {
@@ -168,7 +118,7 @@ export default function HouseDetailTemplate() {
               <Typography.Head2 className="pr-3 text-brown">
                 {houseData && houseData.post_title}
               </Typography.Head2>
-              {isHouseOwner && (
+              {houseOwner && (
                 <>
                   <Button.Ghost className="p-[0.5625rem] text-brown">
                     <Icon type="edit" className="block tablet:hidden" />
@@ -197,7 +147,7 @@ export default function HouseDetailTemplate() {
           </Container.FlexCol>
           <Container.FlexRow className="justify-between	">
             <Container.FlexRow className="gap-3">
-              {isHouseOwner ? (
+              {houseOwner ? (
                 <Button.Fill className="rounded-lg p-5 text-white">
                   <Typography.P1>신청 현황</Typography.P1>
                 </Button.Fill>
@@ -215,12 +165,16 @@ export default function HouseDetailTemplate() {
             <Container.FlexRow className="gap-5">
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost
-                  iconType={isBookmarked ? 'fill-heart' : 'heart'}
+                  iconType={bookmark ? 'fill-heart' : 'heart'}
+                  onClick={onClickBookMark}
+                  disabled={isPending}
                 />
-                <Typography.Span1 className="text-brown1">43</Typography.Span1>
+                <Typography.Span1 className="text-brown1">
+                  {houseData.bookmark}
+                </Typography.Span1>
               </Container.FlexCol>
               <Container.FlexCol className="items-center justify-center gap-3">
-                <IconButton.Ghost iconType="share" />
+                <IconButton.Ghost iconType="share" onClick={copyUrl} />
                 <Typography.Span1 className="text-brown1">
                   공유
                 </Typography.Span1>
@@ -341,7 +295,6 @@ export default function HouseDetailTemplate() {
                 ))}
               </Container.FlexRow>
             </Container.FlexCol>
-            {/* //!TODO: UI 수정 및 데이터 user_mate_style 에서 가져오기 */}
             <Container.FlexCol className="gap-6">
               <Typography.SubTitle1>원하는 룸메이트</Typography.SubTitle1>
               <Container.FlexRow className="items-center gap-5">
