@@ -36,8 +36,6 @@ function CommentRegister(props: CommentRegisterProps) {
   const { updateReply, replyPending } = useReply();
   const form = useForm<CommentFormType>({ resolver: zodResolver(CommentForm) });
 
-  console.log('error =>', form.formState.errors);
-
   const onClickComment = (data: CommentFormType) => {
     if (!isReply) {
       updateComment(
