@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -29,6 +29,7 @@ export default function ChatList({
 }: ChatListProps) {
   const userInfo = useRecoilValue(UserAtom);
   const lastReadMutation = useUpdateLastRead();
+  const { chatRoomId: currentChatRoomId } = useParams<{ chatRoomId: string }>();
 
   return (
     <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
@@ -55,9 +56,9 @@ export default function ChatList({
                 key={chatRoomId}
                 to={`/chats/${chatRoomId}`}
                 state={{ chatPartnerId }}
-                onClick={() =>
-                  lastReadMutation.mutate({ userId: userInfo.id, chatRoomId })
-                }
+                onClick={() => {
+                  lastReadMutation.mutate({ userId: userInfo.id, chatRoomId });
+                }}
                 className={({ isActive }) =>
                   cn(
                     'flex items-start gap-4 rounded-xl p-3 hover:bg-brown6',

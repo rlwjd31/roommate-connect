@@ -1,15 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-syntax */
 import {
+  QueryClient,
   useMutation,
   useQueries,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
 import { RefObject, useEffect } from 'react';
-import {
-  RealtimeChannel,
-} from '@supabase/supabase-js';
+import { RealtimeChannel } from '@supabase/supabase-js';
 
 import { supabase } from '@/libs/supabaseClient';
 import SupabaseCustomError from '@/libs/supabaseCustomError';
@@ -41,7 +41,7 @@ const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
 
 // db join이 table구성 상 되지 않는 관계로 dependent fetch로 구성(chatRoomListPageData 내부 참조)
 // TODO: 추후 db 바꿀 시 join으로 수정
-const fetchUnReadMessagesCount = async (
+const fetchMessagesCountByDate = async (
   chatRoomId: string,
   lastReadDate: string,
 ) => {
@@ -137,23 +137,27 @@ const sendMessage = async ({
   return data;
 };
 
-export const useUnReadMessageCount = (userId: string, chatRoomId: string) => {
-  const { data: lastReadDate } = useQuery({
+export const fetchUnReadMessageCount = async (
+  queryClient: QueryClient,
+  userId: string,
+  chatRoomId: string,
+) => {
+  const lastReadDate = await queryClient.fetchQuery({
     queryKey: ['lastReadDate', userId, chatRoomId],
     queryFn: () => fetchLastReadDate(userId, chatRoomId),
-    enabled: !!userId,
   });
 
-  const { data: unReadMessagesCount } = useQuery({
-    queryKey: ['unReadMessagesCount', chatRoomId, lastReadDate!],
-    queryFn: () => fetchUnReadMessagesCount(chatRoomId, lastReadDate!),
-    enabled: !!lastReadDate,
+  const unReadMessagesCount = await queryClient.fetchQuery({
+    queryKey: ['unReadMessagesCount', chatRoomId],
+    queryFn: () => fetchMessagesCountByDate(chatRoomId, lastReadDate!),
   });
 
   return unReadMessagesCount;
 };
 
 export const useChatRoomListPageData = (userId: string) => {
+  const queryClient = useQueryClient();
+
   const { data: chatRoomList, isLoading: isChatRoomListLoading } = useQuery({
     queryKey: ['chatRoomList', userId],
     queryFn: () => fetchChatRoomList(userId),
@@ -179,16 +183,14 @@ export const useChatRoomListPageData = (userId: string) => {
               throw new Error(`couldn't find chat partner id`);
 
             return {
-              queryKey: ['chatPartnerInfo', userId, chatPartnerId],
+              queryKey: ['chatRoomInfo', userId, chatPartnerId],
               queryFn: async () => {
-                const lastReadDate = await fetchLastReadDate(
+                const newChatCount = await fetchUnReadMessageCount(
+                  queryClient,
                   userId,
                   chatRoomId,
                 );
-                const newChatCount = await fetchUnReadMessagesCount(
-                  chatRoomId,
-                  lastReadDate!,
-                );
+
                 const chatPartnerInfo =
                   await fetchChatPartnerInfo(chatPartnerId);
 
