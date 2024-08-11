@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SessionAtom } from '@/stores/auth.store';
 import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SignUpProfileFormType } from '@/types/signUp.type';
-import { ContinuationModalState } from '@/types/modal.type';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
@@ -80,19 +79,6 @@ export default function HouseRegister() {
       mate_appeals: [],
       prefer_mate_age: [0, 30],
     },
-  });
-
-  // Form.Hidden 때문에 state가 필요해서 만들어 내려줌
-  const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
-    smoking: form.getValues('smoking'),
-    pet: form.getValues('pet'),
-    appeals: form.getValues('appeals'),
-  });
-  const [userMateStyle, setUserMateStyle] = useState<UserMateStyleType>({
-    mate_gender: form.getValues('mate_gender'),
-    mate_number: form.getValues('mate_number'),
-    mate_appeals: form.getValues('mate_appeals'),
-    prefer_mate_age: form.getValues('prefer_mate_age'),
   });
 
   const { registHouse, isRegistHouse } = useHouseRegist();
@@ -215,9 +201,6 @@ export default function HouseRegister() {
       form.setValue('mate_number', userMateStyleData.mate_number);
       form.setValue('mate_appeals', userMateStyleData.mate_appeals);
       form.setValue('prefer_mate_age', userMateStyleData.prefer_mate_age);
-
-      setUserLifeStyle(prev => ({ ...prev, ...userLifeStyleData }));
-      setUserMateStyle(prev => ({ ...prev, ...userMateStyleData }));
     }
   }, [
     fetchedUserLifeStyle,
@@ -286,93 +269,97 @@ export default function HouseRegister() {
         onSubmit={form.handleSubmit(onSubmitHouse)}
         className="min-h-screen flex-col focus:scroll-auto"
       >
-        <Container.FlexCol className="mt-[4rem] w-full grow">
-          <Container.FlexRow className="items-center gap-4">
-            <Typography.Head2 className=" text-brown">
-              하우스 등록
-            </Typography.Head2>
-            <Typography.P1 className="text-brown1">
-              {currentStep + 1}/2
-            </Typography.P1>
-          </Container.FlexRow>
-          {currentStep === 0 ? (
-            <IconButton.Ghost
-              className="my-6"
-              iconType="front"
-              onClick={handleNextCarousel}
-            />
-          ) : (
-            <IconButton.Ghost
-              className="my-6"
-              iconType="back"
-              onClick={handlePrevCarousel}
-            />
-          )}
-        </Container.FlexCol>
-        <Container.FlexCol className="w-full grow">
-          <Carousel order={currentStep}>
-            <HouseRegisterTemplate1
-              form={form}
-              userId={userId}
-              houseId={houseId as string}
-              isEditMode={isEditMode}
-              locationError={locationError}
-              setLocationError={setLocationError}
-            />
-            <HouseRegisterTemplates2
-              form={form}
-              userLifeStyle={userLifeStyle}
-              setUserLifeStyle={setUserLifeStyle}
-              userMateStyle={userMateStyle}
-              setUserMateStyle={setUserMateStyle}
-            />
-          </Carousel>
-        </Container.FlexCol>
-        <hr style={{ marginTop: '5rem', marginBottom: '2.75rem' }} />
-        <Container.FlexRow className="absolute z-20 w-full justify-between">
-          <div>
-            <Button.Outline
-              className="mr-4 flex h-[59px] w-[9.25rem] justify-center rounded-[2rem]"
-              onClick={() => navigate('/')}
-            >
-              <Typography.P1 className="text-brown">취소</Typography.P1>
-            </Button.Outline>
-          </div>
-          <Container.FlexRow className="mb-[16rem] gap-4">
-            <Button.Outline
-              className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
-              onClick={onSaveTemporary}
-              disabled={isRegistHouse || isUpdateHouse}
-            >
-              <Typography.P1 className="text-brown">임시저장</Typography.P1>
-            </Button.Outline>
-            {currentStep === 0 ? (
-              <Button.Fill
-                className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
-                onClick={handleNextCarousel}
+        <Container.FlexCol className="md:pb-[5rem] sm-md:flex-col-reverse">
+          <Container.FlexCol className="mt-[4rem] w-full grow">
+            <Container.FlexRow className="items-center gap-4">
+              <Typography.Head2 className=" text-brown">
+                하우스 등록
+              </Typography.Head2>
+              <Typography.P1 className="text-brown1">
+                {currentStep + 1}/2
+              </Typography.P1>
+            </Container.FlexRow>
+            <Container.FlexRow className="hidden md:block">
+              {currentStep === 0 ? (
+                <IconButton.Ghost
+                  className="my-6"
+                  iconType="front"
+                  onClick={handleNextCarousel}
+                />
+              ) : (
+                <IconButton.Ghost
+                  className="my-6"
+                  iconType="back"
+                  onClick={handlePrevCarousel}
+                />
+              )}
+            </Container.FlexRow>
+            <Container.FlexCol className="w-full grow">
+              <Carousel order={currentStep}>
+                <HouseRegisterTemplate1
+                  form={form}
+                  userId={userId}
+                  houseId={houseId as string}
+                  isEditMode={isEditMode}
+                  locationError={locationError}
+                  setLocationError={setLocationError}
+                />
+                <HouseRegisterTemplates2 form={form} />
+              </Carousel>
+            </Container.FlexCol>
+          </Container.FlexCol>
+          <Container.FlexRow className="justify-between md:mt-20 md:border-t md:border-brown md:bg-bg md:pt-[2.75rem]">
+            <Container.FlexRow>
+              <IconButton.Outline
+                className="rounded-[2rem] md:mr-4 md:flex md:h-[3.5rem] md:w-[9.25rem] md:justify-center sm-md:border-none"
+                iconType="prev"
+                iconClassName="md:hidden"
+                onClick={() => navigate('/')}
                 disabled={isRegistHouse || isUpdateHouse}
               >
-                <Typography.P1 className="text-bg">다음</Typography.P1>
-              </Button.Fill>
-            ) : (
-              <Container.FlexRow className="gap-4">
+                <Typography.P1 className="hidden text-brown md:block">
+                  취소
+                </Typography.P1>
+              </IconButton.Outline>
+            </Container.FlexRow>
+            <Container.FlexRow className="gap-4 md:mb-[1rem]">
+              {currentStep === 0 && (
                 <Button.Outline
                   className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
-                  onClick={handlePrevCarousel}
-                >
-                  <Typography.P1 className="text-brown">이전</Typography.P1>
-                </Button.Outline>
-                <Button.Fill
-                  className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
-                  type="submit"
+                  onClick={onSaveTemporary}
                   disabled={isRegistHouse || isUpdateHouse}
                 >
-                  <Typography.P1 className="text-bg">완료</Typography.P1>
+                  <Typography.P1 className="text-brown">임시저장</Typography.P1>
+                </Button.Outline>
+              )}
+              {currentStep === 0 ? (
+                <Button.Fill
+                  className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                  onClick={handleNextCarousel}
+                  disabled={isRegistHouse || isUpdateHouse}
+                >
+                  <Typography.P1 className="text-bg">다음</Typography.P1>
                 </Button.Fill>
-              </Container.FlexRow>
-            )}
+              ) : (
+                <Container.FlexRow className="gap-4">
+                  <Button.Outline
+                    className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                    onClick={handlePrevCarousel}
+                  >
+                    <Typography.P1 className="text-brown">이전</Typography.P1>
+                  </Button.Outline>
+                  <Button.Fill
+                    className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                    type="submit"
+                    disabled={isRegistHouse || isUpdateHouse}
+                  >
+                    <Typography.P1 className="text-bg">완료</Typography.P1>
+                  </Button.Fill>
+                </Container.FlexRow>
+              )}
+            </Container.FlexRow>
           </Container.FlexRow>
-        </Container.FlexRow>
+        </Container.FlexCol>
       </form>
     </Form>
   );
