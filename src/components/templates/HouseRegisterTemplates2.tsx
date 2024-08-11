@@ -22,6 +22,7 @@ import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
 import BadgeButtons from '@/components/molecules/BadgeButtons';
 import Accordion from '@/components/molecules/Accordion';
 import FormItem from '@/components/molecules/FormItem';
+import HouseFormRow from '@/components/molecules/HouseFormRow';
 
 type HouseRegisterTemplates2Prop = {
   form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
@@ -146,17 +147,17 @@ export default function HouseRegisterTemplates2({
   };
 
   return (
-    <Container.FlexCol className="mt-8 min-w-full flex-1">
+    <Container.FlexCol className="mt-8 min-w-full flex-1 shrink-0">
       <Container.FlexCol className="min-w-[13rem] max-w-[75rem]">
         <Typography.Head3 className="mb-10 text-brown">
           원하는 룸메이트
         </Typography.Head3>
         <Container.FlexCol className="gap-[5.5rem]">
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-3 text-brown">
-              성별
-            </Typography.SubTitle1>
-            <Container.FlexRow className="mb-4 gap-2">
+          <HouseFormRow
+            title="성별"
+            gridClassName="sm:grid-cols-[12.8125rem_auto]"
+          >
+            <Container.FlexRow className="mb-4 flex-wrap gap-2">
               {matesGenderDisplayData.map(
                 ({ displayValue, stateValue, iconType }) => (
                   <BadgeButton.Outline
@@ -176,12 +177,12 @@ export default function HouseRegisterTemplates2({
               name="mate_gender"
               valueProp={userMateStyle.mate_gender}
             />
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-3 text-brown">
-              원하는 인원 수
-            </Typography.SubTitle1>
-            <Container.FlexRow className="mb-4 gap-2">
+          </HouseFormRow>
+          <HouseFormRow
+            title="원하는 인원 수"
+            gridClassName="sm:grid-cols-[12.8125rem_auto]"
+          >
+            <Container.FlexRow className="mb-4 flex-wrap gap-2">
               {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
                 <BadgeButton.Outline
                   key={displayValue}
@@ -197,11 +198,11 @@ export default function HouseRegisterTemplates2({
               name="mate_number"
               valueProp={userMateStyle.mate_number}
             />
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-3 text-brown">
-              원하는 나이
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="원하는 나이"
+            gridClassName="sm:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               <LabelDualInputRange
                 className=" w-[30rem]"
@@ -217,11 +218,11 @@ export default function HouseRegisterTemplates2({
               name="prefer_mate_age"
               valueProp={preferAge}
             />
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 sm:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-3 text-brown">
-              룸메이트 특징
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="룸메이트 특징"
+            gridClassName="sm:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol className="gap-2.5">
               <input
                 type="text"
@@ -237,7 +238,7 @@ export default function HouseRegisterTemplates2({
               ) : (
                 <BadgeButtons
                   contents={form.watch('mate_appeals')}
-                  className=" gap-2"
+                  className="flex-wrap gap-2"
                   badgeStyle="h-10 rounded-full px-5"
                   iconStyle="ml-2"
                   stroke="bg"
@@ -251,7 +252,7 @@ export default function HouseRegisterTemplates2({
               name="mate_appeals"
               valueProp={userMateStyle.mate_appeals}
             />
-          </Container.Grid>
+          </HouseFormRow>
           <Container.FlexCol>
             <Accordion
               title="내 프로필 수정"
@@ -265,7 +266,7 @@ export default function HouseRegisterTemplates2({
                   <Typography.SubTitle2 className="text-brown">
                     흡연여부
                   </Typography.SubTitle2>
-                  <Container.FlexRow className="gap-2">
+                  <Container.FlexRow className="flex-wrap gap-2">
                     {smokeDisplayData.map(
                       ({ displayValue, stateValue, iconType }) => (
                         <BadgeButton.Outline
@@ -291,7 +292,7 @@ export default function HouseRegisterTemplates2({
                   <Typography.SubTitle2 className="text-brown">
                     반려동물
                   </Typography.SubTitle2>
-                  <Container.FlexRow className="gap-2">
+                  <Container.FlexRow className="flex-wrap gap-2">
                     {registPetDisplayData.map(
                       ({ displayValue, stateValue, iconType }) => (
                         <BadgeButton.Outline
@@ -332,7 +333,7 @@ export default function HouseRegisterTemplates2({
                     ) : (
                       <BadgeButtons
                         contents={form.watch('appeals')}
-                        className="gap-2"
+                        className="flex-wrap gap-2"
                         badgeStyle="h-10 rounded-full px-5"
                         iconStyle="ml-2"
                         stroke="bg"

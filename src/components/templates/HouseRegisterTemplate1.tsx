@@ -24,6 +24,7 @@ import {
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
 import { floorDisplayData } from '@/constants/houseData';
+import HouseFormRow from '@/components/molecules/HouseFormRow';
 
 type Template1HiddenState = {
   house_type: HouseFormType['house_type'];
@@ -154,17 +155,17 @@ export default function HouseRegisterTemplate1({
         <Typography.Head3 className="mb-10 text-brown">
           나의 하우스
         </Typography.Head3>
-        <Container.FlexCol className="gap-[5.5rem]">
+        <Container.FlexCol className="gap-[3.25rem] md:gap-[5.5rem]">
           <MultiImageForm
             form={form}
             userId={userId}
             houseId={houseId}
             isEditMode={isEditMode}
           />
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-3 text-brown">
-              제목
-            </Typography.SubTitle1>
+          <HouseFormRow
+            title="제목"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <FormItem.TextField
               containerStyle="w-full"
               inputStyle="w-full"
@@ -172,11 +173,11 @@ export default function HouseRegisterTemplate1({
               name="post_title"
               placeholder="제목을 작성해주세요"
             />
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              위치
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="위치"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               {location && (
                 <BadgeButton.Fill
@@ -204,11 +205,11 @@ export default function HouseRegisterTemplate1({
                 valueProp={district.value}
               />
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              집유형
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="집유형"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               <Container.FlexRow className="mb-4 flex-wrap gap-2">
                 {houseTypeDisplayData.map(house => (
@@ -243,11 +244,11 @@ export default function HouseRegisterTemplate1({
                 />
               </Container.FlexRow>
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              크기/방 개수
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="크기/방 개수"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               <Container.FlexRow className="items-center gap-[24px] text-brown">
                 <Input
@@ -283,11 +284,11 @@ export default function HouseRegisterTemplate1({
                 </Typography.Span2>
               )}
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              건물층 옵션
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="건물층 옵션"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexRow className="gap-2">
               {floorDisplayData.map(({ displayValue, stateValue }) => (
                 <BadgeButton.Outline
@@ -300,11 +301,11 @@ export default function HouseRegisterTemplate1({
                 </BadgeButton.Outline>
               ))}
             </Container.FlexRow>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              가격
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="가격"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol className="gap-[2rem]">
               <Container.FlexRow className="items-center gap-[1.5rem]">
                 <Typography.SubTitle2 className="w-[3.375rem] text-brown">
@@ -366,11 +367,11 @@ export default function HouseRegisterTemplate1({
                 </Container.FlexRow>
               </Container.FlexRow>
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              특징
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="특징"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               <input
                 type="text"
@@ -397,17 +398,16 @@ export default function HouseRegisterTemplate1({
                 typoStyle="text-bg"
                 onClick={onDeleteAppealBadge}
               />
-
               <FormItem.Hidden<Pick<HouseFormType, 'house_appeal'>>
                 name="house_appeal"
                 valueProp={template1HiddenState.house_appeal}
               />
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              원하는 기간
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="원하는 기간"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Container.FlexCol>
               <LabelDualInputRange
                 className=" w-[30rem]"
@@ -423,11 +423,11 @@ export default function HouseRegisterTemplate1({
                 valueProp={term}
               />
             </Container.FlexCol>
-          </Container.Grid>
-          <Container.Grid className="items-start gap-4 screen640:grid-cols-[12.8125rem_auto]">
-            <Typography.SubTitle1 className="mt-2 text-brown">
-              상세설명
-            </Typography.SubTitle1>
+          </HouseFormRow>
+          <HouseFormRow
+            title="상세설명"
+            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+          >
             <Controller
               name="describe"
               control={form.control}
@@ -443,7 +443,7 @@ export default function HouseRegisterTemplate1({
                 />
               )}
             />
-          </Container.Grid>
+          </HouseFormRow>
         </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>
