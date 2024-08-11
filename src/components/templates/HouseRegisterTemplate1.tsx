@@ -67,10 +67,7 @@ export default function HouseRegisterTemplate1({
     MoleculeSelectorState('시, 구'),
   );
 
-  // TODO: location logic 정리 필요
   const setLocation = () => {
-    if (region.value !== '지역' && district.value !== '시, 구')
-      return `${region.value} ${district.value}`;
     if (form.watch('region') !== '지역' && form.watch('district') !== '시, 구')
       return `${form.watch('region')} ${form.watch('district')}`;
     return '';
@@ -164,7 +161,7 @@ export default function HouseRegisterTemplate1({
           />
           <HouseFormRow
             title="제목"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <FormItem.TextField
               containerStyle="w-full"
@@ -176,7 +173,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="위치"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol>
               {location && (
@@ -208,7 +205,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="집유형"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol>
               <Container.FlexRow className="mb-4 flex-wrap gap-2">
@@ -247,7 +244,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="크기/방 개수"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol>
               <Container.FlexRow className="items-center gap-[24px] text-brown">
@@ -287,7 +284,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="건물층 옵션"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexRow className="gap-2">
               {floorDisplayData.map(({ displayValue, stateValue }) => (
@@ -304,7 +301,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="가격"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol className="gap-[2rem]">
               <Container.FlexRow className="items-center gap-[1.5rem]">
@@ -370,7 +367,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="특징"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol>
               <input
@@ -406,7 +403,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="원하는 기간"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Container.FlexCol>
               <LabelDualInputRange
@@ -426,7 +423,7 @@ export default function HouseRegisterTemplate1({
           </HouseFormRow>
           <HouseFormRow
             title="상세설명"
-            gridClassName="screen640:grid-cols-[12.8125rem_auto]"
+            gridClassName="md:grid-cols-[12.8125rem_auto]"
           >
             <Controller
               name="describe"

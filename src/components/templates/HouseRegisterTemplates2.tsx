@@ -26,25 +26,30 @@ import HouseFormRow from '@/components/molecules/HouseFormRow';
 
 type HouseRegisterTemplates2Prop = {
   form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
-  userLifeStyle: UserLifeStyleType;
-  setUserLifeStyle: React.Dispatch<React.SetStateAction<UserLifeStyleType>>;
-  userMateStyle: UserMateStyleType;
-  setUserMateStyle: React.Dispatch<React.SetStateAction<UserMateStyleType>>;
 };
 
 export default function HouseRegisterTemplates2({
-  form,
-  userLifeStyle,
-  setUserLifeStyle,
-  userMateStyle,
-  setUserMateStyle,
+  form
 }: HouseRegisterTemplates2Prop) {
+	const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
+    smoking: form.getValues('smoking'),
+    pet: form.getValues('pet'),
+    appeals: form.getValues('appeals'),
+  });
+
+  const [userMateStyle, setUserMateStyle] = useState<UserMateStyleType>({
+    mate_gender: form.getValues('mate_gender'),
+    mate_number: form.getValues('mate_number'),
+    mate_appeals: form.getValues('mate_appeals'),
+    prefer_mate_age: form.getValues('prefer_mate_age'),
+  });
+
   const [preferAge, setPreferAge] = useState<
     UserMateStyleType['prefer_mate_age']
   >(form.watch('prefer_mate_age'));
 
   const onClickMatesNum = (
-    stateValue: SignUpProfileFormType['mates_number'],
+    stateValue: SignUpProfileFormType['mate_number'],
   ) => {
     form.setValue('mate_number', stateValue);
     setUserMateStyle(prev => ({
@@ -53,7 +58,7 @@ export default function HouseRegisterTemplates2({
     }));
   };
 
-  const onClickGenderType = (stateValue: SignUpProfileFormType['gender']) => {
+  const onClickGenderType = (stateValue: SignUpProfileFormType['mate_gender']) => {
     form.setValue('mate_gender', stateValue);
     setUserMateStyle(prev => ({
       ...prev,

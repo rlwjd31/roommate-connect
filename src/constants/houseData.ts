@@ -1,5 +1,5 @@
 import { HouseFormType } from '@/types/house.type';
-import { IconType } from '@/types/izcon.type';
+import { IconType } from '@/types/icon.type';
 import { SignUpProfileFormType } from '@/types/signUp.type';
 
 const floorDisplayData: {
