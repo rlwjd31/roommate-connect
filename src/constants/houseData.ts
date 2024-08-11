@@ -22,7 +22,7 @@ const floorDisplayData: {
 
 const matesGenderDisplayData: {
   displayValue: string;
-  stateValue: SignUpProfileFormType['gender'];
+  stateValue: SignUpProfileFormType['mate_gender'];
   iconType: IconType;
 }[] = [
   {
