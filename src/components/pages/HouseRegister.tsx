@@ -325,7 +325,7 @@ export default function HouseRegister() {
             <Container.FlexRow className="gap-4 md:mb-[1rem]">
               {currentStep === 0 && (
                 <Button.Outline
-                  className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                  className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:border-none sm-md:p-2"
                   onClick={onSaveTemporary}
                   disabled={isRegistHouse || isUpdateHouse}
                 >
@@ -334,26 +334,30 @@ export default function HouseRegister() {
               )}
               {currentStep === 0 ? (
                 <Button.Fill
-                  className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                  className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:bg-bg sm-md:p-2 sm-md:hover:bg-bg"
                   onClick={handleNextCarousel}
                   disabled={isRegistHouse || isUpdateHouse}
                 >
-                  <Typography.P1 className="text-bg">다음</Typography.P1>
+                  <Typography.P1 className="text-brown md:text-bg">
+                    다음
+                  </Typography.P1>
                 </Button.Fill>
               ) : (
                 <Container.FlexRow className="gap-4">
                   <Button.Outline
-                    className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                    className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:border-none sm-md:p-2"
                     onClick={handlePrevCarousel}
                   >
                     <Typography.P1 className="text-brown">이전</Typography.P1>
                   </Button.Outline>
                   <Button.Fill
-                    className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem]"
+                    className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:bg-bg sm-md:p-2 sm-md:hover:bg-bg"
                     type="submit"
                     disabled={isRegistHouse || isUpdateHouse}
                   >
-                    <Typography.P1 className="text-bg">완료</Typography.P1>
+                    <Typography.P1 className="text-brown md:text-bg">
+                      완료
+                    </Typography.P1>
                   </Button.Fill>
                 </Container.FlexRow>
               )}
