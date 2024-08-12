@@ -257,8 +257,8 @@ export default function HouseRegister() {
         onSubmit={form.handleSubmit(onSubmitHouse)}
         className="min-h-screen flex-col focus:scroll-auto"
       >
-        <Container.FlexCol className="md:pb-[5rem] sm-md:flex-col-reverse">
-          <Container.FlexCol className="mt-[4rem] w-full grow">
+        <Container.FlexCol className="w-full md:pb-[5rem] sm-md:flex-col-reverse">
+          <Container.FlexCol className="mb-20 mt-[4rem] grow">
             <Container.FlexRow className="items-center gap-4">
               <Typography.Head2 className=" text-brown">
                 하우스 등록
@@ -296,7 +296,7 @@ export default function HouseRegister() {
               </Carousel>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexRow className="justify-between md:mt-20 md:border-t md:border-brown md:bg-bg md:pt-[2.75rem]">
+          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg pb-4 md:sticky md:bottom-0  md:border-t md:border-brown md:pt-[2.75rem]">
             <Container.FlexRow>
               <IconButton.Outline
                 className="rounded-[2rem] md:mr-4 md:flex md:h-[3.5rem] md:w-[9.25rem] md:justify-center sm-md:border-none"
