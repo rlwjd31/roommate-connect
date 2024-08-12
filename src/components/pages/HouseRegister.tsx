@@ -33,8 +33,8 @@ export type UserLifeStyleType = {
 };
 
 export type UserMateStyleType = {
-  mate_gender: SignUpProfileFormType['gender'];
-  mate_number: SignUpProfileFormType['mates_number'];
+  mate_gender: SignUpProfileFormType['mate_gender'];
+  mate_number: SignUpProfileFormType['mate_number'];
   mate_appeals: SignUpProfileFormType['mate_appeals'];
   prefer_mate_age: InputRangeState;
 };
