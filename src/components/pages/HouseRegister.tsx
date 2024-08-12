@@ -107,8 +107,6 @@ export default function HouseRegister() {
       },
       userId,
     });
-
-    navigate('/');
   };
 
   const onSaveHouse = async (

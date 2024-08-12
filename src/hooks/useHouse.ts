@@ -7,6 +7,7 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query';
 import { FileObject } from '@supabase/storage-js';
+import { useNavigate } from 'react-router-dom';
 
 import {
   createToast,
@@ -22,15 +23,17 @@ import {
 } from '@/components/pages/HouseRegister';
 import queryKeys from '@/constants/queryKeys';
 
-// 임시저장된 글의 id를 가져오는 fetch
+// fetch functions
 export const fetchTemporaryHouseId = async (
   userId: string,
 ): Promise<{ id: string }> => {
+  const TEMPORARY = 0;
   const { data, error } = await supabase
     .from('house')
     .select('id')
-    .match({ user_id: userId, temporary: 0 });
-  if (error) throw new Error('임시저장된 글 확인에 실패했습니다.');
+    .match({ user_id: userId, temporary: TEMPORARY });
+  if (error)
+    throw new Error(`임시저장된 글 확인에 실패했습니다.: ${error.message}`);
   return { id: data[0].id };
 };
 
@@ -41,9 +44,9 @@ const fetchHousePost = async (houseId: string): Promise<HouseFormType> => {
     .eq('id', houseId)
     .single();
 
-  if (error) throw new Error(error.message);
+  if (error) throw new Error(`게시글을 가져올 수 없습니다.: ${error.message}`);
   if (!data) {
-    throw new Error('No data found');
+    throw new Error(`게시글이 존재하지 않습니다.`);
   }
 
   return {
@@ -78,7 +81,10 @@ const fetchUserLifeStyle = async (
     .eq('id', userId)
     .single();
 
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error(
+      `사용자 프로필을 불러오는데 실패했습니다.: ${error.message}`,
+    );
   return {
     smoking: data.smoking,
     pet: data.pet as 0 | 1 | 2,
@@ -95,7 +101,10 @@ const fetchUserMateStyle = async (
     .eq('id', userId)
     .single();
 
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error(
+      `사용자 프로필을 불러오는데 실패했습니다.: ${error.message}`,
+    );
   return {
     mate_gender: data.mate_gender as 0 | 1 | 2,
     mate_number: data.mate_number as 0 | 1 | 2 | 3,
@@ -105,6 +114,7 @@ const fetchUserMateStyle = async (
   };
 };
 
+// react-query hooks
 export const useFetchProfileData = (userId: string) => {
   const queryResults = useQueries({
     queries: [
@@ -121,18 +131,15 @@ export const useFetchProfileData = (userId: string) => {
     ],
   });
 
-  const userLifeStyleQuery = queryResults[0] as UseQueryResult<
-    UserLifeStyleType,
-    Error
-  >;
-  const userMateStyleQuery = queryResults[1] as UseQueryResult<
-    UserMateStyleType,
-    Error
-  >;
-
   return {
-    userLifeStyleQuery,
-    userMateStyleQuery,
+    userLifeStyleQuery: queryResults[0] as UseQueryResult<
+      UserLifeStyleType,
+      Error
+    >,
+    userMateStyleQuery: queryResults[1] as UseQueryResult<
+      UserMateStyleType,
+      Error
+    >,
   };
 };
 
@@ -145,131 +152,72 @@ export const useFetchHouseData = (isEditMode: boolean, houseId: string) => {
   return { houseQuery };
 };
 
-// storage directory(temporary || post)의 이미지를 가져오는 함수
-export const getStorageImage = async (storagePath: string) => {
-  try {
-    const { data: imageList, error } = await supabase.storage
-      .from('images')
-      .list(storagePath, {
-        limit: 1000,
-        offset: 0,
-      });
-
-    if (error) throw new Error(`getStorageImageError : ${error.message}`);
-
-    return imageList;
-  } catch (error) {
-    createToast(
-      'emptyError',
-      `이미지 저장 중 문제가 발생했습니다. 고객센터에 문의해주세요.`,
-      {
-        type: 'error',
-        autoClose: 3000,
-        isLoading: false,
-      },
-    );
-  }
+// storage 관련 함수
+export const getStorageImage = async (
+  storagePath: string,
+): Promise<FileObject[] | undefined> => {
+  const { data, error } = await supabase.storage
+    .from('images')
+    .list(storagePath, { limit: 1000, offset: 0 });
+  if (error)
+    throw new Error(`이미지를 가져오는데 실패했습니다: ${error.message}`);
+  return data;
 };
 
-// 가져온 리스트의 이미지를 삭제하는 함수
 export const removeStorageFile = async (
   imageList: FileObject[],
   storagePath: string,
-) => {
-  try {
-    const removePromises = imageList.map(imgObj =>
-      supabase.storage.from('images').remove([`${storagePath}/${imgObj.name}`]),
-    );
-    const results = await Promise.all(removePromises);
-
-    results.forEach(({ error }) => {
-      if (error) {
-        throw new Error(`removeStorageFileError: ${error.message}`);
-      }
-    });
-  } catch (error) {
-    createToast(
-      'emptyError',
-      `이미지 저장 중 문제가 발생했습니다. 고객센터에 문의해주세요.`,
-      {
-        type: 'error',
-        autoClose: 3000,
-        isLoading: false,
-      },
-    );
-  }
+): Promise<void> => {
+  const removePromises = imageList.map(imgObj =>
+    supabase.storage.from('images').remove([`${storagePath}/${imgObj.name}`]),
+  );
+  const results = await Promise.all(removePromises);
+  results.forEach(({ error }) => {
+    if (error) throw new Error(`이미지 삭제에 실패했습니다: ${error.message}`);
+  });
 };
 
-// temporary storage 내 이미지 중 post내 업로드 될 이미지만 postId storage로 이동하는 함수
 const moveImageStorage = async (
   images: string[],
   toStoragePath: string,
   fromStoragePath: string,
-) => {
-  try {
-    const movePromises = images.map(imgName =>
-      supabase.storage
-        .from('images')
-        .move(`${toStoragePath}/${imgName}`, `${fromStoragePath}/${imgName}`),
-    );
-    const results = await Promise.all(movePromises);
-
-    results.forEach(({ error }, index) => {
-      if (error)
-        throw new Error(
-          `moveImageError for ${images[index]}: ${error.message}`,
-        );
-    });
-
-    return true;
-  } catch (error) {
-    createToast(
-      'moveImageError',
-      `이미지 저장 중 문제가 발생했습니다. 고객센터에 문의해주세요.`,
-      {
-        type: 'error',
-        autoClose: 3000,
-        isLoading: false,
-      },
-    );
-  }
+): Promise<boolean> => {
+  const movePromises = images.map(imgName =>
+    supabase.storage
+      .from('images')
+      .move(`${toStoragePath}/${imgName}`, `${fromStoragePath}/${imgName}`),
+  );
+  const results = await Promise.all(movePromises);
+  results.forEach(({ error }, index) => {
+    if (error)
+      throw new Error(
+        `이미지 ${images[index]} 이동에 실패했습니다: ${error.message}`,
+      );
+  });
+  return true;
 };
 
-// temporary에 있던 이미지들 중 house데이터에 들어가는 이미지만 postId 폴더로 옮기고, temporary내 이미지를 삭제하는 로직 함수
 const saveImageStorage = async (
   userId: string,
   images: string[],
   postId: string,
-) => {
-  try {
-    const postStoragePath = `house/${userId}/${postId}`;
-    const tempStoragePath = `house/${userId}/temporary`;
-    const moved = await moveImageStorage(
-      images,
-      tempStoragePath,
-      postStoragePath,
-    );
-    if (moved) {
-      const removeList = await getStorageImage(tempStoragePath);
-      if (removeList) {
-        await removeStorageFile(removeList, tempStoragePath);
-      }
-    }
-  } catch (error) {
-    createToast(
-      'moveImageError',
-      `이미지 저장 중 문제가 발생했습니다. 고객센터에 문의해주세요.`,
-      {
-        type: 'error',
-        autoClose: 3000,
-        isLoading: false,
-      },
-    );
+): Promise<void> => {
+  const postStoragePath = `house/${userId}/${postId}`;
+  const tempStoragePath = `house/${userId}/temporary`;
+  const moved = await moveImageStorage(
+    images,
+    tempStoragePath,
+    postStoragePath,
+  );
+  if (moved) {
+    const removeList = await getStorageImage(tempStoragePath);
+    if (removeList) await removeStorageFile(removeList, tempStoragePath);
   }
 };
 
-// Insert house data
+// house data 생성 | 수정 | 삭제 hooks
 export const useHouseRegist = () => {
+  const navigate = useNavigate();
   const { mutate: registHouse, isPending: isRegistHouse } = useMutation({
     mutationFn: async (houseData: HouseFormType) => {
       const { data: insertedData, error } = await supabase
@@ -278,23 +226,28 @@ export const useHouseRegist = () => {
         .select('id');
 
       if (error) throw new Error(`houseUploadError: ${error.message}`);
-      const postId = insertedData[0].id;
-      return postId;
+      const houseId = insertedData[0].id;
+      return houseId;
     },
-    onMutate: () => createToast('uploadHousePost', '게시글 업로드 중'),
-    onError: error => errorToast('uploadHousePost', error.message),
-    onSuccess: async (postId, variables) => {
+    onMutate: () => createToast('uploadHousePost', '게시글 업로드 중...'),
+    onError: error =>
+      errorToast(
+        'uploadHousePost',
+        `게시글 업로드에 실패했습니다.: ${error.message}`,
+      ),
+    onSuccess: async (houseId, variables) => {
       const { user_id, house_img, representative_img } = variables;
       const images = [representative_img, ...house_img];
-      await saveImageStorage(user_id, images, postId);
+      await saveImageStorage(user_id, images, houseId);
       successToast('uploadHousePost', '게시글이 저장되었습니다.');
+      navigate(`/house/${houseId}`);
     },
   });
   return { registHouse, isRegistHouse };
 };
 
-// Update(Edit) House Post
 export const useHouseUpdate = () => {
+  const navigate = useNavigate();
   const { mutate: updateHouse, isPending: isUpdateHouse } = useMutation({
     mutationFn: async ({
       houseData,
@@ -309,7 +262,8 @@ export const useHouseUpdate = () => {
         .eq('id', houseId)
         .select();
 
-      if (error) throw new Error(`Post update error: ${error.message}`);
+      if (error)
+        throw new Error(`게시글 업데이트에 실패했습니다.: ${error.message}`);
       return data;
     },
     onMutate: async ({
@@ -319,7 +273,7 @@ export const useHouseUpdate = () => {
       houseData: HouseFormType;
       houseId: string;
     }) => {
-      const toastId = createToast('updateHouse', '게시글 수정 중', {
+      const toastId = createToast('updateHouse', '게시글 업데이트 중...', {
         autoClose: false,
       });
       try {
@@ -328,9 +282,14 @@ export const useHouseUpdate = () => {
         const imageList = await getStorageImage(postStoragePath);
         if (imageList) {
           const postImages = imageList.map(imgObj => imgObj.name);
-          await moveImageStorage(postImages, postStoragePath, tempStoragePath);
-          removeToast(toastId as string);
+          const moved = await moveImageStorage(
+            postImages,
+            postStoragePath,
+            tempStoragePath,
+          );
+          if (moved) removeToast(toastId as string);
         }
+        return toastId;
       } catch (error) {
         errorToast(
           toastId as string,
@@ -339,14 +298,19 @@ export const useHouseUpdate = () => {
       }
     },
     onError: error => {
-      errorToast('updateHouse:', error.message);
+      errorToast(
+        'updateHouse',
+        `게시글 업데이트 중 문제가 생겼습니다.: ${error.message}`,
+      );
     },
-    onSuccess: async data => {
-      if (data && data.length > 0) {
-        const { id, user_id, house_img, representative_img } = data[0];
+    onSuccess: async (_, { houseData, houseId }, toastId) => {
+      if (houseData) {
+        const { user_id, house_img, representative_img } = houseData;
         const images = [representative_img, ...house_img];
-        await saveImageStorage(user_id, images, id);
-        successToast('uploadHousePost', '게시글이 저장되었습니다.');
+        await saveImageStorage(user_id, images, houseId);
+        removeToast(toastId as string);
+        successToast('uploadHousePost', '게시글이 업데이트되었습니다.');
+        navigate(`/house/${houseId}`);
       }
     },
   });
@@ -389,24 +353,16 @@ export const useDeleteHousePost = () => {
         throw new Error(error.message);
       }
     },
-    onError: () => {
-      createToast('deletePost', `임시저장된 글 삭제에 실패했습니다.`, {
-        type: 'error',
-        autoClose: 3000,
-        isLoading: false,
-      });
-    },
-    onSuccess: () => {
-      createToast('deletePost', `임시저장된 글이 삭제되었습니다.`, {
-        type: 'success',
-        autoClose: 3000,
-        isLoading: false,
-      });
-    },
+    onMutate: () => createToast('deletePost', '임시저장된 글 삭제 중...'),
+    onError: () =>
+      errorToast('deletePost', '임시저장된 글 삭제에 실패했습니다.'),
+    onSuccess: () =>
+      successToast('deletePost', '임시저장된 글이 삭제되었습니다.'),
   });
   return { deleteHousePost };
 };
 
+// houseList hooks
 export const useHouseList = () =>
   infiniteQueryOptions({
     queryKey: ['house', 'list', 'recent'],
