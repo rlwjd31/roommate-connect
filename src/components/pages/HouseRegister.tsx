@@ -87,7 +87,7 @@ export default function HouseRegister() {
   useEffect(() => {
     const checkTemporaryHouse = async () => {
       if (!houseId) {
-        const tempHouseId = await fetchTemporaryHouseId(userId);
+        const { id: tempHouseId } = await fetchTemporaryHouseId(userId);
         setModalState({
           isOpen: true,
           type: 'Continue',
@@ -97,11 +97,11 @@ export default function HouseRegister() {
           continueButtonContent: '이어쓰기',
           cancelButtonContent: '취소',
           onClickCancel: () => {
-            deleteHousePost(tempHouseId.id);
+            deleteHousePost(tempHouseId);
             closeModal();
           },
           onClickContinue: () => {
-            navigate(`/house/edit/${tempHouseId.id}`);
+            navigate(`/house/edit/${tempHouseId}`);
             closeModal();
           },
         });
@@ -139,15 +139,18 @@ export default function HouseRegister() {
 
   // 임시저장된 글 이어쓰기 | 게시글 수정
   const { houseQuery } = useFetchHouseData(isEditMode, houseId as string);
+  const { data: housePost } = houseQuery;
   useEffect(() => {
-    const fetchHouseData = async () => {
-      const { data: housePost } = houseQuery;
+    const fetchHouseData = () => {
       if (isEditMode) {
-        form.reset(housePost);
+        form.reset(prev => ({
+          ...prev,
+          ...housePost,
+        }));
       }
     };
     fetchHouseData();
-  }, [houseQuery, isEditMode, form]);
+  }, [isEditMode, form, houseId, housePost]);
 
   const { registHouse, isRegistHouse } = useHouseRegist();
   const { updateUserProfile } = useUserProfileUpdate();
@@ -211,8 +214,11 @@ export default function HouseRegister() {
 
     if (isEditMode) {
       updateHouse({ houseData, houseId: houseId as string });
+      navigate(`/house/${houseId}`);
     } else {
       registHouse(houseData);
+      if (temporary === 1) navigate(`/house/${houseId}`);
+      else navigate(`/house`);
     }
 
     await onUpdateProfile(formData);

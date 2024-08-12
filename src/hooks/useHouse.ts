@@ -217,7 +217,6 @@ const saveImageStorage = async (
 
 // house data 생성 | 수정 | 삭제 hooks
 export const useHouseRegist = () => {
-  const navigate = useNavigate();
   const { mutate: registHouse, isPending: isRegistHouse } = useMutation({
     mutationFn: async (houseData: HouseFormType) => {
       const { data: insertedData, error } = await supabase
@@ -240,7 +239,6 @@ export const useHouseRegist = () => {
       const images = [representative_img, ...house_img];
       await saveImageStorage(user_id, images, houseId);
       successToast('uploadHousePost', '게시글이 저장되었습니다.');
-      navigate(`/house/${houseId}`);
     },
   });
   return { registHouse, isRegistHouse };
