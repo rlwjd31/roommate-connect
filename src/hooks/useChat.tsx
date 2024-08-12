@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 import {
   QueryClient,
+  queryOptions,
   useMutation,
   useQueries,
   useQuery,
@@ -22,42 +23,7 @@ import {
 } from '@/types/chat.type';
 
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
-const fetchLastReadDate = async (userId: string, chatRoomId: string) => {
-  const { data, error, status } = await supabase
-    .from('user_chat')
-    .select('last_read')
-    .eq('user_id', userId)
-    .eq('chat_room_id', chatRoomId)
-    .single();
-
-  if (error) {
-    throw new SupabaseCustomError(error, status);
-  }
-
-  const userLastRead = data.last_read;
-
-  return userLastRead;
-};
-
 // db join이 table구성 상 되지 않는 관계로 dependent fetch로 구성(chatRoomListPageData 내부 참조)
-// TODO: 추후 db 바꿀 시 join으로 수정
-const fetchMessagesCountByDate = async (
-  chatRoomId: string,
-  lastReadDate: string,
-) => {
-  const { data, error, status } = await supabase
-    .from('messages')
-    .select('id', { count: 'exact' })
-    .eq('chat_room_id', chatRoomId)
-    .gt('created_at', lastReadDate);
-
-  if (error) {
-    throw new SupabaseCustomError(error, status);
-  }
-
-  return data.length;
-};
-
 const fetchChatRoomList = async (userId: string) => {
   const { data, error, status } = await supabase
     .from('chat_room')
@@ -138,26 +104,47 @@ const sendMessage = async ({
 };
 
 export const fetchUnReadMessageCount = async (
-  queryClient: QueryClient,
   userId: string,
   chatRoomId: string,
 ) => {
-  const lastReadDate = await queryClient.fetchQuery({
-    queryKey: ['lastReadDate', userId, chatRoomId],
-    queryFn: () => fetchLastReadDate(userId, chatRoomId),
-  });
+  // TODO: 추후 db 바꿀 시 join으로 수정
+  const {
+    data: lastReadDate,
+    error: lastReadDateError,
+    status: lastReadDateStatus,
+  } = await supabase
+    .from('user_chat')
+    .select('last_read')
+    .eq('user_id', userId)
+    .eq('chat_room_id', chatRoomId)
+    .single();
 
-  const unReadMessagesCount = await queryClient.fetchQuery({
-    queryKey: ['unReadMessagesCount', chatRoomId],
-    queryFn: () => fetchMessagesCountByDate(chatRoomId, lastReadDate!),
-  });
+  if (lastReadDateError) {
+    throw new SupabaseCustomError(lastReadDateError, lastReadDateStatus);
+  }
+
+  const userLastRead = lastReadDate.last_read;
+
+  const {
+    data: unReadMessages,
+    error: unReadMessagesError,
+    status: unReadMessagesStatus,
+  } = await supabase
+    .from('messages')
+    .select('id', { count: 'exact' })
+    .eq('chat_room_id', chatRoomId)
+    .gt('created_at', userLastRead);
+
+  if (unReadMessagesError) {
+    throw new SupabaseCustomError(unReadMessagesError, unReadMessagesStatus);
+  }
+
+  const unReadMessagesCount = unReadMessages.length;
 
   return unReadMessagesCount;
 };
 
 export const useChatRoomListPageData = (userId: string) => {
-  const queryClient = useQueryClient();
-
   const { data: chatRoomList, isLoading: isChatRoomListLoading } = useQuery({
     queryKey: ['chatRoomList', userId],
     queryFn: () => fetchChatRoomList(userId),
@@ -186,7 +173,6 @@ export const useChatRoomListPageData = (userId: string) => {
               queryKey: ['chatRoomInfo', userId, chatPartnerId],
               queryFn: async () => {
                 const newChatCount = await fetchUnReadMessageCount(
-                  queryClient,
                   userId,
                   chatRoomId,
                 );

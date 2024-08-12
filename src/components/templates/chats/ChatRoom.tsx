@@ -35,7 +35,7 @@ export default function ChatRoom() {
   const lastReadMutation = useUpdateLastRead();
   const sendMessage = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData([
-    'chatPartnerInfo',
+    'chatRoomInfo',
     userInfo?.id,
     chatPartnerId,
   ]) as {
