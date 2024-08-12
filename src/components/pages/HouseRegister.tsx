@@ -81,12 +81,81 @@ export default function HouseRegister() {
     },
   });
 
+  // 임시저장글 확인 & 모달
+  const { setModalState, closeModal } = useModal('Continue');
+  const { deleteHousePost } = useDeleteHousePost();
+  useEffect(() => {
+    const checkTemporaryHouse = async () => {
+      if (!houseId) {
+        const tempHouseId = await fetchTemporaryHouseId(userId);
+        setModalState({
+          isOpen: true,
+          type: 'Continue',
+          title: '저장된 글이 있어요!',
+          message: `저장된 글을 불러와 이어서 작성할 수 있습니다.
+					취소를 누르면 저장된 글은 삭제됩니다.`,
+          continueButtonContent: '이어쓰기',
+          cancelButtonContent: '취소',
+          onClickCancel: () => {
+            deleteHousePost(tempHouseId.id);
+            closeModal();
+          },
+          onClickContinue: () => {
+            navigate(`/house/edit/${tempHouseId.id}`);
+            closeModal();
+          },
+        });
+      }
+    };
+    checkTemporaryHouse();
+  }, [userId, houseId, navigate]);
+
+  // 사용자 프로필(user_lifestyle, user_mate_style)을 가져와 초기값을 수정
+  const { userLifeStyleQuery, userMateStyleQuery } = useFetchProfileData(
+    userId as string,
+  );
+  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
+    userLifeStyleQuery;
+  const { data: userMateStyleData, isSuccess: fetchedUserMateStyle } =
+    userMateStyleQuery;
+  // ! reset을 사용하면 undefined여야하는 입력란이 초기값인 NaN이들어가면서 placeholder가 보이지 않아서 setValue 사용
+  useEffect(() => {
+    if (fetchedUserLifeStyle && fetchedUserMateStyle) {
+      form.setValue('smoking', userLifeStyleData.smoking);
+      form.setValue('pet', userLifeStyleData.pet);
+      form.setValue('appeals', userLifeStyleData.appeals);
+      form.setValue('mate_gender', userMateStyleData.mate_gender);
+      form.setValue('mate_number', userMateStyleData.mate_number);
+      form.setValue('mate_appeals', userMateStyleData.mate_appeals);
+      form.setValue('prefer_mate_age', userMateStyleData.prefer_mate_age);
+    }
+  }, [
+    fetchedUserLifeStyle,
+    fetchedUserMateStyle,
+    form,
+    userLifeStyleData,
+    userMateStyleData,
+  ]);
+
+  // 임시저장된 글 이어쓰기 | 게시글 수정
+  const { houseQuery } = useFetchHouseData(isEditMode, houseId as string);
+  useEffect(() => {
+    const fetchHouseData = async () => {
+      const { data: housePost } = houseQuery;
+      if (isEditMode) {
+        form.reset(housePost);
+      }
+    };
+    fetchHouseData();
+  }, [houseQuery, isEditMode, form]);
+
   const { registHouse, isRegistHouse } = useHouseRegist();
   const { updateUserProfile } = useUserProfileUpdate();
   const { updateHouse, isUpdateHouse } = useHouseUpdate();
 
-  const onUpdateProfile = async () => {
-    const formData = form.getValues();
+  const onUpdateProfile = async (
+    formData: HouseFormType & UserLifeStyleType & UserMateStyleType,
+  ) => {
     updateUserProfile({
       dbName: 'user_lifestyle',
       data: {
@@ -113,9 +182,9 @@ export default function HouseRegister() {
     formData: HouseFormType & UserLifeStyleType & UserMateStyleType,
     temporary: 0 | 1,
   ) => {
-    const houseImgExcludeRep = form
-      .getValues('house_img')
-      .filter(imgName => imgName !== form.getValues('representative_img'));
+    const houseImgExcludeRep = formData.house_img.filter(
+      imgName => imgName !== formData.representative_img,
+    );
 
     // ! FormData에 user_lifeStyle, user_mate_style도 있어서 houseData만 분리해서 넘겨줘야 함.
     const houseData = {
@@ -141,15 +210,12 @@ export default function HouseRegister() {
     };
 
     if (isEditMode) {
-      updateHouse({
-        houseData,
-        houseId: houseId as string,
-      });
+      updateHouse({ houseData, houseId: houseId as string });
     } else {
       registHouse(houseData);
     }
 
-    onUpdateProfile();
+    await onUpdateProfile(formData);
   };
 
   const handlePrevCarousel = () => setCurrentStep(prev => prev - 1);
@@ -178,88 +244,6 @@ export default function HouseRegister() {
     const formData = form.getValues();
     onSaveHouse(formData, 0);
   };
-
-  // user_lifeStyle, user_mate_style 값을 가져오는 로직
-  const { userLifeStyleQuery, userMateStyleQuery } = useFetchProfileData(
-    userId as string,
-  );
-  const { data: userLifeStyleData, isSuccess: fetchedUserLifeStyle } =
-    userLifeStyleQuery;
-  const { data: userMateStyleData, isSuccess: fetchedUserMateStyle } =
-    userMateStyleQuery;
-
-  // user_lifeStyle, user_mate_style 값을 가져와 form의 초기값을 수정하는 useEffect
-  // ! reset을 사용하면 undefined여야하는 입력란이 초기값인 NaN이들어가면서 placeholder가 보이지 않아서 setValue 사용
-  useEffect(() => {
-    if (fetchedUserLifeStyle && fetchedUserMateStyle) {
-      form.setValue('smoking', userLifeStyleData.smoking);
-      form.setValue('pet', userLifeStyleData.pet);
-      form.setValue('appeals', userLifeStyleData.appeals);
-      form.setValue('mate_gender', userMateStyleData.mate_gender);
-      form.setValue('mate_number', userMateStyleData.mate_number);
-      form.setValue('mate_appeals', userMateStyleData.mate_appeals);
-      form.setValue('prefer_mate_age', userMateStyleData.prefer_mate_age);
-    }
-  }, [
-    fetchedUserLifeStyle,
-    fetchedUserMateStyle,
-    form,
-    userLifeStyleData,
-    userMateStyleData,
-  ]);
-
-  const { deleteHousePost } = useDeleteHousePost();
-
-  // 모달 관련 state
-  const { setModalState, closeModal } = useModal('Continue');
-  // 임시저장된 글이 있는지 확인하고 postId를 저장하는 useEffect
-  useEffect(() => {
-    const fetchId = async () => {
-      const { id } = await fetchTemporaryHouseId(userId);
-      setModalState({
-        isOpen: true,
-        type: 'Continue',
-        title: '저장된 글이 있어요!',
-        message: `저장된 글을 불러와 이어서 작성할 수 있습니다.
-					취소를 누르면 저장된 글은 삭제됩니다.`,
-        continueButtonContent: '이어쓰기',
-        cancelButtonContent: '취소',
-        onClickCancel: () => {
-          if (id) {
-            deleteHousePost(id as string);
-          }
-          closeModal();
-        },
-        onClickContinue: () => {
-          if (id) {
-            navigate(`/house/edit/${id}`);
-          }
-          closeModal();
-        },
-      });
-    };
-
-    if (!houseId) {
-      fetchId();
-    }
-  }, [userId, houseId]);
-
-  // 글 수정시에 저장된 글을 가져오는 쿼리
-  const { houseQuery: editHouseQuery } = useFetchHouseData(
-    isEditMode,
-    houseId as string,
-  );
-  const { data: housePost, isSuccess: fetchedHousePost } = editHouseQuery;
-
-  // 수정모드일 때 기존 houseData를 가져와 form의 기본값을 재설정하는 useEffect
-  useEffect(() => {
-    if (isEditMode && houseId && fetchedHousePost) {
-      form.reset(prev => ({
-        ...prev,
-        ...housePost,
-      }));
-    }
-  }, [isEditMode, form, houseId, housePost]);
 
   return (
     <Form {...form}>
