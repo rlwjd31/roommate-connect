@@ -1,4 +1,5 @@
 import { useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
 
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
@@ -24,6 +25,8 @@ import { UserAtom } from '@/stores/auth.store';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 import copyUrl from '@/libs/copyUrl';
 import { useUpdateBookMark } from '@/hooks/useHouseDetail';
+import ModalBackdrop from '@/components/organisms/modals/ModalBackdrop';
+import Carousel from '@/components/organisms/Carousel';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -59,6 +62,14 @@ export default function HouseDetailTemplate(props: {
   houseId: string;
 }) {
   const { houseData, bookmark, houseId } = props;
+  const [modal, setModal] = useState(false);
+  const [carouselStep, setCarouselStep] = useState(0);
+  useEffect(() => {
+    if (modal) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'auto';
+  }, [modal]);
+
+  const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
 
   const { updateBookMark, isPending } = useUpdateBookMark();
   const user = useRecoilValue(UserAtom);
@@ -93,20 +104,119 @@ export default function HouseDetailTemplate(props: {
     }
     return `${years}년 ${months}개월 이상`;
   });
+  const leftImg = houseData.house_img.length - 4;
+  const imgCount = () => {
+    if (leftImg < 0) return <Icon type="camera-off" />;
+    if (leftImg === 0) return '';
+    return `+ ${leftImg} 개`;
+  };
 
   return (
-    <Container.FlexCol className="gap-8 pb-32 ">
-      <Container.FlexRow className="gap-5">
-        <Img className=" flex-1 shrink-0 " src={houseData.house_img[0]} />
-        <Container.Grid className="hidden flex-1 grid-cols-2 grid-rows-2 gap-5 tablet:grid ">
+    <Container.FlexCol className="gap-8 pb-32">
+      {modal && (
+        <ModalBackdrop
+          className="bg-[#6d6d6d]/70"
+          onClickClose={() => {
+            setModal(false);
+          }}
+        >
+          <Container.FlexRow className="relative size-full tablet:size-[700px]">
+            <Carousel order={carouselStep} className="overflow-y-auto">
+              <Img
+                src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${houseData.representative_img}`}
+                className="min-w-full flex-1 justify-center bg-transparent tablet:min-w-[700px] [&>*]:flex-1 [&>*]:object-contain"
+                alt="houseimage"
+              />
+              {houseData.house_img.map(src => (
+                <Img
+                  key={src}
+                  alt="houseimage"
+                  src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${src}`}
+                  className="min-w-full flex-1 bg-transparent tablet:min-w-[700px] [&>*]:flex-1 [&>*]:object-contain"
+                />
+              ))}
+            </Carousel>
+            <IconButton.Ghost
+              className="absolute left-1 top-[50%] size-8 justify-center !bg-brown/60 tablet:left-auto tablet:right-[46.5rem] tablet:size-16 "
+              iconClassName="size-6 tablet:size-10"
+              fill="brown4"
+              iconType="prev"
+              direction="left"
+              onClick={() => {
+                setCarouselStep(prev =>
+                  prev !== 0 ? prev - 1 : houseData.house_img.length,
+                );
+              }}
+            />
+            <IconButton.Ghost
+              className="absolute right-1 top-[50%] size-8 justify-center !bg-brown/60 tablet:left-[46.5rem] tablet:right-0 tablet:size-16 "
+              iconClassName="size-6 tablet:size-10"
+              fill="brown4"
+              iconType="next"
+              direction="right"
+              onClick={() => {
+                setCarouselStep(prev =>
+                  prev !== houseData.house_img.length ? prev + 1 : 0,
+                );
+              }}
+            />
+            <IconButton.Ghost
+              className="absolute right-2 top-2 size-10 justify-center hover:!bg-brown/60 tablet:-right-16 tablet:top-0"
+              iconType="close"
+              iconClassName="size-6"
+              fill="brown4"
+              onClick={() => setModal(false)}
+            />
+            <Container.FlexRow
+              className="absolute bottom-8 left-2/4 -translate-x-2/4 items-center 
+             gap-2 text-brown tablet:-bottom-2 tablet:translate-y-full"
+            >
+              <Typography.P1>{carouselStep + 1}</Typography.P1> /
+              <Typography.P1>{houseData.house_img.length + 1}</Typography.P1>
+            </Container.FlexRow>
+          </Container.FlexRow>
+        </ModalBackdrop>
+      )}
+      <Container.FlexRow className="relative gap-5">
+        <Img
+          className=" size-[390px] flex-1 shrink-0 laptop:size-[470px] desktop:size-[588px] [&>img]:object-fill "
+          src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${houseData.representative_img}`}
+        />
+        <Button.Ghost
+          onClick={() => setModal(true)}
+          className="absolute bottom-5 right-5 gap-1.5 rounded-3xl bg-white px-4 py-2 text-brown drop-shadow-md"
+        >
+          <Typography.P1>1</Typography.P1> /
+          <Typography.P1>{houseData.house_img.length + 1}</Typography.P1>
+        </Button.Ghost>
+        <Container.Grid className="relative hidden max-h-[440px] flex-1 grid-cols-2 grid-rows-2 gap-5 laptop:grid laptop:max-h-[470px] desktop:max-h-[588px] ">
           {houseData &&
             houseData.house_img
               .slice(0, 4)
               .map((src, index) => (
-                <Img key={src} src={src} alt={`house image ${index + 1}`} />
+                <Img
+                  key={src}
+                  src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${src}`}
+                  alt={`house image ${index + 1}`}
+                  className={`[&>img]:object-fill ${index === 3 && 'col-start-2 row-start-2'}`}
+                />
               ))}
+          <Container.FlexCol
+            className={`col-start-2 row-start-2 items-center justify-center rounded-xl ${leftImg === 0 ? ' bg-brown3/30' : ' bg-brown3/50'}`}
+          >
+            <Typography.Head2 className="text-brown">
+              {imgCount()}
+            </Typography.Head2>
+          </Container.FlexCol>
+          <Button.Outline
+            onClick={() => setModal(true)}
+            className="absolute bottom-4 right-4 rounded-3xl border-white px-5  py-2 text-brown drop-shadow-md "
+          >
+            <Typography.P2>사진 모두 보기</Typography.P2>
+          </Button.Outline>
         </Container.Grid>
       </Container.FlexRow>
+
       <Container.FlexCol>
         <Container.FlexCol className="gap-[3.25rem]">
           <Container.FlexCol className="gap-4">
