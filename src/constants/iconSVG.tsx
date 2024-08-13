@@ -55,6 +55,7 @@ import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
 import Edit from '@/assets/icons/edit.svg?react';
 import Delete from '@/assets/icons/delete.svg?react';
+import CameraOff from '@/assets/icons/camera-off.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
@@ -341,6 +342,9 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   delete: ({ className, ...others }) => (
     <Delete className={cn('size-[24px]', className)} {...others} />
+  ),
+  'camera-off': ({ className, ...others }) => (
+    <CameraOff className={cn('size-[4rem]', className)} {...others} />
   ),
 };
 
