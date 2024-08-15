@@ -2,8 +2,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-restricted-syntax */
 import {
-  QueryClient,
-  queryOptions,
   useMutation,
   useQueries,
   useQuery,
@@ -21,6 +19,7 @@ import {
   PostgresChangeFilterOption,
   UserMessageType,
 } from '@/types/chat.type';
+import { CHAT_KEYS } from '@/constants/queryKeys';
 
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
 // db join이 table구성 상 되지 않는 관계로 dependent fetch로 구성(chatRoomListPageData 내부 참조)
@@ -146,7 +145,7 @@ export const fetchUnReadMessageCount = async (
 
 export const useChatRoomListPageData = (userId: string) => {
   const { data: chatRoomList, isLoading: isChatRoomListLoading } = useQuery({
-    queryKey: ['chatRoomList', userId],
+    queryKey: CHAT_KEYS.LIST(userId),
     queryFn: () => fetchChatRoomList(userId),
     enabled: !!userId,
   });
@@ -170,7 +169,7 @@ export const useChatRoomListPageData = (userId: string) => {
               throw new Error(`couldn't find chat partner id`);
 
             return {
-              queryKey: ['chatRoomInfo', userId, chatPartnerId],
+              queryKey: CHAT_KEYS.LIST_INFO({ userId, chatPartnerId }),
               queryFn: async () => {
                 const newChatCount = await fetchUnReadMessageCount(
                   userId,
@@ -237,8 +236,7 @@ export const useUpdateLastRead = () => {
     onError: () => console.error('error 발생'),
     onSuccess: () => {
       // * refetch chatListPageData
-      queryClient.invalidateQueries({ queryKey: ['chatRoomList'] });
-      queryClient.invalidateQueries({ queryKey: ['chatPartnerInfo'] });
+      queryClient.invalidateQueries({ queryKey: CHAT_KEYS.ALL });
     },
   });
 };
