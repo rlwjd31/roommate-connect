@@ -21,7 +21,8 @@ import {
   UserLifeStyleType,
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
-import queryKeys from '@/constants/queryKeys';
+import USER_KEYS from '@/constants/queryKeys/User';
+import HOUSE_KEYS from '@/constants/queryKeys/House';
 
 // fetch functions
 export const fetchTemporaryHouseId = async (
@@ -119,12 +120,12 @@ export const useFetchProfileData = (userId: string) => {
   const queryResults = useQueries({
     queries: [
       {
-        queryKey: queryKeys.userLifeStyle(userId),
+        queryKey: USER_KEYS.USER_LIFESTYLE(userId),
         queryFn: () => fetchUserLifeStyle(userId),
         enabled: !!userId,
       },
       {
-        queryKey: queryKeys.userMateStyle(userId),
+        queryKey: USER_KEYS.USER_MATE_STYLE(userId),
         queryFn: () => fetchUserMateStyle(userId),
         enabled: !!userId,
       },
@@ -145,7 +146,7 @@ export const useFetchProfileData = (userId: string) => {
 
 export const useFetchHouseData = (isEditMode: boolean, houseId: string) => {
   const houseQuery = useQuery<HouseFormType>({
-    queryKey: queryKeys.housePost(houseId),
+    queryKey: HOUSE_KEYS.HOUSE_POST(houseId),
     queryFn: () => fetchHousePost(houseId),
     enabled: isEditMode && !!houseId,
   });
