@@ -20,6 +20,7 @@ import {
   useUpdateLastRead,
 } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
+import { CHAT_KEYS } from '@/constants/queryKeys';
 
 export default function ChatRoom() {
   // ! chatRoomId는 무조건 존재하지만 undefined로도 추론되어 제네릭으로 타입 명시 후
@@ -34,14 +35,14 @@ export default function ChatRoom() {
   const chatPartnerId = location.state.chatPartnerId as string;
   const lastReadMutation = useUpdateLastRead();
   const sendMessage = useSendMessage();
-  const { chatPartnerInfo } = queryClient.getQueryData([
-    'chatRoomInfo',
-    userInfo?.id,
-    chatPartnerId,
-  ]) as {
+
+  const { chatPartnerInfo } = queryClient.getQueryData(
+    CHAT_KEYS.LIST_INFO({ userId: userInfo?.id as string, chatPartnerId }),
+  ) as {
     newChatCount: number;
     chatPartnerInfo: Tables<'user'>;
   };
+
 
   const dateMessages = useGetMessagesGroupByDate(chatRoomId);
 
@@ -75,6 +76,7 @@ export default function ChatRoom() {
         sendBy: userInfo?.id as string,
       });
     }
+    // lastReadMutation.mutate({ userId: userInfo?.id as string, chatRoomId });
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -85,6 +87,7 @@ export default function ChatRoom() {
         sendBy: userInfo?.id as string,
       });
     }
+    // lastReadMutation.mutate({ userId: userInfo?.id as string, chatRoomId });
   };
 
   return (

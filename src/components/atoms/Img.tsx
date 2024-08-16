@@ -8,7 +8,7 @@ type ImgProps = ComponentProps<'img'>;
 export default function Img({ src, alt, className, ...others }: ImgProps) {
   return (
     <Container.FlexRow
-      className={cn('w-full rounded-xl bg-point overflow-hidden', className)}
+      className={cn('w-full rounded-xl overflow-hidden', className)}
     >
       <img
         className="w-full max-w-full object-cover"

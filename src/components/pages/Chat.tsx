@@ -9,6 +9,7 @@ import { useChatRoomListPageData, useOpenChatChannel } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
+import Loading from '@/components/pages/Loading';
 
 export default function Chat() {
   const userInfo = useRecoilValue(UserAtom);
@@ -41,7 +42,8 @@ export default function Chat() {
     useEffectDependencies: [queryClient],
   });
 
-  if (isLoadingPageData) return <h1>...loading chat room list data</h1>;
+  if (isLoadingPageData)
+    return <Loading text="Loading Chats..." textStyle="tracking-widest" />;
 
   return (
     <Container.FlexRow className="min-h-full w-full">
