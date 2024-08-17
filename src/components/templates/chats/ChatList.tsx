@@ -80,8 +80,8 @@ export default function ChatList({
                       )}
                     </Typography.Span2>
                   </Container.FlexRow>
-                  <Container.FlexRow className="items-center justify-between">
-                    <Typography.Span2 className="font-medium leading-150 text-brown2">
+                  <Container.FlexRow className="items-center justify-between ">
+                    <Typography.Span2 className="max-w-[12rem] truncate font-medium text-brown2">
                       {lastMessage}
                     </Typography.Span2>
                     <NewChatCountCircle content={newChatCount} />
