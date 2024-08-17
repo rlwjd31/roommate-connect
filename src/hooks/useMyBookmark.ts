@@ -3,6 +3,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { UserType } from '@/types/auth.type';
 import { supabase } from '@/libs/supabaseClient';
 import { HouseCardType } from '@/types/house.type';
+import USER_KEYS from '@/constants/queryKeys/user';
 
 export type HouseBookmarkType = {
   house: HouseCardType;
@@ -14,7 +15,7 @@ export const useMyBookmarkHouseList = (
   filter: string,
 ) =>
   queryOptions({
-    queryKey: ['bookmark', 'list', user?.id, page, filter],
+    queryKey: USER_KEYS.USER_BOOKMARK(user?.id, page, filter),
     queryFn: async () =>
       supabase
         .from('user_bookmark')
@@ -33,7 +34,7 @@ export const useMyBookmarkHouseCount = (
   filter: string,
 ) =>
   queryOptions({
-    queryKey: ['bookmark', 'house', 'count', user?.id, filter],
+    queryKey: USER_KEYS.USER_BOOKMARK_HOUSE_COUNT(user?.id, filter),
     queryFn: async () =>
       supabase
         .from('house')

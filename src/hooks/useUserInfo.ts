@@ -5,6 +5,7 @@ import { UserType } from '@/types/auth.type';
 import { RegionUnion, SignUpProfileType } from '@/types/signUp.type';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 import useModal from '@/hooks/useModal';
+import USER_KEYS from '@/constants/queryKeys/user';
 
 export type UserInfoType = {
   avatar: string;
@@ -40,7 +41,7 @@ type UserMateStyleType = {
 
 export const userInfoQuery = (user: UserType | null) =>
   queryOptions({
-    queryKey: ['user', 'info', user?.id],
+    queryKey: USER_KEYS.USER_INFO(user?.id),
     queryFn: async () =>
       supabase
         .from('user')
