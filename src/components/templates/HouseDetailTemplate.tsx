@@ -7,7 +7,6 @@ import Container from '@/components/atoms/Container';
 import Divider from '@/components/atoms/Divider';
 import Icon from '@/components/atoms/Icon';
 import Img from '@/components/atoms/Img';
-import TextArea from '@/components/atoms/TextArea';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import { UserType } from '@/types/auth.type';
@@ -493,74 +492,7 @@ export default function HouseDetailTemplate(props: {
             </pre>
           </Container.FlexCol>
         </Container.FlexCol>
-        <Divider.Row className="border-t-0" />
-        <Container.FlexCol className="gap-8 pt-8">
-          <Typography.SubTitle1 className="text-brown">
-            댓글 2개
-          </Typography.SubTitle1>
-          <Container.FlexCol className="items-center gap-8 laptop:items-end">
-            <TextArea
-              type="text"
-              name="comment"
-              className="min-h-[11.5625rem] overflow-scroll placeholder:text-brown3"
-              placeholder="댓글을 남겨보세요."
-              rows={5}
-            />
-            <Button.Fill className="w-full justify-center rounded-lg py-5 text-white laptop:w-auto laptop:px-10 laptop:py-[1.125rem]">
-              <Typography.SubTitle3>등록</Typography.SubTitle3>
-            </Button.Fill>
-          </Container.FlexCol>
-        </Container.FlexCol>
-      </Container.FlexCol>
-      <Container.FlexCol>
-        <Container.FlexCol className="gap-7 py-[1.875rem]">
-          <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="items-center gap-[0.9375rem] ">
-              <Icon type="avatar" />
-              <Container.FlexCol className="gap-3 text-brown">
-                <Typography.P1>user123</Typography.P1>
-                <Typography.Span1 className="text-brown1">
-                  1시간 전
-                </Typography.Span1>
-              </Container.FlexCol>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>답변</Typography.P2>
-              </Button.Ghost>
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>수정</Typography.P2>
-              </Button.Ghost>
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>삭제</Typography.P2>
-              </Button.Ghost>
-            </Container.FlexRow>
-          </Container.FlexRow>
-          <Typography.P2 className="text-brown">신청 보내봅니다!</Typography.P2>
-        </Container.FlexCol>
-        <Divider.Col className="mb-8 border-t-0" />
-        <Container.FlexCol className="gap-7 py-[1.875rem]">
-          <Container.FlexRow className="justify-between">
-            <Container.FlexRow className="items-center gap-[0.9375rem] ">
-              <Icon type="avatar" />
-              <Container.FlexCol className="gap-3 text-brown">
-                <Typography.P1>user1234</Typography.P1>
-                <Typography.Span1 className="text-brown1">
-                  1시간 전
-                </Typography.Span1>
-              </Container.FlexCol>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-2 text-brown">
-              <Button.Ghost className="p-[0.625rem]">
-                <Typography.P2>답변</Typography.P2>
-              </Button.Ghost>
-            </Container.FlexRow>
-          </Container.FlexRow>
-          <Typography.P2 className="text-brown">
-            보증금 올리고 월세 낮춰도 될까요?
-          </Typography.P2>
-        </Container.FlexCol>
-        <Divider.Col className="mb-8 border-t-0" />
+        <Divider.Row />
       </Container.FlexCol>
     </Container.FlexCol>
   );
