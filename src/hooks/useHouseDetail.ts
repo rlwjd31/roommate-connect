@@ -7,6 +7,7 @@ import {
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
 import { UserType } from '@/types/auth.type';
+import HOUSE_KEYS from '@/constants/queryKeys/house';
 
 type BookMark = {
   id: string;
@@ -39,10 +40,13 @@ export const useUpdateBookMark = () => {
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ['house_bookmark', variables.id, variables.houseId],
+        queryKey: HOUSE_KEYS.HOUSE_DETAIL_BOOKMARK(
+          variables.id,
+          variables.houseId,
+        ),
       });
       queryClient.invalidateQueries({
-        queryKey: ['house', 'detail', variables.houseId],
+        queryKey: HOUSE_KEYS.HOUSE_DETAIL(variables.houseId),
       });
 
       if (variables.isBookMark) {
@@ -72,7 +76,7 @@ export const useUpdateBookMark = () => {
 
 export const houseDetailQuery = (houseId: string | undefined) =>
   queryOptions({
-    queryKey: ['house', 'detail', houseId],
+    queryKey: HOUSE_KEYS.HOUSE_DETAIL(houseId),
     queryFn: async () =>
       supabase
         .from('house')
@@ -89,7 +93,7 @@ export const useHouseBookMark = (
   houseId: string | undefined,
 ) =>
   queryOptions({
-    queryKey: ['house_bookmark', user?.id, houseId],
+    queryKey: HOUSE_KEYS.HOUSE_DETAIL_BOOKMARK(user?.id, houseId),
     queryFn: async () =>
       supabase
         .from('user_bookmark')
