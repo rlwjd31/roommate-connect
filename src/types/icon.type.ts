@@ -55,7 +55,8 @@ export type IconType =
   | 'pet-circle'
   | 'fill-heart'
   | 'edit'
-  | 'delete';
+  | 'delete'
+  | 'camera-off';
 
 export type CustomIconType = {
   fill?: ColorType;
