@@ -293,7 +293,7 @@ export default function HouseRegister() {
               </Carousel>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg pb-4 md:sticky md:bottom-0  md:border-t md:border-brown md:pt-[2.75rem]">
+          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg md:sticky md:bottom-0 md:w-full md:border-t  md:border-brown md:pt-[2.75rem] sm-md:pb-4">
             <Container.FlexRow>
               <IconButton.Outline
                 className="rounded-[2rem] md:mr-4 md:flex md:h-[3.5rem] md:w-[9.25rem] md:justify-center sm-md:border-none"
