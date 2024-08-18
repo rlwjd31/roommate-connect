@@ -12,7 +12,7 @@ export default {
         tablet: '768px',
         screen640: '640px',
         screen1140: '1140px',
-        'sm-md': { min: '0px', max: '768px' },
+        's-tablet': { min: '0px', max: '768px' },
       },
       colors: {
         bg: '#FFFFFF',

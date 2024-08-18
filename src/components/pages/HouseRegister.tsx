@@ -252,9 +252,9 @@ export default function HouseRegister() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmitHouse)}
-        className="min-h-screen flex-col focus:scroll-auto"
+        className="min-h-screen min-w-[320px] flex-col focus:scroll-auto"
       >
-        <Container.FlexCol className="w-full md:pb-[5rem] sm-md:flex-col-reverse">
+        <Container.FlexCol className="w-full tablet:pb-[5rem] s-tablet:flex-col-reverse">
           <Container.FlexCol className="mb-20 mt-[4rem] grow">
             <Container.FlexRow className="items-center gap-4">
               <Typography.Head2 className=" text-brown">
@@ -293,24 +293,24 @@ export default function HouseRegister() {
               </Carousel>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg md:sticky md:bottom-0 md:w-full md:border-t  md:border-brown md:pt-[2.75rem] sm-md:pb-4">
+          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg tablet:sticky tablet:bottom-0 tablet:w-full tablet:border-t  tablet:border-brown tablet:pt-[2.75rem] s-tablet:pb-4">
             <Container.FlexRow>
               <IconButton.Outline
-                className="rounded-[2rem] md:mr-4 md:flex md:h-[3.5rem] md:w-[9.25rem] md:justify-center sm-md:border-none"
+                className="rounded-[2rem] tablet:mr-4 tablet:flex tablet:h-[3.5rem] tablet:w-[9.25rem] tablet:justify-center s-tablet:border-none"
                 iconType="prev"
                 iconClassName="md:hidden"
                 onClick={() => navigate('/')}
                 disabled={isRegistHouse || isUpdateHouse}
               >
-                <Typography.P1 className="hidden text-brown md:block">
+                <Typography.P1 className="hidden text-brown tablet:block">
                   취소
                 </Typography.P1>
               </IconButton.Outline>
             </Container.FlexRow>
-            <Container.FlexRow className="gap-4 md:mb-[1rem]">
+            <Container.FlexRow className="gap-4 tablet:mb-[1rem]">
               {currentStep === 0 && (
                 <Button.Outline
-                  className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:border-none sm-md:p-2"
+                  className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:border-none s-tablet:p-2"
                   onClick={onSaveTemporary}
                   disabled={isRegistHouse || isUpdateHouse}
                 >
@@ -319,28 +319,28 @@ export default function HouseRegister() {
               )}
               {currentStep === 0 ? (
                 <Button.Fill
-                  className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:bg-bg sm-md:p-2 sm-md:hover:bg-bg"
+                  className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg"
                   onClick={handleNextCarousel}
                   disabled={isRegistHouse || isUpdateHouse}
                 >
-                  <Typography.P1 className="text-brown md:text-bg">
+                  <Typography.P1 className="text-brown tablet:text-bg">
                     다음
                   </Typography.P1>
                 </Button.Fill>
               ) : (
                 <Container.FlexRow className="gap-4">
                   <Button.Outline
-                    className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:border-none sm-md:p-2"
+                    className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:border-none s-tablet:p-2"
                     onClick={handlePrevCarousel}
                   >
                     <Typography.P1 className="text-brown">이전</Typography.P1>
                   </Button.Outline>
                   <Button.Fill
-                    className="flex justify-center rounded-[2rem] md:h-[3.5rem] md:w-[9.25rem] sm-md:bg-bg sm-md:p-2 sm-md:hover:bg-bg"
+                    className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg"
                     type="submit"
                     disabled={isRegistHouse || isUpdateHouse}
                   >
-                    <Typography.P1 className="text-brown md:text-bg">
+                    <Typography.P1 className="text-brown tablet:text-bg">
                       완료
                     </Typography.P1>
                   </Button.Fill>
