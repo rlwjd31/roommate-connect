@@ -210,7 +210,7 @@ export default function HouseRegisterTemplates2({
           >
             <Container.FlexCol>
               <LabelDualInputRange
-                className=" w-[30rem]"
+                className="max-w-[30rem] pl-1"
                 min={0}
                 max={30}
                 step={1}
