@@ -11,7 +11,7 @@ import Img from '@/components/atoms/Img';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import { HouseRegisterFormType } from '@/components/templates/HouseRegisterTemplate1';
+import { HouseRegisterFormType } from '@/components/templates/HouseRegister/HouseRegisterTemplate1';
 
 type MultiImageFormProp = HouseRegisterFormType & {
   userId: string;
