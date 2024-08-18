@@ -214,11 +214,8 @@ export default function HouseRegister() {
 
     if (isEditMode) {
       updateHouse({ houseData, houseId: houseId as string });
-      navigate(`/house/${houseId}`);
     } else {
       registHouse(houseData);
-      if (temporary === 1) navigate(`/house/${houseId}`);
-      else navigate(`/house`);
     }
 
     await onUpdateProfile(formData);

@@ -21,8 +21,8 @@ import {
   UserLifeStyleType,
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
-import USER_KEYS from '@/constants/queryKeys/User';
-import HOUSE_KEYS from '@/constants/queryKeys/House';
+import USER_KEYS from '@/constants/queryKeys/user';
+import HOUSE_KEYS from '@/constants/queryKeys/house';
 
 // fetch functions
 export const fetchTemporaryHouseId = async (
@@ -218,6 +218,7 @@ const saveImageStorage = async (
 
 // house data 생성 | 수정 | 삭제 hooks
 export const useHouseRegist = () => {
+  const navigate = useNavigate();
   const { mutate: registHouse, isPending: isRegistHouse } = useMutation({
     mutationFn: async (houseData: HouseFormType) => {
       const { data: insertedData, error } = await supabase
@@ -236,10 +237,12 @@ export const useHouseRegist = () => {
         `게시글 업로드에 실패했습니다.: ${error.message}`,
       ),
     onSuccess: async (houseId, variables) => {
-      const { user_id, house_img, representative_img } = variables;
+      const { user_id, house_img, representative_img, temporary } = variables;
       const images = [representative_img, ...house_img];
       await saveImageStorage(user_id, images, houseId);
       successToast('uploadHousePost', '게시글이 저장되었습니다.');
+      if (temporary === 1) navigate(`/house/${houseId}`);
+      else navigate(`/house`);
     },
   });
   return { registHouse, isRegistHouse };
