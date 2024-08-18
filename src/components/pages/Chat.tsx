@@ -10,6 +10,7 @@ import { MessageType } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
 import Loading from '@/components/pages/Loading';
+import { supabase } from '@/libs/supabaseClient';
 
 export default function Chat() {
   const userInfo = useRecoilValue(UserAtom);
@@ -34,7 +35,6 @@ export default function Chat() {
           table: 'messages',
         },
         callbackFn: payload => {
-          console.log('payload', payload);
           queryClient.invalidateQueries({ queryKey: CHAT_KEYS.ALL });
         },
       },

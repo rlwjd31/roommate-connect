@@ -35,15 +35,12 @@ export default function ChatRoom() {
   const chatPartnerId = location.state.chatPartnerId as string;
   const lastReadMutation = useUpdateLastRead();
   const sendMessage = useSendMessage();
-
   const { chatPartnerInfo } = queryClient.getQueryData(
     CHAT_KEYS.LIST_INFO({ userId: userInfo?.id as string, chatPartnerId }),
   ) as {
     newChatCount: number;
     chatPartnerInfo: Tables<'user'>;
   };
-
-
   const dateMessages = useGetMessagesGroupByDate(chatRoomId);
 
   useOpenChatChannel<MessageType>({
@@ -68,26 +65,45 @@ export default function ChatRoom() {
   useScrollToBottom(chatsContainerRef, [dateMessages]);
 
   const onClickSendMessage = async () => {
+    const messageCreatedAt = JSON.stringify(new Date());
+
     if (inputRef.current) {
       sendMessage.mutate({
         content: inputRef.current.value,
         chatRoomId,
-        // ! user는 protected router에서 user가 있는 경우만 현재 컴포넌트를 rendering하므로 !를 이용하여 type error 해결
         sendBy: userInfo?.id as string,
+        createdAt: messageCreatedAt,
+      });
+
+      const lastReadDate = JSON.stringify(new Date());
+
+      lastReadMutation.mutate({
+        userId: userInfo?.id as string,
+        chatRoomId,
+        lastReadDate,
       });
     }
-    // lastReadMutation.mutate({ userId: userInfo?.id as string, chatRoomId });
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing && inputRef.current) {
+      const messageCreatedAt = JSON.stringify(new Date());
+
       sendMessage.mutate({
         content: inputRef.current.value,
         chatRoomId,
         sendBy: userInfo?.id as string,
+        createdAt: messageCreatedAt,
+      });
+
+      const lastReadDate = JSON.stringify(new Date());
+
+      lastReadMutation.mutate({
+        userId: userInfo?.id as string,
+        chatRoomId,
+        lastReadDate,
       });
     }
-    // lastReadMutation.mutate({ userId: userInfo?.id as string, chatRoomId });
   };
 
   return (

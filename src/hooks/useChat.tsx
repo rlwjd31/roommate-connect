@@ -50,10 +50,14 @@ const fetchChatPartnerInfo = async (chatPartnerId: string) => {
   return data;
 };
 
-const updateLastRead = async (userId: string, chatRoomId: string) => {
+const updateLastRead = async (
+  userId: string,
+  chatRoomId: string,
+  lastReadDate?: string,
+) => {
   const { data, error, status } = await supabase
     .from('user_chat')
-    .update({ last_read: JSON.stringify(new Date()) })
+    .update({ last_read: lastReadDate || JSON.stringify(new Date()) })
     .eq('user_id', userId)
     .eq('chat_room_id', chatRoomId);
 
@@ -84,12 +88,15 @@ const sendMessage = async ({
   chatRoomId,
   content,
   sendBy,
+  createdAt,
 }: {
   chatRoomId: string;
   content: string;
   sendBy: string;
+  createdAt?: string;
 }) => {
   const { data, error, status } = await supabase.from('messages').insert({
+    created_at: createdAt || JSON.stringify(new Date()),
     chat_room_id: chatRoomId,
     message: content,
     send_by: sendBy,
@@ -228,11 +235,12 @@ export const useUpdateLastRead = () => {
     mutationFn: ({
       userId,
       chatRoomId,
+      lastReadDate,
     }: {
       userId: string;
       chatRoomId: string;
-    }) => updateLastRead(userId, chatRoomId),
-    onMutate: () => console.log('mutating'),
+      lastReadDate?: string;
+    }) => updateLastRead(userId, chatRoomId, lastReadDate),
     onError: () => console.error('error 발생'),
     onSuccess: () => {
       // * refetch chatListPageData
@@ -327,8 +335,8 @@ export const useSendMessage = () => {
       chatRoomId: string;
       content: string;
       sendBy: string;
+      createdAt?: string;
     }) => sendMessage(props),
-    onMutate: () => console.log('sending message...'),
     onError: error => console.error({ error }),
     onSuccess: () => {
       // * refetch updated messages
