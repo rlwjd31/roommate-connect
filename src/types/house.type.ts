@@ -64,7 +64,7 @@ export const HouseForm = z.object({
   house_appeal: z
     .array(z.string(), { required_error: '우리 집의 매력을 작성해주세요.' })
     .min(1, { message: '1개 이상의 특징을 작성해주세요.' })
-    .max(5, { message: '특징은 최대 5개까지만 작성할 수 있습니다.' }),
+    .max(5),
   term: z
     .tuple([
       z

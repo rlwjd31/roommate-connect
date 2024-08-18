@@ -29,9 +29,9 @@ type HouseRegisterTemplates2Prop = {
 };
 
 export default function HouseRegisterTemplates2({
-  form
+  form,
 }: HouseRegisterTemplates2Prop) {
-	const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
+  const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
     smoking: form.getValues('smoking'),
     pet: form.getValues('pet'),
     appeals: form.getValues('appeals'),
@@ -58,7 +58,9 @@ export default function HouseRegisterTemplates2({
     }));
   };
 
-  const onClickGenderType = (stateValue: SignUpProfileFormType['mate_gender']) => {
+  const onClickGenderType = (
+    stateValue: SignUpProfileFormType['mate_gender'],
+  ) => {
     form.setValue('mate_gender', stateValue);
     setUserMateStyle(prev => ({
       ...prev,

@@ -114,11 +114,15 @@ export default function HouseRegisterTemplate1({
 
   const createBadge = () => {
     const appeals = form.watch('house_appeal');
-    if (appeals.length < 6 && !appeals.includes(appeal) && appeal !== '') {
+    if (appeals.length < 5 && !appeals.includes(appeal) && appeal !== '') {
       appeals.push(appeal);
       form.setValue('house_appeal', appeals);
-      form.trigger('house_appeal');
       setAppeal('');
+    } else if (appeals.length === 5) {
+      form.setError('house_appeal', {
+        type: 'maxLength',
+        message: '특징은 최대 5개까지만 작성할 수 있습니다.',
+      });
     }
   };
 
