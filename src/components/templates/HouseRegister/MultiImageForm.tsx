@@ -43,36 +43,6 @@ export default function MultiImageForm({
       isLoading: false,
     });
 
-  // // 파일 업로드 및 이미지 처리 함수
-  // const uploadImage = async (file: File) => {
-  // 	const newFileName = uuid();
-  // 	const { error } = await supabase.storage
-  // 		.from(`images/house/${userId}`)
-  // 		.upload(`temporary/${newFileName}`, file);
-
-  // 	if (error) {
-  // 		createErrorToast('이미지 업로드에 실패했습니다.');
-  // 		return null;
-  // 	}
-
-  // 	return newFileName;
-  // };
-  // const handleAddImages = async (file: File) => {
-  // 	try {
-  // 		const newFileName = await uploadImage(file);
-  // 		if (!newFileName) return;
-
-  // 		const updatedImages = [...form.getValues('house_img'), newFileName];
-  // 		form.setValue('house_img', updatedImages);
-  // 		form.trigger('house_img');
-
-  // 		const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
-  // 		setRenderImg(prev => [...prev, newFileUrl]);
-  // 	} catch (error) {
-  // 		createErrorToast('이미지 업로드에 실패했습니다.');
-  // 	}
-  // };
-
   // storage에 file을 upload
   const uploadImage = async (file: File, fileName: string) => {
     const { error } = await supabase.storage
