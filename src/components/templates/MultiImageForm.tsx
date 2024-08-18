@@ -43,23 +43,54 @@ export default function MultiImageForm({
       isLoading: false,
     });
 
-  // file을 받아서 supabase storage에 이미지를 넣는 함수
-  // TODO: trigger() 쓰지 않고 form에서 house_img의 길이를 인식하도록 하기!
+  // // 파일 업로드 및 이미지 처리 함수
+  // const uploadImage = async (file: File) => {
+  // 	const newFileName = uuid();
+  // 	const { error } = await supabase.storage
+  // 		.from(`images/house/${userId}`)
+  // 		.upload(`temporary/${newFileName}`, file);
+
+  // 	if (error) {
+  // 		createErrorToast('이미지 업로드에 실패했습니다.');
+  // 		return null;
+  // 	}
+
+  // 	return newFileName;
+  // };
+  // const handleAddImages = async (file: File) => {
+  // 	try {
+  // 		const newFileName = await uploadImage(file);
+  // 		if (!newFileName) return;
+
+  // 		const updatedImages = [...form.getValues('house_img'), newFileName];
+  // 		form.setValue('house_img', updatedImages);
+  // 		form.trigger('house_img');
+
+  // 		const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
+  // 		setRenderImg(prev => [...prev, newFileUrl]);
+  // 	} catch (error) {
+  // 		createErrorToast('이미지 업로드에 실패했습니다.');
+  // 	}
+  // };
+
+  // storage에 file을 upload
+  const uploadImage = async (file: File, fileName: string) => {
+    const { error } = await supabase.storage
+      .from(`images/house/${userId}`)
+      .upload(`temporary/${fileName}`, file);
+
+    if (error) {
+      createErrorToast('이미지 업로드에 실패했습니다.');
+    }
+  };
+
   const handleAddImages = async (file: File) => {
     try {
       const newFileName = uuid();
-      const { error } = await supabase.storage
-        .from(`images/house/${userId}`)
-        .upload(`temporary/${newFileName}`, file);
+      await uploadImage(file, newFileName);
 
-      if (error) {
-        createErrorToast('이미지 업로드에 실패했습니다.');
-        return;
-      }
-
-      const images = form.getValues('house_img');
-      images.push(newFileName);
-      form.setValue('house_img', images);
+      const updatedImages = [...form.getValues('house_img'), newFileName];
+      form.setValue('house_img', updatedImages);
       form.trigger('house_img');
 
       const newFileUrl = `${HOUSE_STORAGE_URL}/${userId}/temporary/${newFileName}`;
@@ -128,39 +159,31 @@ export default function MultiImageForm({
 
   // 처음 이미지 업로드시 첫번째 사진을 대표사진으로 지정
   useEffect(() => {
-    if (
-      (representativeImg === '' || representativeImg === undefined) &&
-      imageLen !== 0
-    ) {
-      const firstImage = form.getValues('house_img')[0];
-      form.setValue('representative_img', firstImage);
+    if (!representativeImg && imageLen > 0) {
+      form.setValue('representative_img', houseImages[0]);
     }
   }, [imageLen]);
 
   // edit이라면 db에 있는 대표사진과 이미지배열을 가져와 Rendering 되도록 정제
   useEffect(() => {
-    if (!houseImages.includes(representativeImg)) {
-      if (isEditMode && representativeImg !== '') {
-        const totalImages = [];
-        totalImages.push(representativeImg);
-
-        if (houseImages.length !== 0) {
-          totalImages.push(...houseImages);
-        }
-
-        const houseImageUrls = totalImages.map(
-          imgName => `${HOUSE_STORAGE_URL}/${userId}/${houseId}/${imgName}`,
-        );
-        form.setValue('house_img', totalImages);
-        setRenderImg(houseImageUrls);
-      }
+    if (
+      isEditMode &&
+      representativeImg &&
+      !houseImages.includes(representativeImg)
+    ) {
+      const totalImages = [representativeImg, ...houseImages];
+      const houseImageUrls = totalImages.map(
+        imgName => `${HOUSE_STORAGE_URL}/${userId}/${houseId}/${imgName}`,
+      );
+      form.setValue('house_img', totalImages);
+      setRenderImg(houseImageUrls);
     }
-  }, [representativeImg, houseImages]);
+  }, [isEditMode, representativeImg, houseImages]);
 
   return (
     <Container.FlexCol>
       <Container.FlexRow>
-        {currentImgPage !== 0 && (
+        {currentImgPage > 0 && (
           <IconButton.Ghost
             iconType="prev"
             iconClassName="absolute left-0 z-10"
@@ -224,19 +247,17 @@ export default function MultiImageForm({
                 </Label>
               </div>
             ))}
-          {imageLen < 3 &&
-            Array(3 - imageLen)
-              .fill(0)
-              .map(_ => (
-                <Label
-                  key={uuid()}
-                  htmlFor="house_img"
-                  className="mb-0 flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-brown3 pb-[75%]"
-                />
-              ))}
+          {imageLen < IMAGE_PER_PAGE &&
+            Array.from({ length: IMAGE_PER_PAGE - imageLen }).map(_ => (
+              <Label
+                key={uuid()}
+                htmlFor="house_img"
+                className="mb-0 flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-brown3 pb-[75%]"
+              />
+            ))}
         </Container.Grid>
-        {imageLen > 3 &&
-          Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 !== currentImgPage && (
+        {imageLen > IMAGE_PER_PAGE &&
+          currentImgPage < Math.ceil(imageLen / IMAGE_PER_PAGE) - 1 && (
             <IconButton.Ghost
               iconType="next"
               iconClassName="absolute right-0 z-10"
@@ -246,7 +267,9 @@ export default function MultiImageForm({
           )}
       </Container.FlexRow>
       <Typography.Span2
-        className={`${!form.formState.errors.house_img?.message && 'invisible h-3'} mr-7 mt-[8px] block text-right text-point`}
+        className={`${
+          !form.formState.errors.house_img?.message ? 'invisible h-3' : ''
+        } mr-7 mt-[8px] block text-right text-point`}
       >
         {form.formState.errors.house_img?.message as string}
       </Typography.Span2>
