@@ -34,7 +34,7 @@ export default function ChatRoom() {
   const chatsContainerRef = useRef<HTMLDivElement>(null);
   const chatPartnerId = location.state.chatPartnerId as string;
   const lastReadMutation = useUpdateLastRead();
-  const sendMessage = useSendMessage();
+  const sendMessageMutation = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData(
     CHAT_KEYS.LIST_INFO({ userId: userInfo?.id as string, chatPartnerId }),
   ) as {
@@ -64,45 +64,36 @@ export default function ChatRoom() {
 
   useScrollToBottom(chatsContainerRef, [dateMessages]);
 
-  const onClickSendMessage = async () => {
+  const sendMessage = async (messageContent: string) => {
     const messageCreatedAt = JSON.stringify(new Date());
 
+    sendMessageMutation.mutate({
+      content: messageContent,
+      chatRoomId,
+      sendBy: userInfo?.id as string,
+      createdAt: messageCreatedAt,
+    });
+
+    const lastReadDate = JSON.stringify(new Date());
+
+    lastReadMutation.mutate({
+      userId: userInfo?.id as string,
+      chatRoomId,
+      lastReadDate,
+    });
+  };
+
+  const onClickSendMessage = async () => {
     if (inputRef.current) {
-      sendMessage.mutate({
-        content: inputRef.current.value,
-        chatRoomId,
-        sendBy: userInfo?.id as string,
-        createdAt: messageCreatedAt,
-      });
-
-      const lastReadDate = JSON.stringify(new Date());
-
-      lastReadMutation.mutate({
-        userId: userInfo?.id as string,
-        chatRoomId,
-        lastReadDate,
-      });
+      sendMessage(inputRef.current.value)
+      inputRef.current.value = '';
     }
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing && inputRef.current) {
-      const messageCreatedAt = JSON.stringify(new Date());
-
-      sendMessage.mutate({
-        content: inputRef.current.value,
-        chatRoomId,
-        sendBy: userInfo?.id as string,
-        createdAt: messageCreatedAt,
-      });
-
-      const lastReadDate = JSON.stringify(new Date());
-
-      lastReadMutation.mutate({
-        userId: userInfo?.id as string,
-        chatRoomId,
-        lastReadDate,
-      });
+      sendMessage(e.currentTarget.value)
+      inputRef.current.value = '';
     }
   };
 
