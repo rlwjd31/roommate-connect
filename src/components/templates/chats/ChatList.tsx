@@ -31,7 +31,6 @@ export default function ChatList({
 }: ChatListProps) {
   const userInfo = useRecoilValue(UserAtom);
   const lastReadMutation = useUpdateLastRead();
-  const { chatRoomId: currentChatRoomId } = useParams<{ chatRoomId: string }>();
 
   return (
     <Container.FlexCol className={cn('w-full max-w-full border-0', className)}>

@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { KeyboardEvent, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
@@ -23,13 +23,12 @@ import { MessageType } from '@/types/chat.type';
 import { CHAT_KEYS } from '@/constants/queryKeys';
 
 export default function ChatRoom() {
-  // ! chatRoomId는 무조건 존재하지만 undefined로도 추론되어 제네릭으로 타입 명시 후
-  // ! 타입 단언 이용
   const params = useParams<{ chatRoomId: string }>();
   const chatRoomId = params.chatRoomId as string;
   const queryClient = useQueryClient();
   const userInfo = useRecoilValue(UserAtom);
   const location = useLocation();
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const chatsContainerRef = useRef<HTMLDivElement>(null);
   const chatPartnerId = location.state.chatPartnerId as string;
@@ -85,14 +84,14 @@ export default function ChatRoom() {
 
   const onClickSendMessage = async () => {
     if (inputRef.current) {
-      sendMessage(inputRef.current.value)
+      sendMessage(inputRef.current.value);
       inputRef.current.value = '';
     }
   };
 
   const onEnterSendMessage = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing && inputRef.current) {
-      sendMessage(e.currentTarget.value)
+      sendMessage(e.currentTarget.value);
       inputRef.current.value = '';
     }
   };
@@ -101,6 +100,11 @@ export default function ChatRoom() {
     <Container.FlexCol className="size-full min-h-full">
       {/* chat room header */}
       <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center gap-4 bg-brown6 px-6">
+        <IconButton.Ghost
+          iconType="prev"
+          className="mr-[0.625rem] h-[1.25rem] w-[0.75rem] cursor-pointer laptop:hidden"
+          onClick={() => navigate(-1)}
+        />
         <Avatar.XS src={chatPartnerInfo.avatar ?? ''} />
         <Container.FlexCol>
           <Typography.SubTitle3 className="font-bold leading-150 text-brown">
