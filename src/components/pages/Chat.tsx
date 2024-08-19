@@ -10,6 +10,7 @@ import { MessageType } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
 import Loading from '@/components/pages/Loading';
+import cn from '@/libs/cn';
 
 export default function Chat() {
   const userInfo = useRecoilValue(UserAtom);
@@ -21,8 +22,8 @@ export default function Chat() {
   } = useChatRoomListPageData(userInfo?.id ?? '')!;
   const queryClient = useQueryClient();
 
-  const isChatTopRoute =
-    location.pathname === '/chats' || location.pathname === '/chats/';
+  const isChatTopRoute = /^\/chats\/?$/.test(location.pathname);
+  const isChatRoomPath = /^\/chats\/[a-zA-Z0-9_-]+$/.test(location.pathname);
 
   useOpenChatChannel<MessageType>({
     channelName: `chatRoomList`,
@@ -43,13 +44,17 @@ export default function Chat() {
 
   if (isLoadingPageData)
     return <Loading text="Loading Chats..." textStyle="tracking-widest" />;
-  
+
   return (
     <Container.FlexRow className="min-h-full w-full">
       <ChatList
         chatRoomListPageData={chatRoomListPageData}
         totalNewChatsCount={totalNewChatsCount}
-        className="laptop:max-w-[21.75rem] laptop:border-r-0.5 laptop:border-r-brown1"
+        className={cn(
+          isChatTopRoute &&
+            'laptop:max-w-[21.75rem] laptop:border-r-0.5 laptop:border-r-brown1',
+          isChatRoomPath && 'hidden laptop:max-w-[21.75rem] laptop:flex',
+        )}
       />
       {isChatTopRoute ? (
         <Container.FlexRow className="hidden size-full items-center justify-center text-brown1 laptop:flex">

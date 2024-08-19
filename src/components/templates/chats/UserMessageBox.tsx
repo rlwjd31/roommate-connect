@@ -40,7 +40,7 @@ export default function UserMessageBox({
       />
       <Container.FlexCol
         className={cn(
-          'gap-[10px]',
+          'gap-[0.625rem]',
           currentUserInfo?.id !== userId && 'items-end',
         )}
       >
