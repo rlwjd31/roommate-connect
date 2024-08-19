@@ -1,4 +1,4 @@
-import { NavLink, useLocation, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 import Container from '@/components/atoms/Container';
@@ -8,7 +8,7 @@ import Avatar from '@/components/atoms/Avatar';
 import { UserAtom } from '@/stores/auth.store';
 import { formatDateByCountry, isToday } from '@/libs/dateUtils';
 import { useUpdateLastRead } from '@/hooks/useChat';
-import NewChatCountCircle from '@/components/templates/chats/\bNewChatCountCircle';
+import NewChatCountCircle from '@/components/templates/chats/NewChatCountCircle';
 import { Tables } from '@/types/supabase';
 
 type ChatListProps = {
@@ -21,18 +21,20 @@ type ChatListProps = {
     chatPartnerInfo: Tables<'user'>;
   }[];
   totalNewChatsCount: number;
+  className?: string;
 };
 
 export default function ChatList({
   chatRoomListPageData,
   totalNewChatsCount,
+  className,
 }: ChatListProps) {
   const userInfo = useRecoilValue(UserAtom);
   const lastReadMutation = useUpdateLastRead();
   const { chatRoomId: currentChatRoomId } = useParams<{ chatRoomId: string }>();
 
   return (
-    <Container.FlexCol className="w-full max-w-[21.75rem] border-r-0.5 border-r-brown1">
+    <Container.FlexCol className={cn('w-full max-w-full border-0', className)}>
       {/* chatList header */}
       <Container.FlexRow className="sticky left-0 top-0 min-h-[4.875rem] items-center justify-between gap-2 bg-brown6 px-5">
         <Typography.SubTitle1 className="text-brown">채팅</Typography.SubTitle1>
@@ -68,7 +70,7 @@ export default function ChatList({
               >
                 {/* shrink를 0으로 설정하지 않으면 이미지가 깨짐 */}
                 <Avatar.M src={avatar ?? ''} />
-                <Container.FlexCol className="w-full">
+                <Container.FlexCol className="w-full space-y-[0.25rem]">
                   <Container.FlexRow className="items-center justify-between">
                     <Typography.Span1 className="font-bold leading-150 text-brown">
                       {nickname}
@@ -97,3 +99,7 @@ export default function ChatList({
     </Container.FlexCol>
   );
 }
+
+ChatList.defaultProps = {
+  className: '',
+};

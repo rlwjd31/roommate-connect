@@ -10,7 +10,6 @@ import { MessageType } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
 import Loading from '@/components/pages/Loading';
-import { supabase } from '@/libs/supabaseClient';
 
 export default function Chat() {
   const userInfo = useRecoilValue(UserAtom);
@@ -44,15 +43,16 @@ export default function Chat() {
 
   if (isLoadingPageData)
     return <Loading text="Loading Chats..." textStyle="tracking-widest" />;
-
+  
   return (
     <Container.FlexRow className="min-h-full w-full">
       <ChatList
         chatRoomListPageData={chatRoomListPageData}
         totalNewChatsCount={totalNewChatsCount}
+        className="laptop:max-w-[21.75rem] laptop:border-r-0.5 laptop:border-r-brown1"
       />
       {isChatTopRoute ? (
-        <Container.FlexRow className="size-full items-center justify-center text-brown1">
+        <Container.FlexRow className="hidden size-full items-center justify-center text-brown1 laptop:flex">
           <Typography.P3>대화를 시작할 채팅방을 선택해주세요</Typography.P3>
         </Container.FlexRow>
       ) : (
