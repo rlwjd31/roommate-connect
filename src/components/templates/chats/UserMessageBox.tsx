@@ -9,6 +9,8 @@ import { UserAtom } from '@/stores/auth.store';
 import { Tables } from '@/types/supabase';
 import { formatDateByCountry } from '@/libs/dateUtils';
 import { UserMessageType } from '@/types/chat.type';
+import useModal from '@/hooks/useModal';
+import { ProfileModalState } from '@/types/modal.type';
 
 type UserMessageProps = {
   userMessage: UserMessageType;
@@ -22,8 +24,26 @@ export default function UserMessageBox({
 }: UserMessageProps) {
   const currentUserInfo = useRecoilValue(UserAtom);
   const { userId, messages, lastCreatedAt } = userMessage;
-
+  const { setModalState: setProfileModal, closeModal: closeProfileModal } =
+    useModal('Profile');
   const isCurrentUser = userMessage.userId === currentUserInfo?.id;
+
+  const userProfileModalContext: ProfileModalState = {
+    isOpen: true,
+    buttonContent: '1:1 채팅',
+    type: 'Profile',
+    userId: isCurrentUser ? currentUserInfo?.id ?? '' : chatPartnerInfo.id,
+    userName: isCurrentUser
+      ? currentUserInfo?.nickname ?? ''
+      : chatPartnerInfo.nickname ?? '',
+    profileMessage: '안녕하세요!!!',
+    profileImage: isCurrentUser
+      ? currentUserInfo?.avatar ?? ''
+      : chatPartnerInfo.avatar ?? '',
+    onClickChat: () => {
+      closeProfileModal();
+    },
+  };
 
   return messages.length > 0 ? (
     <Container.FlexRow
@@ -37,6 +57,7 @@ export default function UserMessageBox({
           (isCurrentUser ? currentUserInfo.avatar : chatPartnerInfo.avatar) ||
           ''
         }
+        onClick={() => setProfileModal(userProfileModalContext)}
       />
       <Container.FlexCol
         className={cn(
