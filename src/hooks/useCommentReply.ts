@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 
 import { supabase } from '@/libs/supabaseClient';
 import { createToast, errorToast, successToast } from '@/libs/toast';
+import HOUSE_KEYS from '@/constants/queryKeys/house';
 
 type Comment = {
   id?: string;
@@ -64,7 +65,7 @@ export const useComment = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['house', 'comment', houseId],
+        queryKey: HOUSE_KEYS.HOUSE_COMMENT_REPLY(houseId),
       });
       successToast('comment', '댓글 변경 완료');
     },
@@ -121,7 +122,7 @@ export const useReply = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['house', 'comment', houseId],
+        queryKey: HOUSE_KEYS.HOUSE_COMMENT_REPLY(houseId),
       });
       successToast('reply', '답글 변경 완료');
     },
@@ -134,7 +135,7 @@ export const useReply = () => {
 
 export const houseCommentQuery = (houseId: string | undefined) =>
   queryOptions({
-    queryKey: ['house', 'comment', houseId],
+    queryKey: HOUSE_KEYS.HOUSE_COMMENT_REPLY(houseId),
     queryFn: async () =>
       supabase
         .from('house_comment')

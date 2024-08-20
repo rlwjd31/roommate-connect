@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
@@ -23,9 +24,18 @@ import { HouseFormType } from '@/types/house.type';
 import { UserAtom } from '@/stores/auth.store';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 import copyUrl from '@/libs/copyUrl';
-import { useUpdateBookMark } from '@/hooks/useHouseDetail';
+import {
+  removeStorage,
+  useDeleteHouseDetail,
+  useUpdateBookMark,
+} from '@/hooks/useHouseDetail';
 import ModalBackdrop from '@/components/organisms/modals/ModalBackdrop';
 import Carousel from '@/components/organisms/Carousel';
+import useModal from '@/hooks/useModal';
+import {
+  RoommateApplicationState,
+  RoommateApplyState,
+} from '@/types/modal.type';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -54,6 +64,7 @@ type MateStyle = {
   mate_appeals: string[];
   prefer_mate_age: number[];
 };
+const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
 
 export default function HouseDetailTemplate(props: {
   houseData: HouseData;
@@ -61,21 +72,26 @@ export default function HouseDetailTemplate(props: {
   houseId: string;
 }) {
   const { houseData, bookmark, houseId } = props;
+  const user = useRecoilValue(UserAtom);
+  const navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [carouselStep, setCarouselStep] = useState(0);
+  const { updateBookMark, isPending } = useUpdateBookMark();
+  const { deleteHouseDetailPage } = useDeleteHouseDetail();
+
+  const {
+    setModalState: setRoommateApplyModal,
+    closeModal: closeRoommateApplyModal,
+  } = useModal('RoommateApply');
+  const {
+    setModalState: setRoommateApplicationModal,
+    closeModal: closeRoommateApplicationModal,
+  } = useModal('RoommateApplicationStatus');
+
   useEffect(() => {
     if (modal) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto';
   }, [modal]);
-
-  const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
-
-  const { updateBookMark, isPending } = useUpdateBookMark();
-  const user = useRecoilValue(UserAtom);
-  if (!houseData) {
-    return <div>데이터 없음..</div>;
-  }
-  const houseOwner = houseData.user_id === user?.id;
 
   const onClickBookMark = () => {
     updateBookMark({
@@ -84,7 +100,20 @@ export default function HouseDetailTemplate(props: {
       isBookMark: bookmark,
     });
   };
-
+  const onClickEditBtn = () => {
+    navigate(`/house/edit/${houseId}`);
+  };
+  const onClickDeleteBtn = () => {
+    deleteHouseDetailPage(houseId, {
+      onSuccess: () => {
+        removeStorage(houseId, user?.id as string);
+      },
+    });
+  };
+  if (!houseData) {
+    return <div>데이터 없음..</div>;
+  }
+  const houseOwner = houseData.user_id === user?.id;
   const { created_at: createdAt, updated_at: updatedAt } = houseData;
 
   const formDate = (dateString: string) => {
@@ -108,6 +137,47 @@ export default function HouseDetailTemplate(props: {
     if (leftImg < 0) return <Icon type="camera-off" />;
     if (leftImg === 0) return '';
     return `+ ${leftImg} 개`;
+  };
+
+  const RoommateApplyModalContext: RoommateApplyState = {
+    isOpen: true,
+    type: 'RoommateApply',
+    introduceContent: '',
+    roommateAppeals: houseData.user_lifestyle.appeals,
+    onClickCancel: () => {
+      closeRoommateApplyModal();
+    },
+    onClickConfirm: () => {
+      alert('Completed Apply');
+      closeRoommateApplyModal();
+    },
+  };
+
+  const RoommateApplicationContext: RoommateApplicationState = {
+    isOpen: true,
+    type: 'RoommateApplicationStatus',
+    profileImage: '',
+    userName: 'user123',
+    roommateAppeals: [
+      '1명',
+      '남성',
+      '잠귀 어두운 분',
+      '청소 자주해요',
+      '늦게 자요',
+    ],
+    introduceContent:
+      '안녕하세요! 1년 6개월 동안 사는 것을 희망하고 조용히 지낼 수 있습니다. 집이 좋아보여서 신청해봅니다!',
+    onClickChat() {
+      alert('상대방과의 채팅이 시작합니다!');
+      closeRoommateApplicationModal();
+    },
+    onClickConfirm: () => {
+      alert('user123 님을 수락하셨습니다!');
+      closeRoommateApplicationModal();
+    },
+    onClickCancel: () => {
+      closeRoommateApplicationModal();
+    },
   };
 
   return (
@@ -225,13 +295,19 @@ export default function HouseDetailTemplate(props: {
               </Typography.Head3>
               {houseOwner && (
                 <>
-                  <Button.Ghost className="p-[0.5625rem] text-brown">
+                  <Button.Ghost
+                    className="p-[0.5625rem] text-brown"
+                    onClick={onClickEditBtn}
+                  >
                     <Icon type="edit" className="block tablet:hidden" />
                     <Typography.P3 className="hidden tablet:block">
                       수정
                     </Typography.P3>
                   </Button.Ghost>
-                  <Button.Ghost className="p-[0.5625rem] text-brown">
+                  <Button.Ghost
+                    className="p-[0.5625rem] text-brown"
+                    onClick={onClickDeleteBtn}
+                  >
                     <Icon type="delete" className="block tablet:hidden" />
                     <Typography.P3 className="hidden tablet:block ">
                       삭제
@@ -263,14 +339,24 @@ export default function HouseDetailTemplate(props: {
           <Container.FlexRow className="justify-between	">
             <Container.FlexRow className="flex-wrap gap-3">
               {houseOwner ? (
-                <Button.Fill className="rounded-lg px-10 py-4 text-white tablet:px-[3.15625rem] tablet:py-[1.21875rem]">
+                <Button.Fill
+                  className="rounded-lg px-10 py-4 text-white tablet:px-[3.15625rem] tablet:py-[1.21875rem]"
+                  onClick={() =>
+                    setRoommateApplicationModal(RoommateApplicationContext)
+                  }
+                >
                   <Typography.P3 className="tablet:text-P1">
                     신청 현황
                   </Typography.P3>
                 </Button.Fill>
               ) : (
                 <>
-                  <Button.Fill className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white">
+                  <Button.Fill
+                    className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white"
+                    onClick={() =>
+                      setRoommateApplyModal(RoommateApplyModalContext)
+                    }
+                  >
                     <Typography.P3 className="tablet:text-P1">
                       룸메이트 신청
                     </Typography.P3>
