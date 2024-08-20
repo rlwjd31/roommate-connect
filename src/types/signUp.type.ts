@@ -44,7 +44,7 @@ const SignUpProfileFormOriginal = z.object({
     .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
     .optional()
     .refine(data => data !== undefined, {
-      message: '매물 종류를 선택해주세요.',
+      message: '임대 형태를 선택해주세요.',
     }),
   /**
    * ### 유저가 찾는 지역
@@ -193,7 +193,7 @@ const SignUpProfileFormOriginal = z.object({
    * - 2: 여성
    * - undefined: 지정되지 않음(초기값)
    */
-  gender: z
+  mate_gender: z
     .union([z.literal(0), z.literal(1), z.literal(2)])
     .optional()
     .refine(data => data !== undefined, {
@@ -207,7 +207,7 @@ const SignUpProfileFormOriginal = z.object({
    * - 3: 3명이상
    * - undefined: 지정되지 않음(초기값)
    */
-  mates_number: z
+  mate_number: z
     .union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)])
     .optional()
     .refine(data => data !== undefined, {
