@@ -152,16 +152,10 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     />
   ),
   'google-logo': ({ className, ...others }) => (
-    <GoogleLogo
-      className={cn('w-[30.625rem] h-[3.5rem]', className)}
-      {...others}
-    />
+    <GoogleLogo className={cn('size-[1.1875rem]', className)} {...others} />
   ),
   'kakaotalk-logo': ({ className, ...others }) => (
-    <KakaotalkLogo
-      className={cn('w-[30.625rem] h-[3.5rem]', className)}
-      {...others}
-    />
+    <KakaotalkLogo className={cn('size-[1.125rem]', className)} {...others} />
   ),
   invisible: ({ className, ...others }) => (
     <Invisible
