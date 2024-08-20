@@ -10,6 +10,7 @@ import Divider from '@/components/atoms/Divider';
 import Button from '@/components/atoms/Button';
 import IconButton from '@/components/molecules/IconButton';
 import {
+  useResendVerifyMail,
   useSignInEmail,
   useSignInSocial,
   useVerifyEmail,
@@ -23,8 +24,6 @@ import {
 } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
-import { supabase } from '@/libs/supabaseClient';
-import { createToast } from '@/libs/toast';
 
 export default function SignInTemplate() {
   const Form = FormProvider;
@@ -39,33 +38,16 @@ export default function SignInTemplate() {
     mutateMessage: '인증 후 로그인 시도 중...',
     successMessage: '로그인 성공!',
   });
+  const { resendVerifyMail, isResending } = useResendVerifyMail();
   const { signInSocial, isSignInSocial } = useSignInSocial();
 
-  const isPending = isSignInEmail || isSignInSocial || isVerifyEmail;
+  const isPending =
+    isSignInEmail || isSignInSocial || isVerifyEmail || isResending;
 
   // * 회원가입에서 Email 인증을 거치지 않고 로그인 시 다시 인증번호를 전송하는 기능
   const onReSendVerifyEmail = async () => {
     setIsReSendVerifyEmail(true);
-    const { error } = await supabase.auth.resend({
-      type: 'signup',
-      email: form.getValues('email'),
-    });
-    if (error)
-      createToast(
-        'verifyEmail',
-        '너무 많은 요청을 보냈습니다. 나중에 다시 시도하세요.',
-        {
-          autoClose: 1000,
-          type: 'error',
-          isLoading: false,
-        },
-      );
-    else
-      createToast(
-        'verifyEmail',
-        '인증번호를 전송했습니다. 이메일을 확인해주세요',
-        { autoClose: 1000, type: 'info', isLoading: false },
-      );
+    resendVerifyMail({ email: form.getValues('email') });
     setIsReSendVerifyEmail(false);
   };
 
@@ -108,7 +90,7 @@ export default function SignInTemplate() {
                 name="password"
                 placeholder="비밀번호 입력"
                 inputStyle="w-full bg-transparent mt-[1rem]"
-                containerStyle="mt-7"
+                containerStyle="mt-[1.75rem]"
                 isVisible={passwordVisible}
                 onClickVisible={onClickVisible}
               />
@@ -133,17 +115,17 @@ export default function SignInTemplate() {
                   </Button.Outline>
                 </Container.FlexRow>
               )}
-              <div className="mt-4 flex flex-row-reverse gap-2">
+              <div className="mt-1.5 flex flex-row-reverse gap-2">
                 <Link to="/sign/up">회원가입</Link>
                 <Divider.Row />
                 <Link to="/sign/password">비밀번호 찾기</Link>
               </div>
               <Button.Fill
                 type="submit"
-                className="mt-[3.25rem] w-full rounded-[10px]"
+                className="mt-[2.5rem] w-full rounded-[10px]"
                 disabled={isPending}
               >
-                <Typography.P3 className="mx-auto my-[1rem] text-[#F4E7DB]">
+                <Typography.P3 className="mx-auto pb-[1.125rem] pt-4 leading-150 text-[#F4E7DB]">
                   {isNotVerified ? '인증 후 로그인' : '로그인'}
                 </Typography.P3>
               </Button.Fill>
@@ -158,16 +140,29 @@ export default function SignInTemplate() {
         <Container.FlexCol className="gap-y-5">
           <IconButton.Ghost
             id="kakao"
+            className="justify-center gap-x-[0.75rem] rounded-[6px] !bg-[#FEE500] py-[0.96875rem]"
             iconType="kakaotalk-logo"
             disabled={isPending}
+            direction="left"
             onClick={onClickSocial}
-          />
+          >
+            <Typography.SubTitle3 className="pt-[0.0625rem] font-[500] leading-150">
+              카카오로 시작하기
+            </Typography.SubTitle3>
+          </IconButton.Ghost>
           <IconButton.Ghost
             id="google"
+            className="justify-center gap-x-[0.75rem] rounded-[6px] border-[1px] border-[#BCBCBC] py-[0.90625rem]"
             iconType="google-logo"
             disabled={isPending}
+            direction="left"
             onClick={onClickSocial}
-          />
+          >
+            {/* eslint-disable-next-line tailwindcss/no-contradicting-classname */}
+            <Typography.SubTitle3 className="pt-[0.0625rem] font-Noto-Sans-KR font-[500] leading-150 text-[#00000089]">
+              Google로 시작하기
+            </Typography.SubTitle3>
+          </IconButton.Ghost>
         </Container.FlexCol>
       </Container.FlexCol>
     </Container.FlexCol>
