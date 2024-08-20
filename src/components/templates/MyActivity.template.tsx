@@ -31,7 +31,7 @@ function BadgeContainer({
   children,
   className,
 }: {
-  children: ReactNode | ReactNode[];
+  children: ReactNode;
   // eslint-disable-next-line react/require-default-props
   className?: string;
 }) {
@@ -55,9 +55,9 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
     isOpen: true,
     type: 'ProfileModify',
     userInfo: {
-      ...{ ...user }.user_mate_style,
-      ...{ ...user }.user_lifestyle,
-      ...{ ...user }.user_looking_house,
+      ...user.user_mate_style,
+      ...user.user_lifestyle,
+      ...user.user_looking_house,
       ...user,
     },
   };
