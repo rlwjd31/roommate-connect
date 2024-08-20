@@ -34,14 +34,10 @@ import FillHeart from '@/assets/icons/fill-heart.svg?react';
 import Share from '@/assets/icons/share.svg?react';
 import MiniSmoke from '@/assets/icons/mini-smoke.svg?react';
 import MiniNoneSmoke from '@/assets/icons/mini-none-smoke.svg?react';
-import IconMale from '@/assets/icons/mini-male-icon.svg?react';
-import IconFemale from '@/assets/icons/mini-female-icon.svg?react';
-import IconGenderFree from '@/assets/icons/ph_gender-intersex.svg?react';
 import PetHeart from '@/assets/icons/mini-pet-lover.svg?react';
 import PetHate from '@/assets/icons/mini-none-pet-lover.svg?react';
 import PetCircle from '@/assets/icons/mini-dont-mind-pet.svg?react';
 import IconGenderFree from '@/assets/icons/ph_gender-intersex.svg?react';
-import PetHeart from '@/assets/icons/mini-pet-lover.svg?react';
 import PaperClip from '@/assets/icons/paper-clip.svg?react';
 import Send from '@/assets/icons/send.svg?react';
 import Camera from '@/assets/icons/camera.svg?react';
@@ -56,8 +52,6 @@ import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
-import Edit from '@/assets/icons/edit.svg?react';
-import Delete from '@/assets/icons/delete.svg?react';
 import CameraOff from '@/assets/icons/camera-off.svg?react';
 import Front from '@/assets/icons/front.svg?react';
 import IconMale from '@/assets/icons/icon-male.svg?react';
@@ -65,8 +59,6 @@ import IconFemale from '@/assets/icons/icon-female.svg?react';
 import OpenTriangle from '@/assets/icons/open-triangle.svg?react';
 import CloseTriangle from '@/assets/icons/close-triangle.svg?react';
 import PetHart from '@/assets/icons/pet_hart.svg?react';
-import PetCircle from '@/assets/icons/pet-circle.svg?react';
-import PetHate from '@/assets/icons/pet-hate.svg?react';
 import MiniHeart from '@/assets/icons/mini-heart.svg?react';
 import PagePrev from '@/assets/icons/page-prev.svg?react';
 import PageNext from '@/assets/icons/page-next.svg?react';
@@ -382,15 +374,6 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
       {...others}
     />
   ),
-  'icon-male': ({ className, ...others }) => (
-    <IconMale className={cn('size-6', className)} {...others} />
-  ),
-  'icon-female': ({ className, ...others }) => (
-    <IconFemale className={cn('size-6', className)} {...others} />
-  ),
-  'icon-gender-free': ({ className, ...others }) => (
-    <IconGenderFree className={cn('size-6', className)} {...others} />
-  ),
   'pet-heart': ({ className, ...others }) => (
     <PetHeart
       className={cn('w-[1.125rem] h-[0.958125rem]', className)}
@@ -400,9 +383,6 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   'pet-hate': ({ className, ...others }) => (
     <PetHate className={cn('size-[1.125rem]', className)} {...others} />
   ),
-  'pet-circle': ({ className, ...others }) => (
-    <PetCircle className={cn('size-[1.125rem]', className)} {...others} />
-  ),
   edit: ({ className, ...others }) => (
     <Edit className={cn('size-[17px]', className)} {...others} />
   ),
@@ -411,6 +391,7 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   ),
   'camera-off': ({ className, ...others }) => (
     <CameraOff className={cn('size-[4rem]', className)} {...others} />
+  ),
   'edit-avatar': ({ className, ...others }) => (
     <EditAvatar className={cn('w-6 h-[1.375rem]', className)} {...others} />
   ),
