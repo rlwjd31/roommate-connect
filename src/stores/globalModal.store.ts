@@ -3,6 +3,7 @@ import { atom, errorSelector, selectorFamily } from 'recoil';
 import {
   AlertModalState,
   ConfirmModalState,
+  ContinuationModalState,
   ModalStateByType,
   ModalType,
   ProfileModalState,
@@ -95,6 +96,20 @@ export const ProfileModifyModalAtom = atom<ProfileModifyModalState>({
   },
 });
 
+export const ContinuationModalAtom = atom<ContinuationModalState>({
+  key: 'continuationModalState',
+  default: {
+    isOpen: false,
+    type: 'Continue',
+    title: '',
+    message: '',
+    onClickCancel: () => {},
+    onClickContinue: () => {},
+    cancelButtonContent: '',
+    continueButtonContent: '',
+  },
+});
+
 export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
   get:
@@ -111,6 +126,8 @@ export const ModalSelector = selectorFamily({
           return get(RoommateApplicationAtom) as ModalStateByType[P];
         case 'RoommateApply':
           return get(RoommateApplyAtom) as ModalStateByType[P];
+        case 'Continue':
+          return get(ContinuationModalAtom) as ModalStateByType[P];
         case 'ProfileModify':
           return get(ProfileModifyModalAtom) as ModalStateByType[P];
         default:
@@ -140,6 +157,8 @@ export const ModalSelector = selectorFamily({
         case 'RoommateApply':
           set(RoommateApplyAtom, newModalState as RoommateApplyState);
           break;
+        case 'Continue':
+          set(ContinuationModalAtom, newModalState as ContinuationModalState);
         case 'ProfileModify':
           set(ProfileModifyModalAtom, newModalState as ProfileModifyModalState);
           break;

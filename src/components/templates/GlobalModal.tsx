@@ -6,6 +6,7 @@ import ProfileModal from '@/components/organisms/modals/ProfileModal';
 import RoomMateApplicationStatus from '../organisms/modals/RoommateApplicationStatusModal';
 import { GlobalModalAtom } from '@/stores/globalModal.store';
 import RoommateApplyModal from '../organisms/modals/RoommateApplyModal';
+import ContinuationModal from '@/components/organisms/modals/ContinuationModal';
 import ProfileModifyModal from '@/components/organisms/modals/ProfileModifyModal';
 
 export default function GlobalModal() {
@@ -18,6 +19,7 @@ export default function GlobalModal() {
     Profile: ProfileModal,
     RoommateApplicationStatus: RoomMateApplicationStatus,
     RoommateApply: RoommateApplyModal,
+    Continue: ContinuationModal,
     ProfileModify: ProfileModifyModal,
   };
 

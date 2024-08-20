@@ -54,6 +54,15 @@ import TwoPeople from '@/assets/icons/two-people.svg?react';
 import ThreePeople from '@/assets/icons/three-people.svg?react';
 import DontMindPeople from '@/assets/icons/dont-mind-people.svg?react';
 import Done from '@/assets/icons/done.svg?react';
+import Front from '@/assets/icons/front.svg?react';
+import IconMale from '@/assets/icons/icon-male.svg?react';
+import IconFemale from '@/assets/icons/icon-female.svg?react';
+import GenderFree from '@/assets/icons/icon-gender-free.svg?react';
+import OpenTriangle from '@/assets/icons/open-triangle.svg?react';
+import CloseTriangle from '@/assets/icons/close-triangle.svg?react';
+import PetHart from '@/assets/icons/pet_hart.svg?react';
+import PetCircle from '@/assets/icons/pet-circle.svg?react';
+import PetHate from '@/assets/icons/pet-hate.svg?react';
 import MiniHeart from '@/assets/icons/mini-heart.svg?react';
 import PagePrev from '@/assets/icons/page-prev.svg?react';
 import PageNext from '@/assets/icons/page-next.svg?react';
@@ -291,6 +300,39 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
       {...others}
     />
   ),
+  front: ({ className, ...others }) => (
+    <Front className={className} {...others} />
+  ),
+  'icon-male': ({ className, ...others }) => (
+    <IconMale
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
+  ),
+  'icon-female': ({ className, ...others }) => (
+    <IconFemale
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
+  ),
+  'icon-gender-free': ({ className, ...others }) => (
+    <GenderFree
+      className={(cn('w-[1.5rem] h-[1.5rem]'), className)}
+      {...others}
+    />
+  ),
+  'open-triangle': ({ className, ...others }) => (
+    <OpenTriangle className={(cn('w-[1.25rem]'), className)} {...others} />
+  ),
+  'close-triangle': ({ className, ...others }) => (
+    <CloseTriangle className={(cn('w-[1.25rem]'), className)} {...others} />
+  ),
+  'pet-hart': ({ className, ...others }) => (
+    <PetHart className={(cn('w-[1.125rem] h-auto'), className)} {...others} />
+  ),
+  'pet-circle': ({ className, ...others }) => (
+    <PetCircle
+      className={(cn('w-[1.125rem] h-[1.125rem]'), className)}
   'mini-heart': ({ className, ...others }) => (
     <MiniHeart className={cn('w-[1.3025rem] h-6', className)} {...others} />
   ),
@@ -346,6 +388,10 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     />
   ),
   'pet-hate': ({ className, ...others }) => (
+    <PetHate
+      className={(cn('w-[1.125rem] h-[1.125rem'), className)}
+      {...others}
+    />
     <PetHate className={cn('size-[1.125rem]', className)} {...others} />
   ),
   'pet-circle': ({ className, ...others }) => (
