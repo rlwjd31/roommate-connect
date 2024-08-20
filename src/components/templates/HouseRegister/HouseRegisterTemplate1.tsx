@@ -25,6 +25,7 @@ import {
 } from '@/constants/signUpProfileData';
 import { floorDisplayData } from '@/constants/houseData';
 import HouseFormRow from '@/components/molecules/HouseFormRow';
+import { houseTypesInfo, rentalTypesInfo } from '@/constants/profileDetailInfo';
 
 type Template1HiddenState = {
   house_type: HouseFormType['house_type'];
@@ -217,7 +218,11 @@ export default function HouseRegisterTemplate1({
                   <BadgeButton.Outline
                     key={house.displayValue}
                     className="rounded-full px-5 pb-2 pt-2.5"
-                    onClick={() => onClickHouseType(house.stateValue)}
+                    onClick={() =>
+                      onClickHouseType(
+                        house.stateValue as keyof typeof houseTypesInfo,
+                      )
+                    }
                     badgeActive={house.stateValue === form.watch('house_type')}
                   >
                     <Typography.P2>{house.displayValue}</Typography.P2>
@@ -233,7 +238,11 @@ export default function HouseRegisterTemplate1({
                   <BadgeButton.Outline
                     key={displayValue}
                     className="rounded-full px-5 pb-2 pt-2.5"
-                    onClick={() => onClickRentalType(stateValue)}
+                    onClick={() =>
+                      onClickRentalType(
+                        stateValue as keyof typeof rentalTypesInfo,
+                      )
+                    }
                     badgeActive={stateValue === form.watch('rental_type')}
                   >
                     <Typography.P2>{displayValue}</Typography.P2>

@@ -6,7 +6,7 @@ export type ModalType =
   | 'Profile'
   | 'RoommateApplicationStatus'
   | 'RoommateApply'
-  | 'Continue';
+  | 'Continue'
   | 'ProfileModify';
 
 export type ModalStateByType = {
@@ -80,7 +80,7 @@ export type ContinuationModalState = {
   onClickContinue: () => void;
   cancelButtonContent: string;
   continueButtonContent: string;
-}
+};
 export type ProfileModifyModalState = {
   isOpen: boolean;
   type: 'ProfileModify';

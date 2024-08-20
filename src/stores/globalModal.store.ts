@@ -159,6 +159,7 @@ export const ModalSelector = selectorFamily({
           break;
         case 'Continue':
           set(ContinuationModalAtom, newModalState as ContinuationModalState);
+          break;
         case 'ProfileModify':
           set(ProfileModifyModalAtom, newModalState as ProfileModifyModalState);
           break;

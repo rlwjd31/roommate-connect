@@ -95,7 +95,7 @@ function UserMenu({
 export default function Header({ className, isLogin, ...others }: Props) {
   // ! TODO: 알람기능 추가시 바꿔야 함
   const [hasNewAlarm] = useState(false);
-  const [isUserMenuActive, setIsUserMenuActive] = useState(false);
+  const [isUserMenuActive, _setIsUserMenuActive] = useState(false);
   const location = useLocation();
   const user = useRecoilValue(UserAtom);
   const navItems = useMemo(
