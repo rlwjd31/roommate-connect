@@ -42,6 +42,8 @@ export type IconType =
   | 'one-person'
   | 'two-people'
   | 'three-people'
+  | 'dont-mind-people'
+  | 'done'
   | 'back'
   | 'icon-male'
   | 'icon-female'
@@ -59,12 +61,16 @@ export type IconType =
   | 'share'
   | 'mini-smoke'
   | 'mini-none-smoke'
+  | 'icon-male'
+  | 'icon-female'
+  | 'icon-gender-free'
   | 'pet-heart'
   | 'pet-hate'
   | 'pet-circle'
   | 'fill-heart'
   | 'edit'
   | 'delete'
+  | 'camera-off'
   | 'edit-avatar';
 
 export type CustomIconType = {

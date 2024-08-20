@@ -26,12 +26,12 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
+import HouseDetail from '@/components/pages/HouseDetail';
 import HouseList from '@/components/pages/HouseList';
 import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';
-
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -100,8 +100,8 @@ const routes: RouteType[] = [
         shouldProtected: true,
       },
       {
-        path: 'house-detail/:houseId',
-        element: <h1>House Detail Page</h1>,
+        path: 'house/:houseId',
+        element: <HouseDetail />,
         shouldProtected: true,
       },
       {
