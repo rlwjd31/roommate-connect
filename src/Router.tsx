@@ -27,6 +27,11 @@ import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
 import HouseDetail from '@/components/pages/HouseDetail';
+import HouseList from '@/components/pages/HouseList';
+import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
+import MyActivity from '@/components/pages/MyActivity';
+import MyAccount from '@/components/pages/MyAccount';
+import MyBookmark from '@/components/pages/MyBookmark';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -82,19 +87,17 @@ const routes: RouteType[] = [
       },
       {
         path: 'house',
-        element: (
-          <span>
-            house page
-            <Outlet />
-          </span>
-        ),
-        children: [
-          {
-            path: 'regist',
-            element: <HouseRegister />,
-            shouldProtected: true,
-          },
-        ],
+        element: <HouseList />,
+      },
+      {
+        path: 'house/regist',
+        element: <HouseRegister />,
+        shouldProtected: true,
+      },
+      {
+        path: 'house/edit/:houseId',
+        element: <HouseRegister />,
+        shouldProtected: true,
       },
       {
         path: 'house/:houseId',
@@ -147,20 +150,16 @@ const routes: RouteType[] = [
         element: <SignUpProfileOutro />,
       },
       {
-        path: 'account',
+        path: 'mypage',
         shouldProtected: true,
-        element: (
-          <div>
-            My Account page(myPage할 때 sidebar UI먼저 작업 필요해 보임)
-            <Outlet />
-          </div>
-        ),
-        // ! TODO: 아래는 my-page의 알림 설정 mock page -> 추후 재조정
+        element: <MyPageLayoutTemplate />,
         children: [
-          {
-            path: 'alert-settings',
-            element: <h1>알림 설정</h1>,
-          },
+          { path: 'activity', element: <MyActivity /> },
+          { path: 'bookmark', element: <MyBookmark /> },
+          { path: 'account', element: <MyAccount /> },
+          { path: 'mate', element: <h1>준비중...</h1> },
+          { path: 'alarm', element: <h1>준비중...</h1> },
+          { path: 'theme', element: <h1>준비중...</h1> },
         ],
       },
     ],

@@ -27,6 +27,7 @@ import StepNavLinks from '@/components/molecules/StepNavLinks';
 import {
   AlertModalState,
   ConfirmModalState,
+  ContinuationModalState,
   ProfileModalState,
   RoommateApplicationState,
   RoommateApplyState,
@@ -77,6 +78,7 @@ export default function ComponentTest() {
       closeConfirmModal();
     },
   };
+
   const { setModalState: setProfileModal, closeModal: closeProfileModal } =
     useModal('Profile');
   const profileModalContext: ProfileModalState = {
@@ -147,6 +149,28 @@ export default function ComponentTest() {
       closeRoommateApplyModal();
     },
   };
+
+  const {
+    setModalState: setContinuationModal,
+    closeModal: closeContinuationModal,
+  } = useModal('Continue');
+  const continuationModalContext: ContinuationModalState = {
+    isOpen: true,
+    type: 'Continue',
+    title: '저장된 글이 있어요!',
+    message: `저장된 글을 불러와 이어서 작성할 수 있습니다.
+      취소를 누르면 저장된 글은 삭제됩니다.`,
+    continueButtonContent: '이어쓰기',
+    cancelButtonContent: '취소',
+    onClickCancel: () => {
+      closeContinuationModal();
+    },
+    onClickContinue: () => {
+      alert('fetching 중');
+      closeContinuationModal();
+    },
+  };
+
   // ******************************* modal 관련 state *******************************
 
   const labelStepContents = [
@@ -828,6 +852,13 @@ export default function ComponentTest() {
         onClick={() => setRoommateApplyModal(RoommateApplyModalContext)}
       >
         Roommate modal 열기
+      </button>
+      <button
+        type="button"
+        className="mb-10"
+        onClick={() => setContinuationModal(continuationModalContext)}
+      >
+        Continuation Modal 열기
       </button>
     </div>
   );

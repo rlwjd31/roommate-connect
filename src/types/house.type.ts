@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const HouseForm = z.object({
   house_img: z
     .array(z.string())
-    .min(1, { message: '최소 1개 이상의 하우스 사진을 등록해주세요.' })
+    .min(4, { message: '최소 4개 이상의 하우스 사진을 등록해주세요.' })
     .max(10, { message: '최대 10개의 사진만 등록 가능합니다.' }),
   representative_img: z.string(),
   post_title: z.string().min(2, { message: '제목은 2글자 이상이어야 합니다.' }),
@@ -63,7 +63,8 @@ export const HouseForm = z.object({
   }),
   house_appeal: z
     .array(z.string(), { required_error: '우리 집의 매력을 작성해주세요.' })
-    .min(1, { message: '1개 이상의 특징을 작성해주세요.' }),
+    .min(1, { message: '1개 이상의 특징을 작성해주세요.' })
+    .max(5),
   term: z
     .tuple([
       z
@@ -90,3 +91,16 @@ export const HouseForm = z.object({
 });
 
 export type HouseFormType = z.infer<typeof HouseForm>;
+const HouseCard = HouseForm.pick({
+  representative_img: true,
+  house_type: true,
+  rental_type: true,
+  deposit_price: true,
+  monthly_price: true,
+  house_appeal: true,
+  region: true,
+  district: true,
+  term: true,
+}).required();
+
+export type HouseCardType = z.infer<typeof HouseCard> & { id: string };
