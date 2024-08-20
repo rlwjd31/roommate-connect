@@ -1,3 +1,5 @@
+import { SignUpProfileType } from '@/types/signUp.type';
+
 export type ModalType =
   | 'Alert'
   | 'Confirm'
@@ -5,6 +7,7 @@ export type ModalType =
   | 'RoommateApplicationStatus'
   | 'RoommateApply'
   | 'Continue';
+  | 'ProfileModify';
 
 export type ModalStateByType = {
   Alert: AlertModalState;
@@ -13,6 +16,7 @@ export type ModalStateByType = {
   RoommateApplicationStatus: RoommateApplicationState;
   RoommateApply: RoommateApplyState;
   Continue: ContinuationModalState;
+  ProfileModify: ProfileModifyModalState;
 };
 
 export type AlertModalState = {
@@ -76,4 +80,9 @@ export type ContinuationModalState = {
   onClickContinue: () => void;
   cancelButtonContent: string;
   continueButtonContent: string;
+}
+export type ProfileModifyModalState = {
+  isOpen: boolean;
+  type: 'ProfileModify';
+  userInfo: SignUpProfileType | null;
 };

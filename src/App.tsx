@@ -19,6 +19,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Router />
         {isDev && <ReactQueryDevtools initialIsOpen={false} />}
+        <GlobalModal />
       </QueryClientProvider>
       <ToastContainer
         position="top-right"
@@ -33,7 +34,6 @@ function App() {
         stacked
         pauseOnFocusLoss={false}
       />
-      <GlobalModal />
     </RecoilRoot>
   );
 }

@@ -24,6 +24,7 @@ export type IconType =
   | 'google-logo'
   | 'invisible'
   | 'kakaotalk-logo'
+  | 'kakaotalk-logo-text'
   | 'visible'
   | 'alarm-exist'
   | 'alarm-none'
@@ -52,6 +53,26 @@ export type IconType =
   | 'pet-hart'
   | 'pet-circle'
   | 'pet-hate';
+  | 'dont-mind-people'
+  | 'done'
+  | 'mini-heart'
+  | 'page-prev'
+  | 'page-next'
+  | 'search'
+  | 'heart'
+  | 'share'
+  | 'mini-smoke'
+  | 'mini-none-smoke'
+  | 'icon-male'
+  | 'icon-female'
+  | 'icon-gender-free'
+  | 'pet-heart'
+  | 'pet-hate'
+  | 'pet-circle'
+  | 'fill-heart'
+  | 'edit'
+  | 'delete'
+  | 'edit-avatar';
 
 export type CustomIconType = {
   fill?: ColorType;
