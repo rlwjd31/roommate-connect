@@ -21,6 +21,7 @@ import {
 } from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 import { CHAT_KEYS } from '@/constants/queryKeys';
+import { MESSAGE_KEYS } from '@/constants/queryKeys/chat';
 
 export default function ChatRoom() {
   const params = useParams<{ chatRoomId: string }>();
@@ -35,7 +36,7 @@ export default function ChatRoom() {
   const lastReadMutation = useUpdateLastRead();
   const sendMessageMutation = useSendMessage();
   const { chatPartnerInfo } = queryClient.getQueryData(
-    CHAT_KEYS.LIST_INFO({ userId: userInfo?.id as string, chatPartnerId }),
+    CHAT_KEYS.LIST_INFO({ userId: userInfo?.id, chatPartnerId }),
   ) as {
     newChatCount: number;
     chatPartnerInfo: Tables<'user'>;
@@ -53,7 +54,7 @@ export default function ChatRoom() {
         },
         callbackFn: () => {
           queryClient.invalidateQueries({
-            queryKey: ['MessagesGroupByDate'],
+            queryKey: MESSAGE_KEYS.ALL,
           });
         },
       },

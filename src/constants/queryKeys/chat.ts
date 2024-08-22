@@ -1,20 +1,22 @@
 const CHAT_KEYS = {
   ALL: ['chat'] as const,
-  LIST: (userId: string) => [...CHAT_KEYS.ALL, 'list', { userId }],
+  LIST: ({userId}:{userId: string | undefined}) =>
+    [...CHAT_KEYS.ALL, 'list', { userId }] as const,
   LIST_INFO: ({
     userId,
     chatPartnerId,
   }: {
-    userId: string;
-    chatPartnerId: string;
-  }) => [...CHAT_KEYS.ALL, 'listInfo', { userId, chatPartnerId }],
+    userId: string | undefined;
+    chatPartnerId: string | undefined;
+  }) => [...CHAT_KEYS.ALL, 'listInfo', { userId, chatPartnerId }] as const,
 };
 
-export { CHAT_KEYS };
+const MESSAGE_KEYS = {
+  ALL: ['message'] as const,
+  CHAT_ROOM: ({ chatRoomId }: { chatRoomId: string | undefined }) => [
+    ...MESSAGE_KEYS.ALL,
+    { chatRoomId },
+  ],
+};
 
-// * queryKeys
-// * ['chatRoomList', userId]
-// * ['chatRoomInfo', userId, chatPartnerId],
-// * ['MessagesGroupByDate', chatRoomId]
-// * - chatRoomList
-// * - chatRoomInfo
+export { CHAT_KEYS, MESSAGE_KEYS };

@@ -20,6 +20,7 @@ import {
   UserMessageType,
 } from '@/types/chat.type';
 import { CHAT_KEYS } from '@/constants/queryKeys';
+import { MESSAGE_KEYS } from '@/constants/queryKeys/chat';
 
 // TODO: suspense와 ErrorBoundary사용을 위해 throwOnError & suspense option활성화
 // db join이 table구성 상 되지 않는 관계로 dependent fetch로 구성(chatRoomListPageData 내부 참조)
@@ -152,7 +153,7 @@ export const fetchUnReadMessageCount = async (
 
 export const useChatRoomListPageData = (userId: string) => {
   const { data: chatRoomList, isLoading: isChatRoomListLoading } = useQuery({
-    queryKey: CHAT_KEYS.LIST(userId),
+    queryKey: CHAT_KEYS.LIST({ userId }),
     queryFn: () => fetchChatRoomList(userId),
     enabled: !!userId,
   });
@@ -251,7 +252,7 @@ export const useUpdateLastRead = () => {
 
 export const useGetMessagesGroupByDate = (chatRoomId: string | undefined) => {
   const { data } = useQuery({
-    queryKey: ['MessagesGroupByDate', chatRoomId],
+    queryKey: MESSAGE_KEYS.CHAT_ROOM({ chatRoomId }),
     queryFn: () => fetchMessagesGroupByDate(chatRoomId!),
     enabled: !!chatRoomId,
     select: messagesGroupByDate => {
@@ -341,7 +342,7 @@ export const useSendMessage = () => {
     onSuccess: () => {
       // * refetch updated messages
       queryClient.invalidateQueries({
-        queryKey: ['MessagesGroupByDate'],
+        queryKey: MESSAGE_KEYS.ALL,
       });
     },
   });
