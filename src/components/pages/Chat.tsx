@@ -1,11 +1,15 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQueryClient } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import { ChatList } from '@/components/templates/chats';
 import { UserAtom } from '@/stores/auth.store';
-import { useChatRoomListPageData, useOpenChatChannel } from '@/hooks/useChat';
+import {
+  useChatRoomListPageData,
+  useOpenChatChannel,
+  useUpdateLastRead,
+} from '@/hooks/useChat';
 import { MessageType } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
@@ -20,6 +24,9 @@ export default function Chat() {
     totalNewChatsCount,
     isLoading: isLoadingPageData,
   } = useChatRoomListPageData(userInfo?.id ?? '')!;
+  const lastReadMutation = useUpdateLastRead();
+  const params = useParams<{ chatRoomId: string }>();
+  const chatRoomId = params.chatRoomId as string;
   const queryClient = useQueryClient();
 
   const isChatTopRoute = /^\/chats\/?$/.test(location.pathname);
@@ -34,7 +41,18 @@ export default function Chat() {
           schema: 'public',
           table: 'messages',
         },
-        callbackFn: payload => {
+        callbackFn: () => {
+          if (isChatRoomPath) {
+            // * 상대와 대화 중일 때 상대로부터 온 메세지를 읽음처리
+            const lastReadDate = JSON.stringify(new Date());
+
+            lastReadMutation.mutate({
+              userId: userInfo?.id as string,
+              chatRoomId,
+              lastReadDate,
+            });
+          }
+
           queryClient.invalidateQueries({ queryKey: CHAT_KEYS.ALL });
         },
       },
