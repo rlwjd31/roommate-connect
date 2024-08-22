@@ -10,11 +10,13 @@ import {
   useOpenChatChannel,
   useUpdateLastRead,
 } from '@/hooks/useChat';
-import { MessageType } from '@/types/chat.type';
+import { MessageType, PostgresChangeCallback } from '@/types/chat.type';
 import Typography from '@/components/atoms/Typography';
 import { CHAT_KEYS } from '@/constants/queryKeys';
 import Loading from '@/components/pages/Loading';
 import cn from '@/libs/cn';
+import { Tables } from '@/types/supabase';
+import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 export default function Chat() {
   const userInfo = useRecoilValue(UserAtom);
@@ -41,17 +43,23 @@ export default function Chat() {
           schema: 'public',
           table: 'messages',
         },
-        callbackFn: () => {
-          if (isChatRoomPath) {
-            // * 상대와 대화 중일 때 상대로부터 온 메세지를 읽음처리
-            const lastReadDate = JSON.stringify(new Date());
+        callbackFn: (payload: RealtimePostgresChangesPayload<Tables<'messages'>>) => {
+          // * type guard
+          if ('chat_room_id' in payload.new) {
+            const { chat_room_id } = payload.new 
 
-            lastReadMutation.mutate({
-              userId: userInfo?.id as string,
-              chatRoomId,
-              lastReadDate,
-            });
+            if (isChatRoomPath && chatRoomId === chat_room_id) {
+              // * 상대와 대화 중일 때 상대로부터 온 메세지를 읽음처리
+              const lastReadDate = JSON.stringify(new Date());
+  
+              lastReadMutation.mutate({
+                userId: userInfo?.id as string,
+                chatRoomId,
+                lastReadDate,
+              });
+            }
           }
+
 
           queryClient.invalidateQueries({ queryKey: CHAT_KEYS.ALL });
         },
