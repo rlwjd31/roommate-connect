@@ -206,7 +206,7 @@ const signUpProfileValidationConfig = {
     fields: ['appeals'],
   },
   5: {
-    fields: ['gender', 'mates_number'],
+    fields: ['mate_gender', 'mate_number'],
   },
   6: {
     fields: ['mate_appeals'],
