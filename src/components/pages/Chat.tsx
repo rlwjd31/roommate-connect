@@ -32,8 +32,8 @@ export default function Chat() {
   const queryClient = useQueryClient();
 
   const isChatTopRoute = /^\/chats\/?$/.test(location.pathname);
-  const isChatRoomPath = /^\/chats\/[a-zA-Z0-9_-]+$/.test(location.pathname);
-
+  const isChatRoomRoute = /^\/chats\/[a-zA-Z0-9_-]+$/.test(location.pathname);
+  
   useOpenChatChannel<MessageType>({
     channelName: `chatRoomList`,
     realtimeEventFilters: [
@@ -50,7 +50,7 @@ export default function Chat() {
           if ('chat_room_id' in payload.new) {
             const { chat_room_id } = payload.new;
 
-            if (isChatRoomPath && chatRoomId === chat_room_id) {
+            if (isChatRoomRoute && chatRoomId === chat_room_id) {
               // * 상대와 대화 중일 때 상대로부터 온 메세지를 읽음처리
               const lastReadDate = JSON.stringify(new Date());
 
@@ -78,9 +78,9 @@ export default function Chat() {
         chatRoomListPageData={chatRoomListPageData}
         totalNewChatsCount={totalNewChatsCount}
         className={cn(
-          isChatTopRoute &&
-            'laptop:max-w-[21.75rem] laptop:border-r-0.5 laptop:border-r-brown1',
-          isChatRoomPath && 'hidden laptop:max-w-[21.75rem] laptop:flex',
+          'laptop:border-r-0.5 laptop:border-r-brown3',
+          isChatTopRoute && 'laptop:max-w-[21.75rem]',
+          isChatRoomRoute && 'hidden laptop:max-w-[21.75rem] laptop:flex',
         )}
       />
       {isChatTopRoute ? (
