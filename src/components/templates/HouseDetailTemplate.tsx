@@ -64,7 +64,7 @@ type MateStyle = {
   mate_appeals: string[];
   prefer_mate_age: number[];
 };
-const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
+const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}/house`;
 
 export default function HouseDetailTemplate(props: {
   houseData: HouseData;
@@ -237,7 +237,7 @@ export default function HouseDetailTemplate(props: {
               onClick={() => setModal(false)}
             />
             <Container.FlexRow
-              className="absolute bottom-8 left-2/4 -translate-x-2/4 items-center 
+              className="absolute bottom-8 left-2/4 -translate-x-2/4 items-center
              gap-2 text-brown tablet:-bottom-2 tablet:translate-y-full"
             >
               <Typography.P1>{carouselStep + 1}</Typography.P1> /
@@ -248,7 +248,7 @@ export default function HouseDetailTemplate(props: {
       )}
       <Container.FlexRow className="relative gap-5">
         <Img
-          className=" size-[390px] flex-1 shrink-0 laptop:size-[470px] desktop:size-[588px] [&>img]:object-fill "
+          className=" size-[390px] flex-1 shrink-0 desktop:size-[588px] laptop:size-[470px] [&>img]:object-fill "
           src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${houseData.representative_img}`}
         />
         <Button.Ghost
@@ -258,7 +258,7 @@ export default function HouseDetailTemplate(props: {
           <Typography.P1>1</Typography.P1> /
           <Typography.P1>{houseData.house_img.length + 1}</Typography.P1>
         </Button.Ghost>
-        <Container.Grid className="relative hidden max-h-[440px] flex-1 grid-cols-2 grid-rows-2 gap-5 laptop:grid laptop:max-h-[470px] desktop:max-h-[588px] ">
+        <Container.Grid className="relative hidden max-h-[440px] flex-1 grid-cols-2 grid-rows-2 gap-5 desktop:max-h-[588px] laptop:grid laptop:max-h-[470px] ">
           {houseData &&
             houseData.house_img
               .slice(0, 4)
@@ -369,7 +369,7 @@ export default function HouseDetailTemplate(props: {
                 </>
               )}
             </Container.FlexRow>
-            <Container.FlexRow className="gap-5 tablet:gap-7 laptop:gap-8">
+            <Container.FlexRow className="gap-5 laptop:gap-8 tablet:gap-7">
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost
                   iconType={bookmark ? 'fill-heart' : 'heart'}
@@ -390,7 +390,7 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexRow>
         </Container.FlexCol>
         <Divider.Col className="my-8 border-t-0 laptop:my-11" />
-        <Container className="flex flex-col justify-between gap-14 laptop:gap-20 desktop:flex-row">
+        <Container className="flex flex-col justify-between gap-14 desktop:flex-row laptop:gap-20">
           <Container.FlexCol className="flex-1 gap-11 text-brown">
             <Container.FlexRow className="items-center gap-4 ">
               {/* TODO: Avatar component 적용 */}

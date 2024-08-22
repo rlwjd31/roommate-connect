@@ -26,7 +26,7 @@ export default function MultiImageForm({
   isEditMode,
 }: MultiImageFormProp) {
   const IMAGE_PER_PAGE = 3;
-  const HOUSE_STORAGE_URL = import.meta.env.VITE_SUPABASE_HOUSE_STORAGE_URL;
+  const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}/house`;
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [displayedImages, setDisplayedImages] = useState<string[]>([]);
   const selectedRepresentativeImage = form.watch('representative_img');
@@ -204,7 +204,7 @@ export default function MultiImageForm({
                   <Input
                     type="radio"
                     id={`image_${index}`}
-                    className="absolute bottom-3 right-3 z-10 h-7 w-7 accent-point"
+                    className="absolute bottom-3 right-3 z-10 size-7 accent-point"
                     checked={imgSrc.includes(selectedRepresentativeImage)}
                     onChange={() => setRepresentativeImage(imgSrc)}
                   />
