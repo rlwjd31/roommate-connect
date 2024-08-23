@@ -16,8 +16,6 @@ import SignIn from '@/components/pages/SignIn';
 import SignUp from '@/components/pages/SignUp';
 import About from '@/components/pages/About';
 import SignUpProfileOutro from '@/components/pages/SignUpProfileOutro';
-import Chat from '@/components/pages/Chat';
-import ChatRoom from '@/components/templates/ChatRoom';
 import { IsInitializingSession, SessionAtom } from '@/stores/auth.store';
 import Loading from '@/components/pages/Loading';
 import SignPasswordReset from '@/components/pages/SignPasswordReset';
@@ -25,6 +23,8 @@ import SignUpdatePassword from '@/components/pages/SignUpdatePassword';
 import SignUpEmail from '@/components/pages/SignUpEmail';
 import SignUpInfo from '@/components/pages/SignUpInfo';
 import HouseRegister from '@/components/pages/HouseRegister';
+import { ChatRoom } from '@/components/templates/chats';
+import Chat from '@/components/pages/Chat';
 import HouseDetail from '@/components/pages/HouseDetail';
 import HouseList from '@/components/pages/HouseList';
 import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
@@ -47,9 +47,18 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
   const isInitializingSession = useRecoilValue(IsInitializingSession);
   const [isDelaying, setIsDelaying] = useState(true);
 
+  // ! TODO: 하위 컴포넌트에서 초기 렌더링 시 user의 정보를 참조하고 있어 발생하는 오류를
+  // ! user가 초기화 중일 때는 하위 컴포넌트의 렌더링을 막고 user 정보 초기화가 완료되었을 시만
+  // ! 하위 컴포넌트를 렌더링 함.
+  if (isInitializingSession) return <Loading text="로그인 정보 확인 중" />;
+
   if (!isInitializingSession && !session) {
     return isDelaying ? (
-      <Loading delayTime={2000} setIsDelaying={setIsDelaying} />
+      <Loading
+        delayTime={2000}
+        setIsDelaying={setIsDelaying}
+        text="로그인이 필요한 서비스입니다"
+      />
     ) : (
       <Navigate to="/sign/in" />
     );
@@ -74,7 +83,7 @@ const routes: RouteType[] = [
         shouldProtected: true,
         children: [
           {
-            path: ':chatId',
+            path: ':chatRoomId',
             element: <ChatRoom />,
           },
         ],

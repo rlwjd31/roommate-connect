@@ -15,21 +15,21 @@ export type Database = {
           id: string
           last_message: string
           last_message_date: string
-          users: string[] | null
+          users: string[]
         }
         Insert: {
           created_at?: string
           id?: string
           last_message: string
           last_message_date: string
-          users?: string[] | null
+          users?: string[]
         }
         Update: {
           created_at?: string
           id?: string
           last_message?: string
           last_message_date?: string
-          users?: string[] | null
+          users?: string[]
         }
         Relationships: []
       }
@@ -225,23 +225,23 @@ export type Database = {
         Row: {
           chat_room_id: string
           created_at: string
-          from_user: string
           id: string
           message: string
+          send_by: string
         }
         Insert: {
           chat_room_id?: string
           created_at?: string
-          from_user?: string
           id?: string
           message: string
+          send_by?: string
         }
         Update: {
           chat_room_id?: string
           created_at?: string
-          from_user?: string
           id?: string
           message?: string
+          send_by?: string
         }
         Relationships: [
           {
@@ -253,9 +253,16 @@ export type Database = {
           },
           {
             foreignKeyName: "messages_from_user_fkey"
-            columns: ["from_user"]
+            columns: ["send_by"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_send_by_fkey"
+            columns: ["send_by"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -492,7 +499,7 @@ export type Database = {
           {
             foreignKeyName: "user_bookmark_id_fkey"
             columns: ["id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           },
@@ -500,33 +507,36 @@ export type Database = {
       }
       user_chat: {
         Row: {
-          chat_id: string
+          chat_room_id: string
           id: string
           last_read: string
+          user_id: string
         }
         Insert: {
-          chat_id: string
+          chat_room_id: string
           id?: string
           last_read?: string
+          user_id?: string
         }
         Update: {
-          chat_id?: string
+          chat_room_id?: string
           id?: string
           last_read?: string
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "user_chat_chat_id_fkey"
-            columns: ["chat_id"]
-            isOneToOne: false
+            foreignKeyName: "user_chat_chat_room_id_fkey"
+            columns: ["chat_room_id"]
+            isOneToOne: true
             referencedRelation: "chat_room"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "user_chat_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
+            foreignKeyName: "user_chat_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -819,7 +829,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_messages_group_by_date: {
+        Args: {
+          input_chat_room_id: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
