@@ -26,7 +26,7 @@ export default function MultiImageForm({
   isEditMode,
 }: MultiImageFormProp) {
   const IMAGE_PER_PAGE = 3;
-  const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_STORAGE_URL}/house`;
+  const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house`;
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [displayedImages, setDisplayedImages] = useState<string[]>([]);
   const selectedRepresentativeImage = form.watch('representative_img');
