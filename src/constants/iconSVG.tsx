@@ -69,6 +69,7 @@ import EditAvatar from '@/assets/icons/edit_avatar.svg?react';
 import { IconType } from '@/types/icon.type';
 import cn from '@/libs/cn';
 
+// eslint-disable-next-line no-unused-vars
 const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
   character: ({ className, ...others }) => (
     <HouseCharacter

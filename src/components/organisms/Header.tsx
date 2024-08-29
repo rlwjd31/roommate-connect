@@ -95,6 +95,7 @@ function UserMenu({
 export default function Header({ className, isLogin, ...others }: Props) {
   // ! TODO: 알람기능 추가시 바꿔야 함
   const [hasNewAlarm] = useState(false);
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [isUserMenuActive, _setIsUserMenuActive] = useState(false);
   const location = useLocation();
   const user = useRecoilValue(UserAtom);
@@ -121,7 +122,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
     >
       <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
         <Link to="/">
-          <Icon type="logo" className="h-[2.75rem] w-[5.9375rem]" />
+          <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
         </Link>
         {isNotSignPath && (
           <>

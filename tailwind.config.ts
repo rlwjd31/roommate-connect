@@ -12,8 +12,9 @@ export default {
         tablet: '768px',
         mobile: '430px',
         screen640: '640px',
+        screen530: '530px',
         screen1140: '1140px',
-        's-tablet': { min: '0px', max: '768px' },
+        's-tablet': '576px',
       },
       colors: {
         bg: '#FFFFFF',
