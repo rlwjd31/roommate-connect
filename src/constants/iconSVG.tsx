@@ -77,10 +77,7 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     />
   ),
   logo: ({ className, ...others }) => (
-    <Logo
-      className={cn('w-[6.5625rem] h-[9.1875rem]', className)}
-      {...others}
-    />
+    <Logo className={cn('w-[5.9375rem] h-[2.75rem]', className)} {...others} />
   ),
   welcome: ({ className, ...others }) => (
     <ImgWelcome
