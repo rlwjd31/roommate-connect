@@ -60,7 +60,10 @@ export default function About() {
         <Link to="/house/regist" className="w-40 bg-brown text-xl text-white">
           house register
         </Link>
-        <Link to="/house-detail/1" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to="/house/3c7a16d1-3f63-4ac1-82be-4450d39409b0"
+          className="w-40 bg-brown text-xl text-white"
+        >
           house detail
         </Link>
         <Link to="/signup-intro" className="w-40 bg-brown text-xl text-white">
