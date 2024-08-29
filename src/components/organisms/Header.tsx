@@ -15,6 +15,11 @@ import Avatar from '@/components/atoms/Avatar';
 type Props = ComponentProps<'header'> & {
   className?: string;
   isLogin: boolean;
+  exist: {
+    logo?: boolean;
+    gnb?: boolean;
+    userMenu?: boolean;
+  };
 };
 
 type GNBProps = ComponentProps<'div'> & {
@@ -92,7 +97,12 @@ function UserMenu({
     </Container.FlexRow>
   );
 }
-export default function Header({ className, isLogin, ...others }: Props) {
+export default function Header({
+  className,
+  isLogin,
+  exist,
+  ...others
+}: Props) {
   // ! TODO: 알람기능 추가시 바꿔야 함
   const [hasNewAlarm] = useState(false);
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -121,18 +131,22 @@ export default function Header({ className, isLogin, ...others }: Props) {
       {...others}
     >
       <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
-        <Link to="/">
-          <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
-        </Link>
+        {exist.logo && (
+          <Link to="/">
+            <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
+          </Link>
+        )}
         {isNotSignPath && (
           <>
-            <GNB navItems={navItems} />
-            <UserMenu
-              user={user}
-              isLogin={isLogin}
-              hasNewAlarm={hasNewAlarm}
-              isUserMenuActive={isUserMenuActive}
-            />
+            {exist.gnb && <GNB navItems={navItems} />}
+            {exist.userMenu && (
+              <UserMenu
+                user={user}
+                isLogin={isLogin}
+                hasNewAlarm={hasNewAlarm}
+                isUserMenuActive={isUserMenuActive}
+              />
+            )}
           </>
         )}
       </Container.FlexRow>

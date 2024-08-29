@@ -36,6 +36,7 @@ export default function LayoutTemplate() {
       <Header
         isLogin={!!session}
         className="hidden min-h-[8rem] s-tablet:flex"
+        exist={{ logo: true, gnb: true, userMenu: true }}
       />
       {isMobile && <h1>page별 mobile header 작성</h1>}
       <main
