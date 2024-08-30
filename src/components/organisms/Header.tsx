@@ -34,7 +34,7 @@ type UserMenuProps = ComponentProps<'div'> & {
 };
 
 // chats, lounge, house와 같은 NavLink를 관장하는 component
-function GNB({ navItems, className }: GNBProps) {
+export function GNB({ navItems, className }: GNBProps) {
   return (
     <Container.FlexRow className={cn('gap-9', className)}>
       {navItems.map(({ name, path }) => (
@@ -123,7 +123,7 @@ export default function Header({
   return (
     <header
       className={cn(
-        'flex items-center fixed left-0 top-0 z-50 w-screen bg-transparent',
+        'top-0 left-0 bg-transparent',
         isNotSignPath && 'bg-bg',
         isSignUpProfilePath && 'bg-bg',
         className,

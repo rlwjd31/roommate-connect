@@ -10,11 +10,10 @@ export default {
         desktop: '1440px',
         laptop: '1024px',
         tablet: '768px',
+        's-tablet': '576px',
         mobile: '430px',
         screen640: '640px',
-        screen530: '530px',
         screen1140: '1140px',
-        's-tablet': '576px',
       },
       colors: {
         bg: '#FFFFFF',
