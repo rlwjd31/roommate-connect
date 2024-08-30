@@ -204,7 +204,7 @@ export default function MultiImageForm({
                   <Input
                     type="radio"
                     id={`image_${index}`}
-                    className="absolute bottom-3 right-3 z-10 size-7 accent-point"
+                    className="absolute bottom-0 right-3 z-10 size-7 accent-point"
                     checked={imgSrc.includes(selectedRepresentativeImage)}
                     onChange={() => setRepresentativeImage(imgSrc)}
                   />
