@@ -185,6 +185,7 @@ export default function HouseRegister() {
     formData: HouseFormType & UserLifeStyleType & UserMateStyleType,
     temporary: 0 | 1,
   ) => {
+    const userStyle = form.getValues();
     const houseImgExcludeRep = formData.house_img.filter(
       imgName => imgName !== formData.representative_img,
     );
@@ -218,7 +219,7 @@ export default function HouseRegister() {
       registHouse(houseData);
     }
 
-    await onUpdateProfile(formData);
+    await onUpdateProfile(userStyle);
   };
 
   const handlePrevCarousel = () => setCurrentStep(prev => prev - 1);
