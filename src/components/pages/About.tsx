@@ -61,7 +61,7 @@ export default function About() {
           house register
         </Link>
         <Link
-          to="/house/6c8d290e-2c1a-4311-9d57-86ffe2042084"
+          to="/house/c57525e0-ab2b-4cee-a0b6-63e5bc25200a"
           className="w-40 bg-brown text-xl text-white"
         >
           house detail

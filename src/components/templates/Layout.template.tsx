@@ -1,9 +1,10 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import cn from '@/libs/cn';
-import Header, { GNB } from '@/components/organisms/Header';
 import { useAuthState } from '@/hooks/useSign';
+import Header from '@/components/templates/Header';
+import { GNB } from '@/components/organisms/header';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
@@ -33,17 +34,8 @@ export default function LayoutTemplate() {
     };
   }, [isSTabletBreakPoint]);
 
-  const navItems = useMemo(
-    () => [
-      { name: 'chats', path: '/chats' },
-      { name: 'lounge', path: '/lounge' },
-      { name: 'house', path: '/house' },
-    ],
-    [],
-  );
-
   return (
-    <div className="relative">
+    <>
       {/* ! signupProfile에서는 mobile에서 header가 사라지므로 이에 대한 처리를 해줘야 함 */}
       {!isSTabletBreakPoint && (
         <Header
@@ -60,7 +52,6 @@ export default function LayoutTemplate() {
             commonHeaderStyle,
             'bottom-0 left-0 justify-center bg-bg',
           )}
-          navItems={navItems}
         />
       )}
       <main
@@ -71,7 +62,7 @@ export default function LayoutTemplate() {
       >
         <Outlet />
       </main>
-    </div>
+    </>
   );
 }
 
