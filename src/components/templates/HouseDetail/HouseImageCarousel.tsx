@@ -8,7 +8,7 @@ import Carousel from '@/components/organisms/Carousel';
 import ModalBackdrop from '@/components/organisms/modals/ModalBackdrop';
 import { HouseFormType } from '@/types/house.type';
 
-type HouseImageCarouselProp = {
+export type HouseImageProp = {
   houseId: string;
   representativeImg: HouseFormType['representative_img'];
   houseImg: HouseFormType['house_img'];
@@ -22,7 +22,7 @@ export default function HouseImageCarousel({
   houseImg,
   userId,
   setModal,
-}: HouseImageCarouselProp) {
+}: HouseImageProp) {
   const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house/${userId}/${houseId}`;
   const houseImages = [representativeImg, ...houseImg];
   const [carouselStep, setCarouselStep] = useState(0);

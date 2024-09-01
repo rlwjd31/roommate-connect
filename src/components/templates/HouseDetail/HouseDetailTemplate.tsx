@@ -39,6 +39,7 @@ import {
   UserMateStyleType,
 } from '@/components/pages/HouseRegister';
 import HouseImageCarousel from '@/components/templates/HouseDetail/HouseImageCarousel';
+import HouseImageTemplate from '@/components/templates/HouseDetail/HouseImageTemplate';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -61,8 +62,6 @@ export default function HouseDetailTemplate(props: {
   houseId: string;
 }) {
   const { houseData, bookmark, houseId } = props;
-
-  const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house`;
   const user = useRecoilValue(UserAtom);
   const navigate = useNavigate();
 
@@ -124,13 +123,6 @@ export default function HouseDetailTemplate(props: {
     return `${years}년 ${months}개월 이상`;
   });
 
-  const leftImg = houseData.house_img.length - 4;
-  const imgCount = () => {
-    if (leftImg < 0) return <Icon type="camera-off" />;
-    if (leftImg === 0) return '';
-    return `+ ${leftImg} 개`;
-  };
-
   const RoommateApplyModalContext: RoommateApplyState = {
     isOpen: true,
     type: 'RoommateApply',
@@ -183,46 +175,13 @@ export default function HouseDetailTemplate(props: {
           setModal={setModal}
         />
       )}
-      <Container.FlexRow className="relative gap-5">
-        <Img
-          className=" size-[390px] flex-1 shrink-0 desktop:size-[588px] laptop:size-[470px] [&>img]:object-fill "
-          src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${houseData.representative_img}`}
-        />
-        <Button.Ghost
-          onClick={() => setModal(true)}
-          className="absolute bottom-5 right-5 gap-1.5 rounded-3xl bg-white px-4 py-2 text-brown drop-shadow-md"
-        >
-          <Typography.P1>1</Typography.P1> /
-          <Typography.P1>{houseData.house_img.length + 1}</Typography.P1>
-        </Button.Ghost>
-        <Container.Grid className="relative hidden max-h-[440px] flex-1 grid-cols-2 grid-rows-2 gap-5 desktop:max-h-[588px] laptop:grid laptop:max-h-[470px] ">
-          {houseData &&
-            houseData.house_img
-              .slice(0, 4)
-              .map((src, index) => (
-                <Img
-                  key={src}
-                  src={`${HOUSE_STORAGE_URL}/${houseData.user_id}/${houseId}/${src}`}
-                  alt={`house image ${index + 1}`}
-                  className={`[&>img]:object-fill ${index === 3 && 'col-start-2 row-start-2'}`}
-                />
-              ))}
-          <Container.FlexCol
-            className={`col-start-2 row-start-2 items-center justify-center rounded-xl ${leftImg === 0 ? ' bg-brown3/30' : ' bg-brown3/50'}`}
-          >
-            <Typography.Head2 className="text-brown">
-              {imgCount()}
-            </Typography.Head2>
-          </Container.FlexCol>
-          <Button.Outline
-            onClick={() => setModal(true)}
-            className="absolute bottom-4 right-4 rounded-3xl border-white px-5  py-2 text-brown drop-shadow-md "
-          >
-            <Typography.P2>사진 모두 보기</Typography.P2>
-          </Button.Outline>
-        </Container.Grid>
-      </Container.FlexRow>
-
+      <HouseImageTemplate
+        houseId={houseId}
+        representativeImg={houseData.representative_img}
+        houseImg={houseData.house_img}
+        userId={houseData.user_id}
+        setModal={setModal}
+      />
       <Container.FlexCol>
         <Container.FlexCol className="gap-[3.25rem]">
           <Container.FlexCol className="gap-4">
@@ -254,23 +213,13 @@ export default function HouseDetailTemplate(props: {
               )}
             </Container.FlexRow>
             <Container.FlexRow className="gap-3">
-              <Container className="flex flex-wrap gap-1 tablet:inline-flex tablet:flex-row">
-                <Typography.P2 className="text-brown1">
-                  최근 등록일
-                </Typography.P2>
-                <Typography.P2 className="text-brown1">
-                  {formDate(createdAt)}
-                </Typography.P2>
-              </Container>
+              <Typography.P2 className="text-brown1">
+                {`최근 등록일 ${formDate(createdAt)}`}
+              </Typography.P2>
               <Divider.Row className="border-l-0" />
-              <Container className="flex flex-wrap gap-1 tablet:inline-flex tablet:flex-row">
-                <Typography.P2 className="text-brown1">
-                  최근 수정일
-                </Typography.P2>
-                <Typography.P2 className="text-brown1">
-                  {formDate(updatedAt)}
-                </Typography.P2>
-              </Container>
+              <Typography.P2 className="text-brown1">
+                {`최근 수정일 ${formDate(updatedAt)}`}
+              </Typography.P2>
             </Container.FlexRow>
           </Container.FlexCol>
           <Container.FlexRow className="justify-between	">
