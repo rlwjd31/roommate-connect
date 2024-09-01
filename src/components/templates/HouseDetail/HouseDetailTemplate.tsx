@@ -433,8 +433,8 @@ export default function HouseDetailTemplate(props: {
                       hover={false}
                     >
                       <Typography.P2 className="py-2.5">
-                        {houseData.user_mate_style.prefer_mate_age[0]}살-
-                        {houseData.user_mate_style.prefer_mate_age[1]}살
+                        {houseData.user_mate_style.prefer_mate_age[0] + 20}살-
+                        {houseData.user_mate_style.prefer_mate_age[1] + 20}살
                       </Typography.P2>
                     </Badge.Outline>
                   </Container.FlexRow>
