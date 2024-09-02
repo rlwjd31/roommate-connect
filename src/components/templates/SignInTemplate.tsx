@@ -24,8 +24,7 @@ import {
 } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 export default function SignInTemplate() {
   const Form = FormProvider;
   const isNotVerified = useRecoilValue(IsNotVerifiedAtom);

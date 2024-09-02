@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import {
   SignPasswordResetType,
   SignUpdatePasswordType,

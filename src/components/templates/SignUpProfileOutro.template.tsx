@@ -1,5 +1,4 @@
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';

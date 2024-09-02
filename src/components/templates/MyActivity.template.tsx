@@ -22,8 +22,7 @@ import BadgeIcon from '@/components/molecules/BadgeIcon';
 import Button from '@/components/atoms/Button';
 import useModal from '@/hooks/useModal';
 import { ProfileModifyModalState } from '@/types/modal.type';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 type MyActivityTemplateProps = {
   user: UserInfoType;
 };

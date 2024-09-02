@@ -3,8 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Divider from '@/components/atoms/Divider';

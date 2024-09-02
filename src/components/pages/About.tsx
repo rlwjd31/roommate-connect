@@ -1,7 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
 import Button from '@/components/atoms/Button';

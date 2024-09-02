@@ -2,8 +2,7 @@
 import { Children, ReactNode, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import Container from '@/components/atoms/Container';
 import IconButton from '@/components/molecules/IconButton';
 import Typography from '@/components/atoms/Typography';

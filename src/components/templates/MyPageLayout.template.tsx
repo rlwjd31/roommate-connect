@@ -1,6 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import Container from '@/components/atoms/Container';
 import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';

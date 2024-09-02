@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import { supabase } from '@/libs/supabaseClient';
 import { SignUpProfileType } from '@/types/signUp.type';
 import { createToast, errorToast, successToast } from '@/libs/toast';

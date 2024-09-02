@@ -1,8 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { routePaths } from 'Router';
-
+import routePaths from '@/constants/routePaths';
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';

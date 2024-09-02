@@ -2,7 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { routePaths } from 'Router';
+
 
 import Container from '@/components/atoms/Container';
 import FormItem from '@/components/molecules/FormItem';
@@ -10,6 +10,7 @@ import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { SignUpdatePassword, SignUpdatePasswordType } from '@/types/auth.type';
 import { useSignUpdatePassword } from '@/hooks/useSignPasswordReset';
+import routePaths from '@/constants/routePaths';
 
 export default function SignUpdatePasswordTemplate() {
   const [showPassword, setShowPassword] = useState(false);
