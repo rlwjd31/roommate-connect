@@ -16,7 +16,7 @@ export type HouseImageProp = {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function HouseImageCarousel({
+export default function ImageCarouselModal({
   houseId,
   representativeImg,
   houseImg,
