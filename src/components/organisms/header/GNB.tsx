@@ -7,10 +7,10 @@ import cn from '@/libs/cn';
 
 type GNBProps = ComponentProps<'div'>;
 
-// chats, lounge, house와 같은 NavLink를 관장하는 component
+// chat, lounge, house와 같은 NavLink를 관장하는 component
 export default function GNB({ className }: GNBProps) {
   const navItems = [
-    { name: 'chats', path: '/chats' },
+    { name: 'chat', path: '/chat' },
     { name: 'lounge', path: '/lounge' },
     { name: 'house', path: '/house' },
   ];

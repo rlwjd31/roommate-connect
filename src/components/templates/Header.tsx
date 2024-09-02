@@ -1,6 +1,6 @@
 import { ComponentProps, useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
@@ -35,7 +35,7 @@ export default function Header({
     <header className={cn('top-0 left-0 bg-bg', className)} {...others}>
       <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
         {exist.logo && (
-          <Link to="/">
+          <Link to={routePaths.root}>
             <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
           </Link>
         )}

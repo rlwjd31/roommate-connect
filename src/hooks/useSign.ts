@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
+import { routePaths } from 'Router';
 
 import { supabase } from '@/libs/supabaseClient';
 import {
@@ -141,7 +142,7 @@ export const useVerifyEmail = ({
       // * Recoil 상태로 유저정보 등록
       if (payload) setUser(payload);
       successToast('signin', successMessage);
-      navigate('/sign/up/info');
+      navigate(routePaths.signUpInfo);
     },
     onError: (error: AuthError) => {
       errorToast('signin', error.message);
@@ -156,7 +157,7 @@ export const useSignInSocial = () => {
       supabase.auth.signInWithOAuth({
         provider: payload,
         // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
-        options: { redirectTo: 'http://localhost:5173/sign' },
+        options: { redirectTo: `http://localhost:5173${routePaths.sign}` },
       }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
@@ -199,7 +200,7 @@ export const useUpdateUserInfo = () => {
       createToast('update-user-info', '기본 정보를 수정중입니다...'),
     onSuccess: () => {
       successToast('update-user-info', '프로필 정보를 설정해주세요');
-      navigate('/signup-intro');
+      navigate(routePaths.signUpProfileIntro);
     },
     onError: error => errorToast('update-user-info', error.message),
   });
@@ -251,7 +252,7 @@ export const useAuthState = () => {
               break;
             case 'SIGNED_OUT':
               setAuthState(session);
-              navigate('/sign/in');
+              navigate(routePaths.signIn);
               break;
             case 'PASSWORD_RECOVERY':
               // TODO: 추후 비밀번호 재설정 로직 구현하기 @한준

@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -33,7 +34,7 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
   const { user } = session;
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [uploadeAvatar, setUploadedAvatar] = useState<string>();
+  const [uploadAvatar, setUploadedAvatar] = useState<string>();
 
   const [isEdit, setIsEdit] = useState({ nickname: false, password: false });
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -45,7 +46,7 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
     useModal('Confirm');
   const confirmModalContext: ConfirmModalState = {
     isOpen: true,
-    type: 'Confim',
+    type: 'Confirm',
     title: '정말로 탈퇴하시겠어요?',
     message:
       '탈퇴 버튼 선택 시, 계정은 삭제되며' +
@@ -70,7 +71,7 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
   const isPending = isUpdating || isDeleting;
 
   const onClickCancel = () => {
-    navigate('/mypage/activity');
+    navigate(routePaths.myActivity);
   };
 
   const onSaveAccount = (data: AccountFormType) => {
@@ -130,7 +131,7 @@ export default function MyAccountTemplate(props: MyAccountTemplateProps) {
           <Divider.Col className="mb-8 mt-5" />
           <Container className="relative size-32">
             <Avatar.XXXL
-              src={uploadeAvatar ?? user.user_metadata.avatar_url}
+              src={uploadAvatar ?? user.user_metadata.avatar_url}
               className="cursor-auto"
             />
             <IconButton.Ghost

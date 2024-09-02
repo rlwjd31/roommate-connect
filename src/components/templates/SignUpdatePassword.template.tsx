@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import FormItem from '@/components/molecules/FormItem';
@@ -61,7 +62,7 @@ export default function SignUpdatePasswordTemplate() {
                   확인
                 </Typography.P3>
               </Button.Fill>
-              <Link to="/sign/in" className="w-full">
+              <Link to={routePaths.signIn} className="w-full">
                 <Button.Outline
                   className="mx-auto my-[1.25rem] w-full rounded-[10px]"
                   disabled={isPending}

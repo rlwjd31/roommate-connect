@@ -50,7 +50,7 @@ export default function ComponentTest() {
   // ****************************** modal 관련 state *******************************
   const { setModalState: setAlertModal, closeModal: closeAlertModal } =
     useModal('Alert');
-  const alertModaContext: AlertModalState = {
+  const alertModalContext: AlertModalState = {
     isOpen: true,
     type: 'Alert',
     title: '알림',
@@ -65,7 +65,7 @@ export default function ComponentTest() {
     useModal('Confirm');
   const confirmModalContext: ConfirmModalState = {
     isOpen: true,
-    type: 'Confim',
+    type: 'Confirm',
     title: '친구 차단',
     message: '선택한 유저를 차단하시겠습니까?',
     confirmButtonContent: '차단',
@@ -619,23 +619,23 @@ export default function ComponentTest() {
       <h1 className="my-12 text-Head1">Container</h1>
       <h2 className="my-3 text-Head3">Container Grid</h2>
       <Container.Grid className="grid-cols-2 grid-rows-2 bg-brown2">
-        <div>someting</div>
-        <div>someting</div>
-        <div>someting</div>
-        <div>someting</div>
+        <div>something</div>
+        <div>something</div>
+        <div>something</div>
+        <div>something</div>
       </Container.Grid>
       <br />
       <h2 className="my-3 text-Head3">Container FlexRow</h2>
       <Container.FlexRow className="gap-2 bg-subColor1">
-        <div>someting</div>
-        <div>someting</div>
+        <div>something</div>
+        <div>something</div>
       </Container.FlexRow>
       <br />
       <h2 className="my-3 text-Head3">Container FlexCol</h2>
       <Container.FlexCol className="gap-3 bg-brown1">
-        <div>someting</div>
-        <div>someting</div>
-        <div>someting</div>
+        <div>something</div>
+        <div>something</div>
+        <div>something</div>
       </Container.FlexCol>
       <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
       {/* selector test */}
@@ -821,7 +821,7 @@ export default function ComponentTest() {
       <button
         className="mb-10"
         type="button"
-        onClick={() => setAlertModal(alertModaContext)}
+        onClick={() => setAlertModal(alertModalContext)}
       >
         Alert modal 열기
       </button>

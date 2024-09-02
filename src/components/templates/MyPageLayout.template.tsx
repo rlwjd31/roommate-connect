@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from 'react-router-dom';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import Link from '@/components/atoms/Link';
@@ -13,7 +14,7 @@ type MyPageSideBarItemProps = {
 function MyPageSideBarItem(props: MyPageSideBarItemProps) {
   const { isActive, path, name } = props;
   return (
-    <Link to={`/mypage/${path}`}>
+    <Link to={`${routePaths.myPage}/${path}`}>
       <Typography.SubTitle3 className={isActive ? 'text-brown' : 'text-brown2'}>
         {name}
       </Typography.SubTitle3>

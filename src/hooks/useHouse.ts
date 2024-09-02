@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { FileObject } from '@supabase/storage-js';
 import { useNavigate } from 'react-router-dom';
+import { routePaths } from 'Router';
 
 import {
   createToast,
@@ -241,8 +242,8 @@ export const useHouseRegist = () => {
       const images = [representative_img, ...house_img];
       await saveImageStorage(user_id, images, houseId);
       successToast('uploadHousePost', '게시글이 저장되었습니다.');
-      if (temporary === 1) navigate(`/house/${houseId}`);
-      else navigate(`/house`);
+      if (temporary === 1) navigate(routePaths.houseDetail(houseId));
+      else navigate(routePaths.house);
     },
   });
   return { registHouse, isRegistHouse };
@@ -312,7 +313,7 @@ export const useHouseUpdate = () => {
         await saveImageStorage(user_id, images, houseId);
         removeToast(toastId as string);
         successToast('uploadHousePost', '게시글이 업데이트되었습니다.');
-        navigate(`/house/${houseId}`);
+        navigate(routePaths.houseEdit(houseId));
       }
     },
   });
@@ -379,7 +380,7 @@ export const useHouseList = () =>
         .eq('temporary', 1)
         .range(pageParam * 12, (pageParam + 1) * 11),
     initialPageParam: 0,
-    getNextPageParam: (lastPage, _allPages, lastPageParam, _allPageParams) =>
+    getNextPageParam: (lastPage, _allPages, lastPageParam) =>
       (lastPage.count as number) - (lastPageParam + 1) * 12 > 0
         ? lastPageParam + 1
         : undefined,

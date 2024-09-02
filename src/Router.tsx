@@ -42,6 +42,40 @@ type ProtectedRouterType = {
   children: ReactElement<{ isLogin?: boolean }>;
 };
 
+
+export const routePaths = {
+  root: '/',
+  about: '/about',
+  chat: '/chat',
+  chatRoom: (chatRoomId?: string) =>
+    chatRoomId ? `/chat/${chatRoomId}` : '/chat/:chatRoomId',
+  lounge: '/lounge',
+  house: '/house',
+  houseRegister: '/house/regist',
+  houseEdit: (houseId?: string) =>
+    houseId ? `/house/edit/${houseId}` : '/house/edit/:houseId',
+  houseDetail: (houseId?: string) =>
+    houseId ? `/house/${houseId}` : '/house/:houseId',
+  sign: '/sign',
+  signIn: '/sign/in',
+  signUp: '/sign/up',
+  signUpEmail: '/sign/up/email',
+  signUpInfo: '/sign/up/info',
+  signPasswordReset: '/sign/password',
+  signUpdatePassword: '/sign/update-password',
+  signUpProfileIntro: '/signup-intro',
+  signUpProfile: '/signup-profile',
+  signUpProfileOutro: '/signup-outro',
+  componentTest: '/component-test',
+  myPage: '/mypage',
+  myActivity: '/mypage/activity',
+  myBookmark: '/mypage/bookmark',
+  myAccount: '/mypage/account',
+  myMate: '/mypage/mate',
+  myAlarm: '/mypage/alarm',
+  myTheme: '/mypage/theme',
+} as const;
+
 function ProtectedRouter({ children }: ProtectedRouterType) {
   const session = useRecoilValue(SessionAtom);
   const isInitializingSession = useRecoilValue(IsInitializingSession);
@@ -60,7 +94,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
         text="로그인이 필요한 서비스입니다"
       />
     ) : (
-      <Navigate to="/sign/in" />
+      <Navigate to={routePaths.signIn} />
     );
   }
 
@@ -68,9 +102,10 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
   return children;
 }
 
+
 const routes: RouteType[] = [
   {
-    path: '/',
+    path: routePaths.root,
     element: <LayoutTemplate />,
     children: [
       {
@@ -78,50 +113,50 @@ const routes: RouteType[] = [
         element: <About />,
       },
       {
-        path: 'chats',
+        path: routePaths.chat,
         element: <Chat />,
-        shouldProtected: true,
+        shouldProtected: false,
         children: [
           {
-            path: ':chatRoomId',
+            path: routePaths.chatRoom(),
             element: <ChatRoom />,
           },
         ],
       },
       {
-        path: 'lounge',
+        path: routePaths.lounge,
         shouldProtected: true,
         element: <span>lounge page</span>,
       },
       {
-        path: 'house',
+        path: routePaths.house,
         element: <HouseList />,
       },
       {
-        path: 'house/regist',
+        path: routePaths.houseRegister,
+        element: <HouseRegister />,
+        shouldProtected: false,
+      },
+      {
+        path: routePaths.houseEdit(),
         element: <HouseRegister />,
         shouldProtected: true,
       },
       {
-        path: 'house/edit/:houseId',
-        element: <HouseRegister />,
-        shouldProtected: true,
-      },
-      {
-        path: 'house/:houseId',
+        path: routePaths.houseDetail(),
         element: <HouseDetail />,
-        shouldProtected: true,
+        shouldProtected: false,
       },
       {
-        path: 'sign',
+        path: routePaths.sign,
         element: <SignLayoutTemplate />,
         children: [
           {
-            path: 'in',
+            path: routePaths.signIn,
             element: <SignIn />,
           },
           {
-            path: 'up',
+            path: routePaths.signUp,
             element: <SignUp />,
             children: [
               { index: true, element: <SignUpEmail /> },
@@ -129,45 +164,45 @@ const routes: RouteType[] = [
             ],
           },
           {
-            path: 'password',
+            path: routePaths.signPasswordReset,
             element: <SignPasswordReset />,
           },
           {
-            path: 'update-password',
+            path: routePaths.signUpdatePassword,
             element: <SignUpdatePassword />,
           },
         ],
       },
       {
-        path: 'signup-intro',
+        path: routePaths.signUpProfileIntro,
         shouldProtected: true,
         element: <SignUpProfileIntro />,
       },
       {
-        path: 'signup-profile',
+        path: routePaths.signUpProfile,
         // shouldProtected: true,
         element: <SignUpProfile />,
       },
       {
-        path: 'component-test',
-        element: <ComponentTest />,
-      },
-      {
-        path: 'signup-outro',
+        path: routePaths.signUpProfileOutro,
         shouldProtected: true,
         element: <SignUpProfileOutro />,
       },
       {
-        path: 'mypage',
+        path: routePaths.componentTest,
+        element: <ComponentTest />,
+      },
+      {
+        path: routePaths.myPage,
         shouldProtected: true,
         element: <MyPageLayoutTemplate />,
         children: [
-          { path: 'activity', element: <MyActivity /> },
-          { path: 'bookmark', element: <MyBookmark /> },
-          { path: 'account', element: <MyAccount /> },
-          { path: 'mate', element: <h1>준비중...</h1> },
-          { path: 'alarm', element: <h1>준비중...</h1> },
-          { path: 'theme', element: <h1>준비중...</h1> },
+          { path: routePaths.myActivity, element: <MyActivity /> },
+          { path: routePaths.myBookmark, element: <MyBookmark /> },
+          { path: routePaths.myAccount, element: <MyAccount /> },
+          { path: routePaths.myMate, element: <h1>준비중...</h1> },
+          { path: routePaths.myAlarm, element: <h1>준비중...</h1> },
+          { path: routePaths.myTheme, element: <h1>준비중...</h1> },
         ],
       },
     ],

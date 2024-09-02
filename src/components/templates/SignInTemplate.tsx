@@ -24,6 +24,7 @@ import {
 } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
+import { routePaths } from 'Router';
 
 export default function SignInTemplate() {
   const Form = FormProvider;
@@ -116,9 +117,9 @@ export default function SignInTemplate() {
                 </Container.FlexRow>
               )}
               <div className="mt-1.5 flex flex-row-reverse gap-2">
-                <Link to="/sign/up">회원가입</Link>
+                <Link to={routePaths.signUp}>회원가입</Link>
                 <Divider.Row />
-                <Link to="/sign/password">비밀번호 찾기</Link>
+                <Link to={routePaths.signPasswordReset}>비밀번호 찾기</Link>
               </div>
               <Button.Fill
                 type="submit"

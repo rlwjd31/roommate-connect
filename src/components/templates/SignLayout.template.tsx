@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import { routePaths } from 'Router';
 
 import cn from '@/libs/cn';
 import Container from '@/components/atoms/Container';
@@ -27,11 +28,11 @@ export default function SignLayoutTemplate() {
               autoClose: 3000,
             });
 
-            navigate('/sign/up/info');
-          } 
-          // 성공적으로 user추가정보(birth, gender, nickname)를 update했을 때 
+            navigate(routePaths.signUpInfo);
+          }
+          // 성공적으로 user추가정보(birth, gender, nickname)를 update했을 때
           else {
-            navigate('/signup-intro');
+            navigate(routePaths.signUpProfileIntro);
           }
         }, 0);
       }

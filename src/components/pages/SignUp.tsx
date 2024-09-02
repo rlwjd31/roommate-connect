@@ -1,4 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -8,7 +9,7 @@ export default function SignUp() {
   const navigate = useNavigate();
 
   const onClickPrevButton = () => {
-    navigate('/sign/in');
+    navigate(routePaths.signIn);
   };
 
   return (

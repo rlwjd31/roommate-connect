@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { routePaths } from 'Router';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -55,7 +56,7 @@ export default function ChatList({
             }) => (
               <NavLink
                 key={chatRoomId}
-                to={`/chats/${chatRoomId}`}
+                to={routePaths.chatRoom(chatRoomId)}
                 state={{ chatPartnerId }}
                 onClick={() => {
                   lastReadMutation.mutate({ userId: userInfo.id, chatRoomId });

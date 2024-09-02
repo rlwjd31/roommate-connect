@@ -1,3 +1,5 @@
+import { routePaths } from 'Router';
+
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
@@ -19,7 +21,7 @@ export default function SignUpProfileOutroTemplate() {
       </Container.FlexCol>
       <Icon type="seeking-house" />
       <Container.FlexRow className="items-center justify-center gap-3">
-        <Link to="/house">
+        <Link to={routePaths.house}>
           <Button.Fill className="rounded-full px-11 py-4 text-bg">
             <Typography.P1>홈으로</Typography.P1>
           </Button.Fill>

@@ -7,6 +7,7 @@ import IconButton from '@/components/molecules/IconButton';
 import Avatar from '@/components/atoms/Avatar';
 import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
+import { routePaths } from 'Router';
 
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
@@ -42,7 +43,7 @@ export default function UserMenu({
       )}
       {!isLogin && (
         <Container.FlexRow className="items-center gap-4">
-          <Link to="/sign/in">
+          <Link to={routePaths.signIn}>
             <Typography.SpanMid1
               lang="en"
               className="cursor-pointer text-[0.9375rem] font-semibold uppercase tracking-widest text-brown hover:text-brown1"
