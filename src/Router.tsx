@@ -31,6 +31,7 @@ import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';
+import routePaths from '@/constants/routePaths';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -41,40 +42,6 @@ type RouteType = RouteObject & {
 type ProtectedRouterType = {
   children: ReactElement<{ isLogin?: boolean }>;
 };
-
-
-export const routePaths = {
-  root: '/',
-  about: '/about',
-  chat: '/chat',
-  chatRoom: (chatRoomId?: string) =>
-    chatRoomId ? `/chat/${chatRoomId}` : '/chat/:chatRoomId',
-  lounge: '/lounge',
-  house: '/house',
-  houseRegister: '/house/regist',
-  houseEdit: (houseId?: string) =>
-    houseId ? `/house/edit/${houseId}` : '/house/edit/:houseId',
-  houseDetail: (houseId?: string) =>
-    houseId ? `/house/${houseId}` : '/house/:houseId',
-  sign: '/sign',
-  signIn: '/sign/in',
-  signUp: '/sign/up',
-  signUpEmail: '/sign/up/email',
-  signUpInfo: '/sign/up/info',
-  signPasswordReset: '/sign/password',
-  signUpdatePassword: '/sign/update-password',
-  signUpProfileIntro: '/signup-intro',
-  signUpProfile: '/signup-profile',
-  signUpProfileOutro: '/signup-outro',
-  componentTest: '/component-test',
-  myPage: '/mypage',
-  myActivity: '/mypage/activity',
-  myBookmark: '/mypage/bookmark',
-  myAccount: '/mypage/account',
-  myMate: '/mypage/mate',
-  myAlarm: '/mypage/alarm',
-  myTheme: '/mypage/theme',
-} as const;
 
 function ProtectedRouter({ children }: ProtectedRouterType) {
   const session = useRecoilValue(SessionAtom);
@@ -101,7 +68,6 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
   // * session이 초기화되었을 때만 도달하는 영역
   return children;
 }
-
 
 const routes: RouteType[] = [
   {
