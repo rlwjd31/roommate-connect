@@ -29,39 +29,25 @@ export default function Header({
   const [hasNewAlarm] = useState(false);
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const [isUserMenuActive, _setIsUserMenuActive] = useState(false);
-  const location = useLocation();
   const user = useRecoilValue(UserAtom);
-  const isNotSignPath = !location.pathname.startsWith('/sign');
-  const isSignUpProfilePath = location.pathname.startsWith('/signup');
 
   return (
-    <header
-      className={cn(
-        'top-0 left-0 bg-transparent',
-        isNotSignPath && 'bg-bg',
-        isSignUpProfilePath && 'bg-bg',
-        className,
-      )}
-      {...others}
-    >
+    <header className={cn('top-0 left-0 bg-bg', className)} {...others}>
       <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
         {exist.logo && (
           <Link to="/">
             <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
           </Link>
         )}
-        {isNotSignPath && (
-          <>
-            {exist.gnb && <GNB />}
-            {exist.userMenu && (
-              <UserMenu
-                user={user}
-                isLogin={isLogin}
-                hasNewAlarm={hasNewAlarm}
-                isUserMenuActive={isUserMenuActive}
-              />
-            )}
-          </>
+
+        {exist.gnb && <GNB />}
+        {exist.userMenu && (
+          <UserMenu
+            user={user}
+            isLogin={isLogin}
+            hasNewAlarm={hasNewAlarm}
+            isUserMenuActive={isUserMenuActive}
+          />
         )}
       </Container.FlexRow>
     </header>

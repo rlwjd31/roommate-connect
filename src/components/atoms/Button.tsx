@@ -37,7 +37,12 @@ buttonType.forEach(({ type, defaultClassName }) => {
     React.createElement(
       'button',
       {
-        className: `${defaultClassName} ${cn(className, isActive && 'border-transparent bg-brown4 outline outline-[3px] outline-point')}`,
+        className: cn(
+          defaultClassName,
+          className,
+          isActive &&
+            'border-transparent bg-brown4 outline outline-[3px] outline-point',
+        ),
         type: 'button',
         ...others,
       },

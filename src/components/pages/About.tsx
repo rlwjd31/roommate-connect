@@ -60,8 +60,10 @@ export default function About() {
         <Link to="/house/regist" className="w-40 bg-brown text-xl text-white">
           house register
         </Link>
+        {/* 0cb348da-028b-4271-bbf0-ad5888308729 */}
         <Link
-          to="/house/c57525e0-ab2b-4cee-a0b6-63e5bc25200a"
+          // to="/house/c57525e0-ab2b-4cee-a0b6-63e5bc25200a"
+          to="/house/0cb348da-028b-4271-bbf0-ad5888308729"
           className="w-40 bg-brown text-xl text-white"
         >
           house detail
