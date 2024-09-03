@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import cn from '@/libs/cn';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';

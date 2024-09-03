@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query';
 import { FileObject } from '@supabase/storage-js';
 import { useNavigate } from 'react-router-dom';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import {
   createToast,
   errorToast,

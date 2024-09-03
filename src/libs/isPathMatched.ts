@@ -1,6 +1,6 @@
 import { matchPath } from 'react-router-dom';
 
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 
 const isRoutePathMatched = (
   currentRoutePath: string,

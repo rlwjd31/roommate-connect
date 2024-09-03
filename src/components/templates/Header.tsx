@@ -1,7 +1,7 @@
 import { ComponentProps, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Icon from '@/components/atoms/Icon';
 import Link from '@/components/atoms/Link';

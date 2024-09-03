@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import { SessionAtom } from '@/stores/auth.store';
 import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SignUpProfileFormType } from '@/types/signUp.type';

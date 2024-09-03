@@ -7,7 +7,8 @@ import IconButton from '@/components/molecules/IconButton';
 import Avatar from '@/components/atoms/Avatar';
 import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
+
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
   isLogin: boolean;

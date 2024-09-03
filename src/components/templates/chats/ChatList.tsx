@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import cn from '@/libs/cn';

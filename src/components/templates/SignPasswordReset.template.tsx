@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';

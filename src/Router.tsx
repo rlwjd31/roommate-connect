@@ -31,7 +31,7 @@ import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';
-import routePaths from '@/constants/routePaths';
+import { routePaths } from '@/constants/route';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
