@@ -14,7 +14,6 @@ const routePaths = {
   sign: '/sign',
   signIn: '/sign/in',
   signUp: '/sign/up',
-  signUpEmail: '/sign/up/email',
   signUpInfo: '/sign/up/info',
   signPasswordReset: '/sign/password',
   signUpdatePassword: '/sign/update-password',

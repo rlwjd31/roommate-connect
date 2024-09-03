@@ -14,18 +14,19 @@ export default function LayoutTemplate() {
   const location = useLocation();
   const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(true);
 
-  const isSignPath =
-    isRoutePathMatched(location.pathname, 'sign') ||
-    isRoutePathMatched(location.pathname, 'signIn') ||
-    isRoutePathMatched(location.pathname, 'signUp') ||
-    isRoutePathMatched(location.pathname, 'signUpEmail') ||
-    isRoutePathMatched(location.pathname, 'signUpInfo') ||
-    isRoutePathMatched(location.pathname, 'signPasswordReset') ||
-    isRoutePathMatched(location.pathname, 'signUpdatePassword');
-  const isSignUpProfilePath =
-    isRoutePathMatched(location.pathname, 'signUpProfile') ||
-    isRoutePathMatched(location.pathname, 'signUpProfileIntro') ||
-    isRoutePathMatched(location.pathname, 'signUpProfileOutro');
+  const isSignPath = isRoutePathMatched(location.pathname, [
+    'sign',
+    'signIn',
+    'signUp',
+    'signUpInfo',
+    'signPasswordReset',
+    'signUpdatePassword',
+  ]);
+  const isSignUpProfilePath = isRoutePathMatched(location.pathname, [
+    'signUpProfile',
+    'signUpProfileIntro',
+    'signUpProfileOutro',
+  ]);
   const commonHeaderStyle = 'flex h-[8rem] items-center fixed w-screen z-50';
 
   const getHeaderConfig = (locationPathName: string) => {
@@ -65,12 +66,10 @@ export default function LayoutTemplate() {
 
   return (
     <>
-      {/* ! signupProfile에서는 mobile에서 header가 사라지므로 이에 대한 처리를 해줘야 함 */}
       {(isOverSTabletBreakPoint || headerConfig.isHeaderExistOnMobile) && (
         <Header
           isLogin={!!session}
           className={cn(commonHeaderStyle, isSignPath && 'bg-transparent')}
-          // TODO: page route별 header구성요소 분기처리
           exist={headerConfig}
         />
       )}
@@ -86,6 +85,7 @@ export default function LayoutTemplate() {
       <main
         className={cn(
           'flex flex-col relative max-w-[79rem] p-5 mx-auto h-screen',
+          // * isSignPath & isSignUpProfilePath에 해당하는 page는 header가 존재하기 때문
           (isSignPath || isSignUpProfilePath) && 'pt-[8rem] pb-8',
           's-tablet:pt-[8rem] px-8 pb-8',
         )}
