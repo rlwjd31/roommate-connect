@@ -5,6 +5,8 @@ import cn from '@/libs/cn';
 import { useAuthState } from '@/hooks/useSign';
 import Header from '@/components/templates/Header';
 import { GNB } from '@/components/organisms/header';
+import isRoutePathMatched from '@/libs/isPathMatched';
+import { routeHeaderInfo, routePaths } from '@/constants/route';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
@@ -12,11 +14,38 @@ export default function LayoutTemplate() {
   const location = useLocation();
   const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(true);
 
-  const isChatRoute = /^\/chats/.test(location.pathname);
-  const isChatRoomRoute = /^\/chats\/[a-zA-Z0-9_-]+$/.test(location.pathname);
-  const isSignPath = location.pathname.startsWith('/sign');
-  const isSignUpProfilePath = location.pathname.startsWith('/signup');
+  const isChatTopRoute = isRoutePathMatched(location.pathname, 'chat');
+  const isChatRoomRoute = isRoutePathMatched(location.pathname, 'chatRoom');
+  const isSignPath =
+    isRoutePathMatched(location.pathname, 'sign') ||
+    isRoutePathMatched(location.pathname, 'signIn') ||
+    isRoutePathMatched(location.pathname, 'signUp') ||
+    isRoutePathMatched(location.pathname, 'signUpEmail') ||
+    isRoutePathMatched(location.pathname, 'signUpInfo') ||
+    isRoutePathMatched(location.pathname, 'signPasswordReset') ||
+    isRoutePathMatched(location.pathname, 'signUpdatePassword');
+  const isSignUpProfilePath =
+    isRoutePathMatched(location.pathname, 'signUpProfile') ||
+    isRoutePathMatched(location.pathname, 'signUpProfileIntro') ||
+    isRoutePathMatched(location.pathname, 'signUpProfileOutro');
   const commonHeaderStyle = 'flex h-[8rem] items-center fixed w-screen z-50';
+
+  const getHeaderConfig = (locationPathName: string) => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const routePathType of Object.keys(routePaths)) {
+      if (
+        isRoutePathMatched(
+          locationPathName,
+          routePathType as keyof typeof routePaths,
+        )
+      )
+        return routeHeaderInfo[routePathType as keyof typeof routePaths];
+    }
+
+    return routeHeaderInfo.default;
+  };
+
+  const headerConfig = getHeaderConfig(location.pathname);
 
   useEffect(() => {
     const handleResize = () => {
@@ -44,15 +73,10 @@ export default function LayoutTemplate() {
           isLogin={!!session}
           className={cn(commonHeaderStyle, isSignPath && 'bg-transparent')}
           // TODO: page route별 header구성요소 분기처리
-          exist={{
-            logo: true,
-            gnb: !(isSignPath || isSignUpProfilePath),
-            userMenu: !(isSignPath || isSignUpProfilePath),
-          }}
+          exist={headerConfig}
         />
       )}
-      {/* TODO: chat page뿐만이 아닌 다른 page에 대한 sTable breakpoint에 대한 분기 처리 */}
-      {isOverSTabletBreakPoint && isChatRoute && !isChatRoomRoute && (
+      {!isOverSTabletBreakPoint && isChatTopRoute && !isChatRoomRoute && (
         <GNB
           className={cn(
             commonHeaderStyle,
