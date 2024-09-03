@@ -14,8 +14,6 @@ export default function LayoutTemplate() {
   const location = useLocation();
   const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(true);
 
-  const isChatTopRoute = isRoutePathMatched(location.pathname, 'chat');
-  const isChatRoomRoute = isRoutePathMatched(location.pathname, 'chatRoom');
   const isSignPath =
     isRoutePathMatched(location.pathname, 'sign') ||
     isRoutePathMatched(location.pathname, 'signIn') ||
@@ -68,7 +66,7 @@ export default function LayoutTemplate() {
   return (
     <>
       {/* ! signupProfile에서는 mobile에서 header가 사라지므로 이에 대한 처리를 해줘야 함 */}
-      {(isOverSTabletBreakPoint || isSignPath || isSignUpProfilePath) && (
+      {(isOverSTabletBreakPoint || headerConfig.isHeaderExistOnMobile) && (
         <Header
           isLogin={!!session}
           className={cn(commonHeaderStyle, isSignPath && 'bg-transparent')}
@@ -76,14 +74,15 @@ export default function LayoutTemplate() {
           exist={headerConfig}
         />
       )}
-      {!isOverSTabletBreakPoint && isChatTopRoute && !isChatRoomRoute && (
-        <GNB
-          className={cn(
-            commonHeaderStyle,
-            'bottom-0 left-0 justify-center bg-bg',
-          )}
-        />
-      )}
+      {!isOverSTabletBreakPoint &&
+        headerConfig.isGNBExistBottomUnderSTablet && (
+          <GNB
+            className={cn(
+              commonHeaderStyle,
+              'bottom-0 left-0 justify-center bg-bg',
+            )}
+          />
+        )}
       <main
         className={cn(
           'flex flex-col relative max-w-[79rem] p-5 mx-auto h-screen',

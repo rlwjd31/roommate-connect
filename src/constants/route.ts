@@ -33,10 +33,11 @@ const routePaths = {
 
 const routeHeaderInfo: {
   [key in keyof typeof routePaths | 'default']: {
-    logo?: boolean;
-    gnb?: boolean;
-    userMenu?: boolean;
-    gnbBottomSTablet?: boolean;
+    logo: boolean;
+    gnb: boolean;
+    userMenu: boolean;
+    isGNBExistBottomUnderSTablet?: boolean;
+    isHeaderExistOnMobile?: boolean;
   };
 } = {
   default: {
@@ -58,7 +59,7 @@ const routeHeaderInfo: {
     logo: true,
     gnb: true,
     userMenu: true,
-    gnbBottomSTablet: true,
+    isGNBExistBottomUnderSTablet: true,
   },
   chatRoom: {
     logo: true,
@@ -69,13 +70,13 @@ const routeHeaderInfo: {
     logo: true,
     gnb: true,
     userMenu: true,
-    gnbBottomSTablet: true,
+    isGNBExistBottomUnderSTablet: true,
   },
   house: {
     logo: true,
     gnb: true,
     userMenu: true,
-    gnbBottomSTablet: true,
+    isGNBExistBottomUnderSTablet: true,
   },
   houseRegister: {
     logo: true,
@@ -96,51 +97,61 @@ const routeHeaderInfo: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signIn: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUp: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpEmail: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpInfo: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signPasswordReset: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpdatePassword: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpProfileIntro: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpProfile: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   signUpProfileOutro: {
     logo: true,
     gnb: false,
     userMenu: false,
+    isHeaderExistOnMobile: true,
   },
   componentTest: {
     logo: true,
