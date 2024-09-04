@@ -3,7 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import cn from '@/libs/cn';
 import { useAuthState } from '@/hooks/useSign';
 import Header from '@/components/templates/Header';
-import isRoutePathMatched from '@/libs/isPathMatched';
+import isRoutePathMatched from '@/libs/isRoutePathMatched';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함

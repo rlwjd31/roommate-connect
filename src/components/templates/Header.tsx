@@ -4,12 +4,10 @@ import { useLocation } from 'react-router-dom';
 
 import { routeHeaderInfo, routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
-import Icon from '@/components/atoms/Icon';
-import Link from '@/components/atoms/Link';
 import cn from '@/libs/cn';
 import { UserAtom } from '@/stores/auth.store';
-import { GNB, UserMenu } from '@/components/organisms/header';
-import isRoutePathMatched from '@/libs/isPathMatched';
+import { GNB, Logo, UserMenu } from '@/components/organisms/header';
+import isRoutePathMatched from '@/libs/isRoutePathMatched';
 import useIsOverSTabletBreakpoint from '@/hooks/useIsOverSTabletBreakpoint';
 
 type Props = ComponentProps<'header'> & {
@@ -52,11 +50,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
           {...others}
         >
           <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
-            {headerConfig.logo && (
-              <Link to={routePaths.root}>
-                <Icon type="logo" className="h-[3rem] w-[5.9375rem]" />
-              </Link>
-            )}
+            {headerConfig.logo && <Logo to={routePaths.root} />}
             {headerConfig.gnb && <GNB />}
             {headerConfig.userMenu && (
               <UserMenu
