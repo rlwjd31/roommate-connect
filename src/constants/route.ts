@@ -36,7 +36,7 @@ const routeHeaderInfo: {
     gnb: boolean;
     userMenu: boolean;
     isGNBExistBottomUnderSTablet?: boolean;
-    isHeaderExistOnMobile?: boolean;
+    isHeaderExistUnderSTablet?: boolean;
   };
 } = {
   default: {
@@ -96,55 +96,55 @@ const routeHeaderInfo: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signIn: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUp: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUpInfo: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signPasswordReset: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUpdatePassword: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUpProfileIntro: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUpProfile: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   signUpProfileOutro: {
     logo: true,
     gnb: false,
     userMenu: false,
-    isHeaderExistOnMobile: true,
+    isHeaderExistUnderSTablet: true,
   },
   componentTest: {
     logo: true,

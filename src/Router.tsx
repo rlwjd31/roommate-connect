@@ -92,7 +92,11 @@ const routes: RouteType[] = [
       {
         path: routePaths.lounge,
         shouldProtected: true,
-        element: <span>lounge page</span>,
+        element: (
+          <div className="flex size-full items-center justify-center bg-black text-3xl text-white">
+            lounge page
+          </div>
+        ),
       },
       {
         path: routePaths.house,
@@ -175,8 +179,8 @@ const routes: RouteType[] = [
   },
 ];
 
-const createRoutes = (routes: RouteType[]): RouteObject[] =>
-  routes.map(route => {
+const createRoutes = (routeInfo: RouteType[]): RouteObject[] =>
+  routeInfo.map(route => {
     const { path, element, children, shouldProtected } = route;
 
     const routeObject = {
