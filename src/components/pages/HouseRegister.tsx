@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { routePaths } from '@/constants/route';
 import { SessionAtom } from '@/stores/auth.store';
 import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SignUpProfileFormType } from '@/types/signUp.type';
@@ -25,6 +25,7 @@ import {
   useFetchProfileData,
   useUserProfileUpdate,
 } from '@/hooks/useHouse';
+import cn from '@/libs/cn';
 
 export type UserLifeStyleType = {
   smoking: SignUpProfileFormType['smoking'];
@@ -101,7 +102,7 @@ export default function HouseRegister() {
             closeModal();
           },
           onClickContinue: () => {
-            navigate(`/house/edit/${tempHouseId}`);
+            navigate(routePaths.houseEdit(tempHouseId));
             closeModal();
           },
         });
@@ -251,14 +252,77 @@ export default function HouseRegister() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmitHouse)}
-        className="min-h-screen min-w-[320px] flex-col focus:scroll-auto"
-      >
-        <Container.FlexCol className="w-full tablet:pb-[5rem] s-tablet:flex-col-reverse">
+      <form onSubmit={form.handleSubmit(onSubmitHouse)} className="flex-col">
+        <Container.FlexCol className="w-full s-tablet:flex-col-reverse">
+          <Container.FlexRow
+            className={cn(
+              'sticky top-0 z-10 w-full justify-between bg-bg py-3 pb-4',
+              's-tablet:bottom-0 s-tablet:border-t-[1px] s-tablet:border-brown',
+            )}
+          >
+            <Container.FlexRow>
+              <IconButton.Outline
+                //  ! twMerge에서 s-tablet이후 border, border-brown이 border-none이 우선순위가 높아 적용되지 않아
+                //  ! border를 주고 색을 투명하게 하여 해결
+                className={cn(
+                  'rounded-[2rem] border-transparent',
+                  's-tablet:flex s-tablet:h-[3.5rem] s-tablet:w-[9.25rem] s-tablet:justify-center s-tablet:items-center s-tablet:border s-tablet:border-brown',
+                )}
+                iconType="prev"
+                iconClassName="s-tablet:hidden"
+                onClick={() => navigate(routePaths.root)}
+                disabled={isRegistHouse || isUpdateHouse}
+              >
+                <Typography.P1 className="hidden text-brown s-tablet:block">
+                  취소
+                </Typography.P1>
+              </IconButton.Outline>
+            </Container.FlexRow>
+            <Container.FlexRow className="gap-4 tablet:mb-[1rem]">
+              {currentStep === 0 && (
+                <Button.Outline
+                  className={cn(
+                    'flex justify-center rounded-[2rem] border-transparent p-2',
+                    's-tablet:h-[3.5rem] s-tablet:w-[9.25rem] s-tablet:border-brown',
+                  )}
+                  onClick={onSaveTemporary}
+                  disabled={isRegistHouse || isUpdateHouse}
+                >
+                  <Typography.P1 className="text-brown">임시저장</Typography.P1>
+                </Button.Outline>
+              )}
+              {currentStep === 0 ? (
+                <Button.Fill
+                  className="flex justify-center rounded-[2rem] s-tablet:bg-brown s-tablet:p-2 s-tablet:hover:bg-bg tablet:h-[3.5rem] tablet:w-[9.25rem]"
+                  onClick={handleNextCarousel}
+                  disabled={isRegistHouse || isUpdateHouse}
+                >
+                  <Typography.P1 className="">다음</Typography.P1>
+                </Button.Fill>
+              ) : (
+                <Container.FlexRow className="gap-4">
+                  <Button.Outline
+                    className="flex justify-center rounded-[2rem] s-tablet:border-none s-tablet:p-2 tablet:h-[3.5rem] tablet:w-[9.25rem]"
+                    onClick={handlePrevCarousel}
+                  >
+                    <Typography.P1 className="text-brown">이전</Typography.P1>
+                  </Button.Outline>
+                  <Button.Fill
+                    className="flex justify-center rounded-[2rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg tablet:h-[3.5rem] tablet:w-[9.25rem]"
+                    type="submit"
+                    disabled={isRegistHouse || isUpdateHouse}
+                  >
+                    <Typography.P1 className="text-brown tablet:text-bg">
+                      완료
+                    </Typography.P1>
+                  </Button.Fill>
+                </Container.FlexRow>
+              )}
+            </Container.FlexRow>
+          </Container.FlexRow>
           <Container.FlexCol className="mb-20 mt-[4rem] grow">
             <Container.FlexRow className="items-center gap-4">
-              <Typography.Head2 className=" text-brown">
+              <Typography.Head2 className="text-brown">
                 하우스 등록
               </Typography.Head2>
               <Typography.P1 className="text-brown1">
@@ -294,61 +358,6 @@ export default function HouseRegister() {
               </Carousel>
             </Container.FlexCol>
           </Container.FlexCol>
-          <Container.FlexRow className="fixed bottom-[calc(100vh-12rem)] w-[93%] justify-between bg-bg tablet:sticky tablet:bottom-0 tablet:w-full tablet:border-t  tablet:border-brown tablet:pt-[2.75rem] s-tablet:pb-4">
-            <Container.FlexRow>
-              <IconButton.Outline
-                className="rounded-[2rem] tablet:mr-4 tablet:flex tablet:h-[3.5rem] tablet:w-[9.25rem] tablet:justify-center s-tablet:border-none"
-                iconType="prev"
-                iconClassName="md:hidden"
-                onClick={() => navigate('/')}
-                disabled={isRegistHouse || isUpdateHouse}
-              >
-                <Typography.P1 className="hidden text-brown tablet:block">
-                  취소
-                </Typography.P1>
-              </IconButton.Outline>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-4 tablet:mb-[1rem]">
-              {currentStep === 0 && (
-                <Button.Outline
-                  className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:border-none s-tablet:p-2"
-                  onClick={onSaveTemporary}
-                  disabled={isRegistHouse || isUpdateHouse}
-                >
-                  <Typography.P1 className="text-brown">임시저장</Typography.P1>
-                </Button.Outline>
-              )}
-              {currentStep === 0 ? (
-                <Button.Fill
-                  className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg"
-                  onClick={handleNextCarousel}
-                  disabled={isRegistHouse || isUpdateHouse}
-                >
-                  <Typography.P1 className="text-brown tablet:text-bg">
-                    다음
-                  </Typography.P1>
-                </Button.Fill>
-              ) : (
-                <Container.FlexRow className="gap-4">
-                  <Button.Outline
-                    className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:border-none s-tablet:p-2"
-                    onClick={handlePrevCarousel}
-                  >
-                    <Typography.P1 className="text-brown">이전</Typography.P1>
-                  </Button.Outline>
-                  <Button.Fill
-                    className="flex justify-center rounded-[2rem] tablet:h-[3.5rem] tablet:w-[9.25rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg"
-                    type="submit"
-                    disabled={isRegistHouse || isUpdateHouse}
-                  >
-                    <Typography.P1 className="text-brown tablet:text-bg">
-                      완료
-                    </Typography.P1>
-                  </Button.Fill>
-                </Container.FlexRow>
-              )}
-            </Container.FlexRow>
-          </Container.FlexRow>
         </Container.FlexCol>
       </form>
     </Form>

@@ -31,8 +31,8 @@ export default function Chat() {
   const chatRoomId = params.chatRoomId as string;
   const queryClient = useQueryClient();
 
-  const isChatTopRoute = /^\/chats\/?$/.test(location.pathname);
-  const isChatRoomRoute = /^\/chats\/[a-zA-Z0-9_-]+$/.test(location.pathname);
+  const isChatTopRoute = /^\/chat\/?$/.test(location.pathname);
+  const isChatRoomRoute = /^\/chat\/[a-zA-Z0-9_-]+$/.test(location.pathname);
   
   useOpenChatChannel<MessageType>({
     channelName: `chatRoomList`,

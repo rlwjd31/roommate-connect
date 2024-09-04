@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
+import { routePaths } from '@/constants/route';
 import {
   SignPasswordResetType,
   SignUpdatePasswordType,
@@ -15,7 +15,7 @@ export const useSignPasswordReset = () => {
         payload.email,
         {
           // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
-          redirectTo: 'http://localhost:5173/sign/update-password',
+          redirectTo: `http://localhost:5173${routePaths.signUpdatePassword}`,
         },
       );
       if (error) throw new Error(error.message);
@@ -41,7 +41,7 @@ export const useSignUpdatePassword = () => {
       createToast('passwordUpdate', '비밀번호를 변경 중입니다...'),
     onSuccess: () => {
       successToast('passwordUpdate', '비밀번호 변경에 성공했습니다.');
-      navigate('/sign/in');
+      navigate(routePaths.signIn);
     },
     onError: () => {
       errorToast('passwordUpdate', '비밀번호 변경에 실패했습니다.');

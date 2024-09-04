@@ -33,7 +33,7 @@ export const ConfirmModalAtom = atom<ConfirmModalState>({
   key: 'confirmModalState',
   default: {
     isOpen: false,
-    type: 'Confim',
+    type: 'Confirm',
     title: '',
     message: '',
     onClickCancel: () => {},
