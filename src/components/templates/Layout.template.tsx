@@ -12,9 +12,9 @@ export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
   const [session] = useAuthState();
   const location = useLocation();
-  // @FIXME: 처음 브라우저의 window.innerWidth가 576보다 작을 때는 isOverSTabletBreakPoint = false여야
-  // 하지만, 초기 rendering 시 값이 true로 설정되어 있어서 s-tablet breakpoint 이하에서도 header가 존재하는 버그가 생김
-  const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(true);
+  const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(
+    window.innerWidth >= 576,
+  );
 
   const isSignPath = isRoutePathMatched(location.pathname, [
     'sign',
