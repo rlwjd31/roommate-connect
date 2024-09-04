@@ -110,12 +110,6 @@ const routeHeaderInfo: {
     userMenu: false,
     isHeaderExistOnMobile: true,
   },
-  signUpEmail: {
-    logo: true,
-    gnb: false,
-    userMenu: false,
-    isHeaderExistOnMobile: true,
-  },
   signUpInfo: {
     logo: true,
     gnb: false,
