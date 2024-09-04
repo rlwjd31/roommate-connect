@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-
+import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
@@ -16,7 +16,7 @@ export default function SignUpProfileIntroTemplate(
   const { name } = props;
   const navigate = useNavigate();
   const onClickProfile = () => {
-    navigate('/signup-profile');
+    navigate(routePaths.signUpProfile);
   };
 
   return (
@@ -40,7 +40,7 @@ export default function SignUpProfileIntroTemplate(
           >
             <Typography.P1 className="text-bg">다음</Typography.P1>
           </IconButton.Fill>
-          <Link className="text-brown1 hover:underline" to="/">
+          <Link className="text-brown1 hover:underline" to={routePaths.root}>
             <Typography.P1>다음에 할게요</Typography.P1>
           </Link>
         </Container.FlexCol>

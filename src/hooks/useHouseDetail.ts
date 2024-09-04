@@ -4,7 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-
+import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 import { UserType } from '@/types/auth.type';
@@ -114,7 +114,7 @@ export const useDeleteHouseDetail = () => {
         'deleteHouseDetailPage',
         '하우스 디테일 페이지가 삭제되었습니다.',
       );
-      navigate('/house');
+      navigate(routePaths.house);
     },
   });
   return { deleteHouseDetailPage };
