@@ -1,5 +1,4 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 import cn from '@/libs/cn';
 import { useAuthState } from '@/hooks/useSign';
@@ -7,15 +6,13 @@ import Header from '@/components/templates/Header';
 import { GNB } from '@/components/organisms/header';
 import isRoutePathMatched from '@/libs/isPathMatched';
 import { routeHeaderInfo, routePaths } from '@/constants/route';
+import useIsOverSTabletBreakpoint from '@/hooks/useIsOverSTabletBreakpoint';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
   const [session] = useAuthState();
   const location = useLocation();
-  const [isOverSTabletBreakPoint, setIsOverSTabletBreakPoint] = useState(
-    window.innerWidth >= 576,
-  );
-
+  const [isOverSTabletBreakPoint] = useIsOverSTabletBreakpoint();
   const isSignPath = isRoutePathMatched(location.pathname, [
     'sign',
     'signIn',
@@ -47,24 +44,6 @@ export default function LayoutTemplate() {
   };
 
   const headerConfig = getHeaderConfig(location.pathname);
-
-  useEffect(() => {
-    const handleResize = () => {
-      // ! !isSTabletBreakPoint 조건식에 추가하지 않으면 window size가 변할 때마다 isMobile state가 변경되어 렌더링이 불필요하게 많이 일어남
-      // ! 576 => s-tablet breakpoint(refer -> tailwind.config.ts)
-      if (window.innerWidth < 576 && isOverSTabletBreakPoint) {
-        setIsOverSTabletBreakPoint(false);
-      } else if (window.innerWidth >= 576 && !isOverSTabletBreakPoint) {
-        setIsOverSTabletBreakPoint(true);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [isOverSTabletBreakPoint]);
 
   return (
     <>
