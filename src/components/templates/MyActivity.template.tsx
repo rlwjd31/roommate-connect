@@ -22,7 +22,7 @@ import BadgeIcon from '@/components/molecules/BadgeIcon';
 import Button from '@/components/atoms/Button';
 import useModal from '@/hooks/useModal';
 import { ProfileModifyModalState } from '@/types/modal.type';
-
+import { routePaths } from '@/constants/route';
 type MyActivityTemplateProps = {
   user: UserInfoType;
 };
@@ -71,7 +71,7 @@ export default function MyActivityTemplate(props: MyActivityTemplateProps) {
             <Typography.SubTitle1 className="text-brown">
               {user.nickname}님
             </Typography.SubTitle1>
-            <Link to="/mypage/account">
+            <Link to={routePaths.myAccount}>
               <BadgeButton.Outline
                 className="gap-x-[0.625rem] rounded-[1.875rem] px-4 py-[0.625rem]"
                 iconType="next"

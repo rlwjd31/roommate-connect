@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
-
+import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
 import Button from '@/components/atoms/Button';
@@ -39,16 +39,16 @@ export default function About() {
       {!user && (
         <Button.Fill
           className="w-fit p-8 text-white"
-          onClick={() => navigate('sign/in')}
+          onClick={() => navigate(routePaths.signIn)}
         >
           로그인
         </Button.Fill>
       )}
       <Container.FlexCol className="space-y-2">
-        <Link to="/chats" className="w-40 bg-brown text-xl text-white">
+        <Link to="/chat" className="w-40 bg-brown text-xl text-white">
           chats
         </Link>
-        <Link to="/chats/1" className="w-40 bg-brown text-xl text-white">
+        <Link to="/chat/1" className="w-40 bg-brown text-xl text-white">
           chatRoom
         </Link>
         <Link to="/lounge" className="w-40 bg-brown text-xl text-white">
@@ -57,34 +57,53 @@ export default function About() {
         <Link to="/house" className="w-40 bg-brown text-xl text-white">
           house
         </Link>
-        <Link to="/house/regist" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to={routePaths.houseRegister}
+          className="w-40 bg-brown text-xl text-white"
+        >
           house register
         </Link>
-        <Link to="/house-detail/1" className="w-40 bg-brown text-xl text-white">
+        {/* 0cb348da-028b-4271-bbf0-ad5888308729 */}
+        <Link
+          to={routePaths.houseDetail('0cb348da-028b-4271-bbf0-ad5888308729')}
+          className="w-40 bg-brown text-xl text-white"
+        >
           house detail
         </Link>
-        <Link to="/signup-intro" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to={routePaths.signUpProfileIntro}
+          className="w-40 bg-brown text-xl text-white"
+        >
           signup-intro
         </Link>
-        <Link to="/signup-profile" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to={routePaths.signUpProfile}
+          className="w-40 bg-brown text-xl text-white"
+        >
           signup-profile
         </Link>
-        <Link to="/signup-outro" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to={routePaths.signUpProfileOutro}
+          className="w-40 bg-brown text-xl text-white"
+        >
           signup-outro
         </Link>
         <Link
-          to="/mypage/activity"
+          to={routePaths.myActivity}
           className="w-40 bg-brown text-xl text-white"
         >
           my-activity
         </Link>
         <Link
-          to="/mypage/bookmark"
+          to={routePaths.myBookmark}
           className="w-40 bg-brown text-xl text-white"
         >
           my-bookmark
         </Link>
-        <Link to="/mypage/account" className="w-40 bg-brown text-xl text-white">
+        <Link
+          to={routePaths.myAccount}
+          className="w-40 bg-brown text-xl text-white"
+        >
           my-account
         </Link>
       </Container.FlexCol>

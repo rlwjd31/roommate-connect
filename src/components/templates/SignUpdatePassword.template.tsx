@@ -9,6 +9,7 @@ import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
 import { SignUpdatePassword, SignUpdatePasswordType } from '@/types/auth.type';
 import { useSignUpdatePassword } from '@/hooks/useSignPasswordReset';
+import { routePaths } from '@/constants/route';
 
 export default function SignUpdatePasswordTemplate() {
   const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +62,7 @@ export default function SignUpdatePasswordTemplate() {
                   확인
                 </Typography.P3>
               </Button.Fill>
-              <Link to="/sign/in" className="w-full">
+              <Link to={routePaths.signIn} className="w-full">
                 <Button.Outline
                   className="mx-auto my-[1.25rem] w-full rounded-[10px]"
                   disabled={isPending}

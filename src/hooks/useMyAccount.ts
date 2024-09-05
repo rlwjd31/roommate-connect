@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-
+import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import { AccountFormType } from '@/types/account.type';
 import { createToast, errorToast, successToast } from '@/libs/toast';
@@ -37,7 +37,7 @@ export const useMyAccountUpdate = () => {
       createToast('update-user', '유저의 정보를 업데이트 중 입니다...'),
     onSuccess: () => {
       successToast('update-user', '유저의 정보를 업데이트 했습니다.');
-      navigate('/mypage/activity');
+      navigate(routePaths.myActivity);
     },
     onError: () =>
       errorToast('update-user', '유저의 정보를 업데이트 하지 못했습니다.'),
@@ -63,7 +63,7 @@ export const useDeleteMyAccount = () => {
       localStorage.removeItem('sb-vkgzfgadnhdgapepgjlp-auth-token');
       setSession(null);
       setUser(null);
-      navigate('/sign/in');
+      navigate(routePaths.signIn);
     },
     onError: () => {
       errorToast('delete-user', '계정 삭제를 실패했습니다.');

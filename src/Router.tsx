@@ -31,6 +31,7 @@ import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';
+import { routePaths } from '@/constants/route';
 
 type RouteType = RouteObject & {
   shouldProtected?: boolean;
@@ -60,7 +61,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
         text="로그인이 필요한 서비스입니다"
       />
     ) : (
-      <Navigate to="/sign/in" />
+      <Navigate to={routePaths.signIn} />
     );
   }
 
@@ -70,7 +71,7 @@ function ProtectedRouter({ children }: ProtectedRouterType) {
 
 const routes: RouteType[] = [
   {
-    path: '/',
+    path: routePaths.root,
     element: <LayoutTemplate />,
     children: [
       {
@@ -78,50 +79,54 @@ const routes: RouteType[] = [
         element: <About />,
       },
       {
-        path: 'chats',
+        path: routePaths.chat,
         element: <Chat />,
-        shouldProtected: true,
+        shouldProtected: false,
         children: [
           {
-            path: ':chatRoomId',
+            path: routePaths.chatRoom(),
             element: <ChatRoom />,
           },
         ],
       },
       {
-        path: 'lounge',
+        path: routePaths.lounge,
         shouldProtected: true,
-        element: <span>lounge page</span>,
+        element: (
+          <div className="flex size-full items-center justify-center bg-black text-3xl text-white">
+            lounge page
+          </div>
+        ),
       },
       {
-        path: 'house',
+        path: routePaths.house,
         element: <HouseList />,
       },
       {
-        path: 'house/regist',
+        path: routePaths.houseRegister,
+        element: <HouseRegister />,
+        shouldProtected: false,
+      },
+      {
+        path: routePaths.houseEdit(),
         element: <HouseRegister />,
         shouldProtected: true,
       },
       {
-        path: 'house/edit/:houseId',
-        element: <HouseRegister />,
-        shouldProtected: true,
-      },
-      {
-        path: 'house/:houseId',
+        path: routePaths.houseDetail(),
         element: <HouseDetail />,
-        shouldProtected: true,
+        shouldProtected: false,
       },
       {
-        path: 'sign',
+        path: routePaths.sign,
         element: <SignLayoutTemplate />,
         children: [
           {
-            path: 'in',
+            path: routePaths.signIn,
             element: <SignIn />,
           },
           {
-            path: 'up',
+            path: routePaths.signUp,
             element: <SignUp />,
             children: [
               { index: true, element: <SignUpEmail /> },
@@ -129,53 +134,53 @@ const routes: RouteType[] = [
             ],
           },
           {
-            path: 'password',
+            path: routePaths.signPasswordReset,
             element: <SignPasswordReset />,
           },
           {
-            path: 'update-password',
+            path: routePaths.signUpdatePassword,
             element: <SignUpdatePassword />,
           },
         ],
       },
       {
-        path: 'signup-intro',
+        path: routePaths.signUpProfileIntro,
         shouldProtected: true,
         element: <SignUpProfileIntro />,
       },
       {
-        path: 'signup-profile',
+        path: routePaths.signUpProfile,
         // shouldProtected: true,
         element: <SignUpProfile />,
       },
       {
-        path: 'component-test',
-        element: <ComponentTest />,
-      },
-      {
-        path: 'signup-outro',
+        path: routePaths.signUpProfileOutro,
         shouldProtected: true,
         element: <SignUpProfileOutro />,
       },
       {
-        path: 'mypage',
+        path: routePaths.componentTest,
+        element: <ComponentTest />,
+      },
+      {
+        path: routePaths.myPage,
         shouldProtected: true,
         element: <MyPageLayoutTemplate />,
         children: [
-          { path: 'activity', element: <MyActivity /> },
-          { path: 'bookmark', element: <MyBookmark /> },
-          { path: 'account', element: <MyAccount /> },
-          { path: 'mate', element: <h1>준비중...</h1> },
-          { path: 'alarm', element: <h1>준비중...</h1> },
-          { path: 'theme', element: <h1>준비중...</h1> },
+          { path: routePaths.myActivity, element: <MyActivity /> },
+          { path: routePaths.myBookmark, element: <MyBookmark /> },
+          { path: routePaths.myAccount, element: <MyAccount /> },
+          { path: routePaths.myMate, element: <h1>준비중...</h1> },
+          { path: routePaths.myAlarm, element: <h1>준비중...</h1> },
+          { path: routePaths.myTheme, element: <h1>준비중...</h1> },
         ],
       },
     ],
   },
 ];
 
-const createRoutes = (routes: RouteType[]): RouteObject[] =>
-  routes.map(route => {
+const createRoutes = (routeInfo: RouteType[]): RouteObject[] =>
+  routeInfo.map(route => {
     const { path, element, children, shouldProtected } = route;
 
     const routeObject = {

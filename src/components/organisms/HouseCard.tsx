@@ -1,3 +1,4 @@
+import { routePaths } from '@/constants/route';
 import Link from '@/components/atoms/Link';
 import Container from '@/components/atoms/Container';
 import Img from '@/components/atoms/Img';
@@ -23,7 +24,7 @@ export default function HouseCard(props: HouseCardProps) {
     deposit_price,
   } = props;
   return (
-    <Link to={`/house-detail/${id}`}>
+    <Link to={routePaths.houseDetail(id)}>
       <Container className="relative h-[17.8125rem] w-80 rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)]">
         <Img className="h-[12.5rem] rounded-b-none" src={representative_img} />
         <Container.FlexRow className="absolute inset-x-0 top-0 items-start p-4">

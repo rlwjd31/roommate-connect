@@ -30,7 +30,7 @@ export type AlertModalState = {
 
 export type ConfirmModalState = {
   isOpen: boolean;
-  type: 'Confim';
+  type: 'Confirm';
   title: string;
   message: string;
   onClickCancel: () => void;

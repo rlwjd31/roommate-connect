@@ -24,7 +24,7 @@ import {
 } from '@/types/auth.type';
 import { IsNotVerifiedAtom } from '@/stores/auth.store';
 import FormItem from '@/components/molecules/FormItem';
-
+import { routePaths } from '@/constants/route';
 export default function SignInTemplate() {
   const Form = FormProvider;
   const isNotVerified = useRecoilValue(IsNotVerifiedAtom);
@@ -69,9 +69,9 @@ export default function SignInTemplate() {
   const onClickVisible = () => setPasswordVisible(prev => !prev);
 
   return (
-    <Container.FlexCol className="w-full gap-9 desktop:gap-10 tablet:gap-11">
+    <Container.FlexCol className="gap-[3.75rem]">
       <Container.FlexCol className="w-full">
-        <Container.FlexCol className="mb-5 gap-[1.25rem] text-brown monitor:mb-[4rem]">
+        <Container.FlexCol className="mb-[4rem] gap-[1.25rem] text-brown">
           <Typography.Head2>House-Connect</Typography.Head2>
           <Typography.SubTitle1>룸메이트 쉽게 찾기</Typography.SubTitle1>
         </Container.FlexCol>
@@ -90,12 +90,12 @@ export default function SignInTemplate() {
                 name="password"
                 placeholder="비밀번호 입력"
                 inputStyle="w-full bg-transparent mt-[1rem]"
-                containerStyle="mt-6 desktop:mt-7"
+                containerStyle="mt-[1.75rem]"
                 isVisible={passwordVisible}
                 onClickVisible={onClickVisible}
               />
               {isNotVerified && (
-                <Container.FlexRow className="mt-6 gap-x-2 desktop:mt-7">
+                <Container.FlexRow className="mt-7 gap-x-2">
                   <FormItem.TextField
                     containerStyle="flex-1"
                     labelName="인증번호"
@@ -115,14 +115,14 @@ export default function SignInTemplate() {
                   </Button.Outline>
                 </Container.FlexRow>
               )}
-              <div className="flex flex-row-reverse gap-2">
-                <Link to="/sign/up">회원가입</Link>
+              <div className="mt-1.5 flex flex-row-reverse gap-2">
+                <Link to={routePaths.signUp}>회원가입</Link>
                 <Divider.Row />
-                <Link to="/sign/password">비밀번호 찾기</Link>
+                <Link to={routePaths.signPasswordReset}>비밀번호 찾기</Link>
               </div>
               <Button.Fill
                 type="submit"
-                className="labtop:mt-7 mt-5 w-full rounded-[10px] desktop:mt-8 tablet:mt-8"
+                className="mt-[2.5rem] w-full rounded-[10px]"
                 disabled={isPending}
               >
                 <Typography.P3 className="mx-auto pb-[1.125rem] pt-4 leading-150 text-[#F4E7DB]">
@@ -133,13 +133,11 @@ export default function SignInTemplate() {
           </Form>
         </Container.FlexCol>
       </Container.FlexCol>
-      <Container.FlexCol className="gap-5">
+      <Container.FlexCol className="gap-[2.25rem]">
         <div className="flex">
-          <Divider.Row className="[&>span]:px-[0.5rem]">
-            SNS 계정으로 로그인
-          </Divider.Row>
+          <Divider.Row>SNS 계정으로 로그인</Divider.Row>
         </div>
-        <Container.FlexCol className="gap-y-3">
+        <Container.FlexCol className="gap-y-5">
           <IconButton.Ghost
             id="kakao"
             className="justify-center gap-x-[0.75rem] rounded-[6px] !bg-[#FEE500] py-[0.96875rem]"

@@ -1,7 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
-
+import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import Button from '@/components/atoms/Button';
@@ -23,7 +23,7 @@ export default function SignPasswordResetTemplate() {
   };
 
   const onClickPrevButton = () => {
-    navigate('/sign/in');
+    navigate(routePaths.signIn);
   };
   return (
     <Container.FlexCol className="mt-[11.875rem] w-full gap-[2.5rem]">

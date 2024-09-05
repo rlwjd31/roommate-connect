@@ -5,7 +5,7 @@
 @layer base {
   @font-face {
     font-family: 'Myanmar Khyay';
-      src: url('/src/assets/fonts/Khyay-Regular.ttf');
+    src: url('/src/assets/fonts/Khyay-Regular.ttf');
   }
   @media screen {
   }
@@ -31,12 +31,13 @@
 
 html {
   font-size: 13px;
+
   @screen tablet {
     font-size: 16px;
   }
 }
 
 body {
-  font-family: 'Myanmar Khyay', 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', 'Myanmar Khyay', sans-serif;
   background-color: #ffffff;
 }
