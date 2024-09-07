@@ -22,11 +22,15 @@ export default function HouseCard(props: HouseCardProps) {
     term,
     monthly_price,
     deposit_price,
+    user_id,
   } = props;
   return (
     <Link to={routePaths.houseDetail(id)}>
-      <Container className="relative h-[17.8125rem] w-80 rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)]">
-        <Img className="h-[12.5rem] rounded-b-none" src={representative_img} />
+      <Container className="relative h-[17.8125rem] w-[19.375rem] rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)] monitor:w-[23.25rem]">
+        <Img
+          className="h-[12.5rem] rounded-b-none"
+          src={`${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house/${user_id}/${id}/${representative_img}`}
+        />
         <Container.FlexRow className="absolute inset-x-0 top-0 items-start p-4">
           <Container.FlexRow className="flex-1 flex-wrap gap-1 [&>div]:rounded-[1.5625rem] [&>div]:px-[0.625rem] [&>div]:py-[0.375rem]">
             {house_appeal.map(appeal => (
