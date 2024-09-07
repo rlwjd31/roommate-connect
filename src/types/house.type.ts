@@ -101,6 +101,7 @@ const HouseCard = HouseForm.pick({
   region: true,
   district: true,
   term: true,
+  user_id: true,
 }).required();
 
 export type HouseCardType = z.infer<typeof HouseCard> & { id: string };
