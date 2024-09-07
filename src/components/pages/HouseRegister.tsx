@@ -252,6 +252,19 @@ export default function HouseRegister() {
     onSaveHouse(formData, 0);
   };
 
+  const carouselTemplates = [
+    <HouseRegisterTemplate1
+      key="houseRegisterTemplate1"
+      form={form}
+      userId={userId}
+      houseId={houseId as string}
+      isEditMode={isEditMode}
+      locationError={locationError}
+      setLocationError={setLocationError}
+    />,
+    <HouseRegisterTemplates2 key="houseRegisterTemplate2" form={form} />,
+  ];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmitHouse)} className="flex-col">
@@ -262,6 +275,7 @@ export default function HouseRegister() {
             buttonDisable={isRegistHouse || isUpdateHouse}
             onClickNextCarousel={onClickNextCarousel}
             onClickPrevCarousel={onClickPrevCarousel}
+            carouselLength={carouselTemplates.length}
           />
           <Container.FlexCol className="mb-20 mt-[4rem] grow bg-yellow-200">
             <Container.FlexRow className="items-center gap-4">
@@ -288,15 +302,7 @@ export default function HouseRegister() {
               )}
             </Container.FlexRow>
             <Carousel order={currentStep} className="w-full grow">
-              <HouseRegisterTemplate1
-                form={form}
-                userId={userId}
-                houseId={houseId as string}
-                isEditMode={isEditMode}
-                locationError={locationError}
-                setLocationError={setLocationError}
-              />
-              <HouseRegisterTemplates2 form={form} />
+              {carouselTemplates}
             </Carousel>
           </Container.FlexCol>
         </Container.FlexCol>

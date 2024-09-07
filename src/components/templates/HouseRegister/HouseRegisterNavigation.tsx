@@ -10,8 +10,8 @@ type NavigationProps = {
   currentStep: number;
   onClickNextCarousel: () => void;
   onClickPrevCarousel: () => void;
-
   buttonDisable: boolean;
+  carouselLength: number;
 };
 
 export default function HouseRegisterNavigation({
@@ -19,11 +19,15 @@ export default function HouseRegisterNavigation({
   onClickNextCarousel,
   onClickPrevCarousel,
   buttonDisable,
+  carouselLength,
 }: NavigationProps) {
   const navigate = useNavigate();
 
   const commonButtonStyle =
     'flex h-[3.5rem] w-[9.25rem] justify-center items-center rounded-[2rem] p-2';
+  const isLastStep = currentStep === carouselLength - 1;
+  console.log('currentstep', currentStep);
+  console.log('carouselLength', carouselLength);
 
   return (
     <Container.FlexRow
@@ -52,13 +56,13 @@ export default function HouseRegisterNavigation({
           </Button.Outline>
         )}
         <Button.Fill
-          type={currentStep === 0 ? 'button' : 'submit'}
+          type={isLastStep ? 'submit' : 'button'}
           className={commonButtonStyle}
-          onClick={currentStep === 0 ? onClickNextCarousel : () => {}}
+          onClick={isLastStep ? () => {} : onClickNextCarousel}
           disabled={buttonDisable}
         >
           <Typography.P1 className="text-bg">
-            {currentStep === 0 ? '다음' : '완료'}
+            {isLastStep ? '완료' : '다음'}
           </Typography.P1>
         </Button.Fill>
       </Container.FlexRow>
