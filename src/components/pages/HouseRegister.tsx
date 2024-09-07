@@ -10,7 +10,6 @@ import { HouseForm, HouseFormType } from '@/types/house.type';
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
-import IconButton from '@/components/molecules/IconButton';
 import Carousel from '@/components/organisms/Carousel';
 import HouseRegisterTemplate1 from '@/components/templates/HouseRegister/HouseRegisterTemplate1';
 import HouseRegisterTemplates2 from '@/components/templates/HouseRegister/HouseRegisterTemplates2';
@@ -26,7 +25,6 @@ import {
   useFetchProfileData,
   useUserProfileUpdate,
 } from '@/hooks/useHouse';
-import cn from '@/libs/cn';
 import HouseRegisterNavigation from '@/components/templates/HouseRegister/HouseRegisterNavigation';
 
 export type UserLifeStyleType = {
@@ -247,7 +245,7 @@ export default function HouseRegister() {
     onSaveHouse(formData, 1);
   };
 
-  const onSaveTemporary = () => {
+  const onClickSaveTemporary = () => {
     const formData = form.getValues();
     onSaveHouse(formData, 0);
   };
@@ -278,28 +276,20 @@ export default function HouseRegister() {
             carouselLength={carouselTemplates.length}
           />
           <Container.FlexCol className="mb-20 mt-[4rem] grow bg-yellow-200">
-            <Container.FlexRow className="items-center gap-4">
+            <Container.FlexRow className="items-center gap-4 py-2">
               <Typography.Head2 className="text-brown">
                 하우스 등록
               </Typography.Head2>
               <Typography.P1 className="text-brown1">
                 {currentStep + 1}/2
               </Typography.P1>
-            </Container.FlexRow>
-            <Container.FlexRow className="hidden md:block">
-              {currentStep === 0 ? (
-                <IconButton.Ghost
-                  className="my-6"
-                  iconType="front"
-                  onClick={onClickNextCarousel}
-                />
-              ) : (
-                <IconButton.Ghost
-                  className="my-6"
-                  iconType="back"
-                  onClick={onClickPrevCarousel}
-                />
-              )}
+              <Button.Outline
+                className="ml-6 flex items-center justify-center rounded-[2rem] px-[1.5rem] py-[0.625rem]"
+                onClick={onClickSaveTemporary}
+                disabled={isRegistHouse || isUpdateHouse}
+              >
+                <Typography.P1 className="text-brown">임시저장</Typography.P1>
+              </Button.Outline>
             </Container.FlexRow>
             <Carousel order={currentStep} className="w-full grow">
               {carouselTemplates}
