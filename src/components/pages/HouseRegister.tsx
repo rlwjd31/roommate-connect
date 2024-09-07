@@ -273,9 +273,10 @@ export default function HouseRegister() {
             buttonDisable={isRegistHouse || isUpdateHouse}
             onClickNextCarousel={onClickNextCarousel}
             onClickPrevCarousel={onClickPrevCarousel}
+            onClickSaveTemporary={onClickSaveTemporary}
             carouselLength={carouselTemplates.length}
           />
-          <Container.FlexCol className="mb-20 mt-[4rem] grow bg-yellow-200">
+          <Container.FlexCol className="pb-12">
             <Container.FlexRow className="items-center gap-4 py-2">
               <Typography.Head2 className="text-brown">
                 하우스 등록
@@ -284,7 +285,7 @@ export default function HouseRegister() {
                 {currentStep + 1}/2
               </Typography.P1>
               <Button.Outline
-                className="ml-6 flex items-center justify-center rounded-[2rem] px-[1.5rem] py-[0.625rem]"
+                className="ml-6 hidden items-center justify-center rounded-[2rem] px-[1.5rem] py-[0.625rem] s-tablet:flex"
                 onClick={onClickSaveTemporary}
                 disabled={isRegistHouse || isUpdateHouse}
               >
