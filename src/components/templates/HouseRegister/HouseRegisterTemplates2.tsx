@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
-import { UseFormReturn } from 'react-hook-form';
+import { useFormContext, UseFormReturn } from 'react-hook-form';
 
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import {
@@ -24,13 +24,8 @@ import Accordion from '@/components/molecules/Accordion';
 import FormItem from '@/components/molecules/FormItem';
 import HouseFormRow from '@/components/molecules/HouseFormRow';
 
-type HouseRegisterTemplates2Prop = {
-  form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
-};
-
-export default function HouseRegisterTemplates2({
-  form,
-}: HouseRegisterTemplates2Prop) {
+export default function HouseRegisterTemplates2() {
+  const form = useFormContext();
   const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
     smoking: form.getValues('smoking'),
     pet: form.getValues('pet'),

@@ -253,14 +253,13 @@ export default function HouseRegister() {
   const carouselTemplates = [
     <HouseRegisterTemplate1
       key="houseRegisterTemplate1"
-      form={form}
       userId={userId}
       houseId={houseId as string}
       isEditMode={isEditMode}
       locationError={locationError}
       setLocationError={setLocationError}
     />,
-    <HouseRegisterTemplates2 key="houseRegisterTemplate2" form={form} />,
+    <HouseRegisterTemplates2 key="houseRegisterTemplate2" />,
   ];
 
   return (

@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
-import { Controller, UseFormReturn } from 'react-hook-form';
+import { Controller, useFormContext, UseFormReturn } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
@@ -38,7 +38,7 @@ export type HouseRegisterFormType = {
   form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
 };
 
-type HouseRegisterTemplate1Prop = HouseRegisterFormType & {
+type HouseRegisterTemplate1Prop = {
   userId: string;
   houseId: string;
   isEditMode: boolean;
@@ -47,13 +47,13 @@ type HouseRegisterTemplate1Prop = HouseRegisterFormType & {
 };
 
 export default function HouseRegisterTemplate1({
-  form,
   userId,
   houseId,
   isEditMode,
   locationError,
   setLocationError,
 }: HouseRegisterTemplate1Prop) {
+  const form = useFormContext();
   const [template1HiddenState, setTemplate1HiddenState] =
     useState<Template1HiddenState>({
       house_type: form.getValues('house_type') || 0,
