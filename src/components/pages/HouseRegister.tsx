@@ -3,6 +3,7 @@ import { useRecoilState } from 'recoil';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { routePaths } from '@/constants/route';
 import { SessionAtom } from '@/stores/auth.store';
 import { HouseForm, HouseFormType } from '@/types/house.type';
@@ -26,6 +27,7 @@ import {
   useUserProfileUpdate,
 } from '@/hooks/useHouse';
 import cn from '@/libs/cn';
+import HouseRegisterNavigation from '@/components/templates/HouseRegister/HouseRegisterNavigation';
 
 export type UserLifeStyleType = {
   smoking: SignUpProfileFormType['smoking'];
@@ -46,7 +48,7 @@ export default function HouseRegister() {
   const userId = useRecoilState(SessionAtom)[0]?.user.id as string;
   const { houseId } = useParams<{ houseId: string }>();
   const isEditMode = !!houseId;
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const [locationError, setLocationError] = useState(false);
 
   const form = useForm<HouseFormType & UserLifeStyleType & UserMateStyleType>({
@@ -223,9 +225,9 @@ export default function HouseRegister() {
     await onUpdateProfile(userStyle);
   };
 
-  const handlePrevCarousel = () => setCurrentStep(prev => prev - 1);
+  const onClickPrevCarousel = () => setCurrentStep(prev => prev - 1);
 
-  const handleNextCarousel = async () => {
+  const onClickNextCarousel = async () => {
     const isValid = await form.trigger();
     if (isValid) {
       setCurrentStep(prev => prev + 1);
@@ -254,73 +256,14 @@ export default function HouseRegister() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmitHouse)} className="flex-col">
         <Container.FlexCol className="w-full s-tablet:flex-col-reverse">
-          <Container.FlexRow
-            className={cn(
-              'sticky top-0 z-10 w-full justify-between bg-bg py-3 pb-4',
-              's-tablet:bottom-0 s-tablet:border-t-[1px] s-tablet:border-brown',
-            )}
-          >
-            <Container.FlexRow>
-              <IconButton.Outline
-                //  ! twMerge에서 s-tablet이후 border, border-brown이 border-none이 우선순위가 높아 적용되지 않아
-                //  ! border를 주고 색을 투명하게 하여 해결
-                className={cn(
-                  'rounded-[2rem] border-transparent',
-                  's-tablet:flex s-tablet:h-[3.5rem] s-tablet:w-[9.25rem] s-tablet:justify-center s-tablet:items-center s-tablet:border s-tablet:border-brown',
-                )}
-                iconType="prev"
-                iconClassName="s-tablet:hidden"
-                onClick={() => navigate(routePaths.root)}
-                disabled={isRegistHouse || isUpdateHouse}
-              >
-                <Typography.P1 className="hidden text-brown s-tablet:block">
-                  취소
-                </Typography.P1>
-              </IconButton.Outline>
-            </Container.FlexRow>
-            <Container.FlexRow className="gap-4 tablet:mb-[1rem]">
-              {currentStep === 0 && (
-                <Button.Outline
-                  className={cn(
-                    'flex justify-center rounded-[2rem] border-transparent p-2',
-                    's-tablet:h-[3.5rem] s-tablet:w-[9.25rem] s-tablet:border-brown',
-                  )}
-                  onClick={onSaveTemporary}
-                  disabled={isRegistHouse || isUpdateHouse}
-                >
-                  <Typography.P1 className="text-brown">임시저장</Typography.P1>
-                </Button.Outline>
-              )}
-              {currentStep === 0 ? (
-                <Button.Fill
-                  className="flex justify-center rounded-[2rem] s-tablet:bg-brown s-tablet:p-2 s-tablet:hover:bg-bg tablet:h-[3.5rem] tablet:w-[9.25rem]"
-                  onClick={handleNextCarousel}
-                  disabled={isRegistHouse || isUpdateHouse}
-                >
-                  <Typography.P1 className="">다음</Typography.P1>
-                </Button.Fill>
-              ) : (
-                <Container.FlexRow className="gap-4">
-                  <Button.Outline
-                    className="flex justify-center rounded-[2rem] s-tablet:border-none s-tablet:p-2 tablet:h-[3.5rem] tablet:w-[9.25rem]"
-                    onClick={handlePrevCarousel}
-                  >
-                    <Typography.P1 className="text-brown">이전</Typography.P1>
-                  </Button.Outline>
-                  <Button.Fill
-                    className="flex justify-center rounded-[2rem] s-tablet:bg-bg s-tablet:p-2 s-tablet:hover:bg-bg tablet:h-[3.5rem] tablet:w-[9.25rem]"
-                    type="submit"
-                    disabled={isRegistHouse || isUpdateHouse}
-                  >
-                    <Typography.P1 className="text-brown tablet:text-bg">
-                      완료
-                    </Typography.P1>
-                  </Button.Fill>
-                </Container.FlexRow>
-              )}
-            </Container.FlexRow>
-          </Container.FlexRow>
-          <Container.FlexCol className="mb-20 mt-[4rem] grow">
+          {/* navigation bar */}
+          <HouseRegisterNavigation
+            currentStep={currentStep}
+            buttonDisable={isRegistHouse || isUpdateHouse}
+            onClickNextCarousel={onClickNextCarousel}
+            onClickPrevCarousel={onClickPrevCarousel}
+          />
+          <Container.FlexCol className="mb-20 mt-[4rem] grow bg-yellow-200">
             <Container.FlexRow className="items-center gap-4">
               <Typography.Head2 className="text-brown">
                 하우스 등록
@@ -334,29 +277,27 @@ export default function HouseRegister() {
                 <IconButton.Ghost
                   className="my-6"
                   iconType="front"
-                  onClick={handleNextCarousel}
+                  onClick={onClickNextCarousel}
                 />
               ) : (
                 <IconButton.Ghost
                   className="my-6"
                   iconType="back"
-                  onClick={handlePrevCarousel}
+                  onClick={onClickPrevCarousel}
                 />
               )}
             </Container.FlexRow>
-            <Container.FlexCol className="w-full grow">
-              <Carousel order={currentStep}>
-                <HouseRegisterTemplate1
-                  form={form}
-                  userId={userId}
-                  houseId={houseId as string}
-                  isEditMode={isEditMode}
-                  locationError={locationError}
-                  setLocationError={setLocationError}
-                />
-                <HouseRegisterTemplates2 form={form} />
-              </Carousel>
-            </Container.FlexCol>
+            <Carousel order={currentStep} className="w-full grow">
+              <HouseRegisterTemplate1
+                form={form}
+                userId={userId}
+                houseId={houseId as string}
+                isEditMode={isEditMode}
+                locationError={locationError}
+                setLocationError={setLocationError}
+              />
+              <HouseRegisterTemplates2 form={form} />
+            </Carousel>
           </Container.FlexCol>
         </Container.FlexCol>
       </form>
