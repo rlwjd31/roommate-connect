@@ -22,6 +22,9 @@ export default function HouseRegisterNavigation({
 }: NavigationProps) {
   const navigate = useNavigate();
 
+  const commonButtonStyle =
+    'flex h-[3.5rem] w-[9.25rem] justify-center items-center rounded-[2rem] p-2';
+
   return (
     <Container.FlexRow
       className={cn(
@@ -30,50 +33,34 @@ export default function HouseRegisterNavigation({
         'bg-teal-200',
       )}
     >
-      {/* 취소 버튼 */}
       <Container.FlexRow>
-        <Button.Fill
-          className="flex h-[3.5rem] w-[9.25rem] items-center justify-center
-    rounded-[2rem] border border-brown bg-bg"
+        <Button.Outline
+          className={commonButtonStyle}
           onClick={() => navigate(routePaths.root)}
           disabled={buttonDisable}
         >
           <Typography.P1 className="text-brown">취소</Typography.P1>
-        </Button.Fill>
+        </Button.Outline>
       </Container.FlexRow>
-      {/* 이전 다음 버튼 */}
       <Container.FlexRow className="gap-4">
-        {currentStep === 0 ? (
-          <Button.Fill
-            className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem] bg-brown p-2"
-            onClick={onClickNextCarousel}
-            disabled={buttonDisable}
+        {currentStep > 0 && (
+          <Button.Outline
+            className={commonButtonStyle}
+            onClick={onClickPrevCarousel}
           >
-            <Typography.P1 className="text-brown tablet:text-bg">
-              다음
-            </Typography.P1>
-          </Button.Fill>
-        ) : (
-          <>
-            {/* 이전 버튼 */}
-            <Button.Outline
-              className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem] border border-brown p-2"
-              onClick={onClickPrevCarousel}
-            >
-              <Typography.P1 className="text-brown">이전</Typography.P1>
-            </Button.Outline>
-            {/* 완료 버튼 */}
-            <Button.Fill
-              className="flex h-[3.5rem] w-[9.25rem] justify-center rounded-[2rem] bg-brown p-2"
-              type="submit"
-              disabled={buttonDisable}
-            >
-              <Typography.P1 className="text-brown tablet:text-bg">
-                완료
-              </Typography.P1>
-            </Button.Fill>
-          </>
+            <Typography.P1 className="text-brown">이전</Typography.P1>
+          </Button.Outline>
         )}
+        <Button.Fill
+          type={currentStep === 0 ? 'button' : 'submit'}
+          className={commonButtonStyle}
+          onClick={currentStep === 0 ? onClickNextCarousel : () => {}}
+          disabled={buttonDisable}
+        >
+          <Typography.P1 className="text-bg">
+            {currentStep === 0 ? '다음' : '완료'}
+          </Typography.P1>
+        </Button.Fill>
       </Container.FlexRow>
     </Container.FlexRow>
   );
