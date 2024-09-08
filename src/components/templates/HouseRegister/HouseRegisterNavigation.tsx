@@ -63,6 +63,11 @@ export default function HouseRegisterNavigation({
               </Button.Outline>
             )}
             <Button.Fill
+              key={
+                isLastStep
+                  ? 'houseRegisterSubmitButton'
+                  : 'houseRegisterNextButton'
+              }
               type={isLastStep ? 'submit' : 'button'}
               className={overSTabletCommonButtonStyle}
               onClick={isLastStep ? () => {} : onClickNextCarousel}
@@ -93,15 +98,22 @@ export default function HouseRegisterNavigation({
             >
               <Typography.P2 className="text-brown">임시저장</Typography.P2>
             </Button.Ghost>
-            {!isFirstStep && (<Button.Ghost
-              className={underSTabletCommonButtonStyle}
-              onClick={onClickPrevCarousel}
-              disabled={buttonDisable}
-            >
-              <Typography.P2 className="text-brown">이전</Typography.P2>
-            </Button.Ghost>)}
-            
+            {!isFirstStep && (
+              <Button.Ghost
+                className={underSTabletCommonButtonStyle}
+                onClick={onClickPrevCarousel}
+                disabled={buttonDisable}
+              >
+                <Typography.P2 className="text-brown">이전</Typography.P2>
+              </Button.Ghost>
+            )}
+
             <Button.Ghost
+              key={
+                isLastStep
+                  ? 'houseRegisterSubmitButton'
+                  : 'houseRegisterNextButton'
+              }
               type={isLastStep ? 'submit' : 'button'}
               onClick={isLastStep ? () => {} : onClickNextCarousel}
               disabled={buttonDisable}
