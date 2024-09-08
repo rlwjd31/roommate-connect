@@ -1,5 +1,7 @@
 import { ComponentProps, forwardRef, HTMLProps } from 'react';
 
+import cn from '@/libs/cn';
+
 export type InputProps = ComponentProps<'input'>;
 const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
   (props, ref) => {
@@ -9,7 +11,7 @@ const Input = forwardRef<HTMLInputElement, HTMLProps<HTMLInputElement>>(
     return (
       <input
         type={type}
-        className={`${inputBaseStyle} ${className || ''}`}
+        className={cn(inputBaseStyle, className)}
         ref={ref}
         {...other}
       />

@@ -159,7 +159,6 @@ export default function HouseRegisterTemplate1({
         </Typography.Head3>
         <Container.FlexCol className="gap-[3.25rem] tablet:gap-[5.5rem]">
           <MultiImageForm
-            form={form}
             userId={userId}
             houseId={houseId}
             isEditMode={isEditMode}

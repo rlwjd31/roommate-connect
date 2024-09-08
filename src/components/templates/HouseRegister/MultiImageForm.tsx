@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
-import { useWatch } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
@@ -11,16 +11,15 @@ import Img from '@/components/atoms/Img';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import { HouseRegisterFormType } from '@/components/templates/HouseRegister/HouseRegisterTemplate1';
+import cn from '@/libs/cn';
 
-type MultiImageFormProp = HouseRegisterFormType & {
+type MultiImageFormProp = {
   userId: string;
   houseId: string;
   isEditMode: boolean;
 };
 
 export default function MultiImageForm({
-  form,
   userId,
   houseId,
   isEditMode,
@@ -29,6 +28,7 @@ export default function MultiImageForm({
   const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house`;
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [displayedImages, setDisplayedImages] = useState<string[]>([]);
+  const form = useFormContext();
   const selectedRepresentativeImage = form.watch('representative_img');
   const uploadedImages = useWatch({
     control: form.control,
@@ -153,26 +153,31 @@ export default function MultiImageForm({
   }, [isEditMode, selectedRepresentativeImage, uploadedImages]);
 
   return (
-    <Container.FlexCol>
+    <Container.FlexCol className="w-full justify-center">
       <Container.FlexRow>
         {currentPageIndex > 0 && (
           <IconButton.Ghost
+            className="absolute left-[-0.1875rem] z-50"
             iconType="prev"
-            iconClassName="absolute left-0 z-10"
             stroke="brown"
             onClick={handlePrevImage}
           />
         )}
-        <Container.Grid className="w-full grid-cols-4 gap-4 px-6">
-          <div className="relative w-full pb-[100%]">
+        <Container.Grid
+          className={cn(
+            'w-full grid-cols-4 gap-[0.5rem] px-6',
+            's-tablet:gap-4',
+          )}
+        >
+          <div className="relative aspect-square w-full">
             <Label
-              htmlFor="house_img"
-              className="absolute inset-0 mb-0 flex w-full cursor-pointer items-center justify-center rounded-xl bg-brown3"
+              htmlFor="upload_house_img"
+              className="absolute inset-0 mb-0 flex w-full cursor-pointer items-center justify-center rounded-lg bg-brown3"
             >
-              <Icon type="camera" />
+              <Icon type="camera" className="size-1/3" />
               <Input
                 type="file"
-                id="house_img"
+                id="upload_house_img"
                 name="house_img"
                 className="hidden"
                 onChange={handleFiles}
@@ -180,9 +185,16 @@ export default function MultiImageForm({
                 multiple
               />
             </Label>
-            <Typography.SubTitle1 className="absolute bottom-4 left-4 p-1 text-brown">
-              {`${totalImageCount} / 10`}{' '}
-            </Typography.SubTitle1>
+            <Typography.P1
+              className={cn(
+                'absolute bottom-[0.375rem] left-[0.5rem] text-brown text-[0.8rem]',
+                'mobile:text-[0.8rem] mobile:bottom-[0.625rem] mobile:left-[0.625rem]',
+                's-tablet:text-base s-tablet:bottom-3 s-tablet:left-3',
+                'laptop:text-xl laptop:bottom-4 laptop:left-4',
+              )}
+            >
+              {`${totalImageCount}/10`}
+            </Typography.P1>
           </div>
           {displayedImages
             .slice(
@@ -190,41 +202,77 @@ export default function MultiImageForm({
               (currentPageIndex + 1) * IMAGE_PER_PAGE,
             )
             .map((imgSrc, index) => (
-              <div key={uuid()} className="relative w-full pb-[75%]">
-                <IconButton.Ghost
+              <Container.FlexRow
+                key={uuid()}
+                className="relative size-full items-center"
+              >
+                <IconButton.Fill
+                  className={cn(
+                    'size-[1.25rem] absolute right-0 top-0 translate-x-[20%] translate-y-[-15%] z-10 flex items-center justify-center rounded-full border border-brown3 bg-bg',
+                    'mobile:size-7',
+                    's-tablet:translate-x-[30%] s-tablet:translate-y-[-15%] s-tablet:size-9',
+                  )}
                   iconType="close"
-                  stroke="brown"
-                  iconClassName="absolute top-5 right-5 w-[1rem] h-[1rem] z-10"
+                  fill="brown1"
+                  stroke="brown1"
+                  iconClassName={cn(
+                    'size-[0.5rem]',
+                    'mobile:size-3',
+                    's-tablet:size-4',
+                  )}
                   onClick={() => deleteImage(imgSrc)}
                 />
                 <Label
                   htmlFor={`image_${index}`}
-                  className="absolute inset-0 block"
+                  className="absolute m-0 size-full"
                 >
+                  <div className="absolute">
+                    <Img
+                      className="size-full rounded-lg object-cover"
+                      src={imgSrc}
+                    />
+                  </div>
+                  {imgSrc.includes(selectedRepresentativeImage) && (
+                    <Container.FlexRow
+                      className={cn(
+                        'absolute bottom-0 w-full rounded-b-lg bg-brown/60 p-[0.375rem]',
+                        'mobile:p-[0.625rem]',
+                        'laptop:p-4',
+                      )}
+                    >
+                      <Typography.P1
+                        className={cn(
+                          'text-[0.8rem] text-bg',
+                          'mobile:text-[0.8rem]',
+                          's-tablet:text-base',
+                          'laptop:text-xl',
+                        )}
+                      >
+                        대표사진
+                      </Typography.P1>
+                    </Container.FlexRow>
+                  )}
                   <Input
                     type="radio"
                     id={`image_${index}`}
-                    className="absolute bottom-0 right-3 z-10 size-7 accent-point"
+                    className={cn(
+                      'absolute bottom-[0.375rem] right-[0.5rem] z-10 size-[0.875rem] accent-point',
+                      'mobile:bottom-[0.625rem] mobile:right-[0.5rem] mobile:size-4',
+                      's-tablet:bottom-3 s-tablet:right-3 s-tablet:size-5',
+                      'laptop:bottom-4 laptop:right-4 laptop:size-6',
+                    )}
                     checked={imgSrc.includes(selectedRepresentativeImage)}
                     onChange={() => setRepresentativeImage(imgSrc)}
                   />
-                  <div className="absolute inset-0">
-                    <Img className="size-full object-cover" src={imgSrc} />
-                  </div>
-                  {imgSrc.includes(selectedRepresentativeImage) && (
-                    <Typography.SubTitle2 className="absolute bottom-0 w-full rounded-b-xl bg-brown/70 p-4 text-bg">
-                      대표사진
-                    </Typography.SubTitle2>
-                  )}
                 </Label>
-              </div>
+              </Container.FlexRow>
             ))}
           {totalImageCount < IMAGE_PER_PAGE &&
             Array.from({ length: IMAGE_PER_PAGE - totalImageCount }).map(_ => (
               <Label
                 key={uuid()}
                 htmlFor="house_img"
-                className="mb-0 flex w-full cursor-pointer items-center justify-center rounded-[10px] bg-brown3 pb-[75%]"
+                className="mb-0 flex aspect-square w-full cursor-pointer items-center justify-center rounded-lg bg-brown3"
               />
             ))}
         </Container.Grid>
@@ -242,7 +290,7 @@ export default function MultiImageForm({
       <Typography.Span2
         className={`${
           !form.formState.errors.house_img?.message ? 'invisible h-3' : ''
-        } mr-7 mt-[8px] block text-right text-point`}
+        } mr-7 mt-[0.5rem] block text-right text-point`}
       >
         {form.formState.errors.house_img?.message as string}
       </Typography.Span2>

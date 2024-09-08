@@ -107,7 +107,6 @@ export default function HouseRegisterNavigation({
                 <Typography.P2 className="text-brown">이전</Typography.P2>
               </Button.Ghost>
             )}
-
             <Button.Ghost
               key={
                 isLastStep
