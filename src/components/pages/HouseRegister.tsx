@@ -46,7 +46,7 @@ export default function HouseRegister() {
   const userId = useRecoilState(SessionAtom)[0]?.user.id as string;
   const { houseId } = useParams<{ houseId: string }>();
   const isEditMode = !!houseId;
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [locationError, setLocationError] = useState(false);
 
   const form = useForm<HouseFormType & UserLifeStyleType & UserMateStyleType>({
