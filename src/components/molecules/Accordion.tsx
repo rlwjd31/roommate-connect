@@ -33,11 +33,11 @@ export default function Accordion({
   return (
     <Container.FlexCol className="w-full">
       <Button.Ghost onClick={toggleAccordion} className={accordionButtonStyle}>
-        <Container.FlexRow className="items-center pb-10">
+        <Container.FlexRow className="items-start pb-10">
           {!isOpen ? (
-            <Icon type="close-triangle" className="mb-1 mr-5" />
+            <Icon type="close-triangle" className="mb-1 mr-5 translate-y-1" />
           ) : (
-            <Icon type="open-triangle" className="mb-0.5 mr-5" />
+            <Icon type="open-triangle" className="mb-0.5 mr-5 translate-y-1" />
           )}
           <Container.FlexRow className="flex-wrap items-center gap-5">
             <Typography.Head3 className={titleStyle}>{title}</Typography.Head3>

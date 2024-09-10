@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
-import { useFormContext, UseFormReturn } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { SignUpProfileFormType } from '@/types/signUp.type';
 import {
@@ -25,7 +25,9 @@ import FormItem from '@/components/molecules/FormItem';
 import HouseFormRow from '@/components/molecules/HouseFormRow';
 
 export default function HouseRegisterTemplates2() {
-  const form = useFormContext();
+  const form = useFormContext<
+    HouseFormType & UserLifeStyleType & UserMateStyleType
+  >();
   const [userLifeStyle, setUserLifeStyle] = useState<UserLifeStyleType>({
     smoking: form.getValues('smoking'),
     pet: form.getValues('pet'),
@@ -149,7 +151,7 @@ export default function HouseRegisterTemplates2() {
   };
 
   return (
-    <Container.FlexCol className="mt-8 min-w-full flex-1 shrink-0">
+    <Container.FlexCol className="mt-8 min-w-full flex-1 shrink-0 px-1">
       <Container.FlexCol className="min-w-[13rem] max-w-[75rem]">
         <Typography.Head3 className="mb-10 text-brown">
           원하는 룸메이트

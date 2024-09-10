@@ -15,7 +15,7 @@ export default function HouseFormRow({
   children,
 }: HouseFormRowProp) {
   return (
-    <Container.Grid className={`items-start gap-4 ${gridClassName}`}>
+    <Container.Grid className={`items-start gap-6 ${gridClassName}`}>
       <Typography.SubTitle1 className={`mt-3 text-brown ${titleClassName}`}>
         {title}
       </Typography.SubTitle1>

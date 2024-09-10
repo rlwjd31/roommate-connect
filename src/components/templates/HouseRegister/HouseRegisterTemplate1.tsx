@@ -1,5 +1,5 @@
 import { KeyboardEvent, useState } from 'react';
-import { Controller, useFormContext, UseFormReturn } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
 import { MoleculeSelectorState } from '@/components/organisms/districtSelector/selector.store';
@@ -34,10 +34,6 @@ type Template1HiddenState = {
   floor: HouseFormType['floor'];
 };
 
-export type HouseRegisterFormType = {
-  form: UseFormReturn<HouseFormType & UserLifeStyleType & UserMateStyleType>;
-};
-
 type HouseRegisterTemplate1Prop = {
   userId: string;
   houseId: string;
@@ -53,7 +49,9 @@ export default function HouseRegisterTemplate1({
   locationError,
   setLocationError,
 }: HouseRegisterTemplate1Prop) {
-  const form = useFormContext();
+  const form = useFormContext<
+    HouseFormType & UserLifeStyleType & UserMateStyleType
+  >();
   const [template1HiddenState, setTemplate1HiddenState] =
     useState<Template1HiddenState>({
       house_type: form.getValues('house_type') || 0,
@@ -152,7 +150,7 @@ export default function HouseRegisterTemplate1({
     }
   };
   return (
-    <Container.FlexCol className="mt-8 min-w-full flex-1">
+    <Container.FlexCol className="mt-8 min-w-full flex-1 px-1">
       <Container.FlexCol className="min-w-[13rem] max-w-[75rem]">
         <Typography.Head3 className="mb-10 text-brown">
           나의 하우스

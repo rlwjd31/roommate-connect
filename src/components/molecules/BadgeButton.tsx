@@ -5,6 +5,7 @@ import Button, { ButtonProps } from '@/components/atoms/Button';
 import Badge from '@/components/atoms/Badge';
 import { CustomIconType, IconDirectionType, IconType } from '@/types/icon.type';
 import Icon from '@/components/atoms/Icon';
+import cn from '@/libs/cn';
 
 type BadgeButtonProps = CustomIconType &
   Omit<ButtonProps, 'className'> & {
@@ -57,7 +58,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   if (setBadge === 'Fill') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Fill className={`${directionStyle[direction]} ${className}`}>
+        <Badge.Fill className={cn(directionStyle[direction], className)}>
           {children}
           {iconComponent}
         </Badge.Fill>
@@ -67,7 +68,7 @@ export default function BadgeButton(props: BadgeButtonProps) {
   if (setBadge === 'Outline') {
     return (
       <Button.Ghost {...others}>
-        <Badge.Outline className={`${directionStyle[direction]} ${className}`}>
+        <Badge.Outline className={cn(directionStyle[direction], className)}>
           {children}
           {iconComponent}
         </Badge.Outline>

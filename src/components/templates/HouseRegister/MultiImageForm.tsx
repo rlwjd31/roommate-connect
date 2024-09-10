@@ -12,6 +12,7 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import cn from '@/libs/cn';
+import { HouseFormType } from '@/types/house.type';
 
 type MultiImageFormProp = {
   userId: string;
@@ -28,7 +29,8 @@ export default function MultiImageForm({
   const HOUSE_STORAGE_URL = `${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house`;
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [displayedImages, setDisplayedImages] = useState<string[]>([]);
-  const form = useFormContext();
+  const form =
+    useFormContext<Pick<HouseFormType, 'house_img' | 'representative_img'>>();
   const selectedRepresentativeImage = form.watch('representative_img');
   const uploadedImages = useWatch({
     control: form.control,
