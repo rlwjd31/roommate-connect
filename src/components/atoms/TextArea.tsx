@@ -9,7 +9,7 @@ const TextArea = forwardRef<
 >((props, ref) => {
   const { className, ...other } = props;
   const textAreaBaseStyle =
-    'block w-full rounded-lg border-[1px] border-solid border-brown p-[16px] placeholder:text-brown2 focus:outline-none focus:ring-1 focus:ring-brown2 focus:border-none bg-transparent';
+    'block w-full rounded-lg border-[0.0625rem] border-solid border-brown p-[16px] focus:outline-none placeholder:text-brown2 focus:ring-1 focus:ring-point focus:border-point ring-subColor2 bg-transparent';
 
   return (
     <textarea
