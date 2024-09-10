@@ -22,8 +22,6 @@ import {
   useDeleteHouseDetail,
   useUpdateBookMark,
 } from '@/hooks/useHouseDetail';
-import useModal from '@/hooks/useModal';
-import { RoommateApplicationState } from '@/types/modal.type';
 import {
   UserLifeStyleType,
   UserMateStyleType,
@@ -64,11 +62,6 @@ export default function HouseDetailTemplate(props: {
   const { updateBookMark, isPending } = useUpdateBookMark();
   const { deleteHouseDetailPage } = useDeleteHouseDetail();
 
-  const {
-    setModalState: setRoommateApplicationModal,
-    closeModal: closeRoommateApplicationModal,
-  } = useModal('RoommateApplicationStatus');
-
   useEffect(() => {
     if (modal) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'auto';
@@ -102,33 +95,6 @@ export default function HouseDetailTemplate(props: {
   const getDataString = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
-  };
-
-  const RoommateApplicationContext: RoommateApplicationState = {
-    isOpen: true,
-    type: 'RoommateApplicationStatus',
-    profileImage: '',
-    userName: 'user123',
-    roommateAppeals: [
-      '1명',
-      '남성',
-      '잠귀 어두운 분',
-      '청소 자주해요',
-      '늦게 자요',
-    ],
-    introduceContent:
-      '안녕하세요! 1년 6개월 동안 사는 것을 희망하고 조용히 지낼 수 있습니다. 집이 좋아보여서 신청해봅니다!',
-    onClickChat() {
-      alert('상대방과의 채팅이 시작합니다!');
-      closeRoommateApplicationModal();
-    },
-    onClickConfirm: () => {
-      alert('user123 님을 수락하셨습니다!');
-      closeRoommateApplicationModal();
-    },
-    onClickCancel: () => {
-      closeRoommateApplicationModal();
-    },
   };
 
   const onClickCreateChat = async () => {
@@ -170,28 +136,21 @@ export default function HouseDetailTemplate(props: {
           throw new SupabaseCustomError(chatRoomDataError, chatRoomDataStatus);
         }
 
-        console.log('chatRoomData 👉🏻', chatRoomData);
-
-        const {
-          data: userChatData,
-          error: userChatDataError,
-          status: userChatDataStatus,
-        } = await supabase
-          .from('user_chat')
-          .insert([
-            {
-              last_read: JSON.stringify(new Date()),
-              chat_room_id: chatRoomData[0].id,
-              user_id: user.id,
-            },
-          ])
-          .select('*');
+        const { error: userChatDataError, status: userChatDataStatus } =
+          await supabase
+            .from('user_chat')
+            .insert([
+              {
+                last_read: JSON.stringify(new Date()),
+                chat_room_id: chatRoomData[0].id,
+                user_id: user.id,
+              },
+            ])
+            .select('*');
 
         if (userChatDataError) {
           throw new SupabaseCustomError(userChatDataError, userChatDataStatus);
         }
-
-        console.log('userData 👉🏻', userChatData);
 
         navigate(routePaths.chatRoom(chatRoomData[0].id));
       } else {
@@ -260,38 +219,15 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexCol>
           <Container.FlexRow className="justify-between">
             <Container.FlexRow className="flex-wrap gap-3">
-              {houseOwner ? (
-                <Button.Fill
-                  className="rounded-lg px-10 py-4 text-white tablet:px-[3.15625rem] tablet:py-[1.21875rem]"
-                  onClick={() =>
-                    setRoommateApplicationModal(RoommateApplicationContext)
-                  }
+              {!houseOwner && (
+                <Button.Outline
+                  onClick={onClickCreateChat}
+                  className="rounded-lg bg-white px-[2rem] py-[1.25rem] text-brown "
                 >
                   <Typography.P3 className="tablet:text-P1">
-                    신청 현황
+                    메시지 보내기
                   </Typography.P3>
-                </Button.Fill>
-              ) : (
-                <>
-                  <Button.Fill
-                    className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white"
-                    onClick={() =>
-                      setRoommateApplyModal(RoommateApplyModalContext)
-                    }
-                  >
-                    <Typography.P3 className="tablet:text-P1">
-                      룸메이트 신청
-                    </Typography.P3>
-                  </Button.Fill>
-                  <Button.Outline
-                    onClick={onClickCreateChat}
-                    className="rounded-lg bg-white px-[2rem] py-[1.25rem] text-brown "
-                  >
-                    <Typography.P3 className="tablet:text-P1">
-                      메시지 보내기
-                    </Typography.P3>
-                  </Button.Outline>
-                </>
+                </Button.Outline>
               )}
             </Container.FlexRow>
             <Container.FlexRow className="gap-5 tablet:gap-7 laptop:gap-8">
