@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
+
 import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import {
@@ -151,12 +152,20 @@ export const useVerifyEmail = ({
 };
 
 export const useSignInSocial = () => {
+  const isDev =
+    import.meta.env.MODE === 'development' &&
+    process.env.NODE_ENV === 'development';
+
   const { mutate: signInSocial, isPending: isSignInSocial } = useMutation({
     mutationFn: async (payload: SocialType) =>
       supabase.auth.signInWithOAuth({
         provider: payload,
         // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
-        options: { redirectTo: `http://localhost:5173${routePaths.sign}` },
+        options: {
+          redirectTo: isDev
+            ? `http://localhost:5173${routePaths.sign}`
+            : `${import.meta.env.VITE_PRODUCTION_URL}${routePaths.sign}`,
+        },
       }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
