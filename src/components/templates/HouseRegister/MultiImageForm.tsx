@@ -228,12 +228,12 @@ export default function MultiImageForm({
                   htmlFor={`image_${index}`}
                   className="absolute m-0 size-full"
                 >
-                  <div className="absolute">
+                  <Container.FlexRow className="absolute inset-0 items-center justify-center">
                     <Img
                       className="size-full rounded-lg object-cover"
                       src={imgSrc}
                     />
-                  </div>
+                  </Container.FlexRow>
                   {imgSrc.includes(selectedRepresentativeImage) && (
                     <Container.FlexRow
                       className={cn(
