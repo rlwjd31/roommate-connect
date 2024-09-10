@@ -109,24 +109,26 @@ export default function HouseInfoCard({ houseData }: HouseInfoCardProps) {
           <Container.FlexRow className="items-center gap-5">
             <Typography.SubTitle3>특징</Typography.SubTitle3>
             <Container.FlexRow className="flex-wrap gap-2">
-              {userMateStyle.mate_gender && (
-                <BadgeIcon.Outline
-                  iconType={genderInfo[userMateStyle.mate_gender].icon}
-                >
-                  <Typography.P2 className="py-2.5">
-                    {genderInfo[userMateStyle.mate_gender].text}
-                  </Typography.P2>
-                </BadgeIcon.Outline>
-              )}
-              {userMateStyle.mate_number && (
-                <BadgeIcon.Outline
-                  iconType={mateNumInfo[userMateStyle.mate_number].icon}
-                >
-                  <Typography.P2 className="py-2.5">
-                    {mateNumInfo[userMateStyle.mate_number].text}
-                  </Typography.P2>
-                </BadgeIcon.Outline>
-              )}
+              {userMateStyle.mate_gender !== null &&
+                userMateStyle.mate_gender !== undefined && (
+                  <BadgeIcon.Outline
+                    iconType={genderInfo[userMateStyle.mate_gender].icon}
+                  >
+                    <Typography.P2 className="py-2.5">
+                      {genderInfo[userMateStyle.mate_gender].text}
+                    </Typography.P2>
+                  </BadgeIcon.Outline>
+                )}
+              {userMateStyle.mate_number !== null &&
+                userMateStyle.mate_number !== undefined && (
+                  <BadgeIcon.Outline
+                    iconType={mateNumInfo[userMateStyle.mate_number].icon}
+                  >
+                    <Typography.P2 className="py-2.5">
+                      {mateNumInfo[userMateStyle.mate_number].text}
+                    </Typography.P2>
+                  </BadgeIcon.Outline>
+                )}
               <Badge.Outline
                 className="rounded-full px-4"
                 focus={false}

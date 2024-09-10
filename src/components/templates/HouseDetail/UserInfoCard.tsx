@@ -41,7 +41,7 @@ export default function UserInfoCard({ houseData }: UserInfoCardProps) {
               {userLifeStyle.smoking ? '흡연자' : '비흡연자'}
             </Typography.P2>
           </BadgeIcon.Outline>
-          {userLifeStyle.pet && (
+          {userLifeStyle.pet !== null && userLifeStyle.pet !== undefined && (
             <BadgeIcon.Outline iconType={petInfo[userLifeStyle.pet].icon}>
               <Typography.P2 className="py-2.5">
                 {petInfo[userLifeStyle.pet].text}
