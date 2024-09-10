@@ -74,6 +74,7 @@ export const useUpdateBookMark = () => {
   });
   return { updateBookMark, isPending };
 };
+
 export const removeStorage = async (houseId: string, userId: string) => {
   const { data, error } = await supabase.storage
     .from('images')

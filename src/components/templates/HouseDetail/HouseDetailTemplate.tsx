@@ -23,10 +23,7 @@ import {
   useUpdateBookMark,
 } from '@/hooks/useHouseDetail';
 import useModal from '@/hooks/useModal';
-import {
-  RoommateApplicationState,
-  RoommateApplyState,
-} from '@/types/modal.type';
+import { RoommateApplicationState } from '@/types/modal.type';
 import {
   UserLifeStyleType,
   UserMateStyleType,
@@ -65,10 +62,6 @@ export default function HouseDetailTemplate(props: {
   const { deleteHouseDetailPage } = useDeleteHouseDetail();
 
   const {
-    setModalState: setRoommateApplyModal,
-    closeModal: closeRoommateApplyModal,
-  } = useModal('RoommateApply');
-  const {
     setModalState: setRoommateApplicationModal,
     closeModal: closeRoommateApplicationModal,
   } = useModal('RoommateApplicationStatus');
@@ -96,28 +89,16 @@ export default function HouseDetailTemplate(props: {
       },
     });
   };
+
   if (!houseData) {
     return <div>데이터 없음..</div>;
   }
+
   const houseOwner = houseData.user_id === user?.id;
 
   const getDataString = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
-  };
-
-  const RoommateApplyModalContext: RoommateApplyState = {
-    isOpen: true,
-    type: 'RoommateApply',
-    introduceContent: '',
-    roommateAppeals: houseData.user_lifestyle.appeals,
-    onClickCancel: () => {
-      closeRoommateApplyModal();
-    },
-    onClickConfirm: () => {
-      alert('Completed Apply');
-      closeRoommateApplyModal();
-    },
   };
 
   const RoommateApplicationContext: RoommateApplicationState = {
@@ -219,26 +200,14 @@ export default function HouseDetailTemplate(props: {
                   </Typography.P3>
                 </Button.Fill>
               ) : (
-                <>
-                  <Button.Fill
-                    className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white"
-                    onClick={() =>
-                      setRoommateApplyModal(RoommateApplyModalContext)
-                    }
-                  >
-                    <Typography.P3 className="tablet:text-P1">
-                      룸메이트 신청
-                    </Typography.P3>
-                  </Button.Fill>
-                  <Button.Outline className="rounded-lg bg-white px-[1.96875rem] py-[1.21875rem] text-brown ">
-                    <Typography.P3 className="tablet:text-P1">
-                      메시지 보내기
-                    </Typography.P3>
-                  </Button.Outline>
-                </>
+                <Button.Outline className="rounded-lg bg-white px-[1.96875rem] py-[1.21875rem] text-brown ">
+                  <Typography.P3 className="tablet:text-P1">
+                    메시지 보내기
+                  </Typography.P3>
+                </Button.Outline>
               )}
             </Container.FlexRow>
-            <Container.FlexRow className="gap-5 laptop:gap-8 tablet:gap-7">
+            <Container.FlexRow className="gap-5 tablet:gap-7 laptop:gap-8">
               <Container.FlexCol className="items-center justify-center gap-3">
                 <IconButton.Ghost
                   iconType={bookmark ? 'fill-heart' : 'heart'}
@@ -259,10 +228,12 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexRow>
         </Container.FlexCol>
         <Divider.Col className="my-8 border-t-0 laptop:my-11 " />
+
         <Container.Grid className="grid-cols-1 gap-20 text-brown laptop:grid-cols-2 laptop:gap-6">
           <UserInfoCard houseData={houseData} />
           <HouseInfoCard houseData={houseData} />
         </Container.Grid>
+
         <Container.FlexCol className="gap-7 py-[3.25rem] text-brown laptop:py-[4.5rem] ">
           <Typography.SubTitle1>상세설명</Typography.SubTitle1>
           <Container.FlexCol className="rounded-lg bg-brown6 p-6">

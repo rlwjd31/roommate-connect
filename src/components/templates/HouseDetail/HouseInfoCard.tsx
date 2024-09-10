@@ -13,13 +13,14 @@ import {
   rentalTypesInfo,
 } from '@/constants/profileDetailInfo';
 
-
 type HouseInfoCardProps = {
   houseData: HouseData;
 };
 
 export default function HouseInfoCard({ houseData }: HouseInfoCardProps) {
-  const termArray = houseData.term.map(value => {
+  const { user_mate_style: userMateStyle } = houseData;
+
+  const termArray = houseData?.term.map(value => {
     const years = Math.floor(value / 12);
     const months = value % 12;
     if (years === 0) {
@@ -108,24 +109,24 @@ export default function HouseInfoCard({ houseData }: HouseInfoCardProps) {
           <Container.FlexRow className="items-center gap-5">
             <Typography.SubTitle3>특징</Typography.SubTitle3>
             <Container.FlexRow className="flex-wrap gap-2">
-              <BadgeIcon.Outline
-                iconType={
-                  genderInfo[houseData.user_mate_style.mate_gender].icon
-                }
-              >
-                <Typography.P2 className="py-2.5">
-                  {genderInfo[houseData.user_mate_style.mate_gender].text}
-                </Typography.P2>
-              </BadgeIcon.Outline>
-              <BadgeIcon.Outline
-                iconType={
-                  mateNumInfo[houseData.user_mate_style?.mate_number].icon
-                }
-              >
-                <Typography.P2 className="py-2.5">
-                  {mateNumInfo[houseData.user_mate_style?.mate_number].text}
-                </Typography.P2>
-              </BadgeIcon.Outline>
+              {userMateStyle.mate_gender && (
+                <BadgeIcon.Outline
+                  iconType={genderInfo[userMateStyle.mate_gender].icon}
+                >
+                  <Typography.P2 className="py-2.5">
+                    {genderInfo[userMateStyle.mate_gender].text}
+                  </Typography.P2>
+                </BadgeIcon.Outline>
+              )}
+              {userMateStyle.mate_number && (
+                <BadgeIcon.Outline
+                  iconType={mateNumInfo[userMateStyle.mate_number].icon}
+                >
+                  <Typography.P2 className="py-2.5">
+                    {mateNumInfo[userMateStyle.mate_number].text}
+                  </Typography.P2>
+                </BadgeIcon.Outline>
+              )}
               <Badge.Outline
                 className="rounded-full px-4"
                 focus={false}
@@ -133,14 +134,14 @@ export default function HouseInfoCard({ houseData }: HouseInfoCardProps) {
                 hover={false}
               >
                 <Typography.P2 className="py-2.5">
-                  {houseData.user_mate_style.prefer_mate_age[0] + 20}살-
-                  {houseData.user_mate_style.prefer_mate_age[1] + 20}살
+                  {userMateStyle.prefer_mate_age[0] + 20}살-
+                  {userMateStyle.prefer_mate_age[1] + 20}살
                 </Typography.P2>
               </Badge.Outline>
             </Container.FlexRow>
           </Container.FlexRow>
           <Container.FlexRow className="flex-wrap items-center gap-x-2 gap-y-3 pl-[3.125rem]">
-            {houseData.user_mate_style.mate_appeals.map(appeal => (
+            {userMateStyle.mate_appeals.map(appeal => (
               <Badge.Outline
                 focus={false}
                 active={false}

@@ -4,17 +4,15 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import BadgeIcon from '@/components/molecules/BadgeIcon';
 import { HouseData } from '@/components/templates/HouseDetail/HouseDetailTemplate';
-import {
-  genderInfo,
-  petInfo,
-  smokingInfo,
-} from '@/constants/profileDetailInfo';
+import { genderInfo, petInfo } from '@/constants/profileDetailInfo';
 
 type UserInfoCardProps = {
   houseData: HouseData;
 };
 
 export default function UserInfoCard({ houseData }: UserInfoCardProps) {
+  const { user_lifestyle: userLifeStyle } = houseData;
+
   return (
     <Container.FlexCol className="gap-11 text-brown">
       <Container.FlexRow className="items-center gap-4 ">
@@ -37,25 +35,25 @@ export default function UserInfoCard({ houseData }: UserInfoCardProps) {
             </Typography.P2>
           </BadgeIcon.Outline>
           <BadgeIcon.Outline
-            iconType={smokingInfo[(houseData.user_lifestyle.smoking)].icon}
+            iconType={userLifeStyle.smoking ? 'mini-smoke' : 'mini-none-smoke'}
           >
             <Typography.P2 className="py-2.5">
-              {smokingInfo[houseData.user_lifestyle.smoking].text}
+              {userLifeStyle.smoking ? '흡연자' : '비흡연자'}
             </Typography.P2>
           </BadgeIcon.Outline>
-          <BadgeIcon.Outline
-            iconType={petInfo[houseData.user_lifestyle?.pet].icon}
-          >
-            <Typography.P2 className="py-2.5">
-              {petInfo[houseData.user_lifestyle.pet].text}
-            </Typography.P2>
-          </BadgeIcon.Outline>
+          {userLifeStyle.pet && (
+            <BadgeIcon.Outline iconType={petInfo[userLifeStyle.pet].icon}>
+              <Typography.P2 className="py-2.5">
+                {petInfo[userLifeStyle.pet].text}
+              </Typography.P2>
+            </BadgeIcon.Outline>
+          )}
         </Container.FlexRow>
       </Container.FlexCol>
       <Container.FlexCol className="gap-6">
         <Typography.SubTitle1>라이프 스타일</Typography.SubTitle1>
         <Container.FlexRow className="flex-wrap gap-x-2 gap-y-3">
-          {houseData.user_lifestyle?.appeals.map(appeal => (
+          {userLifeStyle?.appeals.map(appeal => (
             <Badge.Outline
               key={appeal}
               focus={false}
