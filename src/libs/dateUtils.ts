@@ -1,7 +1,7 @@
 const formatDateByCountry = (
   date: Date,
   time: boolean = false,
-  locale: Intl.LocalesArgument = 'ko-KR',
+  locale: string | string[] = 'ko-KR',
 ) => {
   if (time) {
     return new Intl.DateTimeFormat(locale, {
