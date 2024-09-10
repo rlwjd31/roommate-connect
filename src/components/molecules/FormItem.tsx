@@ -77,17 +77,12 @@ FormItem.Hidden = function FormItemHidden<T extends FieldValues>(
   return <span>Name 속성이 필요합니다</span>;
 };
 
-// // ! controller로 감쌀 필요가 없이 register
-// FormItem.TextArea = function FormItemTextArea<T extends FieldValues>(
-//   props: TextAreaFieldProps<T>,
-// ) {};
 
-// FormItem.TextAreaWithState => controller로 감싸고(control을 이용하는 것 )
 FormItem.TextAreaField = function FormItemTextAreaField<T extends FieldValues>(
   // eslint-disable-next-line react/require-default-props
   props: TextAreaFieldProps<T> & { isControlled?: boolean },
 ) {
-  const { control, getValues } = useFormContext();
+  const { control, getValues, register } = useFormContext();
   const {
     defaultValue,
     name,
@@ -115,6 +110,12 @@ FormItem.TextAreaField = function FormItemTextAreaField<T extends FieldValues>(
       )}
     />
   ) : (
-    <TextAreaField />
+    <TextAreaField
+      {...register(name, options)}
+      defaultValue={fieldValue}
+      containerStyle={containerStyle}
+      labelName={labelName}
+      className={textAreaStyle}
+    />
   );
 };
