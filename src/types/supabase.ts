@@ -164,6 +164,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "house_comment_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "house_commet_house_id_fkey"
             columns: ["house_id"]
             isOneToOne: false
@@ -217,6 +224,13 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "house_reply_user_id_fkey1"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -528,7 +542,7 @@ export type Database = {
           {
             foreignKeyName: "user_chat_chat_room_id_fkey"
             columns: ["chat_room_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "chat_room"
             referencedColumns: ["id"]
           },
