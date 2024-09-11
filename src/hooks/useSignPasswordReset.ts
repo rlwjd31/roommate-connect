@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+
 import { routePaths } from '@/constants/route';
 import {
   SignPasswordResetType,
@@ -9,13 +10,19 @@ import { supabase } from '@/libs/supabaseClient';
 import { createToast, errorToast, successToast } from '@/libs/toast';
 
 export const useSignPasswordReset = () => {
+  const isDev =
+    import.meta.env.MODE === 'development' &&
+    process.env.NODE_ENV === 'development';
+
   const { mutate: passwordReset, isPending } = useMutation({
     mutationFn: async (payload: SignPasswordResetType) => {
       const { error } = await supabase.auth.resetPasswordForEmail(
         payload.email,
         {
           // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
-          redirectTo: `http://localhost:5173${routePaths.signUpdatePassword}`,
+          redirectTo: isDev
+            ? `http://localhost:5173${routePaths.signUpdatePassword}`
+            : `${import.meta.env.VITE_PRODUCTION_URL}${routePaths.signUpdatePassword}`,
         },
       );
       if (error) throw new Error(error.message);

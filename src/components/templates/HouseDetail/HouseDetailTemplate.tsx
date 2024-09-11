@@ -22,8 +22,6 @@ import {
   useDeleteHouseDetail,
   useUpdateBookMark,
 } from '@/hooks/useHouseDetail';
-import useModal from '@/hooks/useModal';
-import { RoommateApplicationState } from '@/types/modal.type';
 import {
   UserLifeStyleType,
   UserMateStyleType,
@@ -32,6 +30,9 @@ import ImageCarouselModal from '@/components/templates/HouseDetail/ImageCarousel
 import HouseImageTemplate from '@/components/templates/HouseDetail/HouseImageTemplate';
 import HouseInfoCard from '@/components/templates/HouseDetail/HouseInfoCard';
 import UserInfoCard from '@/components/templates/HouseDetail/UserInfoCard';
+import { supabase } from '@/libs/supabaseClient';
+import SupabaseCustomError from '@/libs/supabaseCustomError';
+import { routePaths } from '@/constants/route';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -60,11 +61,6 @@ export default function HouseDetailTemplate(props: {
   const [modal, setModal] = useState(false);
   const { updateBookMark, isPending } = useUpdateBookMark();
   const { deleteHouseDetailPage } = useDeleteHouseDetail();
-
-  const {
-    setModalState: setRoommateApplicationModal,
-    closeModal: closeRoommateApplicationModal,
-  } = useModal('RoommateApplicationStatus');
 
   useEffect(() => {
     if (modal) document.body.style.overflow = 'hidden';
@@ -101,31 +97,66 @@ export default function HouseDetailTemplate(props: {
     return date.toLocaleDateString();
   };
 
-  const RoommateApplicationContext: RoommateApplicationState = {
-    isOpen: true,
-    type: 'RoommateApplicationStatus',
-    profileImage: '',
-    userName: 'user123',
-    roommateAppeals: [
-      '1명',
-      '남성',
-      '잠귀 어두운 분',
-      '청소 자주해요',
-      '늦게 자요',
-    ],
-    introduceContent:
-      '안녕하세요! 1년 6개월 동안 사는 것을 희망하고 조용히 지낼 수 있습니다. 집이 좋아보여서 신청해봅니다!',
-    onClickChat() {
-      alert('상대방과의 채팅이 시작합니다!');
-      closeRoommateApplicationModal();
-    },
-    onClickConfirm: () => {
-      alert('user123 님을 수락하셨습니다!');
-      closeRoommateApplicationModal();
-    },
-    onClickCancel: () => {
-      closeRoommateApplicationModal();
-    },
+  const onClickCreateChat = async () => {
+    if (houseData.user_id && user?.id) {
+      const {
+        data: isChatRoomExist,
+        error: isChatRoomExistError,
+        status: isChatRoomExistStatus,
+      } = await supabase
+        .from('chat_room')
+        .select('*')
+        .containedBy('users', [houseData.user_id, user.id]); // 배열이 'a', 'b'로만 구성되어 있는지 확인
+
+      if (isChatRoomExistError) {
+        throw new SupabaseCustomError(
+          isChatRoomExistError,
+          isChatRoomExistStatus,
+        );
+      }
+
+      // ! 채팅방이 존재하지 않을 때 -> 중복 채팅방 생성 방지
+      if (isChatRoomExist.length === 0) {
+        const {
+          data: chatRoomData,
+          error: chatRoomDataError,
+          status: chatRoomDataStatus,
+        } = await supabase
+          .from('chat_room')
+          .insert([
+            {
+              users: [houseData.user_id, user.id],
+              last_message: '',
+              last_message_date: JSON.stringify(new Date()),
+            },
+          ])
+          .select();
+
+        if (chatRoomDataError) {
+          throw new SupabaseCustomError(chatRoomDataError, chatRoomDataStatus);
+        }
+
+        const { error: userChatDataError, status: userChatDataStatus } =
+          await supabase
+            .from('user_chat')
+            .insert([
+              {
+                last_read: JSON.stringify(new Date()),
+                chat_room_id: chatRoomData[0].id,
+                user_id: user.id,
+              },
+            ])
+            .select('*');
+
+        if (userChatDataError) {
+          throw new SupabaseCustomError(userChatDataError, userChatDataStatus);
+        }
+
+        navigate(routePaths.chatRoom(chatRoomData[0].id));
+      } else {
+        navigate(routePaths.chatRoom(isChatRoomExist[0].id));
+      }
+    }
   };
 
   return (
@@ -188,19 +219,11 @@ export default function HouseDetailTemplate(props: {
           </Container.FlexCol>
           <Container.FlexRow className="justify-between">
             <Container.FlexRow className="flex-wrap gap-3">
-              {houseOwner ? (
-                <Button.Fill
-                  className="rounded-lg px-10 py-4 text-white tablet:px-[3.15625rem] tablet:py-[1.21875rem]"
-                  onClick={() =>
-                    setRoommateApplicationModal(RoommateApplicationContext)
-                  }
+              {!houseOwner && (
+                <Button.Outline
+                  onClick={onClickCreateChat}
+                  className="rounded-lg bg-white px-[2rem] py-[1.25rem] text-brown "
                 >
-                  <Typography.P3 className="tablet:text-P1">
-                    신청 현황
-                  </Typography.P3>
-                </Button.Fill>
-              ) : (
-                <Button.Outline className="rounded-lg bg-white px-[1.96875rem] py-[1.21875rem] text-brown ">
                   <Typography.P3 className="tablet:text-P1">
                     메시지 보내기
                   </Typography.P3>
