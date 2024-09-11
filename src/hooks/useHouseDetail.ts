@@ -10,10 +10,33 @@ import { createToast, errorToast, successToast } from '@/libs/toast';
 import { UserType } from '@/types/auth.type';
 import HOUSE_KEYS from '@/constants/queryKeys/house';
 
-type BookMark = {
-  id: string;
+type BookMarkType = {
+  userId: string;
   houseId: string;
   isBookMark: boolean;
+};
+
+const unBookmarkedPost = async (userId: string, houseId: string) => {
+  const { error: deleteError } = await supabase
+    .from('user_bookmark')
+    .delete()
+    .eq('user_id', userId)
+    .eq('house_id', houseId);
+  if (deleteError) {
+    throw new Error(deleteError.message);
+  }
+};
+
+const bookmarkedPost = async (userId: string, houseId: string) => {
+  if (!userId) throw new Error('로그인 후 이용바랍니다.');
+
+  const { error: insertError } = await supabase
+    .from('user_bookmark')
+    .insert([{ user_id: userId, house_id: houseId }])
+    .select('*');
+  if (insertError) {
+    throw new Error(insertError.message);
+  }
 };
 
 export const useUpdateBookMark = () => {
