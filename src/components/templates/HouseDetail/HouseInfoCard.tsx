@@ -107,7 +107,9 @@ export default function HouseInfoCard({ houseData }: HouseInfoCardProps) {
         </Container.FlexRow>
         <Container.FlexCol className="gap-3">
           <Container.FlexRow className="items-center gap-5">
-            <Typography.SubTitle3>특징</Typography.SubTitle3>
+            <Typography.SubTitle3 className="whitespace-nowrap">
+              특징
+            </Typography.SubTitle3>
             <Container.FlexRow className="flex-wrap gap-2">
               {userMateStyle.mate_gender !== null &&
                 userMateStyle.mate_gender !== undefined && (
