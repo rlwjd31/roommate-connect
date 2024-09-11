@@ -42,50 +42,23 @@ const bookmarkedPost = async (userId: string, houseId: string) => {
 export const useUpdateBookMark = () => {
   const queryClient = useQueryClient();
   const { mutate: updateBookMark, isPending } = useMutation({
-    mutationFn: async (payload: BookMark) => {
+    mutationFn: async (payload: BookMarkType) => {
       if (payload.isBookMark) {
-        const { error: deleteError } = await supabase
-          .from('user_bookmark')
-          .delete()
-          .eq('id', payload.id)
-          .eq('house_id', payload.houseId);
-        if (deleteError) {
-          throw new Error(deleteError.message);
-        }
+        await unBookmarkedPost(payload.userId, payload.houseId);
       } else {
-        const { error: insertError } = await supabase
-          .from('user_bookmark')
-          .insert([{ id: payload.id, house_id: payload.houseId }])
-          .select('*');
-        if (insertError) {
-          throw new Error(insertError.message);
-        }
+        await bookmarkedPost(payload.userId, payload.houseId);
       }
     },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: HOUSE_KEYS.HOUSE_DETAIL_BOOKMARK(
-          variables.id,
+          variables.userId,
           variables.houseId,
         ),
       });
       queryClient.invalidateQueries({
         queryKey: HOUSE_KEYS.HOUSE_DETAIL(variables.houseId),
       });
-
-      if (variables.isBookMark) {
-        createToast('cancel_bookmark', '북마크 해제 되었습니다.', {
-          isLoading: false,
-          type: 'info',
-          autoClose: 1000,
-        });
-      } else {
-        createToast('add_bookmark', '북마크에 추가 되었습니다!', {
-          isLoading: false,
-          type: 'success',
-          autoClose: 1000,
-        });
-      }
     },
     onError: error => {
       createToast('error_bookmark', error.message, {
@@ -168,7 +141,7 @@ export const useHouseBookMark = (
       supabase
         .from('user_bookmark')
         .select('*')
-        .eq('id', user?.id ?? '')
+        .eq('user_id', user?.id ?? '')
         .eq('house_id', houseId ?? '')
         .single(),
     enabled: !!user && !!houseId,

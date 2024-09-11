@@ -73,7 +73,7 @@ export default function HouseDetailTemplate(props: {
 
   const onClickBookMark = () => {
     updateBookMark({
-      id: user?.id as string,
+      userId: user?.id as string,
       houseId: houseId as string,
       isBookMark: bookmark,
     });
