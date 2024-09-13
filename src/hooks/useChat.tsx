@@ -127,6 +127,7 @@ export const fetchUnReadMessageCount = async (
     .single();
 
   if (lastReadDateError) {
+    console.log('asdfasdfasdfasdf❌❌❌❌');
     throw new SupabaseCustomError(lastReadDateError, lastReadDateStatus);
   }
 
@@ -213,7 +214,9 @@ export const useChatRoomListPageData = (userId: string) => {
         // ! chatListPageData가 undefined[]와 같은 type으로도 추론되어 filter를 적용
         data: results
           .map(result => result.data)
-          .filter(data => data !== undefined),
+          .filter(
+            (data): data is NonNullable<typeof data> => data !== undefined,
+          ),
         isLoading: results.some(result => result.isLoading),
       }),
     });

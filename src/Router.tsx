@@ -81,7 +81,7 @@ const routes: RouteType[] = [
       {
         path: routePaths.chat,
         element: <Chat />,
-        shouldProtected: false,
+        shouldProtected: true,
         children: [
           {
             path: routePaths.chatRoom(),
@@ -101,11 +101,12 @@ const routes: RouteType[] = [
       {
         path: routePaths.house,
         element: <HouseList />,
+        shouldProtected: false,
       },
       {
         path: routePaths.houseRegister,
         element: <HouseRegister />,
-        shouldProtected: false,
+        shouldProtected: true,
       },
       {
         path: routePaths.houseEdit(),
@@ -120,6 +121,7 @@ const routes: RouteType[] = [
       {
         path: routePaths.sign,
         element: <SignLayoutTemplate />,
+        shouldProtected: false,
         children: [
           {
             path: routePaths.signIn,

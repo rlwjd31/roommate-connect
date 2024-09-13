@@ -50,7 +50,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Outline')
     return (
       <Button.Outline
-        className={`${directionStyle[direction]} ${className}`}
+        className={cn(`${directionStyle[direction]}`, className)}
         {...others}
       >
         {children}
@@ -60,7 +60,7 @@ export default function IconButton(props: IconButtonProps) {
   if (button === 'Ghost')
     return (
       <Button.Ghost
-        className={`${directionStyle[direction]} ${className}`}
+        className={cn(`${directionStyle[direction]}`, className)}
         {...others}
       >
         {children}

@@ -8,7 +8,6 @@ import Typography from '@/components/atoms/Typography';
 // ! TODO: state연계시 controller 비 연계시 controller제거
 
 export type TextAreaFieldProps<T extends FieldValues> = TextAreaProps & {
-  value: string | number;
   name: keyof T;
   labelName?: string;
   options?: RegisterOptions;
@@ -27,7 +26,6 @@ export default function TextAreaField<T extends FieldValues>(
     textAreaStyle,
     placeholder,
     options,
-    value,
     defaultValue,
     onKeyDown,
   } = props;
@@ -41,7 +39,6 @@ export default function TextAreaField<T extends FieldValues>(
         className={textAreaStyle}
         placeholder={placeholder}
         onKeyDown={onKeyDown}
-        value={value}
         defaultValue={defaultValue}
         {...register(name, options)}
       />

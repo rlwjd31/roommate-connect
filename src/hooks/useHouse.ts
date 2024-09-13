@@ -239,8 +239,10 @@ export const useHouseRegist = () => {
       ),
     onSuccess: async (houseId, variables) => {
       const { user_id, house_img, representative_img, temporary } = variables;
-      const images = [representative_img, ...house_img];
-      await saveImageStorage(user_id, images, houseId);
+      if (representative_img !== '') {
+        const images = [representative_img, ...house_img];
+        await saveImageStorage(user_id, images, houseId);
+      }
       successToast('uploadHousePost', '게시글이 저장되었습니다.');
       if (temporary === 1) navigate(routePaths.houseDetail(houseId));
       else navigate(routePaths.house);

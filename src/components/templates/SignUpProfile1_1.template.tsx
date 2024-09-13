@@ -33,7 +33,6 @@ export default function SignUpProfile1_1Template() {
         <Typography.SubTitle1 className="text-brown">
           집 유형
         </Typography.SubTitle1>
-        {/* TODO: 나중에 반응형 나오는 거 보고 flex-wrap을 지우고 grid로 할 지 생각해야 함. */}
         <Container.Grid className="mb-[3.75rem] mt-7 grid-cols-2 gap-6 screen640:grid-cols-4">
           {houseTypeDisplayData.map(
             ({ displayValue, stateValue, iconType }) => (

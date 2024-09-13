@@ -14,7 +14,7 @@ function CommentTemplate(props: {
   const { comments, commentsCount } = props;
 
   return (
-    <Container.FlexCol>
+    <Container.FlexCol className="pb-36 pt-8">
       <Container.FlexCol className="gap-8 py-8">
         <Typography.SubTitle1 className="text-brown">
           댓글 {commentsCount}개
