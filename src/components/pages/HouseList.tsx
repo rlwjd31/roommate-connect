@@ -1,4 +1,4 @@
-import HouseListTemplate from '@/components/templates/HouseList.template';
+import HouseListTemplate from '@/components/templates/House/HouseList/HouseList.template';
 import { useInfiniteHouseList } from '@/hooks/useHouse';
 
 export default function HouseList() {
