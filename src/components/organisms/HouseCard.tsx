@@ -24,48 +24,64 @@ export default function HouseCard(props: HouseCardProps) {
     deposit_price,
     user_id,
   } = props;
+
   return (
     <Link to={routePaths.houseDetail(id)}>
-      <Container className="relative h-[17.8125rem] w-[19.375rem] rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)] monitor:w-[23.25rem]">
+      <Container className="relative h-[17.8125rem] w-[17rem] rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)] mobile:w-[19.375rem] monitor:w-[23.25rem]">
         <Img
           className="h-[12.5rem] rounded-b-none"
           src={`${import.meta.env.VITE_SUPABASE_BUCKET_URL}/house/${user_id}/${id}/${representative_img}`}
+          alt="House Image"
         />
         <Container.FlexRow className="absolute inset-x-0 top-0 items-start p-4">
-          <Container.FlexRow className="flex-1 flex-wrap gap-1 [&>div]:rounded-[1.5625rem] [&>div]:px-[0.625rem] [&>div]:py-[0.375rem]">
+          <Container.FlexRow className="flex-1 flex-wrap gap-1">
             {house_appeal.map(appeal => (
               <Badge.Outline
                 key={appeal}
                 hover={false}
                 active={false}
                 focus={false}
+                className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
               >
-                <Typography.P2 key={appeal}>{appeal}</Typography.P2>
+                <Typography.SpanMid2 key={appeal}>{appeal}</Typography.SpanMid2>
               </Badge.Outline>
             ))}
           </Container.FlexRow>
           <Icon type="mini-heart" />
         </Container.FlexRow>
-        <Container.FlexCol className="gap-y-2 p-4">
+
+        <Container.FlexCol className="gap-y-2 rounded-b-xl bg-white p-4">
           <Container.FlexRow className="gap-x-1 text-brown">
-            <Typography.P3 className="font-bold">
+            <Typography.SubTitle3>
               {rentalTypesInfo[rental_type]}
-            </Typography.P3>
-            <Typography.P3 className="font-bold">
-              {`${deposit_price}/${monthly_price}`}
-            </Typography.P3>
+            </Typography.SubTitle3>
+            <Typography.SubTitle3>{`${deposit_price}/${monthly_price}`}</Typography.SubTitle3>
           </Container.FlexRow>
-          <Container.FlexRow className="flex-wrap items-center gap-1 [&>div]:rounded-[1.5625rem] [&>div]:px-[0.625rem] [&>div]:py-[0.375rem]">
+
+          <Container.Grid className="grid-cols-1 items-center gap-2 laptop:gap-1 monitor:grid-cols-[auto_1fr] ">
             <Typography.Span1 className="text-brown">{`${region} ${district}`}</Typography.Span1>
-            <Badge.Outline hover={false} active={false} focus={false}>
-              <Typography.Span2>
-                {houseTypesInfo[house_type].text}
-              </Typography.Span2>
-            </Badge.Outline>
-            <Badge.Outline hover={false} active={false} focus={false}>
-              <Typography.Span2>{`${term[0]}개월 이상`}</Typography.Span2>
-            </Badge.Outline>
-          </Container.FlexRow>
+
+            <Container.FlexRow className="items-center justify-start gap-1">
+              <Badge.Outline
+                hover={false}
+                active={false}
+                focus={false}
+                className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
+              >
+                <Typography.SpanMid2>
+                  {houseTypesInfo[house_type].text}
+                </Typography.SpanMid2>
+              </Badge.Outline>
+              <Badge.Outline
+                hover={false}
+                active={false}
+                focus={false}
+                className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
+              >
+                <Typography.Span2>{`${term[0]}개월 이상`}</Typography.Span2>
+              </Badge.Outline>
+            </Container.FlexRow>
+          </Container.Grid>
         </Container.FlexCol>
       </Container>
     </Link>
