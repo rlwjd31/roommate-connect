@@ -32,6 +32,8 @@ export default {
         'active-fill': '#4C2A1C',
         'active-outline': '#F7E9DE',
         focus: '#EFCBA1',
+        'bg-beige': '#FCF7E7',
+        'bg-orange': '#FFD7C6',
       },
       fontSize: {
         Head1: ['3rem', { fontWeight: 700 }],

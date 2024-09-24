@@ -5,7 +5,7 @@ import { useAuthState } from '@/hooks/useSign';
 import Header from '@/components/templates/Header';
 import isRoutePathMatched from '@/libs/isRoutePathMatched';
 import Container from '@/components/atoms/Container';
-import HouseListTopSection from '@/components/templates/House/HouseList/HouseListTopSection';
+import HouseListTitle from '@/components/templates/House/HouseList/HouseListTitle';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
@@ -35,10 +35,7 @@ export default function LayoutTemplate() {
       />
       {isHouseList ? (
         <Container.FlexCol className="min-h-screen w-full overflow-x-hidden">
-          <Container.FlexRow className=" h-[48.5rem] w-full justify-center bg-[#FCF7E7]">
-            <HouseListTopSection />
-            <Container className="absolute inset-x-0 top-[33.8125rem] z-[1] h-[14.6875rem] rounded-t-[100rem] bg-[#FFD7C6] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
-          </Container.FlexRow>
+          <HouseListTitle />
           <Container.FlexRow className="inset-x-0 -z-10 bg-[#FFD7C6]">
             <main
               className={cn(
@@ -68,3 +65,21 @@ export default function LayoutTemplate() {
 LayoutTemplate.defaultProps = {
   isLogin: false,
 };
+
+// (
+// 	<Container.FlexCol className="min-h-screen w-full overflow-x-hidden">
+// 		<Container.FlexRow className=" h-[17.25rem] w-full justify-center bg-[#FCF7E7] tablet:h-[37.875rem] laptop:h-[43.0625rem] desktop:h-[45rem] monitor:h-[48.5rem]">
+// 			<HouseListTopSection />
+// 			<Container className="absolute inset-x-0 top-[33.8125rem] z-[1] h-[39.5px] tablet:h-[111.5px] laptop:h-[117px] desktop:h-[126.5px] monitor:h-[234px] rounded-t-[100rem] bg-[#FFD7C6] [clip-path:polygon(50%_0%,0%_100%,100%_100%)]" />
+// 		</Container.FlexRow>
+// 		<Container.FlexRow className="inset-x-0 -z-10 bg-[#FFD7C6]">
+// 			<main
+// 				className={cn(
+// 					'flex flex-col relative max-w-[90rem] monitor:max-w-[97.5rem] mx-auto pt-[5rem] pb-[13rem] bg-transparent',
+// 				)}
+// 			>
+// 				<Outlet />
+// 			</main>
+// 		</Container.FlexRow>
+// 	</Container.FlexCol>
+// )
