@@ -36,7 +36,7 @@ export default function LayoutTemplate() {
       {isHouseList ? (
         <Container.FlexCol className="min-h-screen w-full overflow-x-hidden">
           <HouseListTopSection />
-          <Container.FlexRow className="inset-x-0 -z-10 bg-bg-orange">
+          <Container.FlexRow className="inset-x-0 bg-bg-orange">
             <main
               className={cn(
                 'flex flex-col relative max-w-[90rem] monitor:max-w-[97.5rem] mx-auto pt-[5rem] pb-[13rem] bg-transparent',
