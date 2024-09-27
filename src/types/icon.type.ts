@@ -67,7 +67,8 @@ export type IconType =
   | 'delete'
   | 'camera-off'
   | 'edit-avatar'
-  | 'down-arrow';
+  | 'down-arrow'
+  | 'filter';
 
 export type CustomIconType = {
   fill?: ColorType;
