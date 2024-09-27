@@ -5,7 +5,7 @@ import { useAuthState } from '@/hooks/useSign';
 import Header from '@/components/templates/Header';
 import isRoutePathMatched from '@/libs/isRoutePathMatched';
 import Container from '@/components/atoms/Container';
-import HouseListTitle from '@/components/templates/House/HouseList/HouseListTitle';
+import HouseListTopSection from '@/components/templates/House/HouseList/HouseListTopSection';
 
 export default function LayoutTemplate() {
   // * supabase authListener를 등록함과 동시에 isLogin상태를 가져오기 위함
@@ -35,8 +35,8 @@ export default function LayoutTemplate() {
       />
       {isHouseList ? (
         <Container.FlexCol className="min-h-screen w-full overflow-x-hidden">
-          <HouseListTitle />
-          <Container.FlexRow className="inset-x-0 -z-10 bg-[#FFD7C6]">
+          <HouseListTopSection />
+          <Container.FlexRow className="inset-x-0 -z-10 bg-bg-orange">
             <main
               className={cn(
                 'flex flex-col relative max-w-[90rem] monitor:max-w-[97.5rem] mx-auto pt-[5rem] pb-[13rem] bg-transparent',
