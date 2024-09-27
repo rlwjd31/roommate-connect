@@ -39,7 +39,7 @@ export default function LayoutTemplate() {
           <Container.FlexRow className="inset-x-0 bg-bg-orange">
             <main
               className={cn(
-                'flex flex-col relative max-w-[90rem] monitor:max-w-[97.5rem] mx-auto pt-[5rem] pb-[13rem] bg-transparent',
+                'flex flex-col relative max-w-[90rem] monitor:max-w-[97.5rem] mx-auto pt-[1.9rem] tablet:pt-[5rem] pb-[13rem] bg-transparent',
               )}
             >
               <Outlet />
