@@ -7,10 +7,10 @@ export default function HouseListTopSection() {
   return (
     <Container className="relative h-[17.3125rem] bg-bg-beige p-[1.6875rem] s-tablet:h-[40rem] s-tablet:px-8 s-tablet:pt-[11.25rem] tablet:h-[45.625rem] laptop:h-[50.8125rem] desktop:h-[52.75rem] monitor:h-[56.25rem]">
       <Container.FlexCol className="mx-auto max-w-[79rem] items-start gap-4">
-        <Typography.P1 className="text-[1rem] font-normal leading-[135%] text-[#FF5F3C] tablet:text-[1.75rem] laptop:text-[2rem]">
+        <Typography.P1 className="text-[1rem] font-normal leading-[135%] text-list-point tablet:text-[1.75rem] laptop:text-[2rem]">
           HOUSE THE COLLECTION
         </Typography.P1>
-        <Container.FlexCol className="text-[#FF5F3C]">
+        <Container.FlexCol className="text-list-point">
           <Typography.P1 className="text-[2.5rem] s-tablet:text-[6.375rem] laptop:text-[7.8175rem] desktop:text-[8.375rem]">
             HOUSE
           </Typography.P1>
@@ -26,7 +26,7 @@ export default function HouseListTopSection() {
             iconClassName="h-[1.3438rem] w-auto s-tablet:h-[1.6875rem] tablet:h-[2rem] desktop:h-[2.5rem]"
           />
           <Typography.Head3
-            className="hidden font-normal text-[#FF5F3C] tablet:block laptop:text-[1.75rem] desktop:text-[2rem]"
+            className="hidden font-normal text-list-point tablet:block laptop:text-[1.75rem] desktop:text-[2rem]"
             id="list-start"
           >
             Find Your Roommate.
