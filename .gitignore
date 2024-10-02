@@ -28,3 +28,4 @@ node_modules
 !.env.example
 .vscode
 gitmessage.txt
+.vercel

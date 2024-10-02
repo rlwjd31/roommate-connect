@@ -151,12 +151,29 @@ export const useVerifyEmail = ({
 };
 
 export const useSignInSocial = () => {
+  const isDev =
+    import.meta.env.MODE === 'development' &&
+    process.env.NODE_ENV === 'development';
+
+  const getURL = () => {
+    let url: string =
+      import.meta.env.VITE_PRODUCTION_URL ??
+      import.meta.env.VITE_VERCEL_URL ??
+      'http://localhost:3000';
+
+    url = url.startsWith('http') ? url : `https://${url}`;
+    url = url.endsWith('/') ? url : `${url}/`;
+
+    return url;
+  };
+
   const { mutate: signInSocial, isPending: isSignInSocial } = useMutation({
     mutationFn: async (payload: SocialType) =>
       supabase.auth.signInWithOAuth({
         provider: payload,
-        // ! TODO: dev, production에 따라 redirect URL 변경해야 함.
-        options: { redirectTo: `http://localhost:5173${routePaths.sign}` },
+        options: {
+          redirectTo: isDev ? 'http://localhost:3000' : getURL(),
+        },
       }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
     onError: error => {
@@ -279,7 +296,7 @@ export const useAuthState = () => {
       if (afterInitialSessionAuthListener)
         afterInitialSessionAuthListener.data.subscription.unsubscribe();
     };
-  }, [isInitializingSession, navigate]);
+  }, [isInitializingSession, navigate, setAuthState, setIsInitializingSession]);
 
   return [sessionValue, isInitializingSession] as const;
 };
