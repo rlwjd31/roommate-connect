@@ -1,6 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { routePaths } from '@/constants/route';
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
@@ -95,7 +96,7 @@ export default function HouseDetailTemplate(props: {
 
   const onClickBookMark = () => {
     updateBookMark({
-      id: user?.id as string,
+      userId: user?.id ?? '',
       houseId: houseId as string,
       isBookMark: bookmark,
     });

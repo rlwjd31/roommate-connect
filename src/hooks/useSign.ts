@@ -10,6 +10,7 @@ import {
 import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { uuid } from '@supabase/supabase-js/dist/main/lib/helpers';
+
 import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import {
