@@ -32,6 +32,9 @@ import ImageCarouselModal from '@/components/templates/HouseDetail/ImageCarousel
 import HouseImageTemplate from '@/components/templates/HouseDetail/HouseImageTemplate';
 import HouseInfoCard from '@/components/templates/HouseDetail/HouseInfoCard';
 import UserInfoCard from '@/components/templates/HouseDetail/UserInfoCard';
+import { supabase } from '@/libs/supabaseClient';
+import SupabaseCustomError from '@/libs/supabaseCustomError';
+import { routePaths } from '@/constants/route';
 
 // TODO: house.type HouseData(join된 column도 포함) 필요한 column만 pick해서 가져오기
 export type HouseData = Omit<HouseFormType, 'rental_type' | 'floor'> & {
@@ -128,6 +131,75 @@ export default function HouseDetailTemplate(props: {
     },
   };
 
+  const onClickCreateChat = async () => {
+    if (houseData.user_id && user?.id) {
+      const {
+        data: isChatRoomExist,
+        error: isChatRoomExistError,
+        status: isChatRoomExistStatus,
+      } = await supabase
+        .from('chat_room')
+        .select('*')
+        .containedBy('users', [houseData.user_id, user.id]); // 배열이 'a', 'b'로만 구성되어 있는지 확인
+
+      if (isChatRoomExistError) {
+        throw new SupabaseCustomError(
+          isChatRoomExistError,
+          isChatRoomExistStatus,
+        );
+      }
+
+      // ! 채팅방이 존재하지 않을 때 -> 중복 채팅방 생성 방지
+      if (isChatRoomExist.length === 0) {
+        const {
+          data: chatRoomData,
+          error: chatRoomDataError,
+          status: chatRoomDataStatus,
+        } = await supabase
+          .from('chat_room')
+          .insert([
+            {
+              users: [houseData.user_id, user.id],
+              last_message: '',
+              last_message_date: JSON.stringify(new Date()),
+            },
+          ])
+          .select();
+
+        if (chatRoomDataError) {
+          throw new SupabaseCustomError(chatRoomDataError, chatRoomDataStatus);
+        }
+
+        console.log('chatRoomData 👉🏻', chatRoomData);
+
+        const {
+          data: userChatData,
+          error: userChatDataError,
+          status: userChatDataStatus,
+        } = await supabase
+          .from('user_chat')
+          .insert([
+            {
+              last_read: JSON.stringify(new Date()),
+              chat_room_id: chatRoomData[0].id,
+              user_id: user.id,
+            },
+          ])
+          .select('*');
+
+        if (userChatDataError) {
+          throw new SupabaseCustomError(userChatDataError, userChatDataStatus);
+        }
+
+        console.log('userData 👉🏻', userChatData);
+
+        navigate(routePaths.chatRoom(chatRoomData[0].id));
+      } else {
+        navigate(routePaths.chatRoom(isChatRoomExist[0].id));
+      }
+    }
+  };
+
   return (
     <Container.FlexCol className="gap-8">
       {modal && (
@@ -200,11 +272,26 @@ export default function HouseDetailTemplate(props: {
                   </Typography.P3>
                 </Button.Fill>
               ) : (
-                <Button.Outline className="rounded-lg bg-white px-[1.96875rem] py-[1.21875rem] text-brown ">
-                  <Typography.P3 className="tablet:text-P1">
-                    메시지 보내기
-                  </Typography.P3>
-                </Button.Outline>
+                <>
+                  <Button.Fill
+                    className="rounded-lg px-[2.03125rem] py-[1.21875rem] text-white"
+                    onClick={() =>
+                      setRoommateApplyModal(RoommateApplyModalContext)
+                    }
+                  >
+                    <Typography.P3 className="tablet:text-P1">
+                      룸메이트 신청
+                    </Typography.P3>
+                  </Button.Fill>
+                  <Button.Outline
+                    onClick={onClickCreateChat}
+                    className="rounded-lg bg-white px-[2rem] py-[1.25rem] text-brown "
+                  >
+                    <Typography.P3 className="tablet:text-P1">
+                      메시지 보내기
+                    </Typography.P3>
+                  </Button.Outline>
+                </>
               )}
             </Container.FlexRow>
             <Container.FlexRow className="gap-5 tablet:gap-7 laptop:gap-8">

@@ -64,9 +64,8 @@ export default function About() {
         >
           house register
         </Link>
-        {/* 0cb348da-028b-4271-bbf0-ad5888308729 */}
         <Link
-          to={routePaths.houseDetail('0cb348da-028b-4271-bbf0-ad5888308729')}
+          to={routePaths.houseDetail('4f627998-1306-4ac6-8683-50e80db68b8b')}
           className="w-40 bg-brown text-xl text-white"
         >
           house detail
