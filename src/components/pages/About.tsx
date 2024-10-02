@@ -49,7 +49,7 @@ export default function About() {
         <Link to="/chat" className="w-40 bg-brown text-xl text-white">
           chats
         </Link>
-        <Link to="/chat/1" className="w-40 bg-brown text-xl text-white">
+        <Link to="/chat/2c818fc5-8b49-44ff-8713-b4ece60c36d5" className="w-40 bg-brown text-xl text-white">
           chatRoom
         </Link>
         <Link to="/lounge" className="w-40 bg-brown text-xl text-white">
