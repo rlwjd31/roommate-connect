@@ -145,6 +145,11 @@ export default function HouseDetailTemplate(props: {
                 chat_room_id: chatRoomData[0].id,
                 user_id: user.id,
               },
+              {
+                last_read: JSON.stringify(new Date()),
+                chat_room_id: chatRoomData[0].id,
+                user_id: houseData.user_id,
+              },
             ])
             .select('*');
 
@@ -152,9 +157,13 @@ export default function HouseDetailTemplate(props: {
           throw new SupabaseCustomError(userChatDataError, userChatDataStatus);
         }
 
-        navigate(routePaths.chatRoom(chatRoomData[0].id));
+        navigate(routePaths.chatRoom(chatRoomData[0].id), {
+          state: { chatPartnerId: houseData.user_id },
+        });
       } else {
-        navigate(routePaths.chatRoom(isChatRoomExist[0].id));
+        navigate(routePaths.chatRoom(isChatRoomExist[0].id), {
+          state: { chatPartnerId: houseData.user_id },
+        });
       }
     }
   };

@@ -1,5 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+
 import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import Container from '@/components/atoms/Container';
@@ -48,7 +49,7 @@ export default function About() {
         <Link to="/chat" className="w-40 bg-brown text-xl text-white">
           chats
         </Link>
-        <Link to="/chat/1" className="w-40 bg-brown text-xl text-white">
+        <Link to="/chat/2c818fc5-8b49-44ff-8713-b4ece60c36d5" className="w-40 bg-brown text-xl text-white">
           chatRoom
         </Link>
         <Link to="/lounge" className="w-40 bg-brown text-xl text-white">
@@ -63,9 +64,8 @@ export default function About() {
         >
           house register
         </Link>
-        {/* 0cb348da-028b-4271-bbf0-ad5888308729 */}
         <Link
-          to={routePaths.houseDetail('0cb348da-028b-4271-bbf0-ad5888308729')}
+          to={routePaths.houseDetail('4f627998-1306-4ac6-8683-50e80db68b8b')}
           className="w-40 bg-brown text-xl text-white"
         >
           house detail
