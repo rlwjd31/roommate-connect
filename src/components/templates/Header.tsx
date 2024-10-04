@@ -74,7 +74,8 @@ export default function Header({ className, isLogin, ...others }: Props) {
           <GNB
             className={cn(
               commonHeaderStyle,
-              'bottom-0 left-0 justify-center bg-bg',
+              isHouseListPath && 'h-auto py-8 bg-bg',
+              'bottom-0 left-0 justify-center',
             )}
           />
         )}

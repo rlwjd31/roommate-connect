@@ -24,7 +24,6 @@ export default function LayoutTemplate() {
     'signUpProfileIntro',
     'signUpProfileOutro',
   ]);
-  const commonHeaderStyle = 'flex h-[8rem] items-center fixed w-screen z-50';
 
   const isHouseListPath = isRoutePathMatched(location.pathname, 'house');
 
@@ -32,7 +31,7 @@ export default function LayoutTemplate() {
     <>
       <Header
         isLogin={!!session}
-        className={cn(commonHeaderStyle, isSignPath && 'bg-transparent')}
+        className={cn(isSignPath && 'bg-transparent')}
       />
       {isHouseListPath ? (
         <Container.FlexCol className="min-h-screen w-full overflow-x-hidden">
@@ -46,7 +45,6 @@ export default function LayoutTemplate() {
             >
               <Outlet />
             </main>
-            {/* main */}
           </Container.FlexRow>
         </Container.FlexCol>
       ) : (
