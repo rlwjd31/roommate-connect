@@ -42,6 +42,12 @@ export default function Header({ className, isLogin, ...others }: Props) {
 
   const headerConfig = getHeaderConfig(location.pathname);
 
+  const isHouseListPath = isRoutePathMatched(location.pathname, 'house');
+
+  if (isHouseListPath) {
+    headerConfig.gnb = !!isOverSTabletBreakPoint;
+  }
+
   return (
     <>
       {(isOverSTabletBreakPoint || headerConfig.isHeaderExistUnderSTablet) && (
