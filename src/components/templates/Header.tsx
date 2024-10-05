@@ -52,7 +52,12 @@ export default function Header({ className, isLogin, ...others }: Props) {
     <>
       {(isOverSTabletBreakPoint || headerConfig.isHeaderExistUnderSTablet) && (
         <header
-          className={cn(commonHeaderStyle, 'top-0 left-0 bg-bg', className)}
+          className={cn(
+            commonHeaderStyle,
+            'top-0 left-0 bg-bg',
+            isHouseListPath && 'h-[6rem]',
+            className,
+          )}
           {...others}
         >
           <Container.FlexRow className="mx-auto w-full max-w-[79rem] items-center justify-between px-8">
@@ -74,7 +79,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
           <GNB
             className={cn(
               commonHeaderStyle,
-              isHouseListPath && 'h-auto py-8 bg-bg',
+              isHouseListPath && 'h-auto py-7 bg-bg',
               'bottom-0 left-0 justify-center',
             )}
           />

@@ -34,7 +34,7 @@ export default {
         focus: '#EFCBA1',
         'bg-beige': '#FCF7E7',
         'bg-orange': '#FFD7C6',
-        'list-point': '#FF5F3C',
+        'point1': '#FF5F3C',
       },
       fontSize: {
         Head1: ['3rem', { fontWeight: 700 }],
