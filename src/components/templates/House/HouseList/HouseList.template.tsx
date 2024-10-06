@@ -15,7 +15,7 @@ export default function HouseListTemplate(props: HouseListTemplateProps) {
   return (
     <Container.FlexCol>
       <HouseListFilter />
-      <Container.Grid className="grid-cols-1 gap-x-6 gap-y-10 px-8 tablet:grid-cols-[1fr_1fr] laptop:grid-cols-[1fr_1fr_1fr] desktop:grid-cols-[1fr_1fr_1fr_1fr] monitor:px-0 [&>img]:object-contain">
+      <Container.Grid className="grid-cols-1 items-center justify-center gap-x-6 gap-y-10 px-8 pb-10 screen480:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4 monitor:grid-cols-5 [&>img]:object-contain">
         {houseList.map(item => item && <HouseCard key={item.id} {...item} />)}
       </Container.Grid>
     </Container.FlexCol>
