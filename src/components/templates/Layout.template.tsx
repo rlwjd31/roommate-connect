@@ -25,7 +25,9 @@ export default function LayoutTemplate() {
     'signUpProfileOutro',
   ]);
 
-  const isHouseListPath = isRoutePathMatched(location.pathname, 'house');
+  const isHouseListPath =
+    isRoutePathMatched(location.pathname, 'house') ||
+    isRoutePathMatched(location.pathname, 'root');
 
   return (
     <>

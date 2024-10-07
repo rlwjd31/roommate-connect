@@ -48,6 +48,8 @@ const routeHeaderInfo: {
     logo: true,
     gnb: true,
     userMenu: true,
+    isHeaderExistUnderSTablet: true,
+    isGNBExistBottomUnderSTablet: true,
   },
   about: {
     logo: true,
