@@ -4,7 +4,6 @@ import Container from '@/components/atoms/Container';
 import Img from '@/components/atoms/Img';
 import Badge from '@/components/atoms/Badge';
 import Typography from '@/components/atoms/Typography';
-import Icon from '@/components/atoms/Icon';
 import { houseTypesInfo, rentalTypesInfo } from '@/constants/profileDetailInfo';
 import { HouseCardType } from '@/types/house.type';
 
