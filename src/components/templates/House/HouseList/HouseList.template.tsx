@@ -10,8 +10,7 @@ export type HouseListTemplateProps = {
 };
 
 export default function HouseListTemplate(props: HouseListTemplateProps) {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const { houseList, hasNextPage, fetchNextPage } = props;
+  const { houseList } = props;
 
   return (
     <Container.FlexCol>

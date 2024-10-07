@@ -1,5 +1,4 @@
 import {
-  infiniteQueryOptions,
   useInfiniteQuery,
   useMutation,
   useQueries,
@@ -9,6 +8,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 /* eslint-disable consistent-return */
 import { FileObject } from '@supabase/storage-js';
+
 import { routePaths } from '@/constants/route';
 import {
   createToast,
