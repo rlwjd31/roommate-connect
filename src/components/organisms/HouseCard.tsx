@@ -46,7 +46,12 @@ export default function HouseCard(props: HouseCardProps) {
               focus={false}
               className="rounded-2xl border-none px-[0.625rem] pb-[0.3125rem] pt-[0.5rem] shadow-badge"
             >
-              <Typography.SpanMid2 key={appeal}>{appeal}</Typography.SpanMid2>
+              <Typography.SpanMid2
+                key={appeal}
+                className="translate-y-[-0.1rem]"
+              >
+                {appeal}
+              </Typography.SpanMid2>
             </Badge.Outline>
           ))}
         </Container.FlexRow>
@@ -71,7 +76,7 @@ export default function HouseCard(props: HouseCardProps) {
               focus={false}
               className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
             >
-              <Typography.SpanMid2>
+              <Typography.SpanMid2 className="translate-y-[-0.1rem]">
                 {houseTypesInfo[house_type].text}
               </Typography.SpanMid2>
             </Badge.Outline>
@@ -81,7 +86,7 @@ export default function HouseCard(props: HouseCardProps) {
               focus={false}
               className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
             >
-              <Typography.Span2>{`${term[0]}개월 이상`}</Typography.Span2>
+              <Typography.Span2 className="translate-y-[-0.1rem]">{`${term[0]}개월 이상`}</Typography.Span2>
             </Badge.Outline>
           </Container.FlexRow>
         </Container.Grid>
