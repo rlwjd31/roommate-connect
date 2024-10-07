@@ -37,7 +37,7 @@ export default function HouseCard(props: HouseCardProps) {
       />
       {/* 사진 위의 badge 부분 */}
       <Container.FlexRow className="absolute inset-x-0 top-0 items-start p-4">
-        <Container.FlexRow className="flex-1 flex-wrap gap-1">
+        <Container.FlexRow className="flex-1 flex-wrap gap-2">
           {house_appeal.map(appeal => (
             <Badge.Outline
               key={appeal}
@@ -55,21 +55,22 @@ export default function HouseCard(props: HouseCardProps) {
             </Badge.Outline>
           ))}
         </Container.FlexRow>
-        <Icon type="mini-heart" />
+        {/* TODO: 추후 bookmark기능 고친 후 적용 */}
+        {/* <Icon type="mini-heart" /> */}
       </Container.FlexRow>
 
       <Container.FlexCol className="gap-y-2 rounded-b-xl bg-white p-4">
-        <Container.FlexRow className="gap-x-1 text-brown">
-          <Typography.SubTitle3>
+        <Container.FlexRow className="mb-3 gap-x-1 text-brown">
+          <Typography.SubTitle2>
             {rentalTypesInfo[rental_type]}
-          </Typography.SubTitle3>
-          <Typography.SubTitle3>{`${deposit_price}/${monthly_price}`}</Typography.SubTitle3>
+          </Typography.SubTitle2>
+          <Typography.SubTitle2>{`${deposit_price}/${monthly_price}`}</Typography.SubTitle2>
         </Container.FlexRow>
 
         <Container.Grid className="grid-cols-1 items-center gap-2 laptop:gap-1 monitor:grid-cols-[auto_1fr] ">
-          <Typography.Span1 className="text-brown">{`${region} ${district}`}</Typography.Span1>
-
-          <Container.FlexRow className="items-center justify-start gap-1">
+          <Typography.Span1 className="mb-1 text-brown">{`${region} ${district}`}</Typography.Span1>
+          {/* TODO: 아파트, 12개월 이상 해당 영역 fetch House이후 집의 특징 rendering 기능 추가 */}
+          <Container.FlexRow className="items-center justify-start gap-2">
             <Badge.Outline
               hover={false}
               active={false}
