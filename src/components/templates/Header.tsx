@@ -55,7 +55,7 @@ export default function Header({ className, isLogin, ...others }: Props) {
           className={cn(
             commonHeaderStyle,
             'top-0 left-0 bg-bg',
-            isHouseListPath && 'h-[6rem]',
+            isHouseListPath && (isOverSTabletBreakPoint ? '' : 'h-[6rem]'),
             className,
           )}
           {...others}
