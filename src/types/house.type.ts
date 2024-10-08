@@ -117,6 +117,16 @@ const HouseCard = HouseForm.pick({
 
 export type HouseCardType = z.infer<typeof HouseCard> & { id: string };
 
+
+const HousePagination = HouseCard.extend({
+  hasMore: z.boolean(),
+  nextPage: z.number(),
+});
+
+export type HousePaginationType = z.infer<
+  typeof HousePagination
+>;
+
 export const HouseListFilterForm = HouseForm.pick({
   house_type: true,
   rental_type: true,
@@ -134,3 +144,4 @@ export const HouseListFilterForm = HouseForm.pick({
   .partial();
 
 export type HouseListFilterType = z.infer<typeof HouseListFilterForm>;
+
