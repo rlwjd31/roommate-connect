@@ -2,11 +2,22 @@ import Container from '@/components/atoms/Container';
 import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
+import useModal from '@/hooks/useModal';
 import cn from '@/libs/cn';
+import { HouseListFilterModalState } from '@/types/modal.type';
 
 export default function HouseListFilter() {
+  const { setModalState: setHouseListFilterModal } =
+    useModal('HouseListFilter');
+
+  const HouseListFilterContext: HouseListFilterModalState = {
+    isOpen: true,
+    type: 'HouseListFilter',
+  };
+
   const filterBtnCommonStyle =
     'cursor-pointer items-center gap-3 rounded-full bg-white shadow-badge text-brown hover:ring hover:ring-point active:bg-point1 active:text-white';
+
   return (
     <Container.FlexRow className="mb-[3.75rem] justify-center gap-5">
       <Container.FlexRow className="gap-x-4">
@@ -14,6 +25,7 @@ export default function HouseListFilter() {
           iconType="filter"
           direction="left"
           className={cn(filterBtnCommonStyle, 'px-[1.6rem] py-[1rem]')}
+          onClick={() => setHouseListFilterModal(HouseListFilterContext)}
         >
           <Typography.SpanMid2 className="text-[1rem]">
             필터
