@@ -61,7 +61,7 @@ export default function HouseCard(props: HouseCardProps) {
       <Container.FlexCol className="rounded-b-xl bg-white p-4">
         <Container.FlexRow className="mb-5 gap-x-1 text-brown">
           <Typography.SubTitle2>
-            {rentalTypesInfo[rental_type]}
+            {rentalTypesInfo[rental_type as keyof typeof rentalTypesInfo]}
           </Typography.SubTitle2>
           <Typography.SubTitle2>{`${deposit_price}/${monthly_price}`}</Typography.SubTitle2>
         </Container.FlexRow>
@@ -76,7 +76,7 @@ export default function HouseCard(props: HouseCardProps) {
               className="rounded-2xl px-[0.625rem] pb-[0.3125rem] pt-[0.5rem]"
             >
               <Typography.SpanMid2 className="translate-y-[-0.1rem]">
-                {houseTypesInfo[house_type].text}
+                {houseTypesInfo[house_type as keyof typeof houseTypesInfo].text}
               </Typography.SpanMid2>
             </Badge.Outline>
             <Badge.Outline

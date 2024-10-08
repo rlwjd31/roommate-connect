@@ -369,16 +369,23 @@ export const useDeleteHousePost = () => {
 
 // houseList hooks
 const fetchHouseList = async ({ pageParam = 0 }) => {
+  const HOUSE_PER_PAGE = 10;
+
   const { data, error } = await supabase
     .from('house')
     .select(
       'id, representative_img, region, district, house_appeal, house_type, rental_type, term, deposit_price, monthly_price, user_id',
     )
     .eq('temporary', 1)
-    .range(pageParam * 12, pageParam * 12 + 11);
+    .range(pageParam * HOUSE_PER_PAGE, (pageParam + 1) * HOUSE_PER_PAGE - 1);
 
   if (error) throw new Error(error.message);
-  return { data, nextPage: pageParam + 1, hasMore: data.length !== 0 };
+
+  return {
+    data,
+    nextPage: pageParam + 1,
+    hasMore: data.length > 0 && data.length % HOUSE_PER_PAGE === 0,
+  };
 };
 
 export const useInfiniteHouseList = () =>
