@@ -108,7 +108,7 @@ function HouseListFilterModal() {
     }));
     closeModal();
   };
-  console.log(houseListFilterState);
+
   useEffect(() => {
     form.reset(houseListFilterState);
   }, [isOpen, houseListFilterState]);
