@@ -27,7 +27,7 @@ export default function HouseCard(props: HouseCardProps) {
   return (
     <Link
       to={routePaths.houseDetail(id)}
-      className="relative w-full rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)] monitor:w-[23.25rem]"
+      className="relative w-full rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)]"
     >
       <Img
         className="h-[13.7rem] rounded-b-none object-cover"
@@ -58,16 +58,15 @@ export default function HouseCard(props: HouseCardProps) {
         {/* <Icon type="mini-heart" /> */}
       </Container.FlexRow>
 
-      <Container.FlexCol className="gap-y-2 rounded-b-xl bg-white p-4">
-        <Container.FlexRow className="mb-3 gap-x-1 text-brown">
+      <Container.FlexCol className="rounded-b-xl bg-white p-4">
+        <Container.FlexRow className="mb-5 gap-x-1 text-brown">
           <Typography.SubTitle2>
             {rentalTypesInfo[rental_type]}
           </Typography.SubTitle2>
           <Typography.SubTitle2>{`${deposit_price}/${monthly_price}`}</Typography.SubTitle2>
         </Container.FlexRow>
-
-        <Container.Grid className="grid-cols-1 items-center gap-2 laptop:gap-1 monitor:grid-cols-[auto_1fr] ">
-          <Typography.Span1 className="mb-1 text-brown">{`${region} ${district}`}</Typography.Span1>
+        <Typography.Span1 className="mb-3 text-brown">{`${region} ${district}`}</Typography.Span1>
+        <Container.FlexRow className="items-center gap-2 laptop:gap-1 monitor:grid-cols-[auto_1fr] ">
           {/* TODO: 아파트, 12개월 이상 해당 영역 fetch House이후 집의 특징 rendering 기능 추가 */}
           <Container.FlexRow className="items-center justify-start gap-2">
             <Badge.Outline
@@ -89,7 +88,7 @@ export default function HouseCard(props: HouseCardProps) {
               <Typography.Span2 className="translate-y-[-0.1rem]">{`${term[0]}개월 이상`}</Typography.Span2>
             </Badge.Outline>
           </Container.FlexRow>
-        </Container.Grid>
+        </Container.FlexRow>
       </Container.FlexCol>
     </Link>
   );
