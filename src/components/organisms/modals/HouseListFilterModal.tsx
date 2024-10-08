@@ -1,34 +1,34 @@
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import useModal from '@/hooks/useModal';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
-import useModal from '@/hooks/useModal';
-import { HouseListFilterModalAtom } from '@/stores/globalModal.store';
+import Button from '@/components/atoms/Button';
+import BadgeButton from '@/components/molecules/BadgeButton';
+import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
+import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
+import Icon from '@/components/atoms/Icon';
+import FormItem from '@/components/molecules/FormItem';
 import ModalBackdrop from '@/components/organisms/modals/ModalBackdrop';
+import { HouseListFilterModalAtom } from '@/stores/globalModal.store';
 import {
   genderDisplayData,
   houseTypeDisplayData,
   mateNumberDisplayData,
   rentalTypeDisplayData,
 } from '@/constants/signUpProfileData';
-import Button from '@/components/atoms/Button';
 import {
   MoleculeSelectorState,
   SelectorStateType,
 } from '@/components/organisms/districtSelector/selector.store';
-import BadgeButton from '@/components/molecules/BadgeButton';
-import DistrictSelector from '@/components/organisms/districtSelector/DistrictSelector';
 import { SelectorItemValueType } from '@/types/regionDistrict.type';
 import { createToast } from '@/libs/toast';
-import LabelDualInputRange from '@/components/organisms/LabelDualInputRange';
-import Icon from '@/components/atoms/Icon';
 import { genderInfo } from '@/constants/profileDetailInfo';
 import { HouseListFilterForm, HouseListFilterType } from '@/types/house.type';
-import FormItem from '@/components/molecules/FormItem';
 import { InputRangeState } from '@/components/molecules/DualInputRange';
 import HouseListFilterAtomState from '@/stores/house.store';
 
@@ -108,6 +108,10 @@ function HouseListFilterModal() {
     }));
     closeModal();
   };
+
+  useEffect(() => {
+    form.reset(houseListFilterState);
+  }, [isOpen, houseListFilterState]);
 
   return isOpen ? (
     <ModalBackdrop modalType="HouseListFilter">
