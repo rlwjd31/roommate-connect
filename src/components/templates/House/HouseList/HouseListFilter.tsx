@@ -86,7 +86,7 @@ export default function HouseListFilter() {
             </IconButton.Ghost>
           )}
           {houseListFilterState.regions &&
-            houseListFilterState.regions?.map(region => (
+            houseListFilterState.regions.map(region => (
               <IconButton.Ghost
                 key={region}
                 iconType="close"
@@ -108,6 +108,8 @@ export default function HouseListFilter() {
               </IconButton.Ghost>
             )}
           {houseListFilterState.deposit_price &&
+            houseListFilterState.deposit_price[0] !== 0 &&
+            houseListFilterState.deposit_price[1] !== 10100 &&
             (houseListFilterState.deposit_price[0] !== 0 ||
               houseListFilterState.deposit_price[1] !== 10100) && (
               <IconButton.Ghost
@@ -126,6 +128,8 @@ export default function HouseListFilter() {
               </IconButton.Ghost>
             )}
           {houseListFilterState.monthly_rental_price &&
+            houseListFilterState.monthly_rental_price[0] !== 0 &&
+            houseListFilterState.monthly_rental_price[1] !== 510 &&
             (houseListFilterState.monthly_rental_price[0] !== 0 ||
               houseListFilterState.monthly_rental_price[1] !== 510) && (
               <IconButton.Ghost
