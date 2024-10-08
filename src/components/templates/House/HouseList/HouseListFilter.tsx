@@ -9,14 +9,11 @@ import useModal from '@/hooks/useModal';
 import cn from '@/libs/cn';
 import HouseListFilterAtomState from '@/stores/house.store';
 import { HouseListFilterModalState } from '@/types/modal.type';
-import {
-  houseTypeDisplayData,
-  mateNumberDisplayData,
-  rentalTypeDisplayData,
-} from '@/constants/signUpProfileData';
+import { houseTypeDisplayData } from '@/constants/signUpProfileData';
 import { HouseListFilterType } from '@/types/house.type';
 import { generateUnitByPrice, generateUnitByTerm } from '@/libs/generateUnit';
-import { genderInfo } from '@/constants/profileDetailInfo';
+import { genderInfo, mateNumInfo } from '@/constants/profileDetailInfo';
+import { rentalTypeDisplay } from '@/constants/houseData';
 
 export default function HouseListFilter() {
   const filterBtnCommonStyle =
@@ -78,20 +75,16 @@ export default function HouseListFilter() {
               </Typography.P3>
             </IconButton.Ghost>
           )}
-          {houseListFilterState.rental_type !== undefined &&
-            houseListFilterState.rental_type !== 0 && (
-              <IconButton.Ghost
-                iconType="close"
-                onClick={() => removeFilter('rental_type')}
-              >
-                <Typography.P3 className="text-brown">
-                  {
-                    rentalTypeDisplayData[houseListFilterState.rental_type]
-                      .displayValue
-                  }
-                </Typography.P3>
-              </IconButton.Ghost>
-            )}
+          {houseListFilterState.rental_type !== undefined && (
+            <IconButton.Ghost
+              iconType="close"
+              onClick={() => removeFilter('rental_type')}
+            >
+              <Typography.P3 className="text-brown">
+                {rentalTypeDisplay[houseListFilterState.rental_type]}
+              </Typography.P3>
+            </IconButton.Ghost>
+          )}
           {houseListFilterState.regions &&
             houseListFilterState.regions?.map(region => (
               <IconButton.Ghost
@@ -152,28 +145,22 @@ export default function HouseListFilter() {
                 onClick={() => removeFilter('mate_number')}
               >
                 <Typography.P3 className="pr-2 text-brown">
-                  {
-                    mateNumberDisplayData[houseListFilterState.mate_number]
-                      .displayValue
-                  }
+                  {mateNumInfo[houseListFilterState.mate_number].text}
                 </Typography.P3>
               </IconButton.Ghost>
             )}
-          {houseListFilterState.mate_gender !== undefined &&
-            houseListFilterState.mate_gender !== 0 && (
-              <IconButton.Ghost
-                iconType="close"
-                className="!gap-x-2"
-                onClick={() => removeFilter('mate_gender')}
-              >
-                <Icon
-                  type={genderInfo[houseListFilterState.mate_gender].icon}
-                />
-                <Typography.P3 className="pr-2 text-brown">
-                  {genderInfo[houseListFilterState.mate_gender].text}
-                </Typography.P3>
-              </IconButton.Ghost>
-            )}
+          {houseListFilterState.mate_gender !== undefined && (
+            <IconButton.Ghost
+              iconType="close"
+              className="!gap-x-2"
+              onClick={() => removeFilter('mate_gender')}
+            >
+              <Icon type={genderInfo[houseListFilterState.mate_gender].icon} />
+              <Typography.P3 className="pr-2 text-brown">
+                {genderInfo[houseListFilterState.mate_gender].text}
+              </Typography.P3>
+            </IconButton.Ghost>
+          )}
         </Container.FlexRow>
       </Container.FlexCol>
     </Container.FlexRow>
