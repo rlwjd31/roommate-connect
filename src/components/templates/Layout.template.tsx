@@ -55,6 +55,7 @@ export default function LayoutTemplate() {
             // * isSignPath & isSignUpProfilePath에 해당하는 page는 header가 존재하기 때문
             (isSignPath || isSignUpProfilePath) && 'pt-[8rem] pb-8',
             's-tablet:pt-[8rem] px-8 pb-8',
+            // 'bg-yellow-200',
           )}
         >
           <Outlet />

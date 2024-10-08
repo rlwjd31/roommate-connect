@@ -1,4 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
+
 import { routePaths } from '@/constants/route';
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
