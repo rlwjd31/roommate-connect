@@ -1,15 +1,15 @@
 import {  useRef } from 'react';
 import { ClipLoader } from 'react-spinners';
-import { UseInfiniteQueryResult } from '@tanstack/react-query';
+import { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query';
 
 import Container from '@/components/atoms/Container';
 import HouseCard from '@/components/organisms/HouseCard';
 import HouseListFilter from '@/components/templates/House/HouseList/HouseListFilter';
-import { HouseCardType, HousePaginationType } from '@/types/house.type';
 import useIsOverSTabletBreakpoint from '@/hooks/useIsOverSTabletBreakpoint';
+import { HouseCardType, HouseListPerPage } from '@/types/house.type';
 
 export type HouseListTemplateProps = Omit<
-  UseInfiniteQueryResult<HousePaginationType>,
+  UseInfiniteQueryResult<InfiniteData<HouseListPerPage>>,
   'data'
 > & {
   houseList: HouseCardType[];

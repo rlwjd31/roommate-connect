@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { SignUpProfileForm } from '@/types/signUp.type';
+import { Tables } from '@/types/supabase';
 
 export const HouseForm = z.object({
   house_img: z
@@ -102,30 +103,25 @@ export const HouseForm = z.object({
 
 export type HouseFormType = z.infer<typeof HouseForm>;
 
-const HouseCard = HouseForm.pick({
-  representative_img: true,
-  house_type: true,
-  rental_type: true,
-  deposit_price: true,
-  monthly_price: true,
-  house_appeal: true,
-  region: true,
-  district: true,
-  term: true,
-  user_id: true,
-}).required();
+export type HouseCardType = Pick<
+  Tables<'house'>,
+  | 'representative_img'
+  | 'region'
+  | 'district'
+  | 'house_appeal'
+  | 'house_type'
+  | 'rental_type'
+  | 'term'
+  | 'deposit_price'
+  | 'monthly_price'
+  | 'user_id'
+> & { id: string };
 
-export type HouseCardType = z.infer<typeof HouseCard> & { id: string };
-
-
-const HousePagination = HouseCard.extend({
-  hasMore: z.boolean(),
-  nextPage: z.number(),
-});
-
-export type HousePaginationType = z.infer<
-  typeof HousePagination
->;
+export type HouseListPerPage = {
+  data: HouseCardType[];
+  hasMore: boolean;
+  nextPage: number;
+};
 
 export const HouseListFilterForm = HouseForm.pick({
   house_type: true,
@@ -144,4 +140,3 @@ export const HouseListFilterForm = HouseForm.pick({
   .partial();
 
 export type HouseListFilterType = z.infer<typeof HouseListFilterForm>;
-
