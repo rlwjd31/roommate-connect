@@ -5,7 +5,6 @@ import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
 import IconButton from '@/components/molecules/IconButton';
 import isRoutePathMatched from '@/libs/isRoutePathMatched';
-import { SignLayoutWrapper } from '@/components/templates/SignLayout.template';
 
 export default function SignUp() {
   const navigate = useNavigate();
