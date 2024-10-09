@@ -2,8 +2,8 @@ import Typography from '@/components/atoms/Typography';
 
 export default function MyBookmarkLoungeTemplate() {
   return (
-    <Typography.Head1 className="text-brown mt-10">
-      라운지 서비스 준비중 입니다.
-    </Typography.Head1>
+    <Typography.SubTitle1 className="py-10 pl-5 text-brown">
+      게시물 서비스 준비중 입니다.
+    </Typography.SubTitle1>
   );
 }

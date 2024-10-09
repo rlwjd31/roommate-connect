@@ -31,7 +31,7 @@ export default function MyBookmarkTemplate(props: MyBookmarkTemplateProps) {
         {tabItem.map((item, index) => (
           <Button.Ghost
             key={item}
-            className={`h-14 w-[11.25rem] items-center justify-center border-b-brown text-brown2 ${currentTab === index ? 'border-b-3 text-brown' : ''}`}
+            className={`h-14 w-[6.75rem] items-center justify-center border-b-brown text-brown2 ${currentTab === index ? 'border-b-3 text-brown' : ''}`}
             onClick={() => {
               setCurrentTab(index);
               setCurrentPage(1);
