@@ -7,9 +7,9 @@ import {
 import { ReactElement, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import LayoutTemplate from '@/components/templates/Layout.template';
+import LayoutTemplate from '@/components/templates/layout/Layout.template';
 import ComponentTest from '@/components/pages/ComponentTest';
-import SignLayoutTemplate from '@/components/templates/SignLayout.template';
+import SignLayoutTemplate from '@/components/templates/layout/SignLayout.template';
 import SignUpProfileIntro from '@/components/pages/SignUpProfileIntro';
 import SignUpProfile from '@/components/pages/SignUpProfile';
 import SignIn from '@/components/pages/SignIn';
@@ -27,7 +27,7 @@ import { ChatRoom } from '@/components/templates/chats';
 import Chat from '@/components/pages/Chat';
 import HouseDetail from '@/components/pages/HouseDetail';
 import HouseList from '@/components/pages/HouseList';
-import MyPageLayoutTemplate from '@/components/templates/MyPage/MyPageLayout.template';
+import MyPageLayoutTemplate from '@/components/templates/layout/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';
