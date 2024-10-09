@@ -101,6 +101,22 @@ function HouseListFilterModal() {
     );
   };
 
+  const onClickResetFilter = () => {
+    const initialHouseListFilterState: HouseListFilterType = {
+      house_type: undefined,
+      rental_type: undefined,
+      term: [0, 25],
+      deposit_price: [0, 10000],
+      monthly_rental_price: [0, 500],
+      mate_number: undefined,
+      mate_gender: undefined,
+      regions: undefined,
+    };
+
+    form.reset(initialHouseListFilterState);
+    setHouseListFilterState(initialHouseListFilterState);
+  };
+
   const onSubmitUpdateHouseList = (formData: HouseListFilterType) => {
     setHouseListFilterState(prev => ({
       ...prev,
@@ -323,7 +339,7 @@ function HouseListFilterModal() {
                 direction="left"
                 iconClassName="mr-3"
                 className="rounded-lg px-[1.5rem] py-[1.125rem]"
-                onClick={() => form.reset(houseListFilterState)}
+                onClick={onClickResetFilter}
               >
                 <Typography.SubTitle3 className="text-nowrap pt-1">
                   초기화
