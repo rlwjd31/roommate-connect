@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { routePaths } from '@/constants/route';
@@ -9,6 +9,19 @@ import Icon from '@/components/atoms/Icon';
 import { SessionAtom } from '@/stores/auth.store';
 import { createToast } from '@/libs/toast';
 import { supabase } from '@/libs/supabaseClient';
+
+export function SignLayoutWrapper({
+  className,
+  children,
+}: ComponentProps<'div'>) {
+  return (
+    <Container.FlexCol
+      className={cn('size-full max-w-[40rem] laptop:px-[3.5rem]', className)}
+    >
+      {children}
+    </Container.FlexCol>
+  );
+}
 
 export default function SignLayoutTemplate() {
   const navigate = useNavigate();

@@ -70,7 +70,7 @@ export default function SignInTemplate() {
   const onClickVisible = () => setPasswordVisible(prev => !prev);
 
   return (
-    <Container.FlexCol className="size-full max-w-[40rem] gap-[3.75rem] laptop:px-[3.5rem]">
+      <>
       <Container.FlexCol className="w-full">
         <Container.FlexCol className="mb-[4rem] gap-[1.25rem] text-brown">
           <Typography.Head2>House-Connect</Typography.Head2>
@@ -168,6 +168,6 @@ export default function SignInTemplate() {
           </IconButton.Ghost>
         </Container.FlexCol>
       </Container.FlexCol>
-    </Container.FlexCol>
+      </>
   );
 }
