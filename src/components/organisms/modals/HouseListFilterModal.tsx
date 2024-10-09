@@ -317,14 +317,23 @@ function HouseListFilterModal() {
                 </Container.FlexRow>
               </Container.FlexCol>
             </Container.FlexCol>
-            <Container.FlexRow className="sticky bottom-0 rounded-xl bg-bg p-6">
+            <Container.FlexRow className="sticky bottom-0 gap-4 rounded-xl bg-bg p-6 ">
+              <IconButton.Outline
+                iconType="reset"
+                direction="left"
+                iconClassName="mr-3"
+                className="rounded-lg px-[1.5rem] py-[1.125rem]"
+                onClick={() => form.reset(houseListFilterState)}
+              >
+                <Typography.SubTitle3 className="text-nowrap pt-1">
+                  초기화
+                </Typography.SubTitle3>
+              </IconButton.Outline>
               <Button.Fill
                 type="submit"
-                className="w-full items-center justify-center rounded-[0.5rem] px-9 py-[1.125rem] text-white"
+                className="w-full items-center justify-center rounded-lg px-9 py-[1.125rem] text-white"
               >
-                <Typography.P3 className="font-semibold">
-                  필터 적용
-                </Typography.P3>
+                <Typography.SubTitle3>필터 적용</Typography.SubTitle3>
               </Button.Fill>
             </Container.FlexRow>
           </Container.FlexCol>

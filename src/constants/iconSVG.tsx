@@ -407,7 +407,7 @@ const IconSVG: { [key in IconType]: FC<SVGProps<SVGSVGElement>> } = {
     <Add className={cn('size-[12px]', className)} {...others} />
   ),
   reset: ({ className, ...others }) => (
-    <Reset className={cn('w-[13.22px] h-auto', className)} {...others} />
+    <Reset className={cn('w-[14px] h-auto', className)} {...others} />
   ),
 };
 
