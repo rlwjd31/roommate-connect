@@ -70,7 +70,7 @@ export default function SignInTemplate() {
   const onClickVisible = () => setPasswordVisible(prev => !prev);
 
   return (
-    <Container.FlexCol className="w-full gap-[3.75rem] px-[7rem]">
+    <Container.FlexCol className="size-full max-w-[40rem] gap-[3.75rem] laptop:px-[3.5rem]">
       <Container.FlexCol className="w-full">
         <Container.FlexCol className="mb-[4rem] gap-[1.25rem] text-brown">
           <Typography.Head2>House-Connect</Typography.Head2>
@@ -134,9 +134,11 @@ export default function SignInTemplate() {
           </Form>
         </Container.FlexCol>
       </Container.FlexCol>
-      <Container.FlexCol className="gap-[2.25rem]">
+      <Container.FlexCol className="gap-[2.25rem] pb-5">
         <div className="flex">
-          <Divider.Row>SNS 계정으로 로그인</Divider.Row>
+          <Divider.Row className="[&_span]:text-sm">
+            SNS 계정으로 로그인
+          </Divider.Row>
         </div>
         <Container.FlexCol className="gap-y-5">
           <IconButton.Ghost

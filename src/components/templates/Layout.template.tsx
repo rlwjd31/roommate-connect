@@ -33,7 +33,7 @@ export default function LayoutTemplate() {
     <>
       <Header
         isLogin={!!session}
-        className={cn(isSignPath && 'bg-transparent')}
+        className={cn(isSignPath && 'bg-bg laptop:bg-transparent')}
       />
       {isHouseListPath ? (
         <Container.FlexCol className="w-full bg-bg-orange pb-[6rem]">

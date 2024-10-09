@@ -48,7 +48,7 @@ export default function SignLayoutTemplate() {
     <>
       <Container
         className={cn(
-          'fixed left-0 top-0 z-[-9999] h-screen w-[50vw] bg-subColor1',
+          'fixed left-0 top-0 z-[-9999] h-screen w-[50vw] bg-transparent laptop:bg-bg-beige',
         )}
       />
       <Container
@@ -56,8 +56,8 @@ export default function SignLayoutTemplate() {
           'fixed right-0 top-0 z-[-9998] h-screen w-[50vw] bg-bg rounded-xl',
         )}
       />
-      <Container.FlexRow className="w-full">
-        <Container.FlexRow className="h-full flex-1 items-center justify-center">
+      <Container.FlexRow className="mx-auto w-full">
+        <Container.FlexRow className="hidden h-full flex-1 items-center justify-center laptop:flex">
           <Icon type="character" />
         </Container.FlexRow>
         <Container.FlexRow className="w-full flex-1 justify-center">
