@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 
-import MyAccountTemplate from '@/components/templates/MyAccount.template';
+import MyAccountTemplate from '@/components/templates/MyPage/MyAccount.template';
 import { SessionAtom } from '@/stores/auth.store';
 import Typography from '@/components/atoms/Typography';
 

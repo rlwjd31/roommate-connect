@@ -27,7 +27,7 @@ import { ChatRoom } from '@/components/templates/chats';
 import Chat from '@/components/pages/Chat';
 import HouseDetail from '@/components/pages/HouseDetail';
 import HouseList from '@/components/pages/HouseList';
-import MyPageLayoutTemplate from '@/components/templates/MyPageLayout.template';
+import MyPageLayoutTemplate from '@/components/templates/MyPage/MyPageLayout.template';
 import MyActivity from '@/components/pages/MyActivity';
 import MyAccount from '@/components/pages/MyAccount';
 import MyBookmark from '@/components/pages/MyBookmark';

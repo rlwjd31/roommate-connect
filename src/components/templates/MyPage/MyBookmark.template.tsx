@@ -4,9 +4,9 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import Container from '@/components/atoms/Container';
 import Button from '@/components/atoms/Button';
 import Typography from '@/components/atoms/Typography';
-import MyBookmarkHouseTemplate from '@/components/templates/MyBookmarkHouse.template';
-import MyBookmarkLoungeTemplate from '@/components/templates/MyBookmarkLounge.template';
-import MyBookmarkArticleTemplate from '@/components/templates/MyBookmarkArticle.template';
+import MyBookmarkHouseTemplate from '@/components/templates/MyPage/MyBookmarkHouse.template';
+import MyBookmarkLoungeTemplate from '@/components/templates/MyPage/MyBookmarkLounge.template';
+import MyBookmarkArticleTemplate from '@/components/templates/MyPage/MyBookmarkArticle.template';
 import { HouseBookmarkType } from '@/hooks/useMyBookmark';
 import Pagination from '@/components/organisms/Pagination';
 import {
