@@ -14,17 +14,18 @@ import { HouseListFilterType } from '@/types/house.type';
 import { generateUnitByPrice, generateUnitByTerm } from '@/libs/generateUnit';
 import { genderInfo, mateNumInfo } from '@/constants/profileDetailInfo';
 import { rentalTypeDisplay } from '@/constants/houseData';
+import { routePaths } from '@/constants/route';
 
 export default function HouseListFilter() {
   const filterBtnCommonStyle =
     'cursor-pointer items-center gap-3 rounded-full bg-white shadow-badge text-brown hover:ring hover:ring-point active:bg-point1 active:text-white';
 
-  const { setModalState: setHouseListFilterModal } =
-    useModal('HouseListFilter');
+  const { setModalState } = useModal('HouseListFilter');
   const HouseListFilterContext: HouseListFilterModalState = {
     isOpen: true,
     type: 'HouseListFilter',
   };
+
   const [houseListFilterState, setHouseListFilterState] =
     useRecoilState<HouseListFilterType>(HouseListFilterAtomState);
 
@@ -43,13 +44,13 @@ export default function HouseListFilter() {
             iconType="filter"
             direction="left"
             className={cn(filterBtnCommonStyle, 'px-[1.6rem] py-[1rem]')}
-            onClick={() => setHouseListFilterModal(HouseListFilterContext)}
+            onClick={() => setModalState(HouseListFilterContext)}
           >
             <Typography.SpanMid2 className="text-[1rem]">
               필터
             </Typography.SpanMid2>
           </IconButton.Ghost>
-          <Link to="/house/regist">
+          <Link to={routePaths.houseRegister}>
             <IconButton.Ghost
               iconType="add"
               direction="left"

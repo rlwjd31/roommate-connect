@@ -68,14 +68,12 @@ function HouseListFilterModal() {
       createToast('duplicatedRegion', '중복된 지역을 선택하셨습니다.', {
         type: 'error',
         isLoading: false,
-        containerId: 'signUpProfileToastContainer',
         autoClose: 1000,
       });
     } else if (prevRegions && prevRegions.length >= 3) {
       createToast('maxRegionLimit', '최대 3개의 지역까지 선택 가능합니다.', {
         type: 'warning',
         isLoading: false,
-        containerId: 'signUpProfileToastContainer',
         autoClose: 1000,
       });
     } else {
