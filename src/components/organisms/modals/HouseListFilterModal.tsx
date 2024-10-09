@@ -30,7 +30,9 @@ import { createToast } from '@/libs/toast';
 import { genderInfo } from '@/constants/profileDetailInfo';
 import { HouseListFilterForm, HouseListFilterType } from '@/types/house.type';
 import { InputRangeState } from '@/components/molecules/DualInputRange';
-import HouseListFilterAtomState from '@/stores/house.store';
+import HouseListFilterAtomState, {
+  initialHouseListFilterState,
+} from '@/stores/house.store';
 
 function HouseListFilterModal() {
   const [houseListFilterState, setHouseListFilterState] = useRecoilState(
@@ -102,19 +104,8 @@ function HouseListFilterModal() {
   };
 
   const onClickResetFilter = () => {
-    const initialHouseListFilterState: HouseListFilterType = {
-      house_type: undefined,
-      rental_type: undefined,
-      term: [0, 25],
-      deposit_price: [0, 10000],
-      monthly_rental_price: [0, 500],
-      mate_number: undefined,
-      mate_gender: undefined,
-      regions: undefined,
-    };
-
-    form.reset(initialHouseListFilterState);
     setHouseListFilterState(initialHouseListFilterState);
+    form.reset();
   };
 
   const onSubmitUpdateHouseList = (formData: HouseListFilterType) => {
