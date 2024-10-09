@@ -14,6 +14,22 @@ type UserDropdownProps = {
 };
 
 export default function UserDropdown({ user }: UserDropdownProps) {
+  const onClickLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      createToast(
+        'logoutError',
+        '죄송합니다. 로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.',
+        {
+          type: 'error',
+          isLoading: false,
+          autoClose: 1000,
+        },
+      );
+    }
+  };
+
   return (
     <Container.FlexCol className="absolute right-0 top-16 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]">
       <Container.FlexRow className="items-center gap-[1.0625rem] border-b-[0.5px] border-brown2 p-6">
@@ -38,7 +54,7 @@ export default function UserDropdown({ user }: UserDropdownProps) {
         <Link to={routePaths.myPage}>
           <Typography.SubTitle3>마이페이지</Typography.SubTitle3>
         </Link>
-        <Button.Ghost>
+        <Button.Ghost onClick={onClickLogout}>
           <Typography.SubTitle3>로그아웃</Typography.SubTitle3>
         </Button.Ghost>
       </Container.FlexCol>
