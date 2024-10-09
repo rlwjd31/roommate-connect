@@ -28,7 +28,7 @@ function MyBookmarkHouseTemplate(props: MyBookmarkHouseTemplateProps) {
       <Container className="relative">
         <Icon className="absolute inset-y-4 left-4" type="search" />
         <Input
-          className="placholder:text-brown2 mt-10 w-full border-none !bg-brown4 pl-14"
+          className="mt-10 w-full border-none !bg-brown4 pl-14 placeholder:text-brown2"
           placeholder="위치 검색"
           onKeyDown={onEnterSearchFilter}
         />

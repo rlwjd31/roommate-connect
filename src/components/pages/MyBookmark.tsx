@@ -1,7 +1,7 @@
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useQueries } from '@tanstack/react-query';
 
-import MyBookmarkTemplate from '@/components/templates/MyPage/MyBookmark.template';
+import MyBookmarkTemplate from '@/components/templates/MyPage/MyBookmark/MyBookmark.template';
 import { UserAtom } from '@/stores/auth.store';
 import {
   HouseBookmarkType,

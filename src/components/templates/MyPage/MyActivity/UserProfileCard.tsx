@@ -5,7 +5,7 @@ import BadgeIcon from '@/components/molecules/BadgeIcon';
 import {
   BadgeContainer,
   MyActivityTemplateProps,
-} from '@/components/templates/MyPage/MyActivity.template';
+} from '@/components/templates/MyPage/MyActivity/MyActivity.template';
 import {
   genderInfo,
   mateNumInfo,

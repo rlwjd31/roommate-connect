@@ -5,7 +5,7 @@ import Typography from '@/components/atoms/Typography';
 import {
   BadgeContainer,
   MyActivityTemplateProps,
-} from '@/components/templates/MyPage/MyActivity.template';
+} from '@/components/templates/MyPage/MyActivity/MyActivity.template';
 import { houseTypesInfo, rentalTypesInfo } from '@/constants/profileDetailInfo';
 import { generateUnitByPrice, generateUnitByTerm } from '@/libs/generateUnit';
 

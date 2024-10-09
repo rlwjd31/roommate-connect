@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useRecoilValue } from 'recoil';
 
-import MyActivityTemplate from '@/components/templates/MyPage/MyActivity.template';
+import MyActivityTemplate from '@/components/templates/MyPage/MyActivity/MyActivity.template';
 import { userInfoQuery, UserInfoType } from '@/hooks/useUserInfo';
 import { UserAtom } from '@/stores/auth.store';
 
