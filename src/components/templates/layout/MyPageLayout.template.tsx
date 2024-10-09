@@ -32,7 +32,7 @@ export default function MyPageLayoutTemplate() {
     { path: 'theme', name: '테마 설정' },
   ];
   return (
-    <Container.Grid className="grid-cols-[12.75rem_1fr] pt-[3.25rem]">
+    <Container.Grid className="grid-cols-[12.75rem_1fr] py-[3.25rem]">
       <aside className="flex flex-col gap-y-10 pt-[3.25rem]">
         <Typography.SubTitle1 className="text-brown">
           마이 페이지
