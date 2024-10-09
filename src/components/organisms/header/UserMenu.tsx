@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react';
+import { ComponentProps, useState } from 'react';
 
 import { UserType } from '@/types/auth.type';
 import Container from '@/components/atoms/Container';
@@ -8,6 +8,8 @@ import Avatar from '@/components/atoms/Avatar';
 import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
 import { routePaths } from '@/constants/route';
+import Button from '@/components/atoms/Button';
+import UserDropdown from '@/components/organisms/UserDropDown';
 
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
@@ -24,9 +26,11 @@ export default function UserMenu({
   hasNewAlarm,
   isUserMenuActive,
 }: UserMenuProps) {
+  const [dropView, setDropView] = useState(false);
+
   return (
     <Container.FlexRow
-      className={cn('items-center justify-between gap-7', className)}
+      className={cn('items-center justify-between gap-7 relative', className)}
     >
       {isLogin && (
         <>
@@ -35,10 +39,13 @@ export default function UserMenu({
             iconType={hasNewAlarm ? 'alarm-exist' : 'alarm-none'}
           />
           {user?.avatar ? (
-            <Avatar.XS src={user.avatar} isActive={isUserMenuActive} />
+            <Button.Ghost onClick={() => setDropView(!dropView)}>
+              <Avatar.XS src={user.avatar} isActive={isUserMenuActive} />
+            </Button.Ghost>
           ) : (
             <IconButton button="Ghost" iconType="avatar" />
           )}
+          {dropView && <UserDropdown user={user} />}
         </>
       )}
       {!isLogin && (
