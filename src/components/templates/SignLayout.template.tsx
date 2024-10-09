@@ -16,7 +16,10 @@ export function SignLayoutWrapper({
 }: ComponentProps<'div'>) {
   return (
     <Container.FlexCol
-      className={cn('size-full max-w-[40rem] laptop:px-[3.5rem]', className)}
+      className={cn(
+        'size-full max-w-[40rem] laptop:px-[3.5rem] min-h-[35rem] justify-center h-full',
+        className,
+      )}
     >
       {children}
     </Container.FlexCol>
