@@ -17,7 +17,7 @@ export function SignLayoutWrapper({
   return (
     <Container.FlexCol
       className={cn(
-        'size-full max-w-[40rem] justify-center laptop:px-[3.5rem] h-full',
+        'size-full max-w-[40rem] justify-center laptop:px-[3.5rem]',
         className,
       )}
     >
@@ -72,8 +72,7 @@ export default function SignLayoutTemplate() {
           'fixed right-0 top-0 z-[-9998] h-screen w-[50vw] bg-bg rounded-xl',
         )}
       />
-      {/* 요기 */}
-      <Container.FlexRow className="mx-auto size-full">
+      <Container.FlexRow className="mx-auto w-full flex-1">
         <Container.FlexRow className="hidden h-full flex-1 items-center justify-center laptop:flex">
           <Icon type="character" />
         </Container.FlexRow>
