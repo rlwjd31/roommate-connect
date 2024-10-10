@@ -13,9 +13,9 @@ type MyBookmarkHouseTemplateProps = {
   house: HouseBookmarkType[] | undefined;
 };
 
-function MyBookmarkHouseTemplate(props: MyBookmarkHouseTemplateProps) {
-  const { house } = props;
+function MyBookmarkHouseTemplate({ house }: MyBookmarkHouseTemplateProps) {
   const setHouseFilter = useSetRecoilState(BookmarkHouseFilterAtom);
+
   const onEnterSearchFilter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
@@ -23,28 +23,29 @@ function MyBookmarkHouseTemplate(props: MyBookmarkHouseTemplateProps) {
     }
   };
 
+  console.log(house);
   return (
-    <div>
-      <Container className="relative">
-        <Icon className="absolute inset-y-4 left-4" type="search" />
+    <Container.FlexCol>
+      <Container.FlexRow className="relative">
+        <Icon className="absolute left-4 top-14" type="search" />
         <Input
-          className="mt-10 w-full border-none !bg-brown4 pl-14 placeholder:text-brown2"
+          className="mt-10 w-full border-none !bg-brown4 pl-14 text-brown placeholder:text-brown2"
           placeholder="위치 검색"
           onKeyDown={onEnterSearchFilter}
         />
-      </Container>
+      </Container.FlexRow>
       <Container.Grid className="grid-cols-[320px_320px_320px] gap-x-[1.125rem] gap-y-10 pt-10">
         {house?.length && house[0].house ? (
           house.map(({ house: houseData }) => (
             <HouseCard key={houseData.id} {...houseData} />
           ))
         ) : (
-          <Typography.Span1 className="text-brown">
+          <Typography.P2 className="text-brown2">
             북마크 된 하우스가 없습니다.
-          </Typography.Span1>
+          </Typography.P2>
         )}
       </Container.Grid>
-    </div>
+    </Container.FlexCol>
   );
 }
 

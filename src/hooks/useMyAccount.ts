@@ -1,6 +1,7 @@
+import { useSetRecoilState } from 'recoil';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+
 import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import { AccountFormType } from '@/types/account.type';
