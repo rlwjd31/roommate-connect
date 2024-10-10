@@ -1,6 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
+import { formatISO } from 'date-fns';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -34,7 +35,30 @@ export default function SignUpInfoTemplate() {
       form.setError('birth', errors.gender);
       form.clearErrors('gender');
     }
-  }, [form.formState.errors]);
+  }, [form.formState.errors, form]);
+
+  //  * 주민번호 앞 자리 6자리, 뒷 자리 첫 번째 숫자 1자 초과 입력 방시 기능
+  useEffect(() => {
+    const subscription = form.watch(formValueObj => {
+      const { birth: birthValue, gender: genderValue } = formValueObj;
+
+      if (String(birthValue).length > 6) {
+        form.setValue(
+          'birth',
+          parseInt(String(birthValue as number).slice(0, 6), 10),
+        );
+      }
+
+      if (String(genderValue).length > 1) {
+        form.setValue(
+          'gender',
+          parseInt(String(genderValue as number).slice(0, 1), 10),
+        );
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   return (
     <Container.FlexCol className="min-w-full flex-1 gap-[3.25rem]">
