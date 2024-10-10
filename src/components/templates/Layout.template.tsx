@@ -33,7 +33,7 @@ export default function LayoutTemplate() {
     <>
       <Header
         isLogin={!!session}
-        className={cn(isSignPath && 'bg-transparent')}
+        className={cn(isSignPath && 'bg-bg laptop:bg-transparent')}
       />
       {isHouseListPath ? (
         <Container.FlexCol className="w-full bg-bg-orange pb-[6rem]">
@@ -55,6 +55,7 @@ export default function LayoutTemplate() {
             // * isSignPath & isSignUpProfilePath에 해당하는 page는 header가 존재하기 때문
             (isSignPath || isSignUpProfilePath) && 'pt-[8rem] pb-8',
             's-tablet:pt-[8rem] px-8 pb-8',
+            // 'bg-yellow-200',
           )}
         >
           <Outlet />
