@@ -31,7 +31,7 @@ export default function UserDropdown({ user }: UserDropdownProps) {
   };
 
   return (
-    <Container.FlexCol className="absolute right-0 top-16 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]">
+    <Container.FlexCol className="absolute right-0 top-20 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]">
       <Container.FlexRow className="items-center gap-[1.0625rem] border-b-[0.5px] border-brown2 p-6">
         {user?.avatar ? (
           <Avatar.XL src={user.avatar} />
@@ -51,7 +51,7 @@ export default function UserDropdown({ user }: UserDropdownProps) {
         </Link>
       </Container.FlexCol>
       <Container.FlexCol className="gap-6 p-5">
-        <Link to={routePaths.myPage}>
+        <Link to={routePaths.myActivity}>
           <Typography.SubTitle3>마이페이지</Typography.SubTitle3>
         </Link>
         <Button.Ghost onClick={onClickLogout}>
