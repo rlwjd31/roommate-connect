@@ -1,7 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { formatISO } from 'date-fns';
 
 import Container from '@/components/atoms/Container';
 import Typography from '@/components/atoms/Typography';
@@ -9,10 +8,18 @@ import Button from '@/components/atoms/Button';
 import FormItem from '@/components/molecules/FormItem';
 import { SignUpInfo, SignUpInfoType } from '@/types/auth.type';
 import { useUpdateUserInfo } from '@/hooks/useSign';
+import cn from '@/libs/cn';
 
-function Dash() {
-  return <div className="mt-3 h-[1px] w-[0.5625rem] bg-brown" />;
+function Dash({ className }: { className?: string }) {
+  return (
+    <div className={cn('mt-3 h-[1px] w-[0.5625rem] bg-brown', className)} />
+  );
 }
+
+Dash.defaultProps = {
+  className: '',
+};
+
 function Dot() {
   return <div className="size-1 rounded-full bg-brown" />;
 }
@@ -72,25 +79,25 @@ export default function SignUpInfoTemplate() {
               placeholder="이름 입력"
               inputStyle="mt-[1rem] w-full"
             />
-            <Container.FlexRow className="items-center gap-[1rem]">
+            <Container.FlexRow className="w-full items-center">
               <FormItem.TextField
                 labelName="주민등록번호"
                 type="text"
                 name="birth"
                 placeholder="990101"
-                inputStyle="mt-[1rem]"
+                inputStyle="mt-[1rem] w-full"
                 disabled={isPending}
               />
-              <Dash />
+              <Dash className="mx-2 mobile:mx-4" />
               <FormItem.TextField
                 type="text"
                 name="gender"
                 placeholder="2"
                 inputStyle="w-[2.5625rem] mt-[2rem] placeholder:text-[0.9375rem]"
-                containerStyle=""
+                containerStyle="mr-2 mobile:mr-3"
                 disabled={isPending}
               />
-              <Container.FlexRow className="gap-x-[0.75rem] pt-3">
+              <Container.FlexRow className="gap-x-2 pt-3 mobile:gap-x-3">
                 {Array.from({ length: 6 }).map(() => (
                   // eslint-disable-next-line react/jsx-key
                   <Dot />
