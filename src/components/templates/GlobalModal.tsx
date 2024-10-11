@@ -8,7 +8,6 @@ import { GlobalModalAtom } from '@/stores/globalModal.store';
 import RoommateApplyModal from '../organisms/modals/RoommateApplyModal';
 import ContinuationModal from '@/components/organisms/modals/ContinuationModal';
 import ProfileModifyModal from '@/components/organisms/modals/ProfileModifyModal';
-import HouseListFilterModal from '@/components/organisms/modals/HouseListFilterModal';
 
 export default function GlobalModal() {
   const modalType = useRecoilValue(GlobalModalAtom);
@@ -22,7 +21,6 @@ export default function GlobalModal() {
     RoommateApply: RoommateApplyModal,
     Continue: ContinuationModal,
     ProfileModify: ProfileModifyModal,
-    HouseListFilter: HouseListFilterModal,
   };
 
   const SelectedModal = TypesOfModals[modalType];

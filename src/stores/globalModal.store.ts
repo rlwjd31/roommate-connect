@@ -4,7 +4,6 @@ import {
   AlertModalState,
   ConfirmModalState,
   ContinuationModalState,
-  HouseListFilterModalState,
   ModalStateByType,
   ModalType,
   ProfileModalState,
@@ -88,7 +87,6 @@ export const RoommateApplyAtom = atom<RoommateApplyState>({
     onClickConfirm: () => {},
   },
 });
-
 export const ProfileModifyModalAtom = atom<ProfileModifyModalState>({
   key: 'applyModalState',
   default: {
@@ -112,14 +110,6 @@ export const ContinuationModalAtom = atom<ContinuationModalState>({
   },
 });
 
-export const HouseListFilterModalAtom = atom<HouseListFilterModalState>({
-  key: 'houseListFilterState',
-  default: {
-    isOpen: false,
-    type: 'HouseListFilter',
-  },
-});
-
 export const ModalSelector = selectorFamily({
   key: 'modalPropsByType',
   get:
@@ -140,8 +130,6 @@ export const ModalSelector = selectorFamily({
           return get(ContinuationModalAtom) as ModalStateByType[P];
         case 'ProfileModify':
           return get(ProfileModifyModalAtom) as ModalStateByType[P];
-        case 'HouseListFilter':
-          return get(HouseListFilterModalAtom) as ModalStateByType[P];
         default:
           errorSelector('Undefined cannot be a value of ModalType.');
           throw new Error('Undefined cannot be a value of ModalType.');
@@ -174,12 +162,6 @@ export const ModalSelector = selectorFamily({
           break;
         case 'ProfileModify':
           set(ProfileModifyModalAtom, newModalState as ProfileModifyModalState);
-          break;
-        case 'HouseListFilter':
-          set(
-            HouseListFilterModalAtom,
-            newModalState as HouseListFilterModalState,
-          );
           break;
         default:
           // eslint-disable-next-line no-console
