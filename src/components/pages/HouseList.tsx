@@ -1,8 +1,14 @@
+import { useRecoilState } from 'recoil';
+
 import HouseListTemplate from '@/components/templates/House/HouseList/HouseList.template';
 import { useInfiniteHouseList } from '@/hooks/useHouse';
+import HouseListFilterAtomState from '@/stores/house.store';
 
 export default function HouseList() {
-  const infiniteHouseListResult = useInfiniteHouseList();
+  const [filterState] = useRecoilState(HouseListFilterAtomState);
+  const infiniteHouseListResult = useInfiniteHouseList(filterState);
+
+  console.log('✅✅✅filterState => ', { filterState });
 
   return (
     <HouseListTemplate

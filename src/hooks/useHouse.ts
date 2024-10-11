@@ -1,4 +1,5 @@
 import {
+  QueryFunctionContext,
   useInfiniteQuery,
   useMutation,
   useQueries,
@@ -17,7 +18,7 @@ import {
   successToast,
 } from '@/libs/toast';
 import { supabase } from '@/libs/supabaseClient';
-import { HouseFormType } from '@/types/house.type';
+import { HouseFormType, HouseListFilterType } from '@/types/house.type';
 import {
   UserLifeStyleType,
   UserMateStyleType,
@@ -368,8 +369,13 @@ export const useDeleteHousePost = () => {
 };
 
 // houseList hooks
-const fetchHouseList = async ({ pageParam = 0 }) => {
+const fetchHouseList = async ({
+  pageParam = 0,
+  queryKey,
+}: QueryFunctionContext<ReturnType<typeof HOUSE_KEYS.HOUSE_LIST>, number>) => {
   const HOUSE_PER_PAGE = 10;
+  const [, , filterState] = queryKey;
+  
 
   const { data, error } = await supabase
     .from('house')
@@ -388,9 +394,9 @@ const fetchHouseList = async ({ pageParam = 0 }) => {
   };
 };
 
-export const useInfiniteHouseList = () =>
+export const useInfiniteHouseList = (filterState: HouseListFilterType) =>
   useInfiniteQuery({
-    queryKey: HOUSE_KEYS.HOUSE_LIST(),
+    queryKey: HOUSE_KEYS.HOUSE_LIST(filterState),
     queryFn: fetchHouseList,
     initialPageParam: 0,
     getNextPageParam: lastPage =>

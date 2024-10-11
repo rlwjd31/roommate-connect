@@ -116,7 +116,7 @@ function HouseListFilterModal() {
 
   useEffect(() => {
     form.reset(houseListFilterState);
-  }, [isOpen, houseListFilterState]);
+  }, [isOpen, houseListFilterState, form]);
 
   return isOpen ? (
     <ModalBackdrop modalType="HouseListFilter">

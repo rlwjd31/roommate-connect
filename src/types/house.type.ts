@@ -129,6 +129,7 @@ export const HouseListFilterForm = HouseForm.pick({
   term: true,
 })
   .merge(
+    // TODO: SignUpProfileForm에서 가져오는 것이 아닌 refactoring 이후 common house에서 가져올 것
     SignUpProfileForm.innerType().innerType().pick({
       regions: true,
       deposit_price: true,
