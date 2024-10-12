@@ -1,4 +1,4 @@
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 
 import { UserType } from '@/types/auth.type';
 import Container from '@/components/atoms/Container';
@@ -10,6 +10,7 @@ import Typography from '@/components/atoms/Typography';
 import { routePaths } from '@/constants/route';
 import Button from '@/components/atoms/Button';
 import UserDropdown from '@/components/organisms/UserDropDown';
+import { useLocation } from 'react-router-dom';
 
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
@@ -27,6 +28,11 @@ export default function UserMenu({
   isUserMenuActive,
 }: UserMenuProps) {
   const [dropView, setDropView] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setDropView(false);
+  }, [location]);
 
   return (
     <Container.FlexRow
