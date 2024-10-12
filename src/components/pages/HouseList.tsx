@@ -8,8 +8,6 @@ export default function HouseList() {
   const [filterState] = useRecoilState(HouseListFilterAtomState);
   const infiniteHouseListResult = useInfiniteHouseList(filterState);
 
-  console.log('✅✅✅filterState => ', { filterState });
-
   return (
     <HouseListTemplate
       houseList={

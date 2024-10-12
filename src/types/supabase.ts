@@ -846,6 +846,36 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      filter_houses_by_term: {
+        Args: {
+          term_start: number
+          term_end: number
+        }
+        Returns: {
+          bookmark: number
+          created_at: string
+          deposit_price: number
+          describe: string
+          district: string
+          floor: number
+          house_appeal: string[]
+          house_img: string[]
+          house_size: number
+          house_type: number
+          id: string
+          manage_price: number
+          monthly_price: number
+          post_title: string
+          region: string
+          rental_type: number
+          representative_img: string
+          room_num: number
+          temporary: number
+          term: number[]
+          updated_at: string
+          user_id: string
+        }[]
+      }
       get_messages_group_by_date: {
         Args: {
           input_chat_room_id: string
