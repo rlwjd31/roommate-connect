@@ -116,7 +116,7 @@ function HouseListFilterModal() {
 
   useEffect(() => {
     form.reset(houseListFilterState);
-  }, [isOpen, houseListFilterState, form]);
+  }, [isOpen, houseListFilterState]);
 
   return isOpen ? (
     <ModalBackdrop modalType="HouseListFilter">
@@ -337,6 +337,9 @@ function HouseListFilterModal() {
               <Button.Fill
                 type="submit"
                 className="w-full items-center justify-center rounded-lg px-9 py-[1.125rem] text-white"
+                onClick={() => {
+                  form.handleSubmit(onSubmitUpdateHouseList);
+                }}
               >
                 <Typography.SubTitle3>필터 적용</Typography.SubTitle3>
               </Button.Fill>

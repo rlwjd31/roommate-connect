@@ -375,15 +375,105 @@ const fetchHouseList = async ({
 }: QueryFunctionContext<ReturnType<typeof HOUSE_KEYS.HOUSE_LIST>, number>) => {
   const HOUSE_PER_PAGE = 10;
   const [, , filterState] = queryKey;
-  
+  const {
+    house_type: houseType,
+    rental_type: rentalType,
+    deposit_price: depositPrice,
+    term,
+    regions,
+    monthly_rental_price: monthlyRentalPrice,
+    mate_gender: mateGender,
+    mate_number: mateNumber,
+  } = filterState;
 
-  const { data, error } = await supabase
+  let fetchHouseListQuery = supabase
     .from('house')
     .select(
-      'id, representative_img, region, district, house_appeal, house_type, rental_type, term, deposit_price, monthly_price, user_id',
+      'id, representative_img, region, district, house_appeal, house_type, rental_type, term, deposit_price, monthly_price, user_id, user_mate_style!left(mate_gender, mate_number)',
     )
-    .eq('temporary', 1)
-    .range(pageParam * HOUSE_PER_PAGE, (pageParam + 1) * HOUSE_PER_PAGE - 1);
+    .eq('temporary', 1);
+
+  if (houseType !== undefined) {
+    fetchHouseListQuery = fetchHouseListQuery.eq('house_type', houseType);
+  }
+  if (rentalType !== undefined) {
+    fetchHouseListQuery = fetchHouseListQuery.eq('rental_type', rentalType);
+  }
+  if (depositPrice !== undefined) {
+    if (depositPrice[0] >= 0) {
+      fetchHouseListQuery = fetchHouseListQuery.gte(
+        'deposit_price',
+        depositPrice[0],
+      );
+    }
+    //  10100과 같이 10000 이상이면 1억원 이상 모든 값으로 depositPrice[0]에 대한 query -> gte만 하면 된다.
+    if (depositPrice[1] <= 10000) {
+      fetchHouseListQuery = fetchHouseListQuery.lte(
+        'deposit_price',
+        depositPrice[1],
+      );
+    }
+  }
+
+  if (regions !== undefined) {
+    regions.forEach(region => {
+      const [regionValue, districtValue] = region.split(' ');
+      fetchHouseListQuery = fetchHouseListQuery
+        .eq('region', regionValue)
+        .eq('district', districtValue);
+    });
+  }
+
+  if (term !== undefined) {
+    const [termStart, termEnd] = term;
+    // ! row pastgres를 지원하는 or를 이용했지만, 안 돼 filter를 활용함
+    // ! 또한 pastgres를 원래는 term[0]과 같이 접근이 가능하지만 ->>를 이용하면 접근이 가능하다.
+    if (termEnd >= 25) {
+      fetchHouseListQuery = fetchHouseListQuery.filter(
+        'term->>0',
+        'gte',
+        termStart,
+      );
+    } else {
+      fetchHouseListQuery = fetchHouseListQuery
+        .filter('term->>0', 'gte', termStart)
+        .filter('term->>1', 'lte', termEnd);
+    }
+  }
+
+  if (monthlyRentalPrice !== undefined) {
+    if (monthlyRentalPrice[0] >= 0) {
+      fetchHouseListQuery = fetchHouseListQuery.gte(
+        'monthly_price',
+        monthlyRentalPrice[0],
+      );
+    }
+    if (monthlyRentalPrice[1] <= 500) {
+      fetchHouseListQuery = fetchHouseListQuery.lte(
+        'monthly_price',
+        monthlyRentalPrice[1],
+      );
+    }
+  }
+
+  if (mateGender !== undefined) {
+    fetchHouseListQuery = fetchHouseListQuery.eq(
+      'user_mate_style->>mate_gender',
+      mateGender,
+    );
+  }
+
+  if (mateNumber !== undefined) {
+    fetchHouseListQuery = fetchHouseListQuery.eq(
+      'user_mate_style->>mate_number',
+      mateNumber,
+    );
+  }
+
+  const { data, error } = await fetchHouseListQuery.range(
+    pageParam * HOUSE_PER_PAGE,
+    (pageParam + 1) * HOUSE_PER_PAGE - 1,
+  );
 
   if (error) throw new Error(error.message);
 
@@ -402,3 +492,6 @@ export const useInfiniteHouseList = (filterState: HouseListFilterType) =>
     getNextPageParam: lastPage =>
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
+
+// TODO: [number, number]와 같은 type은 최소와 최대값을 저장하는 constant와 같은 값이 있어야 할 듯 하다.
+// TODO: E.G) 보증금(deposit_price)의 경우 [0, 10000], 월세(monthly_rental_price)의 경우 [0, 500] 등등
