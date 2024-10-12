@@ -1,4 +1,5 @@
 import { ComponentProps, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { UserType } from '@/types/auth.type';
 import Container from '@/components/atoms/Container';
@@ -9,8 +10,7 @@ import Link from '@/components/atoms/Link';
 import Typography from '@/components/atoms/Typography';
 import { routePaths } from '@/constants/route';
 import Button from '@/components/atoms/Button';
-import UserDropdown from '@/components/organisms/UserDropDown';
-import { useLocation } from 'react-router-dom';
+import UserDropdown from '@/components/organisms/UserDropdown';
 
 type UserMenuProps = ComponentProps<'div'> & {
   user: UserType | null;
