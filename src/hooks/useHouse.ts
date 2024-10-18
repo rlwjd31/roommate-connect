@@ -389,16 +389,29 @@ const fetchHouseList = async ({
   let fetchHouseListQuery = supabase
     .from('house')
     .select(
-      'id, representative_img, region, district, house_appeal, house_type, rental_type, term, deposit_price, monthly_price, user_id, user_mate_style!left(mate_gender, mate_number)',
+      `id,
+      representative_img,
+      region,
+      district,
+      house_appeal,
+      house_type,
+      rental_type,
+      term,
+      deposit_price,
+      monthly_price,
+      user_id,
+      user_mate_style!inner(mate_gender, mate_number)`,
     )
     .eq('temporary', 1);
 
   if (houseType !== undefined) {
     fetchHouseListQuery = fetchHouseListQuery.eq('house_type', houseType);
   }
+
   if (rentalType !== undefined) {
     fetchHouseListQuery = fetchHouseListQuery.eq('rental_type', rentalType);
   }
+
   if (depositPrice !== undefined) {
     if (depositPrice[0] >= 0) {
       fetchHouseListQuery = fetchHouseListQuery.gte(
@@ -426,18 +439,22 @@ const fetchHouseList = async ({
 
   if (term !== undefined) {
     const [termStart, termEnd] = term;
-    // ! row pastgres를 지원하는 or를 이용했지만, 안 돼 filter를 활용함
-    // ! 또한 pastgres를 원래는 term[0]과 같이 접근이 가능하지만 ->>를 이용하면 접근이 가능하다.
-    if (termEnd >= 25) {
+    // * supabase에서 or, filter method를 통해 row postgres를 지원하지만 or에서는 작동하지 않아 filter로 대체
+    // * supabase table column의 type이 배열일 시 "->>"를 통해 접근이 가능. postgres자체에서는 term[0]이 되지만 supabase에서 지원을 하지 않음
+    if (termStart >= 0) {
       fetchHouseListQuery = fetchHouseListQuery.filter(
         'term->>0',
         'gte',
         termStart,
       );
-    } else {
-      fetchHouseListQuery = fetchHouseListQuery
-        .filter('term->>0', 'gte', termStart)
-        .filter('term->>1', 'lte', termEnd);
+    }
+
+    if (termEnd <= 24) {
+      fetchHouseListQuery = fetchHouseListQuery.filter(
+        'term->>1',
+        'lte',
+        termEnd,
+      );
     }
   }
 
@@ -456,19 +473,18 @@ const fetchHouseList = async ({
     }
   }
 
-  // ! FIXME: mateGender와 mateNumber의 filtering이 되지 않음
-  // ! table의 column에 접근 시 문제 or join의 문제
-  // ! 또는 join후 nested table에 접근 시 문제 reference 👉🏻 https://github.com/supabase/postgrest-js/issues/197
+  // ! supabase의 join은 기본적으로 left join이므로 null값을 포함하기 때문에
+  // ! table_name!inner(*)와 같이 inner join을 명시해주어야 한다.
   if (mateGender !== undefined) {
     fetchHouseListQuery = fetchHouseListQuery.eq(
-      'user_mate_style->>mate_gender',
+      'user_mate_style.mate_gender',
       mateGender,
     );
   }
 
   if (mateNumber !== undefined) {
     fetchHouseListQuery = fetchHouseListQuery.eq(
-      'user_mate_style->>mate_number',
+      'user_mate_style.mate_number',
       mateNumber,
     );
   }
