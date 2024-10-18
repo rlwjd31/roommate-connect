@@ -456,6 +456,9 @@ const fetchHouseList = async ({
     }
   }
 
+  // ! FIXME: mateGender와 mateNumber의 filtering이 되지 않음
+  // ! table의 column에 접근 시 문제 or join의 문제
+  // ! 또는 join후 nested table에 접근 시 문제 reference 👉🏻 https://github.com/supabase/postgrest-js/issues/197
   if (mateGender !== undefined) {
     fetchHouseListQuery = fetchHouseListQuery.eq(
       'user_mate_style->>mate_gender',
