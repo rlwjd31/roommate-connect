@@ -25,6 +25,7 @@ import {
 } from '@/components/pages/HouseRegister';
 import USER_KEYS from '@/constants/queryKeys/user';
 import HOUSE_KEYS from '@/constants/queryKeys/house';
+import { Keys } from '@/types/common.type';
 
 // fetch functions
 export const fetchTemporaryHouseId = async (
@@ -369,125 +370,155 @@ export const useDeleteHousePost = () => {
 };
 
 // houseList hooks
+type HouseListQueryKeyType = ReturnType<typeof HOUSE_KEYS.HOUSE_LIST>;
+
 const fetchHouseList = async ({
   pageParam = 0,
   queryKey,
-}: QueryFunctionContext<ReturnType<typeof HOUSE_KEYS.HOUSE_LIST>, number>) => {
+}: QueryFunctionContext<HouseListQueryKeyType, number>) => {
   const HOUSE_PER_PAGE = 10;
   const [, , filterState] = queryKey;
-  const {
-    house_type: houseType,
-    rental_type: rentalType,
-    deposit_price: depositPrice,
-    term,
-    regions,
-    monthly_rental_price: monthlyRentalPrice,
-    mate_gender: mateGender,
-    mate_number: mateNumber,
-  } = filterState;
+  const filterPayload = filterState as HouseListFilterType;
 
   let fetchHouseListQuery = supabase
     .from('house')
     .select(
       `id,
-      representative_img,
-      region,
-      district,
-      house_appeal,
       house_type,
       rental_type,
+      region,
+      district,
       term,
       deposit_price,
       monthly_price,
+      representative_img,
+      house_appeal,
       user_id,
-      user_mate_style!inner(mate_gender, mate_number)`,
+      user_mate_style!inner(mate_gender, mate_number)`, // ! supabase default join은 left join으로 inner로 명시해주어야 inner join이 가능
     )
     .eq('temporary', 1);
 
-  if (houseType !== undefined) {
-    fetchHouseListQuery = fetchHouseListQuery.eq('house_type', houseType);
-  }
+  const filterCondition: {
+    [K in keyof HouseListFilterType]: {
+      filterCallback: (
+        query: typeof fetchHouseListQuery,
+        filterValue: HouseListFilterType[K],
+      ) => typeof fetchHouseListQuery;
+    };
+  } = {
+    house_type: {
+      filterCallback: (query, houseType) => {
+        if (houseType !== undefined && houseType !== null) {
+          query.eq('house_type', houseType);
+        }
 
-  if (rentalType !== undefined) {
-    fetchHouseListQuery = fetchHouseListQuery.eq('rental_type', rentalType);
-  }
+        return query;
+      },
+    },
+    rental_type: {
+      filterCallback: (query, rentalType) => {
+        if (rentalType !== undefined && rentalType !== null) {
+          query.eq('rental_type', rentalType);
+        }
 
-  if (depositPrice !== undefined) {
-    if (depositPrice[0] >= 0) {
-      fetchHouseListQuery = fetchHouseListQuery.gte(
-        'deposit_price',
-        depositPrice[0],
-      );
-    }
-    //  10100과 같이 10000 이상이면 1억원 이상 모든 값으로 depositPrice[0]에 대한 query -> gte만 하면 된다.
-    if (depositPrice[1] <= 10000) {
-      fetchHouseListQuery = fetchHouseListQuery.lte(
-        'deposit_price',
-        depositPrice[1],
-      );
-    }
-  }
+        return query;
+      },
+    },
+    regions: {
+      filterCallback: (query, regions) => {
+        if (regions !== undefined && regions !== null) {
+          regions.forEach(region => {
+            const [regionValue, districtValue] = region.split(' ');
+            query.eq('region', regionValue).eq('district', districtValue);
+          });
+        }
 
-  if (regions !== undefined) {
-    regions.forEach(region => {
-      const [regionValue, districtValue] = region.split(' ');
-      fetchHouseListQuery = fetchHouseListQuery
-        .eq('region', regionValue)
-        .eq('district', districtValue);
-    });
-  }
+        return query;
+      },
+    },
+    term: {
+      filterCallback: (query, term) => {
+        let copyQuery = query;
 
-  if (term !== undefined) {
-    const [termStart, termEnd] = term;
-    // * supabase에서 or, filter method를 통해 row postgres를 지원하지만 or에서는 작동하지 않아 filter로 대체
-    // * supabase table column의 type이 배열일 시 "->>"를 통해 접근이 가능. postgres자체에서는 term[0]이 되지만 supabase에서 지원을 하지 않음
-    if (termStart >= 0) {
-      fetchHouseListQuery = fetchHouseListQuery.filter(
-        'term->>0',
-        'gte',
-        termStart,
-      );
-    }
+        if (term !== undefined && term !== null) {
+          const [termStart, termEnd] = term;
+          if (termStart >= 0) {
+            copyQuery = copyQuery.filter('term->>0', 'gte', termStart);
+          }
+          if (termEnd <= 24) {
+            copyQuery = copyQuery.filter('term->>1', 'lte', termEnd);
+          }
+        }
 
-    if (termEnd <= 24) {
-      fetchHouseListQuery = fetchHouseListQuery.filter(
-        'term->>1',
-        'lte',
-        termEnd,
-      );
-    }
-  }
+        return copyQuery;
+      },
+    },
+    deposit_price: {
+      filterCallback: (query, depositPrice) => {
+        let copyQuery = query;
 
-  if (monthlyRentalPrice !== undefined) {
-    if (monthlyRentalPrice[0] >= 0) {
-      fetchHouseListQuery = fetchHouseListQuery.gte(
-        'monthly_price',
-        monthlyRentalPrice[0],
-      );
-    }
-    if (monthlyRentalPrice[1] <= 500) {
-      fetchHouseListQuery = fetchHouseListQuery.lte(
-        'monthly_price',
-        monthlyRentalPrice[1],
-      );
-    }
-  }
+        if (depositPrice !== undefined && depositPrice !== null) {
+          if (depositPrice[0] >= 0) {
+            copyQuery = copyQuery.gte('deposit_price', depositPrice[0]);
+          }
+          if (depositPrice[1] <= 10000) {
+            copyQuery = copyQuery.lte('deposit_price', depositPrice[1]);
+          }
+        }
 
-  // ! supabase의 join은 기본적으로 left join이므로 null값을 포함하기 때문에
-  // ! table_name!inner(*)와 같이 inner join을 명시해주어야 한다.
-  if (mateGender !== undefined) {
-    fetchHouseListQuery = fetchHouseListQuery.eq(
-      'user_mate_style.mate_gender',
-      mateGender,
-    );
-  }
+        return copyQuery;
+      },
+    },
+    monthly_rental_price: {
+      filterCallback: (query, monthlyRentalPrice) => {
+        let copyQuery = query;
 
-  if (mateNumber !== undefined) {
-    fetchHouseListQuery = fetchHouseListQuery.eq(
-      'user_mate_style.mate_number',
-      mateNumber,
-    );
-  }
+        if (monthlyRentalPrice !== undefined && monthlyRentalPrice !== null) {
+          if (monthlyRentalPrice[0] >= 0) {
+            copyQuery = copyQuery.gte('monthly_price', monthlyRentalPrice[0]);
+          }
+          if (monthlyRentalPrice[1] <= 500) {
+            copyQuery = copyQuery.lte('monthly_price', monthlyRentalPrice[1]);
+          }
+        }
+
+        return copyQuery;
+      },
+    },
+    mate_gender: {
+      filterCallback: (query, mateGender) => {
+        if (mateGender !== undefined && mateGender !== null) {
+          query.eq('user_mate_style.mate_gender', mateGender);
+        }
+
+        return query;
+      },
+    },
+    mate_number: {
+      filterCallback: (query, mateNumber) => {
+        if (mateNumber !== undefined && mateNumber !== null) {
+          query.eq('user_mate_style.mate_gender', mateNumber);
+        }
+
+        return query;
+      },
+    },
+  };
+
+  (Object.keys(filterPayload) as Keys<typeof filterPayload>).forEach(
+    filterType => {
+      if (
+        filterPayload[filterType] !== undefined &&
+        filterPayload[filterType] !== null
+      ) {
+        fetchHouseListQuery = filterCondition[filterType]?.filterCallback(
+          fetchHouseListQuery,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          filterPayload[filterType] as any,
+        ) as typeof fetchHouseListQuery;
+      }
+    },
+  );
 
   const { data, error } = await fetchHouseListQuery.range(
     pageParam * HOUSE_PER_PAGE,
@@ -503,14 +534,11 @@ const fetchHouseList = async ({
   };
 };
 
-export const useInfiniteHouseList = (filterState: HouseListFilterType) =>
+export const useInfiniteHouseList = (filterPayload: HouseListFilterType) =>
   useInfiniteQuery({
-    queryKey: HOUSE_KEYS.HOUSE_LIST(filterState),
+    queryKey: HOUSE_KEYS.HOUSE_LIST(filterPayload),
     queryFn: fetchHouseList,
     initialPageParam: 0,
     getNextPageParam: lastPage =>
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
-
-// TODO: [number, number]와 같은 type은 최소와 최대값을 저장하는 constant와 같은 값이 있어야 할 듯 하다.
-// TODO: E.G) 보증금(deposit_price)의 경우 [0, 10000], 월세(monthly_rental_price)의 경우 [0, 500] 등등
