@@ -1,10 +1,7 @@
 import { z } from 'zod';
 
 import { district } from '@/constants/regions';
-
-export type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
+import { Entries } from '@/types/common.type';
 
 const regions = (Object.entries(district) as Entries<typeof district>).flatMap(
   ([key, value]) => value.map(region => `${key} ${region}` as const),
