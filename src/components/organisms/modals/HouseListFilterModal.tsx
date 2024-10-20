@@ -2,6 +2,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { DevTool } from '@hookform/devtools';
 
 import useModal from '@/hooks/useModal';
 import Container from '@/components/atoms/Container';
@@ -118,6 +119,7 @@ function HouseListFilterModal() {
     form.reset(houseListFilterState);
   }, [isOpen, houseListFilterState]);
 
+  console.log(form.formState.errors);
   return isOpen ? (
     <ModalBackdrop modalType="HouseListFilter">
       <FormProvider {...form}>
@@ -337,9 +339,6 @@ function HouseListFilterModal() {
               <Button.Fill
                 type="submit"
                 className="w-full items-center justify-center rounded-lg px-9 py-[1.125rem] text-white"
-                onClick={() => {
-                  form.handleSubmit(onSubmitUpdateHouseList);
-                }}
               >
                 <Typography.SubTitle3>필터 적용</Typography.SubTitle3>
               </Button.Fill>
@@ -347,6 +346,7 @@ function HouseListFilterModal() {
           </Container.FlexCol>
         </form>
       </FormProvider>
+      <DevTool control={form.control} />
     </ModalBackdrop>
   ) : null;
 }

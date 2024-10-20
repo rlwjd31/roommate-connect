@@ -124,17 +124,18 @@ const SignUpProfileFormOriginal = z.object({
    * ]
    * ```
    */
+  // ! 월세의 정의가 잘못되어 filter의 modal에서 오류가 발생해 submit event가 동작을 하지 않음
   monthly_rental_price: z
     .tuple(
       [
         z
           .number()
           .min(0, { message: '최소값은 0원 입니다.' })
-          .max(501, { message: '최대값은 500만원 이상 입니다.' }),
+          .max(510, { message: '최대값은 500만원 이상 입니다.' }),
         z
           .number()
           .min(0, { message: '최소값은 0원 입니다.' })
-          .max(501, { message: '최대값은 500만원 이상 입니다.' }),
+          .max(510, { message: '최대값은 500만원 이상 입니다.' }),
       ],
       { required_error: '월세의 최소 가격 및 최대 가격을 선택해주세요.' },
     )
