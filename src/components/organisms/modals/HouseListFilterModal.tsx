@@ -119,7 +119,6 @@ function HouseListFilterModal() {
     form.reset(houseListFilterState);
   }, [isOpen, houseListFilterState]);
 
-  console.log(form.formState.errors);
   return isOpen ? (
     <ModalBackdrop modalType="HouseListFilter">
       <FormProvider {...form}>

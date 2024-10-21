@@ -427,10 +427,7 @@ const fetchHouseList = async ({
     regions: {
       filterCallback: (query, regions) => {
         if (regions !== undefined && regions !== null) {
-          regions.forEach(region => {
-            const [regionValue, districtValue] = region.split(' ');
-            query.eq('region', regionValue).eq('district', districtValue);
-          });
+          query.in('address', regions);
         }
 
         return query;
