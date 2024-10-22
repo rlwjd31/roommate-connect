@@ -55,7 +55,7 @@ export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
       <li className="list-none " onClick={() => setDropView(false)} aria-hidden>
         <Link
           to={routePaths.houseRegister}
-          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
+          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6 active:bg-brown6"
         >
           <Typography.SubTitle3>하우스 등록</Typography.SubTitle3>
         </Link>
@@ -63,7 +63,7 @@ export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
       <li className="list-none" onClick={() => setDropView(false)} aria-hidden>
         <Link
           to={routePaths.myBookmark}
-          className="flex h-[3rem] w-full items-center border-b-[0.5px] border-brown2 px-5 hover:bg-brown6"
+          className="flex h-[3rem] w-full items-center border-b-[0.5px] border-brown2 px-5 hover:bg-brown6 active:bg-brown6"
         >
           <Typography.SubTitle3>내 북마크</Typography.SubTitle3>
         </Link>
@@ -71,7 +71,7 @@ export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
       <li className="list-none" onClick={() => setDropView(false)} aria-hidden>
         <Link
           to={routePaths.myActivity}
-          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
+          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6 active:bg-brown6"
         >
           <Typography.SubTitle3>마이페이지</Typography.SubTitle3>
         </Link>
@@ -79,7 +79,7 @@ export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
       <li className="list-none" onClick={() => setDropView(false)} aria-hidden>
         <Button.Ghost
           onClick={onClickLogout}
-          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
+          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6 active:bg-brown6"
         >
           <Typography.SubTitle3>로그아웃</Typography.SubTitle3>
         </Button.Ghost>
