@@ -52,28 +52,38 @@ export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
           {user?.nickname ? user?.nickname : user?.name}님
         </Typography.SubTitle3>
       </Container.FlexRow>
-      <Container.FlexCol className="border-b-[0.5px] border-brown2">
-        <Link to={routePaths.houseRegister} className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6">
+      <li className="list-none px-5 hover:bg-brown6">
+        <Link
+          to={routePaths.houseRegister}
+          className="flex h-[3rem] w-full items-center "
+        >
           <Typography.SubTitle3>하우스 등록</Typography.SubTitle3>
         </Link>
-        <Link to={routePaths.myBookmark} className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6">
+      </li>
+      <li className="list-none">
+        <Link
+          to={routePaths.myBookmark}
+          className="flex h-[3rem] w-full items-center border-b-[0.5px] border-brown2 px-5 hover:bg-brown6"
+        >
           <Typography.SubTitle3>내 북마크</Typography.SubTitle3>
         </Link>
-      </Container.FlexCol>
-      <Container.FlexCol>
+      </li>
+      <li className="list-none">
         <Link
           to={routePaths.myActivity}
           className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
         >
           <Typography.SubTitle3>마이페이지</Typography.SubTitle3>
         </Link>
+      </li>
+      <li className="list-none">
         <Button.Ghost
           onClick={onClickLogout}
           className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
         >
           <Typography.SubTitle3>로그아웃</Typography.SubTitle3>
         </Button.Ghost>
-      </Container.FlexCol>
+      </li>
     </Container.FlexCol>
   );
 }
