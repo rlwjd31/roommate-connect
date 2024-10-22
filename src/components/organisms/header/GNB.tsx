@@ -11,9 +11,9 @@ type GNBProps = ComponentProps<'div'>;
 // chat, lounge, house와 같은 NavLink를 관장하는 component
 export default function GNB({ className }: GNBProps) {
   const navItems = [
-    { name: 'chat', path: routePaths.chat },
-    { name: 'lounge', path: routePaths.lounge },
     { name: 'house', path: routePaths.house },
+    { name: 'lounge', path: routePaths.lounge },
+    { name: 'chat', path: routePaths.chat },
   ];
 
   return (
