@@ -51,7 +51,13 @@ export default function UserMenu({
           ) : (
             <IconButton button="Ghost" iconType="avatar" />
           )}
-          {dropView && <UserDropdown user={user} />}
+          {dropView && (
+            <UserDropdown
+              dropView={dropView}
+              setDropView={setDropView}
+              user={user}
+            />
+          )}
         </>
       )}
       {!isLogin && (

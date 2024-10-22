@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react';
+
 import Avatar from '@/components/atoms/Avatar';
 import Button from '@/components/atoms/Button';
 import Container from '@/components/atoms/Container';
@@ -11,9 +13,16 @@ import { UserType } from '@/types/auth.type';
 
 type UserDropdownProps = {
   user: UserType | null;
+  dropView: boolean;
+  setDropView: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function UserDropdown({ user }: UserDropdownProps) {
+export default function UserDropdown({
+  user,
+  dropView,
+  setDropView,
+}: UserDropdownProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const onClickLogout = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -30,8 +39,28 @@ export default function UserDropdown({ user }: UserDropdownProps) {
     }
   };
 
+  useEffect(() => {
+    const onClickOutsideCloseModal = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setDropView(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClickOutsideCloseModal);
+    
+    return () => {
+      document.removeEventListener('mousedown', onClickOutsideCloseModal);
+    };
+  }, [containerRef, setDropView, dropView]);
+
   return (
-    <Container.FlexCol className="absolute right-0 top-20 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]">
+    <Container.FlexCol
+      ref={containerRef}
+      className="absolute right-0 top-20 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]"
+    >
       <Container.FlexRow className="items-center gap-[1.0625rem] border-b-[0.5px] border-brown2 p-6">
         {user?.avatar ? (
           <Avatar.XL src={user.avatar} />
