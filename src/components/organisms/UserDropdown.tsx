@@ -10,6 +10,7 @@ import { routePaths } from '@/constants/route';
 import { supabase } from '@/libs/supabaseClient';
 import { createToast } from '@/libs/toast';
 import { UserType } from '@/types/auth.type';
+import useCloseOnClickOutside from '@/hooks/useCloseOnClickOutside';
 
 type UserDropdownProps = {
   user: UserType | null;
@@ -23,6 +24,8 @@ export default function UserDropdown({
   setDropView,
 }: UserDropdownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  useCloseOnClickOutside(containerRef, () => setDropView(false));
+
   const onClickLogout = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -38,23 +41,6 @@ export default function UserDropdown({
       );
     }
   };
-
-  useEffect(() => {
-    const onClickOutsideCloseModal = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
-        setDropView(false);
-      }
-    };
-
-    document.addEventListener('mousedown', onClickOutsideCloseModal);
-    
-    return () => {
-      document.removeEventListener('mousedown', onClickOutsideCloseModal);
-    };
-  }, [containerRef, setDropView, dropView]);
 
   return (
     <Container.FlexCol
