@@ -53,7 +53,6 @@ export default function UserMenu({
           )}
           {dropView && (
             <UserDropdown
-              dropView={dropView}
               setDropView={setDropView}
               user={user}
             />

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import Avatar from '@/components/atoms/Avatar';
 import Button from '@/components/atoms/Button';
@@ -14,15 +14,10 @@ import useCloseOnClickOutside from '@/hooks/useCloseOnClickOutside';
 
 type UserDropdownProps = {
   user: UserType | null;
-  dropView: boolean;
   setDropView: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function UserDropdown({
-  user,
-  dropView,
-  setDropView,
-}: UserDropdownProps) {
+export default function UserDropdown({ user, setDropView }: UserDropdownProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   useCloseOnClickOutside(containerRef, () => setDropView(false));
 
@@ -45,7 +40,7 @@ export default function UserDropdown({
   return (
     <Container.FlexCol
       ref={containerRef}
-      className="absolute right-0 top-20 z-50 w-[17.625rem] rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]"
+      className="absolute right-0 top-14 z-50 w-[17.625rem] overflow-hidden rounded-xl bg-bg text-brown shadow-[0_0_4px_0_rgb(0,0,0,0.25)]"
     >
       <Container.FlexRow className="items-center gap-[1.0625rem] border-b-[0.5px] border-brown2 p-6">
         {user?.avatar ? (
@@ -57,19 +52,25 @@ export default function UserDropdown({
           {user?.nickname ? user?.nickname : user?.name}님
         </Typography.SubTitle3>
       </Container.FlexRow>
-      <Container.FlexCol className="gap-6 border-b-[0.5px] border-brown2 p-5">
-        <Link to={routePaths.houseRegister}>
+      <Container.FlexCol className="border-b-[0.5px] border-brown2">
+        <Link to={routePaths.houseRegister} className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6">
           <Typography.SubTitle3>하우스 등록</Typography.SubTitle3>
         </Link>
-        <Link to={routePaths.myBookmark}>
+        <Link to={routePaths.myBookmark} className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6">
           <Typography.SubTitle3>내 북마크</Typography.SubTitle3>
         </Link>
       </Container.FlexCol>
-      <Container.FlexCol className="gap-6 p-5">
-        <Link to={routePaths.myActivity}>
+      <Container.FlexCol>
+        <Link
+          to={routePaths.myActivity}
+          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
+        >
           <Typography.SubTitle3>마이페이지</Typography.SubTitle3>
         </Link>
-        <Button.Ghost onClick={onClickLogout}>
+        <Button.Ghost
+          onClick={onClickLogout}
+          className="flex h-[3rem] w-full items-center px-5 hover:bg-brown6"
+        >
           <Typography.SubTitle3>로그아웃</Typography.SubTitle3>
         </Button.Ghost>
       </Container.FlexCol>
