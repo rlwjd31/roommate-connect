@@ -120,64 +120,179 @@ function HouseListFilterModal() {
   }, [isOpen, houseListFilterState]);
 
   return isOpen ? (
-    <ModalBackdrop modalType="HouseListFilter">
-      <FormProvider {...form}>
-        <form onSubmit={form.handleSubmit(onSubmitUpdateHouseList)}>
-          <Container.FlexCol className="h-[49.25rem] w-[42.25rem] rounded-xl bg-bg text-brown">
-            <Container.FlexRow className="sticky items-center justify-between border-b-[0.5px] border-brown px-8 py-6">
-              <Typography.SubTitle1>필터</Typography.SubTitle1>
-              <IconButton.Ghost
-                iconType="close"
-                iconClassName="size-5"
-                className="size-5 items-center justify-center"
-                onClick={() => {
-                  closeModal();
-                }}
-              />
-            </Container.FlexRow>
+    <>
+      <ModalBackdrop modalType="HouseListFilter">
+        <Container.FlexCol className="size-full max-h-[80%] w-[42.25rem] overflow-y-auto rounded-xl bg-bg text-brown">
+          <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitUpdateHouseList)}>
+              <Container.FlexRow className="sticky items-center justify-between border-b-[0.5px] border-brown px-8 py-6">
+                <Typography.SubTitle1>필터</Typography.SubTitle1>
+                <IconButton.Ghost
+                  iconType="close"
+                  iconClassName="size-5"
+                  className="size-5 items-center justify-center"
+                  onClick={() => {
+                    closeModal();
+                  }}
+                />
+              </Container.FlexRow>
 
-            <Container.FlexCol className="overflow-y-scroll px-8 py-6">
-              <Container.FlexCol className="border-b-[0.5px] border-brown pb-8">
-                <Typography.SubTitle2 className="mb-7">
-                  집 유형
-                </Typography.SubTitle2>
-                <Container.FlexCol className="gap-4">
-                  <Container.FlexRow className="flex-wrap gap-x-2">
-                    {houseTypeDisplayData.map(
-                      ({ displayValue, stateValue }) => (
-                        <BadgeButton.Outline
-                          key={displayValue}
-                          className="rounded-full px-5 pb-[0.5625rem] pt-[0.625rem]"
-                          onClick={() =>
-                            form.setValue(
-                              'house_type',
+              <Container.FlexCol className="overflow-y-scroll px-8 py-6">
+                <Container.FlexCol className="border-b-[0.5px] border-brown pb-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    집 유형
+                  </Typography.SubTitle2>
+                  <Container.FlexCol className="gap-6">
+                    <Container.FlexRow className="flex-wrap gap-2">
+                      {houseTypeDisplayData.map(
+                        ({ displayValue, stateValue }) => (
+                          <BadgeButton.Outline
+                            key={displayValue}
+                            className="rounded-full px-5 pb-[0.5625rem] pt-[0.625rem]"
+                            onClick={() =>
+                              form.setValue(
+                                'house_type',
+                                stateValue === form.watch('house_type')
+                                  ? undefined
+                                  : stateValue,
+                              )
+                            }
+                            badgeActive={
                               stateValue === form.watch('house_type')
-                                ? undefined
-                                : stateValue,
-                            )
-                          }
-                          badgeActive={stateValue === form.watch('house_type')}
-                        >
-                          <Typography.P2>{displayValue}</Typography.P2>
-                        </BadgeButton.Outline>
-                      ),
-                    )}
+                            }
+                          >
+                            <Typography.P2>{displayValue}</Typography.P2>
+                          </BadgeButton.Outline>
+                        ),
+                      )}
+                    </Container.FlexRow>
+                    <Container.FlexRow className="flex-wrap gap-2">
+                      {rentalTypeDisplayData.map(
+                        ({ displayValue, stateValue }) => (
+                          <BadgeButton.Outline
+                            key={displayValue}
+                            className="rounded-full px-5 pb-[0.5625rem] pt-[0.625rem]"
+                            onClick={() =>
+                              form.setValue(
+                                'rental_type',
+                                stateValue === form.watch('rental_type')
+                                  ? undefined
+                                  : stateValue,
+                              )
+                            }
+                            badgeActive={
+                              stateValue === form.watch('rental_type')
+                            }
+                          >
+                            <Typography.P2>{displayValue}</Typography.P2>
+                          </BadgeButton.Outline>
+                        ),
+                      )}
+                    </Container.FlexRow>
+                  </Container.FlexCol>
+                </Container.FlexCol>
+
+                <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    위치
+                  </Typography.SubTitle2>
+                  <Container.FlexRow className="flex-wrap gap-2 pb-6">
+                    {form.watch().regions?.map(location => (
+                      <BadgeButton.Fill
+                        key={location}
+                        className="gap-[1.25rem] rounded-full px-5 pb-[0.5625rem] pt-[0.625rem] text-bg"
+                        iconType="close"
+                        stroke="bg"
+                        onClick={() => onClickDeleteRegionBadge(location)}
+                      >
+                        <Typography.P2>{location}</Typography.P2>
+                      </BadgeButton.Fill>
+                    ))}
                   </Container.FlexRow>
-                  <Container.FlexRow className="flex-wrap gap-x-2">
-                    {rentalTypeDisplayData.map(
+                  <DistrictSelector onSelectRegion={onClickSelectFinish} />
+                </Container.FlexCol>
+
+                <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    기간
+                  </Typography.SubTitle2>
+                  <LabelDualInputRange
+                    className="w-full"
+                    min={0}
+                    max={24}
+                    step={1}
+                    setRangeValue={
+                      setTerm as Dispatch<SetStateAction<InputRangeState>>
+                    }
+                    rangeValue={term}
+                    labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
+                    category="term"
+                  />
+                  <FormItem.Hidden<Pick<HouseListFilterType, 'term'>>
+                    name="term"
+                    valueProp={term}
+                  />
+                </Container.FlexCol>
+
+                <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    가격대
+                  </Typography.SubTitle2>
+                  <Container.FlexCol className="flex-wrap gap-[3.25rem]">
+                    <LabelDualInputRange
+                      label="보증금"
+                      className="w-full"
+                      min={0}
+                      max={10000}
+                      step={100}
+                      setRangeValue={setDepositPrice}
+                      rangeValue={depositPrice}
+                      category="price"
+                      labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
+                    />
+                    <FormItem.Hidden<Pick<HouseListFilterType, 'deposit_price'>>
+                      name="deposit_price"
+                      valueProp={depositPrice}
+                    />
+                    <LabelDualInputRange
+                      label="월세"
+                      className="w-full"
+                      min={0}
+                      max={500}
+                      step={10}
+                      setRangeValue={setMonthlyPrice}
+                      rangeValue={monthlyPrice}
+                      category="price"
+                      labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
+                    />
+                    <FormItem.Hidden<
+                      Pick<HouseListFilterType, 'monthly_rental_price'>
+                    >
+                      name="monthly_rental_price"
+                      valueProp={monthlyPrice}
+                    />
+                  </Container.FlexCol>
+                </Container.FlexCol>
+
+                <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    인원
+                  </Typography.SubTitle2>
+                  <Container.FlexRow className="flex-wrap gap-2">
+                    {mateNumberDisplayData.map(
                       ({ displayValue, stateValue }) => (
                         <BadgeButton.Outline
                           key={displayValue}
                           className="rounded-full px-5 pb-[0.5625rem] pt-[0.625rem]"
                           onClick={() =>
                             form.setValue(
-                              'rental_type',
-                              stateValue === form.watch('rental_type')
+                              'mate_number',
+                              stateValue === form.watch('mate_number')
                                 ? undefined
                                 : stateValue,
                             )
                           }
-                          badgeActive={stateValue === form.watch('rental_type')}
+                          badgeActive={stateValue === form.watch('mate_number')}
                         >
                           <Typography.P2>{displayValue}</Typography.P2>
                         </BadgeButton.Outline>
@@ -185,168 +300,61 @@ function HouseListFilterModal() {
                     )}
                   </Container.FlexRow>
                 </Container.FlexCol>
-              </Container.FlexCol>
 
-              <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
-                <Typography.SubTitle2 className="mb-7">
-                  위치
-                </Typography.SubTitle2>
-                <Container.FlexRow className="flex-wrap gap-2 pb-6">
-                  {form.watch().regions?.map(location => (
-                    <BadgeButton.Fill
-                      key={location}
-                      className="gap-[1.25rem] rounded-full px-5 pb-[0.5625rem] pt-[0.625rem] text-bg"
-                      iconType="close"
-                      stroke="bg"
-                      onClick={() => onClickDeleteRegionBadge(location)}
-                    >
-                      <Typography.P2>{location}</Typography.P2>
-                    </BadgeButton.Fill>
-                  ))}
-                </Container.FlexRow>
-                <DistrictSelector onSelectRegion={onClickSelectFinish} />
-              </Container.FlexCol>
-
-              <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
-                <Typography.SubTitle2 className="mb-7">
-                  기간
-                </Typography.SubTitle2>
-                <LabelDualInputRange
-                  className="w-full"
-                  min={0}
-                  max={24}
-                  step={1}
-                  setRangeValue={
-                    setTerm as Dispatch<SetStateAction<InputRangeState>>
-                  }
-                  rangeValue={term}
-                  labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
-                  category="term"
-                />
-                <FormItem.Hidden<Pick<HouseListFilterType, 'term'>>
-                  name="term"
-                  valueProp={term}
-                />
-              </Container.FlexCol>
-
-              <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
-                <Typography.SubTitle2 className="mb-7">
-                  가격대
-                </Typography.SubTitle2>
-                <Container.FlexCol className="flex-wrap gap-[3.25rem]">
-                  <LabelDualInputRange
-                    label="보증금"
-                    className="w-full"
-                    min={0}
-                    max={10000}
-                    step={100}
-                    setRangeValue={setDepositPrice}
-                    rangeValue={depositPrice}
-                    category="price"
-                    labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
-                  />
-                  <FormItem.Hidden<Pick<HouseListFilterType, 'deposit_price'>>
-                    name="deposit_price"
-                    valueProp={depositPrice}
-                  />
-                  <LabelDualInputRange
-                    label="월세"
-                    className="w-full"
-                    min={0}
-                    max={500}
-                    step={10}
-                    setRangeValue={setMonthlyPrice}
-                    rangeValue={monthlyPrice}
-                    category="price"
-                    labelContainerStyle="mb-5 [&>h5]:text-SubTitle3"
-                  />
-                  <FormItem.Hidden<
-                    Pick<HouseListFilterType, 'monthly_rental_price'>
-                  >
-                    name="monthly_rental_price"
-                    valueProp={monthlyPrice}
-                  />
+                <Container.FlexCol className="pt-8">
+                  <Typography.SubTitle2 className="mb-7">
+                    성별
+                  </Typography.SubTitle2>
+                  <Container.FlexRow className="flex-wrap gap-2">
+                    {genderDisplayData.map(({ displayValue, stateValue }) => (
+                      <BadgeButton.Outline
+                        key={displayValue}
+                        className="rounded-full px-4"
+                        onClick={() =>
+                          form.setValue(
+                            'mate_gender',
+                            stateValue === form.watch('mate_gender')
+                              ? undefined
+                              : stateValue,
+                          )
+                        }
+                        badgeActive={stateValue === form.watch('mate_gender')}
+                      >
+                        <Icon
+                          type={genderInfo[stateValue as 0 | 1 | 2].icon}
+                          className="my-2 mr-2 size-6"
+                        />
+                        <Typography.P2>{displayValue}</Typography.P2>
+                      </BadgeButton.Outline>
+                    ))}
+                  </Container.FlexRow>
                 </Container.FlexCol>
               </Container.FlexCol>
-
-              <Container.FlexCol className="border-b-[0.5px] border-brown py-8">
-                <Typography.SubTitle2 className="mb-7">
-                  인원
-                </Typography.SubTitle2>
-                <Container.FlexRow className="flex-wrap gap-2">
-                  {mateNumberDisplayData.map(({ displayValue, stateValue }) => (
-                    <BadgeButton.Outline
-                      key={displayValue}
-                      className="rounded-full px-5 pb-[0.5625rem] pt-[0.625rem]"
-                      onClick={() =>
-                        form.setValue(
-                          'mate_number',
-                          stateValue === form.watch('mate_number')
-                            ? undefined
-                            : stateValue,
-                        )
-                      }
-                      badgeActive={stateValue === form.watch('mate_number')}
-                    >
-                      <Typography.P2>{displayValue}</Typography.P2>
-                    </BadgeButton.Outline>
-                  ))}
-                </Container.FlexRow>
-              </Container.FlexCol>
-
-              <Container.FlexCol className="pt-8">
-                <Typography.SubTitle2 className="mb-7">
-                  성별
-                </Typography.SubTitle2>
-                <Container.FlexRow className="flex-wrap gap-2">
-                  {genderDisplayData.map(({ displayValue, stateValue }) => (
-                    <BadgeButton.Outline
-                      key={displayValue}
-                      className="rounded-full px-4"
-                      onClick={() =>
-                        form.setValue(
-                          'mate_gender',
-                          stateValue === form.watch('mate_gender')
-                            ? undefined
-                            : stateValue,
-                        )
-                      }
-                      badgeActive={stateValue === form.watch('mate_gender')}
-                    >
-                      <Icon
-                        type={genderInfo[stateValue as 0 | 1 | 2].icon}
-                        className="my-2 mr-2 size-6"
-                      />
-                      <Typography.P2>{displayValue}</Typography.P2>
-                    </BadgeButton.Outline>
-                  ))}
-                </Container.FlexRow>
-              </Container.FlexCol>
-            </Container.FlexCol>
-            <Container.FlexRow className="sticky bottom-0 gap-4 rounded-xl bg-bg p-6 ">
-              <IconButton.Outline
-                iconType="reset"
-                direction="left"
-                iconClassName="mr-3"
-                className="rounded-lg px-[1.5rem] py-[1.125rem]"
-                onClick={onClickResetFilter}
-              >
-                <Typography.SubTitle3 className="text-nowrap pt-1">
-                  초기화
-                </Typography.SubTitle3>
-              </IconButton.Outline>
-              <Button.Fill
-                type="submit"
-                className="w-full items-center justify-center rounded-lg px-9 py-[1.125rem] text-white"
-              >
-                <Typography.SubTitle3>필터 적용</Typography.SubTitle3>
-              </Button.Fill>
-            </Container.FlexRow>
-          </Container.FlexCol>
-        </form>
-      </FormProvider>
+              <Container.FlexRow className="sticky bottom-0 z-50 gap-4 rounded-xl rounded-t-none bg-bg p-6">
+                <IconButton.Outline
+                  iconType="reset"
+                  direction="left"
+                  iconClassName="mr-3"
+                  className="text-nowrap rounded-lg px-[1.5rem] py-[1.125rem]"
+                  onClick={onClickResetFilter}
+                >
+                  <Typography.SubTitle3 className="whitespace-nowrap pt-1">
+                    초기화
+                  </Typography.SubTitle3>
+                </IconButton.Outline>
+                <Button.Fill
+                  type="submit"
+                  className="w-full items-center justify-center rounded-lg px-9 py-[1.125rem] text-white"
+                >
+                  <Typography.SubTitle3>필터 적용</Typography.SubTitle3>
+                </Button.Fill>
+              </Container.FlexRow>
+            </form>
+          </FormProvider>
+        </Container.FlexCol>
+      </ModalBackdrop>
       <DevTool control={form.control} />
-    </ModalBackdrop>
+    </>
   ) : null;
 }
 export default HouseListFilterModal;
