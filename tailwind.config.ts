@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
+import { inputSliderUtilities, scrollbarUtilities } from './plugins';
 
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -75,50 +76,8 @@ export default {
       },
     },
   },
-  
-  plugins: [
-    plugin(({ addVariant }) => {
-      addVariant('slider-thumb', [
-        '&::-webkit-slider-thumb', // chrome, safari, edge
-        '&::-moz-range-thumb', // firefox
-        '&::-ms-thumb', // IE
-      ]);
-      addVariant('slider-track', [
-        '&::-webkit-slider-runnable-track', // chrome, safari, edge
-        '&::-moz-range-track', // firefox
-        '&::-ms-track', // IE
-      ]);
-    }),
-    plugin(({addUtilities}) => {
-      addUtilities({
-        '.scrollbar-hide': {
-          /* IE and Edge */
-          '-ms-overflow-style': 'none',
-    
-          /* Firefox */
-          'scrollbar-width': 'none',
-    
-          /* Chrome, Safari and Opera */
-          '&::-webkit-scrollbar': {
-            display: 'none'
-          }
-        },
-        
-        '.scrollbar-default': {
-          /* IE and Edge */
-          '-ms-overflow-style': 'auto',
-    
-          /* Firefox */
-          'scrollbar-width': 'auto',
-    
-          /* Chrome, Safari and Opera */
-          '&::-webkit-scrollbar': {
-            display: 'block'
-          }
-        }
-      })
-    })
-  ],
+
+  plugins: [inputSliderUtilities, scrollbarUtilities],
   safelist: [
     {
       pattern:
