@@ -122,7 +122,7 @@ function HouseListFilterModal() {
   return isOpen ? (
     <>
       <ModalBackdrop modalType="HouseListFilter">
-        <Container.FlexCol className="size-full max-h-[80%] w-[42.25rem] overflow-y-auto rounded-xl bg-bg text-brown">
+        <Container.FlexCol className="size-full max-h-[80%] w-[42.25rem] overflow-y-auto rounded-xl bg-bg text-brown scrollbar-hide">
           <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmitUpdateHouseList)}>
               <Container.FlexRow className="sticky items-center justify-between border-b-[0.5px] border-brown px-8 py-6">

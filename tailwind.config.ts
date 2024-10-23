@@ -75,6 +75,7 @@ export default {
       },
     },
   },
+  
   plugins: [
     plugin(({ addVariant }) => {
       addVariant('slider-thumb', [
@@ -88,6 +89,35 @@ export default {
         '&::-ms-track', // IE
       ]);
     }),
+    plugin(({addUtilities}) => {
+      addUtilities({
+        '.scrollbar-hide': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'none',
+    
+          /* Firefox */
+          'scrollbar-width': 'none',
+    
+          /* Chrome, Safari and Opera */
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
+        },
+        
+        '.scrollbar-default': {
+          /* IE and Edge */
+          '-ms-overflow-style': 'auto',
+    
+          /* Firefox */
+          'scrollbar-width': 'auto',
+    
+          /* Chrome, Safari and Opera */
+          '&::-webkit-scrollbar': {
+            display: 'block'
+          }
+        }
+      })
+    })
   ],
   safelist: [
     {
