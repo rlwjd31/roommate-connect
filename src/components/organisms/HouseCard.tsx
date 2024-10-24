@@ -1,3 +1,5 @@
+import { ComponentProps } from 'react';
+
 import { routePaths } from '@/constants/route';
 import Link from '@/components/atoms/Link';
 import Container from '@/components/atoms/Container';
@@ -7,7 +9,7 @@ import Typography from '@/components/atoms/Typography';
 import { houseTypesInfo, rentalTypesInfo } from '@/constants/profileDetailInfo';
 import { HouseCardType } from '@/types/house.type';
 
-type HouseCardProps = HouseCardType;
+type HouseCardProps = HouseCardType & ComponentProps<'a'>;
 
 export default function HouseCard(props: HouseCardProps) {
   const {
@@ -22,12 +24,14 @@ export default function HouseCard(props: HouseCardProps) {
     monthly_price,
     deposit_price,
     user_id,
+    onMouseEnter,
   } = props;
 
   return (
     <Link
       to={routePaths.houseDetail(id)}
       className="relative w-full rounded-xl shadow-[0_4px_12px_0_rgba(0,0,0,12%)]"
+      onMouseEnter={onMouseEnter}
     >
       <Img
         className="h-[13.7rem] rounded-b-none object-cover"
