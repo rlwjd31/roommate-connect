@@ -21,8 +21,8 @@ export const useSignPasswordReset = () => {
         payload.email,
         {
           redirectTo: isDev
-            ? `${getRedirectURL().devURL}${routePaths.signUpdatePassword.slice(1)}`
-            : `${getRedirectURL().prodURL}${routePaths.signUpdatePassword.slice(1)}`,
+            ? `${getRedirectURL('dev')}${routePaths.signUpdatePassword.slice(1)}`
+            : `${getRedirectURL('prod')}${routePaths.signUpdatePassword.slice(1)}`,
         },
       );
       if (error) throw new Error(error.message);

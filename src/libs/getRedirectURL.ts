@@ -1,18 +1,25 @@
-const getRedirectURL = () => {
-  let prodURL: string =
-    import.meta.env.VITE_PRODUCTION_URL ??
-    import.meta.env.VITE_VERCEL_URL ??
-    'http://localhost:3000';
+const getRedirectURL = (mode: 'dev' | 'prod') => {
+  if (mode === 'dev') {
+    const devURL = import.meta.env.VITE_DEVELOPMENT_URL.endsWith('/')
+      ? import.meta.env.VITE_DEVELOPMENT_URL
+      : import.meta.env.VITE_DEVELOPMENT_URL.concat('/');
 
-  const devURL = import.meta.env.VITE_DEVELOPMENT_URL.endsWith('/')
-    ? import.meta.env.VITE_DEVELOPMENT_URL
-    : import.meta.env.VITE_DEVELOPMENT_URL.concat('/');
+    return devURL;
+  }
 
-  prodURL = prodURL.startsWith('http') ? prodURL : `https://${prodURL}`;
-  prodURL = prodURL.endsWith('/') ? prodURL : `${prodURL}/`;
+  if (mode === 'prod') {
+    let prodURL: string =
+      import.meta.env.VITE_PRODUCTION_URL ??
+      import.meta.env.VITE_VERCEL_URL ??
+      'http://localhost:3000';
 
-  // FIXME: devURL을 추가할 시 배포환경에서 useSignInSocial에서 errorr가 발생
-  return { prodURL, devURL };
+    prodURL = prodURL.startsWith('http') ? prodURL : `https://${prodURL}`;
+    prodURL = prodURL.endsWith('/') ? prodURL : `${prodURL}/`;
+
+    return prodURL;
+  }
+
+  return '';
 };
 
 export default getRedirectURL;

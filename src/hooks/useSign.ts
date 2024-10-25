@@ -163,8 +163,8 @@ export const useSignInSocial = () => {
         provider: payload,
         options: {
           redirectTo: isDev
-            ? `${getRedirectURL().devURL}${routePaths.sign.slice(1)}`
-            : `${getRedirectURL().prodURL}${routePaths.sign.slice(1)}`,
+            ? `${getRedirectURL('dev')}${routePaths.sign.slice(1)}`
+            : `${getRedirectURL('prod')}${routePaths.sign.slice(1)}`,
         },
       }),
     onMutate: () => createToast('signin', '로그인 시도 중...'),
