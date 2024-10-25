@@ -11,6 +11,7 @@ const getRedirectURL = () => {
   prodURL = prodURL.startsWith('http') ? prodURL : `https://${prodURL}`;
   prodURL = prodURL.endsWith('/') ? prodURL : `${prodURL}/`;
 
+  // FIXME: devURL을 추가할 시 배포환경에서 useSignInSocial에서 errorr가 발생
   return { prodURL, devURL };
 };
 
